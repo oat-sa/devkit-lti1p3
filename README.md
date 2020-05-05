@@ -35,6 +35,7 @@ $ docker run --rm --interactive --tty \
   --volume $PWD:/app \
   composer install
 ```
+Note: on windows, you may have to do `--volume %cd%:/app` instead.
 
 ## Usage
 

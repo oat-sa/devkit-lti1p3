@@ -41,14 +41,16 @@ services:
 
     demo_lti1p3_redis_commander:
         container_name: demo_lti1p3_redis_commander
-        environment:
-            - REDIS_HOSTS=local:demo_lti1p3_redis:6379
-        hostname: demo_lti1p3_redis_commander
         image: rediscommander/redis-commander:latest
+        hostname: demo_lti1p3_redis_commander
+        networks:
+            - demo_lti1p3_network
         ports:
             - "8081:8081"
         expose:
             - 8081
+        environment:
+            - REDIS_HOSTS=local:demo_lti1p3_redis:6379
 
 volumes:
     demo_lti1p3_redis_volume:
