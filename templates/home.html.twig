@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}LTI 1.3 Demo Application{% endblock %}
+
+{% block body %}
+    <div class="card bg-light">
+        <div class="card-header">
+            <i class="fas fa-industry"></i>&nbsp;Platforms
+        </div>
+        <div class="card-body">
+            <a href="https://lti-ri.imsglobal.org/platforms/978">IMS platform</a>
+            <br/>
+            <a href="{{ path('platform_message_link') }}">Local platform</a>
+        </div>
+    </div>
+    <br/>
+    <div class="card bg-light">
+        <div class="card-header">
+            <i class="fas fa-wrench"></i>&nbsp;Tools
+        </div>
+        <div class="card-body">
+            <a href="{{ path('tool_service_client') }}">Local tool</a>
+        </div>
+    </div>
+{% endblock body %}

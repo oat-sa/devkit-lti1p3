@@ -1,3 +1,19 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+home:
+    path: /
+    controller: App\Action\HomeAction
+
+platform_message_link:
+    path: /platform/message/link
+    controller: App\Action\Platform\Message\LtiLinkAction
+
+tool_message_launch:
+    path: /tool/launch
+    controller: App\Action\Tool\Message\LtiLaunchAction
+
+platform_service:
+    path: /platform/service
+    controller: App\Action\Platform\Service\LtiServiceAction
+
+tool_service_client:
+    path: /tool/service/client
+    controller: App\Action\Tool\Service\LtiServiceClientAction
