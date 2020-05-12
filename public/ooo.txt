@@ -1,6 +1,0 @@
-array (
-  'grant_type' => 'client_credentials',
-  'client_assertion_type' => 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-  'client_assertion' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImtpZDIifQ.eyJqdGkiOiJsb2NhbC0xLjU4OTEzNzU2MjQwMTdFKzE1IiwiaXNzIjoiaHR0cDpcL1wvbG9jYWxob3N0Ojg4ODhcL3Rvb2wiLCJzdWIiOiJjbGllbnRfaWQiLCJhdWQiOiJodHRwOlwvXC9kZW1vX2x0aTFwM19uZ2lueFwvbHRpMXAzXC9hdXRoXC9raWQxXC90b2tlbiIsImlhdCI6MTU4OTEzNzU2MiwiZXhwIjoxNTg5MTM4MTYyfQ.VAwzKjn4XnBRYKDALGQv-N_O7u26LL4eyMY5Xm0TLO7hLF0b6992HRjm9hiv0UOdMgoMliqCvSQDDtFPNMUxT73nX5XV6rNLUjLn6z9Lhiu-1UpmQRr_QrAYpWsd_NvPwQPcOgORfgI3nEDnPIEnG0loACweiygQrREm2vuwU4-4W8718jOtFFbjCSwIsPOHOX-nIsG9GZKUvM1QlFrLXKGKEyt3OXPnkpDga6J5ntRkNx3jqsU4i8ZZ07LQ_6RAr_eLwKtws_3UrwblmLID127xX8-_Iv0vMiEIAh_dp5dhL7Q9ovJvLXKvlMTE_WTQHxKsAPmLszT-NdtE0kCi8A',
-  'scope' => '',
-)
