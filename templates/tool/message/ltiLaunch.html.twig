@@ -1,0 +1,296 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}Tool - LTI Launch Request Result{% endblock %}
+
+{% block body %}
+    <div class="jumbotron">
+        <ul class="nav nav-tabs nav-fill nav-hover" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="message-tab" data-toggle="tab" href="#message" role="tab" aria-controls="message" aria-selected="true">
+                    <i class="fas fa-envelope-open"></i>&nbsp;Message
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="security-tab" data-toggle="tab" href="#security" role="tab" aria-controls="security" aria-selected="false">
+                    <i class="fas fa-shield-alt"></i>&nbsp;Security
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="deploy-tab" data-toggle="tab" href="#deploy" role="tab" aria-controls="deploy" aria-selected="false">
+                    <i class="fas fa-project-diagram"></i>&nbsp;Registration
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="user" aria-selected="false">
+                    <i class="fas fa-user"></i>&nbsp;User
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="claims-tab" data-toggle="tab" href="#claims" role="tab" aria-controls="claims" aria-selected="false">
+                    <i class="fas fa-database"></i>&nbsp;Claims
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="message" role="tabpanel" aria-labelledby="message-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-text">
+                            <h5 class="card-title">
+                                <i class="fas fa-info-circle"></i>&nbsp;Details
+                            </h5>
+                            <hr/>
+                            <dl class="list-unstyled">
+                                <dt>LTI Version</dt>
+                                <dd><code>{{  token.ltiMessage.version }}</code></dd>
+                                <dt>LTI Message Type</dt>
+                                <dd><code>{{ token.ltiMessage.messageType }}</code></dd>
+                            </dl>
+                            <h5 class="card-title">
+                                <i class="fas fa-check-circle"></i>&nbsp;Validations
+                            </h5>
+                            <hr/>
+                            {% if not token.validationResult.hasError %}
+                                <div class="alert alert-success" role="alert">
+                                    <i class="fas fa-check"></i>&nbsp;
+                                    Message is valid
+                                </div>
+                            {% else %}
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fas fa-exclamation-circle"></i>&nbsp;
+                                    Message is invalid
+                                </div>
+                            {% endif %}
+                            <dl class="list-unstyled">
+                                <dt>Successful checks</dt>
+                                <dd>
+                                    {% for success in token.validationResult.successes %}
+                                        <span class="badge badge-success"><i class="fas fa-check"></i></span>&nbsp;
+                                        {{ success }}<br/>
+                                    {% else %}
+                                        n/a
+                                    {% endfor %}
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-text">
+                            <h5 class="card-title">
+                                <i class="fas fa-sign-in-alt"></i>&nbsp;OpenID Connect Login Initiation
+                            </h5>
+                            <hr/>
+                            {% if token.validationResult.oidcState %}
+                                <div class="alert alert-success" role="alert">
+                                    <i class="fas fa-check"></i>&nbsp;
+                                    Message launched using OpenID Connect login initiation flow
+                                </div>
+                                <dl class="list-unstyled">
+                                    <dt>JWT State</dt>
+                                    <dd>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ token.validationResult.oidcState.token }}" role="button" title="See on jwt.io">
+                                                    <i class="fas fa-external-link-alt"></i>
+                                                </a>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="state" value="{{ token.validationResult.oidcState.token }}" readonly>
+                                        </div>
+                                    </dd>
+                                </dl>
+                            {% else %}
+                                <div class="alert alert-dark" role="alert">
+                                    <i class="fas fa-exclamation-triangle"></i>&nbsp;
+                                    Message was not launched using OpenID Connect login initiation flow
+                                </div>
+                            {% endif %}
+                            <h5 class="card-title">
+                                <i class="fas fa-lock"></i>&nbspToken
+                            </h5>
+                            <hr/>
+                            <dl class="list-unstyled">
+                                <dt>ID Token</dt>
+                                <dd>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ token.ltiMessage.token }}" role="button" title="See on jwt.io">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="token" value="{{ token.ltiMessage.token }}" readonly>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="deploy" role="tabpanel" aria-labelledby="deploy-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-text">
+                            <h5 class="card-title">
+                                <i class="fas fa-project-diagram"></i>&nbsp;Registration
+                            </h5>
+                            <hr/>
+                            <dl class="list-unstyled">
+                                <dt>ID</dt>
+                                <dd><code>{{ token.registration.identifier }}</code></dd>
+                                <dt>OAuth2 Client ID</dt>
+                                <dd>{{ token.registration.clientId }}</dd>
+                                <dt>Platform Jwks Url</dt>
+                                <dd>
+                                    {% if token.registration.platformJwksUrl %}
+                                        <a target="_blank" href="{{ token.registration.platformJwksUrl }}">{{ token.registration.platformJwksUrl }}</a>
+                                    {% else %}
+                                        n/a
+                                    {% endif %}
+                                </dd>
+                                <dt>Tool Jwks Url</dt>
+                                <dd>
+                                    {% if token.registration.toolJwksUrl %}
+                                        <a target="_blank" href="{{ token.registration.toolJwksUrl }}">{{ token.registration.toolJwksUrl }}</a>
+                                    {% else %}
+                                        n/a
+                                    {% endif %}
+                                </dd>
+                            </dl>
+                            <div class="float-left">
+                                <h5 class="card-title">
+                                    <i class="fas fa-industry"></i>&nbsp;Platform
+                                </h5>
+                                <hr/>
+                                <dl class="list-unstyled">
+                                    <dt>ID</dt>
+                                    <dd><code>{{ token.registration.platform.identifier }}</code></dd>
+                                    <dt>Name</dt>
+                                    <dd>{{ token.registration.platform.name }}</dd>
+                                    <dt>Audience</dt>
+                                    <dd>{{ token.registration.platform.audience }}</dd>
+                                    <dt>OAuth2 Access Token Url</dt>
+                                    <dd><a target="_blank" href="{{ token.registration.platform.oAuth2AccessTokenUrl }}">{{ token.registration.platform.oAuth2AccessTokenUrl }}</a></dd>
+                                    <dt>OIDC Auth Url</dt>
+                                    <dd><a href="{{ token.registration.platform.oidcAuthenticationUrl }}">{{ token.registration.platform.oidcAuthenticationUrl }}</a></dd>
+                                </dl>
+                            </div>
+                            <div class="float-right">
+                                <h5 class="card-title">
+                                    <i class="fas fa-wrench"></i>&nbsp;Tool
+                                </h5>
+                                <hr/>
+                                <dl class="list-unstyled">
+                                    <dt>ID</dt>
+                                    <dd><code>{{ token.registration.tool.identifier }}</code></dd>
+                                    <dt>Name</dt>
+                                    <dd>{{ token.registration.tool.name }}</dd>
+                                    <dt>Audience</dt>
+                                    <dd>{{ token.registration.tool.audience }}</dd>
+                                    <dt>Launch Url</dt>
+                                    <dd><a target="_blank" href="{{ token.registration.tool.launchUrl }}">{{ token.registration.tool.launchUrl }}</a></dd>
+                                    <dt>Deep Launch Url</dt>
+                                    <dd>
+                                        {% if token.registration.tool.deepLinkLaunchUrl %}
+                                            <a target="_blank" href="{{ token.registration.tool.deepLinkLaunchUrl }}">{{ token.registration.tool.deepLinkLaunchUrl }}</a>
+                                        {% else %}
+                                            n/a
+                                        {% endif %}
+                                    </dd>
+                                    <dt>OIDC Login Initiation Url</dt>
+                                    <dd>
+                                        {% if token.registration.tool.deepLinkLaunchUrl %}
+                                            <a target="_blank" href="{{ token.registration.tool.oidcLoginInitiationUrl }}">{{ token.registration.tool.oidcLoginInitiationUrl }}</a>
+                                        {% else %}
+                                            n/a
+                                        {% endif %}
+                                </dl>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-text">
+                        <h5 class="card-title">
+                            <i class="fas fa-user-shield"></i>&nbsp;Type
+                        </h5>
+                        <hr/>
+                        {% if not token.ltiMessage.userIdentity %}
+                            <div class="alert alert-dark" role="alert">
+                                <i class="fas fa-user-secret"></i>&nbsp;
+                                Anonymous User
+                            </div>
+                        {% else %}
+                            <div class="alert alert-success" role="alert">
+                                <i class="fas fa-user-check"></i>&nbsp;
+                                Platform Trusted User
+                            </div>
+                        {% endif %}
+                        </div>
+                        {% if token.ltiMessage.userIdentity %}
+                            <h5 class="card-title">
+                                <i class="fas fa-info-circle"></i>&nbsp;Details
+                            </h5>
+                            <hr/>
+                            <div class="float-left">
+                                <dl class="list-unstyled">
+                                    <dt>ID</dt>
+                                    <dd>{{ token.ltiMessage.userIdentity.identifier }}</dd>
+                                    <dt>Name</dt>
+                                    <dd>{{ token.ltiMessage.userIdentity.name|default('n/a') }}</dd>
+                                    <dt>Email</dt>
+                                    <dd>{{ token.ltiMessage.userIdentity.email|default('n/a') }}</dd>
+                                    <dt>Given name</dt>
+                                    <dd>{{ token.ltiMessage.userIdentity.givenName|default('n/a') }}</dd>
+                                    <dt>Family name</dt>
+                                    <dd>{{ token.ltiMessage.userIdentity.familyName|default('n/a') }}</dd>
+                                    <dt>Middle name</dt>
+                                    <dd>{{ token.ltiMessage.userIdentity.middleName|default('n/a') }}</dd>
+                                    <dt>Locale</dt>
+                                    <dd>{{ token.ltiMessage.userIdentity.locale|default('n/a') }}</dd>
+                                </dl>
+                            </div>
+                            <div class="float-right">
+                                <dl class="list-unstyled">
+                                    <dt>Picture</dt>
+                                    <dd>
+                                        {% if token.ltiMessage.userIdentity.picture %}
+                                            <img
+                                                    src="{{ token.ltiMessage.userIdentity.picture }}"
+                                                    class="img-thumbnail rounded"
+                                                    alt="{{ token.ltiMessage.userIdentity.picture }}"
+                                                    height="350"
+                                                    width="350"
+                                            />
+                                        {% else %}
+                                            n/a
+                                        {% endif %}
+                                    </dd>
+                                </dl>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="claims" role="tabpanel" aria-labelledby="claims-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-text">
+                            <h5 class="card-title">
+                                <i class="fas fa-database"></i>&nbsp;Message Claims
+                            </h5>
+                            <hr/>
+                            <pre>{{ token.ltiMessage.token.claims|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

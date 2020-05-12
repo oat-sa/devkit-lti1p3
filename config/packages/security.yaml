@@ -1,0 +1,22 @@
+security:
+    providers:
+        users_in_memory: { memory: null }
+    firewalls:
+        lti1p3_message:
+            pattern: ^/tool/launch
+            stateless: true
+            lti1p3_message: true
+        lti1p3_service:
+            pattern: ^/platform/service
+            stateless: true
+            lti1p3_service: true
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: lazy
+            provider: users_in_memory
+
+    access_control:
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }

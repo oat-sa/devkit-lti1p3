@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}Platform - LTI Launch Request Builder{% endblock %}
+
+{% block body %}
+    <div class="card bg-light">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <span class="mr-auto"><i class="fas fa-cogs"></i>&nbsp;LTI launch request builder</span>
+                <div class="btn-group" role="group">
+                    <a class="btn btn-secondary" href="{{ path('platform_message_link') }}">Reset</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            {{ form(form) }}
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        {% if ltiLaunchRequest %}
+        <div class="col-sm-6">
+            <div class="card bg-light">
+                <div class="card-header">
+                    LTI launch request
+                </div>
+                <div class="card-body">
+                    <dl class="list-unstyled">
+                        <dt>Url</dt>
+                        <dd>{{ ltiLaunchRequest.url }}</dd>
+                        <dt>ID Token</dt>
+                        <dd>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ ltiLaunchRequest.ltiMessage }}" role="button" title="See on jwt.io">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                                <input type="text" class="form-control" placeholder="token" value="{{ ltiLaunchRequest.ltiMessage }}" readonly>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    {{ ltiLaunchRequest.toHtmlLink('Launch', {'class': 'btn btn-success', 'target': '_blank'})|raw }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if oidcLtiLaunchRequest %}
+        <div class="col-sm-6">
+            <div class="card bg-light">
+                <div class="card-header">
+                    OIDC LTI launch request
+                </div>
+                <div class="card-body">
+                    <dl class="list-unstyled">
+                        <dt>Issuer</dt>
+                        <dd>{{ oidcLtiLaunchRequest.issuer }}</dd>
+                        <dt>Login Hint</dt>
+                        <dd>{{ oidcLtiLaunchRequest.loginHint }}</dd>
+                        <dt>Client Id</dt>
+                        <dd>{{ oidcLtiLaunchRequest.clientId }}</dd>
+                        <dt>Url</dt>
+                        <dd>{{ oidcLtiLaunchRequest.url }}</dd>
+                        <dt>Target Link Uri</dt>
+                        <dd>{{ oidcLtiLaunchRequest.targetLinkUri }}</dd>
+                        <dt>Deployment Id</dt>
+                        <dd>{{ oidcLtiLaunchRequest.ltiDeploymentId }}</dd>
+                        <dt>LTI Message Hint</dt>
+                        <dd>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ oidcLtiLaunchRequest.ltiMessageHint }}" role="button" title="See on jwt.io">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                                <input type="text" class="form-control" placeholder="token" value="{{ oidcLtiLaunchRequest.ltiMessageHint }}" readonly>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    {{ oidcLtiLaunchRequest.toHtmlLink('OIDC Launch', {'class': 'btn btn-success', 'target': '_blank'})|raw }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock body %}
