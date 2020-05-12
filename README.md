@@ -60,3 +60,15 @@ You can access:
 |--------------------------------------|------------------------------------------------|
 | demo_lti1p3_nginx                    | [http://localhost:8888](http://localhost:8888) |
 | demo_lti1p3_redis_commander          | [http://localhost:8081](http://localhost:8081) |
+
+### Mode
+
+By default, theapplication runs in `dev` mode, since it avoid you have  to update symfony cache on each configuration update.
+
+If you need production performances, please update to `APP_ENV=prod` in the [.env](.env) file.
+
+**Note**: on each configuration update, you'll then need to clear the application cache:
+
+```shell script
+$ docker exec -it demo_lti1p3_phpfpm php bin/console ca:cl
+```
