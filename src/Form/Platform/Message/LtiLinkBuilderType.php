@@ -51,7 +51,8 @@ class LtiLinkBuilderType extends AbstractType
                 'registration',
                 ChoiceType::class,
                 [
-                    'choices' => $this->repository->findAll()
+                    'choices' => $this->repository->findAll(),
+                    'help' => "Will use the selected registration's tool as target"
                 ]
             )
             ->add(
@@ -63,11 +64,17 @@ class LtiLinkBuilderType extends AbstractType
                         array_keys($this->parameterBag->get('users'))
                     ),
                     'placeholder' => 'Anonymous',
-                    'required' => false
+                    'required' => false,
+                    'help' => "User to build link for"
                 ]
             )
-            ->add('resource_link_identifier', TextType::class)
-            ->add('resource_link_url', TextType::class, ['required' => false])
+            ->add('resource_link_identifier', TextType::class, [
+                'help' => "Identifier of the resource link on tool side"
+            ])
+            ->add('resource_link_url', TextType::class, [
+                'required' => false,
+                'help' => "If provided, will build link for, if not, will use tool default launch url"
+            ])
             ->add('Submit', SubmitType::class, ['label' => 'Build Links'])
         ;
     }

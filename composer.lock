@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9d67c8dce9357c764f0f91271656abd",
+    "content-hash": "237f5af41c266d7bb3d5418fec58d543",
     "packages": [
         {
             "name": "codercat/jwk-to-pem",
@@ -646,16 +646,16 @@
         },
         {
             "name": "oat-sa/bundle-lti1p3",
-            "version": "dev-feature/NEX-1017/service-oauth2-refactor",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/bundle-lti1p3.git",
-                "reference": "cc210862c71310a45c97d220843a2e9275f11295"
+                "reference": "bccf9b4a86c7a4b0794afa5899175e30c5ab620f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/bundle-lti1p3/zipball/cc210862c71310a45c97d220843a2e9275f11295",
-                "reference": "cc210862c71310a45c97d220843a2e9275f11295",
+                "url": "https://api.github.com/repos/oat-sa/bundle-lti1p3/zipball/bccf9b4a86c7a4b0794afa5899175e30c5ab620f",
+                "reference": "bccf9b4a86c7a4b0794afa5899175e30c5ab620f",
                 "shasum": ""
             },
             "require": {
@@ -681,6 +681,7 @@
                     "/Tests/"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-only"
             ],
@@ -689,11 +690,7 @@
                 "LTI1p3",
                 "symfony"
             ],
-            "support": {
-                "source": "https://github.com/oat-sa/bundle-lti1p3/tree/feature/NEX-1017/service-oauth2-refactor",
-                "issues": "https://github.com/oat-sa/bundle-lti1p3/issues"
-            },
-            "time": "2020-05-10T18:21:50+00:00"
+            "time": "2020-05-12T10:29:06+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-core",
@@ -797,12 +794,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "f79b34f75a39215ff0b669c7046e01b4c9fc8b1f"
+                "reference": "ceaffa8fa9fcd34d5c91c8053f113a4ad07cdd12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/f79b34f75a39215ff0b669c7046e01b4c9fc8b1f",
-                "reference": "f79b34f75a39215ff0b669c7046e01b4c9fc8b1f",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/ceaffa8fa9fcd34d5c91c8053f113a4ad07cdd12",
+                "reference": "ceaffa8fa9fcd34d5c91c8053f113a4ad07cdd12",
                 "shasum": ""
             },
             "require": {
@@ -895,7 +892,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-10T15:26:53+00:00"
+            "time": "2020-05-11T04:52:20+00:00"
         },
         {
             "name": "psr/cache",
@@ -4646,12 +4643,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "d0e2074a04fd2220d46686d2b3c9c92f1d444590"
+                "reference": "58296c9716ab98eb341f97c3113f6f286d608415"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/d0e2074a04fd2220d46686d2b3c9c92f1d444590",
-                "reference": "d0e2074a04fd2220d46686d2b3c9c92f1d444590",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/58296c9716ab98eb341f97c3113f6f286d608415",
+                "reference": "58296c9716ab98eb341f97c3113f6f286d608415",
                 "shasum": ""
             },
             "require": {
@@ -4722,14 +4719,13 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-24T08:08:58+00:00"
+            "time": "2020-05-11T08:23:44+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "oat-sa/bundle-lti1p3": 20,
         "symfony/twig-pack": 20
     },
     "prefer-stable": false,
@@ -4737,7 +4733,8 @@
     "platform": {
         "php": "^7.2.5",
         "ext-ctype": "*",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "ext-json": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"

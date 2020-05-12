@@ -1,19 +1,12 @@
 {
     "type": "project",
     "license": "proprietary",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/oat-sa/bundle-lti1p3"
-        }
-    ],
-    "minimum-stability": "dev",
     "require": {
         "php": "^7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
-        "oat-sa/bundle-lti1p3": "dev-feature/NEX-1017/service-oauth2-refactor",
+        "oat-sa/bundle-lti1p3": "^1.0",
         "symfony/console": "5.0.*",
         "symfony/dotenv": "5.0.*",
         "symfony/flex": "^1.3.1",
