@@ -53,7 +53,7 @@ class LtiServiceClientType extends AbstractType
             )
             ->add('service_url', UrlType::class, [
                 'label' => 'Service Url',
-                'help' => "Url of the platform service endpoint to call"
+                'help' => "Url of the selected registration's platform service endpoint to call"
             ])
             ->add('Submit', SubmitType::class, ['label' => 'Call service'])
         ;
