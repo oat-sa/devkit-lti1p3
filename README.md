@@ -63,12 +63,14 @@ You can access:
 
 ### Mode
 
-By default, theapplication runs in `dev` mode, since it avoid you have  to update symfony cache on each configuration update.
+By default, this application runs in `dev` mode:
+- to avoid updating symfony cache on each configuration change
+- to be able to get debugging feedback on errors
 
 If you need production performances, please update to `APP_ENV=prod` in the [.env](.env) file.
 
-**Note**: on each configuration update, you'll then need to clear the application cache:
+**Note**: on each configuration update in prod mode, you'll then need to clear the application cache:
 
-```shell script
+```console
 $ docker exec -it demo_lti1p3_phpfpm php bin/console ca:cl
 ```

@@ -63,17 +63,17 @@ class LtiLinkBuilderType extends AbstractType
                         array_keys($this->parameterBag->get('users')),
                         array_keys($this->parameterBag->get('users'))
                     ),
-                    'placeholder' => 'Anonymous',
+                    'placeholder' => '-anonymous-',
                     'required' => false,
-                    'help' => "User to build link for"
+                    'help' => "User for the launch"
                 ]
             )
             ->add('resource_link_identifier', TextType::class, [
-                'help' => "Identifier of the resource link on tool side"
+                'help' => "Mandatory identifier of the resource link, on selected registration's tool side"
             ])
             ->add('resource_link_url', TextType::class, [
                 'required' => false,
-                'help' => "If provided, will build link for, if not, will use tool default launch url"
+                'help' => "If provided, will be the link target. If not, will use the selected registration's tool default launch url"
             ])
             ->add('Submit', SubmitType::class, ['label' => 'Build Links'])
         ;
