@@ -27,6 +27,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -74,6 +75,11 @@ class LtiLinkBuilderType extends AbstractType
             ->add('resource_link_url', TextType::class, [
                 'required' => false,
                 'help' => "If provided, will be the link target. If not, will use the selected registration's tool default launch url"
+            ])
+            ->add('claims', TextareaType::class, [
+                'required' => false,
+                'attr' => ['rows' => 5],
+                'help' => "JSON formatted claims to add to the launch"
             ])
             ->add('Submit', SubmitType::class, ['label' => 'Build Links'])
         ;

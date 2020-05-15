@@ -7,7 +7,7 @@ security:
             stateless: true
             lti1p3_message: true
         lti1p3_service:
-            pattern: ^/platform/service
+            pattern: ^/platform/service/ags/
             stateless: true
             lti1p3_service: true
         dev:

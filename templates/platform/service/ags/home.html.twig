@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}Platform - AGS service{% endblock %}
+
+{% block body %}
+    <div class="card bg-light">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <span class="mr-auto"><i class="fas fa-cogs"></i>&nbsp;AGS Scores</span>
+                <div class="btn-group" role="group">
+                    <a class="btn btn-danger" href="{{ path('platform_ags_delete_scores') }}">Delete scores</a>
+                </div>
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for score in scores %}
+                <li class="list-group-item">
+                    <strong>Time</strong>: {{ score.time|date('Y-m-d H:i:s') }}, <strong>Registration</strong>: {{ score.registration }}, <strong>Context</strong>: {{ score.context }}, <strong>Line Item</strong>: {{ score.lineItem }}<br/>
+                    <pre>{{ score.data|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</pre>
+                </li>
+            {% else %}
+                <li class="list-group-item">No scores found</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock body %}
