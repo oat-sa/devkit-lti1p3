@@ -31,6 +31,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Twig\Environment;
 
 class LtiLinkAction
@@ -71,6 +72,7 @@ class LtiLinkAction
         $form->handleRequest($request);
 
         $user = null;
+        $claims = [];
         $ltiLaunchRequest = null;
         $oidcLtiLaunchRequest = null;
 
@@ -82,6 +84,14 @@ class LtiLinkAction
                 $formData['resource_link_identifier'],
                 $formData['resource_link_url'] ?? null
             );
+
+            if ($formData['claims']) {
+                $claims = json_decode($formData['claims'], true);
+
+                if (JSON_ERROR_NONE !== json_last_error()) {
+                    throw new BadRequestHttpException(sprintf('json_decode error: %s', json_last_error_msg()));
+                }
+            }
 
             if ($formData['user']) {
 
@@ -101,19 +111,27 @@ class LtiLinkAction
                 $ltiLaunchRequest = $this->builder->buildUserResourceLinkLtiLaunchRequest(
                     $resourceLink,
                     $formData['registration'],
-                    $userIdentity
+                    $userIdentity,
+                    null,
+                    [],
+                    $claims
                 );
             } else {
                 $ltiLaunchRequest = $this->builder->buildResourceLinkLtiLaunchRequest(
                     $resourceLink,
-                    $formData['registration']
+                    $formData['registration'],
+                    null,
+                    [],
+                    $claims
                 );
             }
 
             $oidcLtiLaunchRequest = $this->oidcBuilder->buildResourceLinkOidcLaunchRequest(
                 $resourceLink,
                 $formData['registration'],
-                $formData['user'] ?? 'anonymous'
+                $formData['user'] ?? 'anonymous',
+                null,
+                $claims
             );
         }
 

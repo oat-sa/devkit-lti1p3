@@ -20,33 +20,49 @@
 
 declare(strict_types=1);
 
-namespace App\Action\Platform\Service;
+namespace App\Action\Platform\Service\Ags;
 
 use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Service\LtiServiceToken;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
 
-class LtiServiceAction
+class CreateScoreAction
 {
     /** @var Security */
     private $security;
 
-    public function __construct(Security $security)
+    /** @var CacheItemPoolInterface */
+    private $cache;
+
+    public function __construct(Security $security, CacheItemPoolInterface $cache)
     {
         $this->security = $security;
+        $this->cache = $cache;
     }
 
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(Request $request, string $contextId, string $lineItemId): Response
     {
         /** @var LtiServiceToken $token */
         $token = $this->security->getToken();
 
-        return new JsonResponse([
+        $item = $this->cache->getItem('lti1p3-ags-scores');
+
+        $scores = $item->get();
+
+        $scores[] = [
+            'time' => time(),
             'registration' => $token->getRegistration()->getIdentifier(),
-            'platform' => $token->getRegistration()->getPlatform()->getName(),
-            'tool' => $token->getRegistration()->getTool()->getName(),
-            'claims' => $token->getAccessToken()->getClaims()
-        ]);
+            'context' => $contextId,
+            'lineItem' => $lineItemId,
+            'data' => json_decode((string)$request->getContent(), true)
+        ];
+
+        $item->set($scores);
+
+        $this->cache->save($item);
+
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 }
