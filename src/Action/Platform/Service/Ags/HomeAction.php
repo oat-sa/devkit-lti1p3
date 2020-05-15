@@ -49,6 +49,5 @@ class HomeAction
                 'scores' => $item->get()
             ])
         );
-
     }
 }
