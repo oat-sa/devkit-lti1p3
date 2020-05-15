@@ -2,6 +2,8 @@ imports:
     - { resource: 'users/users.yaml' }
 
 parameters:
+    allowed_scopes:
+        - 'https://purl.imsglobal.org/spec/lti-ags/scope/score'
 
 services:
     _defaults:
