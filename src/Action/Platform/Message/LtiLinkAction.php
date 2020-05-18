@@ -131,6 +131,7 @@ class LtiLinkAction
                 $formData['registration'],
                 $formData['user'] ?? 'anonymous',
                 null,
+                [],
                 $claims
             );
         }
