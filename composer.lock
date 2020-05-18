@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "17d78fa6ce3e8d76965ed2d84ce9a96c",
+    "content-hash": "883373093c9cc900fee87b8c4242bc7e",
     "packages": [
         {
             "name": "codercat/jwk-to-pem",
@@ -717,16 +717,16 @@
         },
         {
             "name": "oat-sa/bundle-lti1p3",
-            "version": "1.0.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/bundle-lti1p3.git",
-                "reference": "bccf9b4a86c7a4b0794afa5899175e30c5ab620f"
+                "reference": "32b120c4019ade933d081a1505ff97be42f07563"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/bundle-lti1p3/zipball/bccf9b4a86c7a4b0794afa5899175e30c5ab620f",
-                "reference": "bccf9b4a86c7a4b0794afa5899175e30c5ab620f",
+                "url": "https://api.github.com/repos/oat-sa/bundle-lti1p3/zipball/32b120c4019ade933d081a1505ff97be42f07563",
+                "reference": "32b120c4019ade933d081a1505ff97be42f07563",
                 "shasum": ""
             },
             "require": {
@@ -754,27 +754,27 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-2.0-only"
+                "LGPL-2.1"
             ],
             "description": "LTI1p3 Symfony Bundle",
             "keywords": [
                 "LTI1p3",
                 "symfony"
             ],
-            "time": "2020-05-12T10:29:06+00:00"
+            "time": "2020-05-18T09:20:00+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-core",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-core.git",
-                "reference": "9b2b690f86eda7837d6edf831dedb45b7db36e0b"
+                "reference": "c71bbd4eefeb451c997b6202f8b5f828d4395086"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-core/zipball/9b2b690f86eda7837d6edf831dedb45b7db36e0b",
-                "reference": "9b2b690f86eda7837d6edf831dedb45b7db36e0b",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-core/zipball/c71bbd4eefeb451c997b6202f8b5f828d4395086",
+                "reference": "c71bbd4eefeb451c997b6202f8b5f828d4395086",
                 "shasum": ""
             },
             "require": {
@@ -807,7 +807,7 @@
                 "GPL-2.0-only"
             ],
             "description": "OAT LTI 1.3 Core Library",
-            "time": "2020-05-10T19:12:53+00:00"
+            "time": "2020-05-15T11:13:42+00:00"
         },
         {
             "name": "php-http/message-factory",
