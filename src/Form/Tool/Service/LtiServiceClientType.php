@@ -27,6 +27,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -54,6 +55,10 @@ class LtiServiceClientType extends AbstractType
             ->add('service_url', UrlType::class, [
                 'label' => 'Service Url',
                 'help' => "Url of the selected registration's platform service endpoint to call"
+            ])
+            ->add('scope', TextType::class, [
+                'label' => 'Scopes',
+                'help' => "Scopes to provide to the selected registration's platform access token url"
             ])
             ->add('Submit', SubmitType::class, ['label' => 'Call service'])
         ;

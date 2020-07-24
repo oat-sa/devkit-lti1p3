@@ -16,49 +16,7 @@
             {{ form(form) }}
         </div>
     </div>
-    {% if accessTokenData %}
-    <br/>
-    <div class="card bg-light">
-        <div class="card-header">
-            Access Token
-        </div>
-        <div class="card-body">
-            {% if accessTokenOk %}
-                <div class="alert alert-success" role="alert">
-                    <i class="fas fa-check"></i>&nbsp;
-                    Access token fetched with success
-                </div>
-                <dl class="list-unstyled">
-                    <dt>Url</dt>
-                    <dd>
-                        {% if accessTokenUrl %}
-                            <a target="_blank" href="{{ accessTokenUrl }}">{{ accessTokenUrl }}</a>
-                        {% else %}
-                            n/a
-                        {% endif %}
-                    </dd>
-                    <dt>Type</dt>
-                    <dd>{{ accessTokenData.token_type }}</dd>
-                    <dt>Expires In</dt>
-                    <dd>{{ accessTokenData.expires_in }}</dd>
-                    <dt>Token</dt>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ accessTokenData.access_token }}" role="button" title="See on jwt.io">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                        <input type="text" class="form-control" placeholder="token" value="{{ accessTokenData.access_token }}" readonly>
-                    </div>
-                </dl>
-            {% else %}
-                <div class="alert alert-danger" role="alert">
-                    <i class="fas fa-exclamation-circle"></i>&nbsp;
-                    Error on access token fetch
-                </div>
-            {% endif %}
-        </div>
-    </div>
+    {% if serviceData %}
     <br/>
     <div class="card bg-light">
         <div class="card-header">
