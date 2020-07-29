@@ -10,6 +10,14 @@ lti1p3:
             public_key: "file://%kernel.project_dir%/config/keys/public.key"
             private_key: "file://%kernel.project_dir%/config/keys/private.key"
             private_key_passphrase: ~
+        #
+        # Necessary to integrate with TAO
+        #
+        kid3:
+            key_set_name: "taoToolSet"
+            public_key: "file://%kernel.project_dir%/config/keys/tao_public.key"
+            private_key: ~ #"file://%kernel.project_dir%/config/keys/private.key"
+            private_key_passphrase: ~
     platforms:
         localPlatform:
             name: "Local platform"
@@ -21,6 +29,14 @@ lti1p3:
             audience: "https://lti-ri.imsglobal.org"
             oidc_authentication_url: "https://lti-ri.imsglobal.org/platforms/978/authorizations/new"
             oauth2_access_token_url: "https://lti-ri.imsglobal.org/platforms/978/access_tokens"
+        #
+        # Necessary to integrate with TAO
+        #
+        taoPlatform:
+            name: "TAO platform"
+            audience: "https://test-tao-deploy.docker.localhost"
+            oidc_authentication_url: ~ #"https://lti-ri.imsglobal.org/platforms/978/authorizations/new"
+            oauth2_access_token_url: ~ #"https://lti-ri.imsglobal.org/platforms/978/access_tokens"
     tools:
         localTool:
             name: "Local tool"
@@ -49,4 +65,17 @@ lti1p3:
             platform_key_chain: ~
             tool_key_chain: "kid2"
             platform_jwks_url: "https://lti-ri.imsglobal.org/platforms/978/platform_keys/986.json"
+            tool_jwks_url: "http://localhost:8888/lti1p3/.well-known/jwks/toolSet.json"
+        #
+        # Necessary to integrate with TAO
+        #
+        taoPlatform:
+            client_id: "client_id"
+            platform: "taoPlatform"
+            tool: "localTool"
+            deployment_ids:
+                - "1"
+            platform_key_chain: "kid3"
+            tool_key_chain: "kid2"
+            platform_jwks_url: ~ # "https://test-tao-deploy.docker.localhost/taoLti/LtiPlatform/jwks"
             tool_jwks_url: "http://localhost:8888/lti1p3/.well-known/jwks/toolSet.json"
