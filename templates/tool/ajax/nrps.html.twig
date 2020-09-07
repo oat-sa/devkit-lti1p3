@@ -18,8 +18,8 @@
                 <table class="table table-bordered">
                     <thead class="thead-light">
                     <tr>
-                        <th scope="col">Identifier</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Identifier</th>
                         <th scope="col">Name</th>
                         <th scope="col">Roles</th>
                         <th scope="col">View</th>
@@ -28,8 +28,8 @@
                     <tbody>
                     {% for member in membership.members %}
                         <tr>
-                            <td>{{ member.userIdentity.identifier }}</td>
-                            <td>{{ member.status }}</td>
+                            <td style="width: 3%" class="table-{{ member.status == 'Active' ? 'success' : 'danger' }}">{{ member.status }}</td>
+                            <td><code>{{ member.userIdentity.identifier }}</code></td>
                             <td>{{ member.userIdentity.name }}</td>
                             <td>{{ member.roles|join(', ') }}</td>
                             <td style="width: 3%">
