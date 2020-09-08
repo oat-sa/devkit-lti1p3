@@ -417,6 +417,7 @@
 
         $("#nrpsReset").click(function(){
             $("#nrpsZone").html("");
+            $("#nrpsUrl").val("{{ token.ltiMessage.nrps.contextMembershipsUrl }}");
             $("#nrpsRole").val("");
             $("#nrpsLimit").val("");
         });
