@@ -14,7 +14,12 @@ tool_service_client:
     path: /tool/service/client
     controller: App\Action\Tool\Service\LtiServiceClientAction
 
-platform_ags_list-scores:
+tool_ajax_service_nrps:
+    path: /tool/ajax/nrps
+    controller: App\Action\Tool\Ajax\NrpsServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+platform_ags_list_scores:
     methods: [GET]
     path: /platform/service/ags-list-scores
     controller: App\Action\Platform\Service\Ags\HomeAction

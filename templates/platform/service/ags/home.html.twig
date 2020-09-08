@@ -16,7 +16,9 @@
             {% for score in scores %}
                 <li class="list-group-item">
                     <strong>Time</strong>: {{ score.time|date('Y-m-d H:i:s') }}, <strong>Registration</strong>: {{ score.registration }}, <strong>Context</strong>: {{ score.context }}, <strong>Line Item</strong>: {{ score.lineItem }}<br/>
-                    <pre>{{ score.data|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</pre>
+                    <pre>
+                        <code class="language-json">{{ score.data|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                    </pre>
                 </li>
             {% else %}
                 <li class="list-group-item">No scores found</li>
@@ -24,3 +26,9 @@
         </ul>
     </div>
 {% endblock body %}
+
+{% block scripts %}
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+{% endblock %}

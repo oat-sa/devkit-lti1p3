@@ -44,6 +44,6 @@ class DeleteScoresAction
     {
         $this->cache->deleteItem('lti1p3-ags-scores');
 
-        return new RedirectResponse($this->router->generate('platform_ags_list-scores'));
+        return new RedirectResponse($this->router->generate('platform_ags_list_scores'));
     }
 }

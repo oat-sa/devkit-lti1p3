@@ -20,3 +20,5 @@ services:
 
     OAT\Library\Lti1p3Core\Security\User\UserAuthenticatorInterface:
         class: App\Security\User\UserAuthenticator
+
+    OAT\Library\Lti1p3Nrps\Service\Client\MembershipServiceClient: ~

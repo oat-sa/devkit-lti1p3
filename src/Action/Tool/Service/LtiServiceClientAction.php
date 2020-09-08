@@ -75,10 +75,18 @@ class LtiServiceClientAction
             /** @var RegistrationInterface $registration */
             $registration = $formData['registration'];
             $serviceUrl = $formData['service_url'] ?? null;
-            $serviceScope = explode(' ', $formData['scope']);
+            $method = $formData['method'] ?? 'GET';
+            $body = $formData['body'] ?? null;
+            $scopes = explode(' ', $formData['scope']);
 
             try {
-                $response = $this->client->request($registration, 'GET', $serviceUrl, [], $serviceScope);
+                $options = [];
+
+                if (null !== $body) {
+                    $options['body'] = $body;
+                }
+
+                $response = $this->client->request($registration, $method, $serviceUrl, $options, $scopes);
 
                 $serviceData = json_decode((string)$response->getBody(), true);
             } catch (RequestException $exception) {
