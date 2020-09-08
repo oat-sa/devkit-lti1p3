@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace App\Action\Tool\Ajax;
 
-use OAT\Library\Lti1p3Core\Message\Claim\NrpsClaim;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use OAT\Library\Lti1p3Nrps\Service\Client\MembershipServiceClient;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,7 +53,7 @@ class NrpsServiceClientAction
     {
         $membership = $this->client->getContextMembership(
             $this->repository->find($request->get('registration')),
-            new NrpsClaim($request->get('url')),
+            $request->get('url'),
             $request->get('role'),
             intval($request->get('limit'))
         );

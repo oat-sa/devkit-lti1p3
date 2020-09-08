@@ -22,7 +22,7 @@
         "symfony/monolog-bundle": "^3.5",
         "symfony/twig-pack": "dev-master",
         "symfony/yaml": "^5.1",
-        "oat-sa/lib-lti1p3-nrps": "^0.1"
+        "oat-sa/lib-lti1p3-nrps": "^1.0"
     },
     "require-dev": {
     },

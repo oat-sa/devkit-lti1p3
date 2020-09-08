@@ -33,7 +33,7 @@
                             <td>{{ member.userIdentity.name }}</td>
                             <td>{{ member.roles|join(', ') }}</td>
                             <td style="width: 3%">
-                                <button class="btn btn-secondary" role="button" data-toggle="modal" data-target="#nrpsMemberModal" data-nrps="{{ member.properties|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
+                                <button class="btn btn-secondary btn-sm" role="button" data-toggle="modal" data-target="#nrpsMemberModal" data-nrps="{{ member.properties|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
                                     <i class="fas fa-external-link-alt"></i>
                                 </button>
                             </td>
@@ -64,7 +64,17 @@
                     <dt>Relation</dt>
                     <dd>
                         <ul>
-                            <li><strong>Link:</strong> {{ membership.relationLink|default('n/a') }}</li>
+                            <li>
+                                {% if membership.relationLink %}
+                                    <strong>Link:</strong>
+                                    <a href="#" id="nrpsLinkUpdate" data-link="{{ membership.relationLink }}">
+                                        (use)
+                                    </a>
+                                     {{ membership.relationLink }}
+                                {% else %}
+                                    <strong>Link:</strong> n/a
+                                {% endif %}
+                            </li>
                             <li><strong>Has next:</strong> {{ membership.hasNext ? 'yes' : 'no' }}</li>
                             <li><strong>Has differences:</strong> {{ membership.hasDifferences ? 'yes' : 'no' }}</li>
                         </ul>
@@ -74,3 +84,9 @@
         </div>
     </div>
 </div>
+<script>
+    $("#nrpsLinkUpdate").click(function(){
+        $("#nrpsUrl").val($("#nrpsLinkUpdate").data("link"));
+    });
+</script>
+

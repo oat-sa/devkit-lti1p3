@@ -19,7 +19,7 @@ tool_ajax_service_nrps:
     controller: App\Action\Tool\Ajax\NrpsServiceClientAction
     condition: "request.isXmlHttpRequest()"
 
-platform_ags_list-scores:
+platform_ags_list_scores:
     methods: [GET]
     path: /platform/service/ags-list-scores
     controller: App\Action\Platform\Service\Ags\HomeAction

@@ -309,6 +309,12 @@
                                 <div class="card bg-light">
                                     <div class="card-body">
                                         <div class="form-row">
+                                            <div class="col col col-md-12">
+                                                <input type="text" id="nrpsUrl" class="form-control" placeholder="Service Url" value="{{ token.ltiMessage.nrps.contextMembershipsUrl }}">
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="form-row">
                                             <div class="col col col-md-4">
                                                 <input type="text" id="nrpsRole" class="form-control" placeholder="Role filter">
                                             </div>
@@ -329,7 +335,7 @@
                                     <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="nrpsMemberModalLabel">Member Data</h5>
+                                                <h5 class="modal-title" id="nrpsMemberModalLabel">Member Properties</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -395,7 +401,7 @@
                 method: "POST",
                 data: {
                     registration: "{{ token.registration.identifier }}",
-                    url: "{{ token.ltiMessage.nrps.contextMembershipsUrl }}",
+                    url: $("#nrpsUrl").val(),
                     role: $("#nrpsRole").val(),
                     limit: $("#nrpsLimit").val()
                 },

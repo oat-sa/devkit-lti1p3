@@ -39,7 +39,9 @@
                     </dd>
                     <dt>Response</dt>
                     <dd>
-                        <pre>{{ serviceData|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</pre>
+                        <pre>
+                            <code class="language-json">{{ serviceData|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                        </pre>
                     </dd>
                 </dl>
             {% else %}
@@ -52,3 +54,9 @@
     </div>
     {% endif %}
 {% endblock body %}
+
+{% block scripts %}
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+{% endblock %}
