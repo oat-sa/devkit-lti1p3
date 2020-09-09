@@ -27,6 +27,7 @@ use OAT\Library\Lti1p3Core\Launch\Builder\LtiLaunchRequestBuilder;
 use OAT\Library\Lti1p3Core\Launch\Builder\OidcLaunchRequestBuilder;
 use OAT\Library\Lti1p3Core\Link\ResourceLink\ResourceLink;
 use OAT\Library\Lti1p3Core\User\UserIdentity;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,8 +82,8 @@ class LtiLinkAction
             $formData = $form->getData();
 
             $resourceLink = new ResourceLink(
-                $formData['resource_link_identifier'],
-                $formData['resource_link_url'] ?? null
+                Uuid::uuid4()->toString(),
+                $formData['launch_url'] ?? null
             );
 
             if ($formData['claims']) {

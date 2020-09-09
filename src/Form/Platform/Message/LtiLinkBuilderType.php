@@ -69,12 +69,9 @@ class LtiLinkBuilderType extends AbstractType
                     'help' => "User for the launch"
                 ]
             )
-            ->add('resource_link_identifier', TextType::class, [
-                'help' => "Mandatory identifier of the resource link, on selected registration's tool side"
-            ])
-            ->add('resource_link_url', TextType::class, [
+            ->add('launch_url', TextType::class, [
                 'required' => false,
-                'help' => "If provided, will be the link target. If not, will use the selected registration's tool default launch url"
+                'help' => "If provided, will be the launch target. If not, will use the selected registration's tool default launch url"
             ])
             ->add('claims', TextareaType::class, [
                 'required' => false,
