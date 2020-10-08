@@ -9,10 +9,10 @@
         "version": "6.5.5"
     },
     "guzzlehttp/promises": {
-        "version": "v1.3.1"
+        "version": "1.4.0"
     },
     "guzzlehttp/psr7": {
-        "version": "1.6.1"
+        "version": "1.7.0"
     },
     "lcobucci/jwt": {
         "version": "3.3.3"
@@ -27,7 +27,7 @@
         "version": "2.1.1"
     },
     "nesbot/carbon": {
-        "version": "2.39.1"
+        "version": "2.41.0"
     },
     "nyholm/psr7": {
         "version": "1.0",
@@ -42,12 +42,12 @@
         ]
     },
     "oat-sa/bundle-lti1p3": {
-        "version": "2.0",
+        "version": "3.0",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "master",
-            "version": "2.0",
-            "ref": "35a9f3abdc25714f58187042a80d34349ebb5c96"
+            "version": "3.0",
+            "ref": "e1ec0b6f09e58b894d9703e85d5da709344a2ab5"
         },
         "files": [
             "config/packages/lti1p3.yaml",
@@ -55,10 +55,13 @@
         ]
     },
     "oat-sa/lib-lti1p3-core": {
-        "version": "2.4.0"
+        "version": "3.1.0"
+    },
+    "oat-sa/lib-lti1p3-deep-linking": {
+        "version": "dev-feature/deep-link"
     },
     "oat-sa/lib-lti1p3-nrps": {
-        "version": "1.0.0"
+        "version": "2.0.0"
     },
     "php": {
         "version": "7.4"
@@ -84,6 +87,9 @@
     "psr/http-message": {
         "version": "1.0.1"
     },
+    "psr/http-server-handler": {
+        "version": "1.0.1"
+    },
     "psr/log": {
         "version": "1.1.3"
     },
@@ -94,13 +100,13 @@
         "version": "3.9.3"
     },
     "symfony/cache": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/cache-contracts": {
-        "version": "v2.1.3"
+        "version": "v2.2.0"
     },
     "symfony/config": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/console": {
         "version": "5.1",
@@ -115,31 +121,31 @@
         ]
     },
     "symfony/dependency-injection": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/deprecation-contracts": {
-        "version": "v2.1.3"
+        "version": "v2.2.0"
     },
     "symfony/dotenv": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/error-handler": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/event-dispatcher": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/event-dispatcher-contracts": {
-        "version": "v2.1.3"
+        "version": "v2.2.0"
     },
     "symfony/expression-language": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/filesystem": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/finder": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/flex": {
         "version": "1.0",
@@ -154,7 +160,7 @@
         ]
     },
     "symfony/form": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/framework-bundle": {
         "version": "5.1",
@@ -162,12 +168,13 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "5.1",
-            "ref": "e1b2770f2404d8307450a49cabfc3b2ff3184792"
+            "ref": "6ee1194b036378b21884e7f57b6a2ac721167f16"
         },
         "files": [
             "config/packages/cache.yaml",
             "config/packages/framework.yaml",
             "config/packages/test/framework.yaml",
+            "config/preload.php",
             "config/routes/dev/framework.yaml",
             "config/services.yaml",
             "public/index.php",
@@ -175,17 +182,20 @@
             "src/Kernel.php"
         ]
     },
+    "symfony/http-client-contracts": {
+        "version": "v2.2.0"
+    },
     "symfony/http-foundation": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/http-kernel": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/intl": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/monolog-bridge": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/monolog-bundle": {
         "version": "3.3",
@@ -203,7 +213,7 @@
         ]
     },
     "symfony/options-resolver": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.18.1"
@@ -227,13 +237,13 @@
         "version": "v1.18.1"
     },
     "symfony/property-access": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/property-info": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/psr-http-message-bridge": {
-        "version": "v2.0.1"
+        "version": "v2.0.2"
     },
     "symfony/routing": {
         "version": "5.1",
@@ -262,22 +272,22 @@
         ]
     },
     "symfony/security-core": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/security-csrf": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/security-guard": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/security-http": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/service-contracts": {
-        "version": "v2.1.3"
+        "version": "v2.2.0"
     },
     "symfony/string": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/translation": {
         "version": "3.3",
@@ -293,10 +303,10 @@
         ]
     },
     "symfony/translation-contracts": {
-        "version": "v2.1.3"
+        "version": "v2.3.0"
     },
     "symfony/twig-bridge": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/twig-bundle": {
         "version": "5.0",
@@ -316,13 +326,13 @@
         "version": "dev-master"
     },
     "symfony/var-dumper": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/var-exporter": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "symfony/yaml": {
-        "version": "v5.1.5"
+        "version": "v5.1.7"
     },
     "twig/extra-bundle": {
         "version": "v3.0.5"

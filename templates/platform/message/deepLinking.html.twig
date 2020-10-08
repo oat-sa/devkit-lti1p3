@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}Platform - LTI Launch Request Builder{% endblock %}
+
+{% block body %}
+    <div class="card bg-light">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <span class="mr-auto"><i class="fas fa-cogs"></i>&nbsp;Deep Linking launch builder</span>
+                <div class="btn-group" role="group">
+                    <a class="btn btn-secondary" href="{{ path('platform_message_deep_linking') }}">Reset</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            {{ form(form) }}
+        </div>
+    </div>
+    {% if deepLinkingLaunchRequest %}
+    <br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card bg-light">
+                <div class="card-header">
+                    OIDC LTI launch request
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <dl class="list-unstyled">
+                                <dt>Issuer</dt>
+                                <dd>{{ deepLinkingLaunchRequest.getParameter('iss') }}</dd>
+                                <dt>Login Hint</dt>
+                                <dd>{{ deepLinkingLaunchRequest.getParameter('login_hint') }}</dd>
+                                <dt>Client Id</dt>
+                                <dd>{{ deepLinkingLaunchRequest.getParameter('client_id') }}</dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="list-unstyled">
+                                <dt>Url</dt>
+                                <dd>{{ deepLinkingLaunchRequest.url }}</dd>
+                                <dt>Target Link Uri</dt>
+                                <dd>{{ deepLinkingLaunchRequest.getParameter('target_link_uri') }}</dd>
+                                <dt>Deployment Id</dt>
+                                <dd>{{ deepLinkingLaunchRequest.getParameter('lti_deployment_id') }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <dl class="list-unstyled">
+                                <dt>LTI Message Hint</dt>
+                                <dd>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ deepLinkingLaunchRequest.getParameter('lti_message_hint') }}" role="button" title="See on jwt.io">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="token" value="{{ deepLinkingLaunchRequest.getParameter('lti_message_hint') }}" readonly>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            <div class="card-footer">
+                {{ deepLinkingLaunchRequest.toHtmlLink('OIDC Launch', {'class': 'btn btn-success', 'target': '_blank'})|raw }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock body %}

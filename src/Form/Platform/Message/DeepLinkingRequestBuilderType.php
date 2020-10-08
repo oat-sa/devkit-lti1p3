@@ -23,6 +23,13 @@ declare(strict_types=1);
 namespace App\Form\Platform\Message;
 
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
+use OAT\Library\Lti1p3Core\Resource\File\FileInterface;
+use OAT\Library\Lti1p3Core\Resource\HtmlFragment\HtmlFragmentInterface;
+use OAT\Library\Lti1p3Core\Resource\Image\ImageInterface;
+use OAT\Library\Lti1p3Core\Resource\Link\Link;
+use OAT\Library\Lti1p3Core\Resource\Link\LinkInterface;
+use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLink;
+use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLinkInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -31,7 +38,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class LtiLinkBuilderType extends AbstractType
+class DeepLinkingRequestBuilderType extends AbstractType
 {
     /** @var RegistrationRepositoryInterface */
     private $repository;
@@ -69,10 +76,68 @@ class LtiLinkBuilderType extends AbstractType
                     'help' => "User for the launch"
                 ]
             )
-            ->add('launch_url', TextType::class, [
+            ->add(
+                'accept_types',
+                ChoiceType::class,
+                [
+                    'choices' => [
+                        LinkInterface::TYPE,
+                        LtiResourceLinkInterface::TYPE,
+                        FileInterface::TYPE,
+                        ImageInterface::TYPE,
+                        HtmlFragmentInterface::TYPE,
+                    ],
+                    'required' => true,
+                    'multiple' => true,
+                    'help' => "Accepted content item types"
+                ]
+            )
+            ->add(
+                'accept_presentation_document_targets',
+                ChoiceType::class,
+                [
+                    'choices' => [
+                        'iframe',
+                        'window',
+                        'embed',
+                    ],
+                    'required' => true,
+                    'multiple' => true,
+                    'help' => "Accepted document targets"
+                ]
+            )
+            ->add('deep_linking_url', TextType::class, [
                 'required' => false,
-                'help' => "If provided, will be the launch target. If not, will use the selected registration's tool default launch url"
+                'help' => "If provided, will be the deep linking content selection url. If not, will use the selected registration's tool default deep linking url"
             ])
+            ->add('accept_media_types', TextType::class, [
+                'required' => false,
+                'help' => "Accepted media types, comma separated"
+            ])
+            ->add(
+                'accept_multiple',
+                ChoiceType::class,
+                [
+                    'choices' => [
+                        'yes' => true,
+                        'no' => false,
+                    ],
+                    'required' => false,
+                    'help' => "If should accept multiple content items"
+                ]
+            )
+            ->add(
+                'auto_create',
+                ChoiceType::class,
+                [
+                    'choices' => [
+                        'yes' => true,
+                        'no' => false,
+                    ],
+                    'required' => false,
+                    'help' => "If should auto create"
+                ]
+            )
             ->add('claims', TextareaType::class, [
                 'required' => false,
                 'attr' => ['rows' => 5],

@@ -1,12 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}Tool - LTI Launch Request Result{% endblock %}
+{% block nav_title %}Tool - Deep Linking Resources{% endblock %}
 
 {% block body %}
     <div class="jumbotron">
         <ul class="nav nav-tabs nav-fill nav-hover" id="tab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="message-tab" data-toggle="tab" href="#message" role="tab" aria-controls="message" aria-selected="true">
+                <a class="nav-link active" id="deep-linking-tab" data-toggle="tab" href="#deep-linking" role="tab" aria-controls="deep-linking" aria-selected="true">
+                    <i class="fas fa-envelope-open"></i>&nbsp;Deep Linking
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="message-tab" data-toggle="tab" href="#message" role="tab" aria-controls="message" aria-selected="false">
                     <i class="fas fa-envelope-open"></i>&nbsp;Message
                 </a>
             </li>
@@ -37,7 +42,46 @@
             </li>
         </ul>
         <div class="tab-content" id="tabContent">
-            <div class="tab-pane fade show active" id="message" role="tabpanel" aria-labelledby="message-tab">
+            <div class="tab-pane fade show active" id="deep-linking" role="tabpanel" aria-labelledby="deep-linking-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-text">
+                            <h5 class="card-title">
+                                <i class="fas fa-info-circle"></i>&nbsp;Deep Linking available resources
+                            </h5>
+                            <hr/>
+                            {% for resource in resources %}
+                                <input type="checkbox"/>&nbsp;{{ resource.title }}
+                                <br/>
+                                <small>
+                                    <ul>
+                                        <li><strong>Type</strong>: <code>{{ resource.type }}</code></li>
+                                        <li><strong>Url</strong>: {{ resource.url }}</li>
+                                        <li><strong>Description</strong>: {{ resource.text }}</li>
+                                        <li><strong>Icon</strong>: <img src="https://www.iconfinder.com/data/icons/basic-21/32/Basic-iconfinder-22-16.png"/></li>
+                                    </ul>
+                                </small>
+                            {% endfor %}
+                            <hr/>
+                            <form action="{{ path('tool_message_deep_linking_response') }}" method="post">
+                                <input type="hidden" name="registration" value="{{ token.registration.identifier }}"/>
+                                <input type="hidden" name="deep-linking-return-url" value="{{ token.payload.deepLinkingSettings.deepLinkingReturnUrl }}"/>
+                                <input type="hidden" name="deep-linking-data" value="{{ token.payload.deepLinkingSettings.data }}"/>
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <div class="col col col-md-4">
+                                                <button type="submit" id="deepLinkingSend" class="btn-primary btn btn-block">Return selected items to platform</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="message" role="tabpanel" aria-labelledby="message-tab">
                 <div class="card">
                     <div class="card-body">
                         <div class="card-text">
@@ -176,7 +220,7 @@
                                     <dd>{{ token.registration.platform.audience }}</dd>
                                     <dt>OAuth2 Access Token Url</dt>
                                     <dd><a target="_blank" href="{{ token.registration.platform.oAuth2AccessTokenUrl }}">{{ token.registration.platform.oAuth2AccessTokenUrl }}</a></dd>
-                                    <dt>OIDC Auth Url</dt>
+                                    <dt>OIDC Authentication Url</dt>
                                     <dd><a href="{{ token.registration.platform.oidcAuthenticationUrl }}">{{ token.registration.platform.oidcAuthenticationUrl }}</a></dd>
                                 </dl>
                             </div>
@@ -194,7 +238,7 @@
                                     <dd>{{ token.registration.tool.audience }}</dd>
                                     <dt>Launch Url</dt>
                                     <dd><a target="_blank" href="{{ token.registration.tool.launchUrl }}">{{ token.registration.tool.launchUrl }}</a></dd>
-                                    <dt>Deep Launch Url</dt>
+                                    <dt>Deep Linking Url</dt>
                                     <dd>
                                         {% if token.registration.tool.deepLinkingUrl %}
                                             <a target="_blank" href="{{ token.registration.tool.deepLinkingUrl }}">{{ token.registration.tool.deepLinkingUrl }}</a>
@@ -202,7 +246,7 @@
                                             n/a
                                         {% endif %}
                                     </dd>
-                                    <dt>OIDC Login Initiation Url</dt>
+                                    <dt>OIDC Initiation Url</dt>
                                     <dd>
                                         {% if token.registration.tool.oidcInitiationUrl %}
                                             <a target="_blank" href="{{ token.registration.tool.oidcInitiationUrl }}">{{ token.registration.tool.oidcInitiationUrl }}</a>

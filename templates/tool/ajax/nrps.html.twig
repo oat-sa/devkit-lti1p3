@@ -33,17 +33,14 @@
                             <td>{{ member.userIdentity.name }}</td>
                             <td>{{ member.roles|join(', ') }}</td>
                             <td style="width: 3%">
-                                <button class="btn btn-secondary btn-sm" role="button" data-toggle="modal" data-target="#nrpsMemberModal" data-nrps="{{ member.properties|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
+                                <button class="btn btn-primary btn-sm" role="button" data-toggle="modal" data-target="#nrpsMemberModal" data-nrps="{{ member.properties|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
                                     <i class="fas fa-external-link-alt"></i>
                                 </button>
                             </td>
                         </tr>
                     {% else %}
                         <tr>
-                            <th scope="row">n/a</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <th scope="row" colspan="5">No members found</th>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -61,23 +58,24 @@
                             <li><strong>Title:</strong> {{ membership.context.title }}</li>
                         </ul>
                     </dd>
-                    <dt>Relation</dt>
+                    <dt>Relation Link</dt>
                     <dd>
-                        <ul>
-                            <li>
-                                {% if membership.relationLink %}
-                                    <strong>Link:</strong>
-                                    <a href="#" id="nrpsLinkUpdate" data-link="{{ membership.relationLink }}">
-                                        (use)
+                        {% if membership.relationLink %}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <a class="btn btn-secondary" href="#" id="nrpsLinkUpdate" data-link="{{ membership.relationLink }}" title="Use url">
+                                        <i class="fas fa-external-link-alt"></i>
                                     </a>
-                                     {{ membership.relationLink }}
-                                {% else %}
-                                    <strong>Link:</strong> n/a
-                                {% endif %}
-                            </li>
-                            <li><strong>Has next:</strong> {{ membership.hasNext ? 'yes' : 'no' }}</li>
-                            <li><strong>Has differences:</strong> {{ membership.hasDifferences ? 'yes' : 'no' }}</li>
-                        </ul>
+                                </div>
+                                <input type="text" class="form-control" placeholder="token" value="{{ membership.relationLink }}" readonly>
+                            </div>
+                        {% else %}
+                            <input type="text" class="form-control" placeholder="token" value="n/a" readonly>
+                        {% endif %}
+                        <small id="nrpsLinkUpdate_user_help" class="form-text text-muted">
+                            Has next: <span class="badge badge-{{ membership.hasNext ? 'success' : 'secondary' }}">{{ membership.hasNext ? 'yes' : 'no' }}</span>,&nbsp;
+                            has differences: <span class="badge badge-{{ membership.hasDifferences ? 'success' : 'secondary' }}">{{ membership.hasDifferences ? 'yes' : 'no' }}</span>
+                        </small>
                     </dd>
                 </dl>
             </div>
