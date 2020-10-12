@@ -6,6 +6,10 @@ security:
             pattern: ^/tool/launch
             stateless: true
             lti1p3_message_tool: true
+        platform_message_area:
+            pattern: ^/platform/message/deep-linking-return
+            stateless: true
+            lti1p3_message_platform: true
         platform_service_area:
             pattern: ^/platform/service/ags/
             stateless: true

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}Platform - LTI Launch Request Builder{% endblock %}
+{% block nav_title %}Platform - Deep Linking{% endblock %}
 
 {% block body %}
     <div class="card bg-light">
@@ -22,7 +22,7 @@
         <div class="col-sm-12">
             <div class="card bg-light">
                 <div class="card-header">
-                    OIDC LTI launch request
+                    Deep Linking launch request
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -66,7 +66,7 @@
                     </div>
                 </div>
             <div class="card-footer">
-                {{ deepLinkingLaunchRequest.toHtmlLink('OIDC Launch', {'class': 'btn btn-success', 'target': '_blank'})|raw }}
+                {{ deepLinkingLaunchRequest.toHtmlLink('Launch', {'class': 'btn btn-success', 'target': '_blank'})|raw }}
             </div>
         </div>
     </div>

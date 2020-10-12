@@ -32,7 +32,7 @@ lti1p3:
             audience: "http://localhost:8888/tool"
             oidc_initiation_url: "http://localhost:8888/lti1p3/oidc/initiation"
             launch_url: "http://localhost:8888/tool/launch"
-            deep_linking_url: "http://localhost:8888//tool/launch/deep-linking"
+            deep_linking_url: "http://localhost:8888/tool/launch/deep-linking"
     registrations:
         local:
             client_id: "client_id"

@@ -29,4 +29,7 @@ services:
 
     OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchResponseBuilder: ~
 
+    OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactoryInterface:
+        class: OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactory
+
     OAT\Library\Lti1p3Nrps\Service\Client\MembershipServiceClient: ~

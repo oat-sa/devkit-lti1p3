@@ -73,7 +73,7 @@ class DeepLinkingLaunchRequestAction
             $formData = $form->getData();
 
             $deepLinkSettings = new DeepLinkingSettings(
-                $this->router->generate('ddd'),
+                $this->router->generate('platform_message_deep_linking_return', [], RouterInterface::ABSOLUTE_URL),
                 $formData['accept_types'],
                 $formData['accept_presentation_document_targets'],
                 $formData['accept_media_types'],
@@ -97,7 +97,6 @@ class DeepLinkingLaunchRequestAction
                 [],
                 $claims
             );
-
         }
 
         return new Response(

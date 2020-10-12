@@ -855,12 +855,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-deep-linking.git",
-                "reference": "fd06b537dfa46a91bf1a36b6d4bbceb84e229a8f"
+                "reference": "22328fc1f580f5f97691c221b34cf01ee29eae0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-deep-linking/zipball/fd06b537dfa46a91bf1a36b6d4bbceb84e229a8f",
-                "reference": "fd06b537dfa46a91bf1a36b6d4bbceb84e229a8f",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-deep-linking/zipball/22328fc1f580f5f97691c221b34cf01ee29eae0e",
+                "reference": "22328fc1f580f5f97691c221b34cf01ee29eae0e",
                 "shasum": ""
             },
             "require": {
@@ -892,7 +892,7 @@
                 "source": "https://github.com/oat-sa/lib-lti1p3-deep-linking/tree/feature/deep-link",
                 "issues": "https://github.com/oat-sa/lib-lti1p3-deep-linking/issues"
             },
-            "time": "2020-10-08T06:55:14+00:00"
+            "time": "2020-10-08T18:02:14+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-nrps",

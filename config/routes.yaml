@@ -10,6 +10,10 @@ platform_message_deep_linking:
     path: /platform/message/deep-linking
     controller: App\Action\Platform\Message\DeepLinkingLaunchRequestAction
 
+platform_message_deep_linking_return:
+    path: /platform/message/deep-linking-return
+    controller: App\Action\Platform\Message\DeepLinkingReturnAction
+
 tool_message_launch:
     path: /tool/launch
     controller: App\Action\Tool\Message\LtiLaunchAction

@@ -26,9 +26,7 @@ use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use OAT\Library\Lti1p3Core\Resource\File\FileInterface;
 use OAT\Library\Lti1p3Core\Resource\HtmlFragment\HtmlFragmentInterface;
 use OAT\Library\Lti1p3Core\Resource\Image\ImageInterface;
-use OAT\Library\Lti1p3Core\Resource\Link\Link;
 use OAT\Library\Lti1p3Core\Resource\Link\LinkInterface;
-use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLink;
 use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLinkInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
@@ -54,94 +52,101 @@ class DeepLinkingRequestBuilderType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $userChoices = array_keys($this->parameterBag->get('users'));
+        
+        $acceptTypesChoices = [
+            LinkInterface::TYPE,
+            LtiResourceLinkInterface::TYPE,
+            FileInterface::TYPE,
+            ImageInterface::TYPE,
+            HtmlFragmentInterface::TYPE,
+        ];
+        
+        $acceptPresentationChoices = [
+            'iframe',
+            'window',
+            'embed',
+        ];
+
         $builder
             ->add(
                 'registration',
                 ChoiceType::class,
                 [
                     'choices' => $this->repository->findAll(),
-                    'help' => "Will use the selected registration's tool as target"
+                    'help' => 'Will use the selected registration tool as target'
                 ]
             )
             ->add(
                 'user',
                 ChoiceType::class,
                 [
-                    'choices' => array_combine(
-                        array_keys($this->parameterBag->get('users')),
-                        array_keys($this->parameterBag->get('users'))
-                    ),
+                    'choices' => array_combine($userChoices, $userChoices),
                     'placeholder' => '-anonymous-',
                     'required' => false,
-                    'help' => "User for the launch"
+                    'help' => 'User for the launch'
                 ]
             )
             ->add(
                 'accept_types',
                 ChoiceType::class,
                 [
-                    'choices' => [
-                        LinkInterface::TYPE,
-                        LtiResourceLinkInterface::TYPE,
-                        FileInterface::TYPE,
-                        ImageInterface::TYPE,
-                        HtmlFragmentInterface::TYPE,
-                    ],
+                    'label' => 'Accepted types',
+                    'choices' => array_combine($acceptTypesChoices, $acceptTypesChoices),
                     'required' => true,
                     'multiple' => true,
-                    'help' => "Accepted content item types"
+                    'help' => 'Accepted content item types'
                 ]
             )
             ->add(
                 'accept_presentation_document_targets',
                 ChoiceType::class,
                 [
-                    'choices' => [
-                        'iframe',
-                        'window',
-                        'embed',
-                    ],
+                    'label' => 'Accepted targets',
+                    'choices' => array_combine($acceptPresentationChoices, $acceptPresentationChoices),
                     'required' => true,
                     'multiple' => true,
-                    'help' => "Accepted document targets"
+                    'help' => 'Accepted document targets'
                 ]
             )
             ->add('deep_linking_url', TextType::class, [
                 'required' => false,
-                'help' => "If provided, will be the deep linking content selection url. If not, will use the selected registration's tool default deep linking url"
+                'help' => 'If provided, will be the deep linking content selection url. If not, will use the selected registration tool default deep linking url'
             ])
             ->add('accept_media_types', TextType::class, [
                 'required' => false,
-                'help' => "Accepted media types, comma separated"
+                'help' => 'Accepted media types, comma separated'
             ])
             ->add(
                 'accept_multiple',
                 ChoiceType::class,
                 [
+                    'label' => 'Accepted multiple',
                     'choices' => [
                         'yes' => true,
                         'no' => false,
                     ],
-                    'required' => false,
-                    'help' => "If should accept multiple content items"
+                    'required' => true,
+                    'help' => 'If should accept multiple content items'
                 ]
             )
             ->add(
                 'auto_create',
                 ChoiceType::class,
                 [
+                    'label' => 'Auto create',
                     'choices' => [
                         'yes' => true,
                         'no' => false,
                     ],
-                    'required' => false,
-                    'help' => "If should auto create"
+                    'required' => true,
+                    'help' => 'If should auto create the content item on tool side'
                 ]
             )
             ->add('claims', TextareaType::class, [
                 'required' => false,
                 'attr' => ['rows' => 5],
-                'help' => "JSON formatted claims to add to the launch"
+                'help' => 'JSON formatted claims to add to the launch'
             ])
             ->add('Submit', SubmitType::class, ['label' => 'Build Links'])
         ;
