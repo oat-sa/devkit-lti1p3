@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e6c4a451857e860eab6e3e0928b63fa3",
+    "content-hash": "48a55ad9c0da80fbb9176220ff537b69",
     "packages": [
         {
             "name": "codercat/jwk-to-pem",
@@ -592,16 +592,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.41.0",
+            "version": "2.41.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "8690b13ad4da6d54d692afea15aab30b36fee52e"
+                "reference": "35959c93ada06469107a05df6b15b65074a960cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/8690b13ad4da6d54d692afea15aab30b36fee52e",
-                "reference": "8690b13ad4da6d54d692afea15aab30b36fee52e",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/35959c93ada06469107a05df6b15b65074a960cf",
+                "reference": "35959c93ada06469107a05df6b15b65074a960cf",
                 "shasum": ""
             },
             "require": {
@@ -677,7 +677,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-04T09:11:05+00:00"
+            "time": "2020-10-10T23:35:06+00:00"
         },
         {
             "name": "nyholm/psr7",
@@ -851,16 +851,16 @@
         },
         {
             "name": "oat-sa/lib-lti1p3-deep-linking",
-            "version": "dev-feature/deep-link",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-deep-linking.git",
-                "reference": "22328fc1f580f5f97691c221b34cf01ee29eae0e"
+                "reference": "a1ef0d0f7e247ad08f61b8dd7a544e5114de4852"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-deep-linking/zipball/22328fc1f580f5f97691c221b34cf01ee29eae0e",
-                "reference": "22328fc1f580f5f97691c221b34cf01ee29eae0e",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-deep-linking/zipball/a1ef0d0f7e247ad08f61b8dd7a544e5114de4852",
+                "reference": "a1ef0d0f7e247ad08f61b8dd7a544e5114de4852",
                 "shasum": ""
             },
             "require": {
@@ -878,21 +878,12 @@
                     "OAT\\Library\\Lti1p3DeepLinking\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "OAT\\Library\\Lti1p3DeepLinking\\Tests\\": "tests/",
-                    "OAT\\Library\\Lti1p3Core\\Tests\\": "vendor/oat-sa/lib-lti1p3-core/tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-only"
             ],
             "description": "OAT LTI 1.3 Deep Linking Library",
-            "support": {
-                "source": "https://github.com/oat-sa/lib-lti1p3-deep-linking/tree/feature/deep-link",
-                "issues": "https://github.com/oat-sa/lib-lti1p3-deep-linking/issues"
-            },
-            "time": "2020-10-08T18:02:14+00:00"
+            "time": "2020-10-12T08:01:15+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-nrps",
@@ -5730,7 +5721,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "oat-sa/lib-lti1p3-deep-linking": 20,
         "symfony/twig-pack": 20
     },
     "prefer-stable": false,

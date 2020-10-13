@@ -1,55 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}LTI 1.3 Demo Application{% endblock %}
+{% block nav_title %}Home{% endblock %}
 
 {% block body %}
-    <div class="card bg-light">
-        <div class="card-header">
-            <i class="fas fa-industry"></i>&nbsp;Platforms
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Local platform messages</h5>
-            <p class="card-text">To use the demo application as LTI platform</p>
-            <a href="{{ path('platform_message_lti_resource_link') }}" class="btn btn-primary">LTI resource link</a>
-            <a href="{{ path('platform_message_deep_linking') }}" class="btn btn-primary">Deep linking</a>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Local platform AGS</h5>
-            <p class="card-text">To use the demo application as LTI platform with AGS service</p>
-            <a href="{{ path('platform_ags_list_scores') }}" class="btn btn-primary" target="_blank">Use local platform AGS</a>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">IMS platform</h5>
-            <p class="card-text">To use the pre configured IMS platform with this demo application</p>
-            <a href="https://lti-ri.imsglobal.org/platforms/978" class="btn btn-primary" target="_blank">Use IMS platform</a>
-        </div>
-    </div>
-    <br/>
-    <div class="card bg-light">
-        <div class="card-header">
-            <i class="fas fa-wrench"></i>&nbsp;Tools
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Local tool</h5>
-            <p class="card-text">To use the demo application as LTI tool</p>
-            <a href="{{ path('tool_service_client') }}" class="btn btn-primary">Use local tool</a>
-        </div>
-    </div>
-    <br/>
-    <div class="card bg-light">
-        <div class="card-header">
-            <i class="fas fa-book"></i>&nbsp;Resources
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">IMS specifications</h5>
-            <a href="http://www.imsglobal.org/spec/lti/v1p3" class="btn btn-secondary" target="_blank">IMS LTI 1.3 Core</a>
-            <a href="https://www.imsglobal.org/spec/security/v1p0" class="btn btn-secondary" target="_blank">IMS Security</a>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Github repositories</h5>
-            <a href="https://github.com/oat-sa/lib-lti1p3-core" class="btn btn-secondary" target="_blank">LTI1p3 core library</a>
-            <a href="https://github.com/oat-sa/bundle-lti1p3" class="btn btn-secondary" target="_blank">LTI1p3 symfony bundle</a>
-            <a href="https://github.com/oat-sa/demo-lti1p3" class="btn btn-secondary" target="_blank">LTI1p3 demo application</a>
-        </div>
+    <div class="jumbotron">
+        <h3>Yo, hello</h3>
+        <p>Some welcome message</p>
     </div>
 {% endblock body %}
