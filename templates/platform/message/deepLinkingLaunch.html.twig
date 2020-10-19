@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}<i class="fas fa-cubes"></i>&nbsp;&nbsp;Platform - Deep linking{% endblock %}
+
+{% block body %}
+    <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
+        <div class="card bg-light">
+            <div class="card-header dropdown-toggle clickable {{ form.vars.submitted ? 'collapsed' : '' }}" role="tab" id="headingForm" data-toggle="collapse" data-parent="#accordionForm" href="#collapseForm"
+                 aria-expanded="{{ form.vars.submitted ? 'false' : 'true' }}" aria-controls="collapseForm">
+                <i class="fas fa-plus-circle"></i>&nbsp;Deep linking generator
+            </div>
+            <div id="collapseForm" class="collapse card-body  {{ form.vars.submitted ? '' : 'show' }}" role="tabpanel" aria-labelledby="headingForm" data-parent="#accordionForm">
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <div class="form-row">
+                    <div class="col-md-6">
+                        {{ form_row(form.registration) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.user) }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        {{ form_row(form.accept_types) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.accept_presentation_document_targets) }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        {{ form_row(form.accept_media_types) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.accept_multiple) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.auto_create) }}
+                    </div>
+                </div>
+                {{ form_row(form.deep_linking_url) }}
+                {{ form_row(form.claims) }}
+            </div>
+            <div class="card-footer">
+                {{ form_widget(form.submit) }}
+                <a href="{{ path('platform_message_launch_deep_linking') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    {% if deepLinkingLaunchRequest %}
+    <br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <i class="fas fa-link"></i>&nbsp;Deep Linking launch
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dl class="list-unstyled">
+                                <dt>Issuer</dt>
+                                <dd>{{ deepLinkingLaunchRequest.getParameter('iss') }}</dd>
+                                <dt>Login Hint</dt>
+                                <dd>{{ deepLinkingLaunchRequest.getParameter('login_hint') }}</dd>
+
+                            </dl>
+                        </div>
+                        <div class="col-sm-4">
+                            <dl class="list-unstyled">
+                                <dt>Url</dt>
+                                <dd>{{ deepLinkingLaunchRequest.url }}</dd>
+                                <dt>Target Link Uri</dt>
+                                <dd>{{ deepLinkingLaunchRequest.getParameter('target_link_uri') }}</dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-4">
+                            <dl class="list-unstyled">
+                                <dt>Client Id</dt>
+                                <dd>{{ deepLinkingLaunchRequest.getParameter('client_id') }}</dd>
+                                <dt>Deployment Id</dt>
+                                <dd>{{ deepLinkingLaunchRequest.getParameter('lti_deployment_id') }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <dl class="list-unstyled">
+                                <dt>LTI Message Hint</dt>
+                                <dd>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ deepLinkingLaunchRequest.getParameter('lti_message_hint') }}" role="button" title="See on jwt.io">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="token" value="{{ deepLinkingLaunchRequest.getParameter('lti_message_hint') }}" readonly>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            <div class="card-footer">
+                {{ deepLinkingLaunchRequest.toHtmlLink('<i class="fas fa-link"></i>&nbsp;Launch deep linking', {'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock body %}

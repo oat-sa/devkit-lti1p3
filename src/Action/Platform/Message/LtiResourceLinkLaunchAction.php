@@ -22,18 +22,22 @@ declare(strict_types=1);
 
 namespace App\Action\Platform\Message;
 
-use App\Form\Platform\Message\LtiResourceLinkLaunchRequestBuilderType;
+use App\Form\Platform\Message\LtiResourceLinkLaunchType;
 use OAT\Library\Lti1p3Core\Message\Launch\Builder\LtiResourceLinkLaunchRequestBuilder;
 use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLink;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Twig\Environment;
 
-class LtiResourceLinkLaunchRequestAction
+class LtiResourceLinkLaunchAction
 {
+    /** @var FlashBagInterface */
+    private $flashBag;
+
     /** @var Environment */
     private $twig;
 
@@ -44,10 +48,12 @@ class LtiResourceLinkLaunchRequestAction
     private $builder;
 
     public function __construct(
+        FlashBagInterface $flashBag,
         Environment $twig,
         FormFactoryInterface $factory,
         LtiResourceLinkLaunchRequestBuilder $builder
     ) {
+        $this->flashBag = $flashBag;
         $this->twig = $twig;
         $this->factory = $factory;
         $this->builder = $builder;
@@ -55,7 +61,7 @@ class LtiResourceLinkLaunchRequestAction
 
     public function __invoke(Request $request): Response
     {
-        $form = $this->factory->create(LtiResourceLinkLaunchRequestBuilderType::class);
+        $form = $this->factory->create(LtiResourceLinkLaunchType::class);
 
         $form->handleRequest($request);
 
@@ -91,13 +97,17 @@ class LtiResourceLinkLaunchRequestAction
                 $claims
             );
 
+            $this->flashBag->add('success', 'LTI resource link generated with success');
         }
 
         return new Response(
-            $this->twig->render('platform/message/ltiResourceLink.html.twig', [
-                'form' => $form->createView(),
-                'ltiResourceLinkLaunchRequest' => $ltiResourceLinkLaunchRequest
-            ])
+            $this->twig->render(
+                'platform/message/ltiResourceLinkLaunch.html.twig',
+                [
+                 'form' => $form->createView(),
+                    'ltiResourceLinkLaunchRequest' => $ltiResourceLinkLaunchRequest
+                ]
+            )
         );
     }
 }

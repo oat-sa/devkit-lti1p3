@@ -22,22 +22,39 @@ declare(strict_types=1);
 
 namespace App\Action;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Yaml\Parser;
 use Twig\Environment;
 
 class HomeAction
 {
+    /** @var ParameterBagInterface */
+    private $parameterBag;
+
     /** @var Environment */
     private $twig;
 
-    public function __construct(Environment $twig)
+    public function __construct(ParameterBagInterface $parameterBag, Environment $twig)
     {
+        $this->parameterBag = $parameterBag;
         $this->twig = $twig;
     }
 
     public function __invoke(Request $request): Response
     {
-        return new Response($this->twig->render('home.html.twig'));
+        $configuration = (new Parser())->parseFile(
+            $this->parameterBag->get('kernel.project_dir') . '/config/packages/lti1p3.yaml'
+        );
+
+        return new Response(
+            $this->twig->render(
+                'home/home.html.twig',
+                [
+                    'configuration' => $configuration['lti1p3']
+                ]
+            )
+        );
     }
 }

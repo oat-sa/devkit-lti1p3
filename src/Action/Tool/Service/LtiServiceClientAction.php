@@ -23,17 +23,20 @@ declare(strict_types=1);
 namespace App\Action\Tool\Service;
 
 use App\Form\Tool\Service\LtiServiceClientType;
-use GuzzleHttp\Exception\RequestException;
 use Lcobucci\JWT\Builder;
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3Core\Service\Client\ServiceClientInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Twig\Environment;
 
 class LtiServiceClientAction
 {
+    /** @var FlashBagInterface */
+    private $flashBag;
+
     /** @var Environment */
     private $twig;
 
@@ -47,11 +50,13 @@ class LtiServiceClientAction
     private $builder;
 
     public function __construct(
+        FlashBagInterface $flashBag,
         Environment $twig,
         FormFactoryInterface $factory,
         ServiceClientInterface $client,
         Builder $builder
     ) {
+        $this->flashBag = $flashBag;
         $this->twig = $twig;
         $this->factory = $factory;
         $this->client = $client;
@@ -64,8 +69,6 @@ class LtiServiceClientAction
 
         $form->handleRequest($request);
 
-        $serviceOk = true;
-        $serviceUrl = null;
         $serviceData = null;
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -79,29 +82,27 @@ class LtiServiceClientAction
             $body = $formData['body'] ?? null;
             $scopes = explode(' ', $formData['scope']);
 
-            try {
-                $options = [];
+            $options = [];
 
-                if (null !== $body) {
-                    $options['body'] = $body;
-                }
-
-                $response = $this->client->request($registration, $method, $serviceUrl, $options, $scopes);
-
-                $serviceData = json_decode((string)$response->getBody(), true);
-            } catch (RequestException $exception) {
-                $serviceOk = false;
-                $serviceData = 'Error during service response: ' . $exception->getMessage();
+            if (null !== $body) {
+                $options['body'] = $body;
             }
+
+            $response = $this->client->request($registration, $method, $serviceUrl, $options, $scopes);
+
+            $serviceData = json_decode((string)$response->getBody(), true);
+
+            $this->flashBag->add('success', 'LTI service called with success');
         }
 
         return new Response(
-            $this->twig->render('tool/service/ltiServiceClient.html.twig', [
-                'form' => $form->createView(),
-                'serviceOk' => $serviceOk,
-                'serviceUrl' => $serviceUrl,
-                'serviceData' => $serviceData,
-            ])
+            $this->twig->render(
+                'tool/service/ltiServiceClient.html.twig',
+                [
+                    'form' => $form->createView(),
+                    'serviceData' => $serviceData,
+                ]
+            )
         );
     }
 }

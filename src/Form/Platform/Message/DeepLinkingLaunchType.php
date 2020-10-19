@@ -36,7 +36,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class DeepLinkingRequestBuilderType extends AbstractType
+class DeepLinkingLaunchType extends AbstractType
 {
     /** @var RegistrationRepositoryInterface */
     private $repository;
@@ -109,19 +109,30 @@ class DeepLinkingRequestBuilderType extends AbstractType
                     'help' => 'Accepted document targets'
                 ]
             )
-            ->add('deep_linking_url', TextType::class, [
-                'required' => false,
-                'help' => 'If provided, will be the deep linking content selection url. If not, will use the selected registration tool default deep linking url'
-            ])
-            ->add('accept_media_types', TextType::class, [
-                'required' => false,
-                'help' => 'Accepted media types, comma separated'
-            ])
+            ->add(
+                'deep_linking_url',
+                TextType::class,
+                [
+                    'required' => false,
+                    'help' => 'If provided, will be the deep linking content selection url. If not, will use the selected registration tool default deep linking url'
+
+                ]
+            )
+            ->add(
+                'accept_media_types',
+                TextType::class,
+                [
+                    'label' => 'Accepted media types',
+                    'required' => false,
+                    'help' => 'Accepted media types, comma separated'
+
+                ]
+            )
             ->add(
                 'accept_multiple',
                 ChoiceType::class,
                 [
-                    'label' => 'Accepted multiple',
+                    'label' => 'Accept multiple',
                     'choices' => [
                         'yes' => true,
                         'no' => false,
@@ -143,12 +154,24 @@ class DeepLinkingRequestBuilderType extends AbstractType
                     'help' => 'If should auto create the content item on tool side'
                 ]
             )
-            ->add('claims', TextareaType::class, [
-                'required' => false,
-                'attr' => ['rows' => 5],
-                'help' => 'JSON formatted claims to add to the launch'
-            ])
-            ->add('Submit', SubmitType::class, ['label' => 'Build Links'])
+            ->add(
+                'claims',
+                TextareaType::class,
+                [
+                    'required' => false,
+                    'attr' => ['rows' => 5],
+                    'help' => 'JSON formatted claims to add to the launch'
+                ]
+            )
+            ->add(
+                'submit',
+                SubmitType::class,
+                [
+                    'label' => '<i class="fas fa-plus-circle"></i>&nbsp;Generate',
+                    'label_html' => true,
+                    'attr' => ['class' => 'btn-primary']
+                ]
+            )
         ;
     }
 }

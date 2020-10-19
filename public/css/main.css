@@ -1,3 +1,7 @@
+/* ---------------------------------------------------
+    NAVBAR STYLE
+----------------------------------------------------- */
+
 .navbar {
     padding: 15px 10px;
     border: none;
@@ -40,20 +44,27 @@
 }
 
 #sidebar .sidebar-header {
-    padding: 6px;
+    padding: 7px;
     background: #343a40;
 }
 
-#sidebar .sidebar-header a{
+#sidebar .sidebar-header a,
+#sidebar a.card-header {
     color: #fafafa;
     text-decoration: none;
 }
 
 .dropdown-toggle::after {
-    display: block;
     position: absolute;
-    top: 50%;
     right: 20px;
+    top: 26px;
+    transition-duration: 0.3s;
+}
+
+.dropdown-toggle[aria-expanded=true]::after {
+    transform: rotate(-180deg);
+    transition-duration: 0.3s;
+    top: 26px;
 }
 
 /* ---------------------------------------------------
@@ -75,7 +86,7 @@
 }
 
 form label {
-    font-weight: 700;
+    font-weight: 600;
 }
 
 mark {
@@ -87,6 +98,10 @@ mark {
     background-color: #f8f9fa !important;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
+}
+
+.clickable {
+    cursor: pointer;
 }
 
 /* ---------------------------------------------------

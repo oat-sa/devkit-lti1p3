@@ -9,104 +9,35 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" href="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-150x150.png" sizes="32x32" />
+    <link rel="icon" href="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png" />
     <title>LTI 1.3 Demo Application</title>
 </head>
 
 <body>
-
 <div class="wrapper">
-
-    <nav id="sidebar">
-        <div class="sidebar-header">
-            <img src="https://www.taotesting.com/wp-content/uploads/2019/04/logo.svg" width="55" height=55" class="d-inline-block" alt="">&nbsp;&nbsp;|&nbsp;
-            <h4 class="d-inline-block">
-                <a href="{{ path('home') }}">LTI 1.3 Demo</a>
-            </h4>
-        </div>
-
-        <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
-
-            <div class="card text-white bg-dark">
-
-                <!-- Card header -->
-                <div class="card-header">
-                    <h6>
-                        Home
-                    </h6>
-                </div>
-
-            </div>
-
-            <!-- Accordion card -->
-            <div class="card text-white bg-dark">
-
-                <!-- Card header -->
-                <div class="card-header dropdown-toggle" role="tab" id="headingOne1" data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true" aria-controls="collapseOne1">
-                    <h6>
-                        Platform
-                    </h6>
-                </div>
-
-                <!-- Card body -->
-                <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1" data-parent="#accordionEx">
-                    <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item list-group-item-action list-group-item-dark">Cras justo odio</li>
-                            <li class="list-group-item list-group-item-action list-group-item-dark">Dapibus ac facilisis in</li>
-                            <li class="list-group-item list-group-item-action list-group-item-dark">Vestibulum at eros</li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-            <!-- Accordion card -->
-
-            <!-- Accordion card -->
-            <div class="card text-white bg-dark">
-
-                <!-- Card header -->
-                <div class="card-header dropdown-toggle" role="tab" id="headingTwo2" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo2"
-                     aria-expanded="false" aria-controls="collapseTwo2">
-                    <h6>
-                        Tool
-                    </h6>
-                </div>
-
-                <!-- Card body -->
-                <div id="collapseTwo2" class="collapse" role="tabpanel" aria-labelledby="headingTwo2" data-parent="#accordionEx">
-                    <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item list-group-item-action list-group-item-dark">Cras justo odio</li>
-                            <li class="list-group-item list-group-item-action list-group-item-dark">Dapibus ac facilisis in</li>
-                            <li class="list-group-item list-group-item-action list-group-item-dark">Vestibulum at eros</li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-            <!-- Accordion card -->
-
-        </div>
-        <!-- Accordion wrapper -->
-
-    </nav>
-
-    <!-- Page Content  -->
+    {% include 'menu/sidebar.html.twig' %}
     <div id="content" class="container-fluid">
-
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
             <button type="button" id="sidebarCollapse" class="btn btn-dark">
-                <i class="fas fa-align-justify"></i>
+                <i class="fas fa-bars"></i>
             </button>
             &nbsp;<a class="navbar-brand" href="#">{% block nav_title %}{% endblock %}</a>
         </nav>
-
         <div class="container-fluid">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check"></i>&nbsp;{{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
             {% block body %}{% endblock %}
         </div>
     </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
@@ -115,7 +46,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
 <script type="text/javascript">
     $(document).ready(function () {
         $("#sidebar").mCustomScrollbar({
@@ -129,9 +59,7 @@
         });
     });
 </script>
-
 {% block scripts %}{% endblock %}
-
 </body>
 
 </html>

@@ -22,18 +22,22 @@ declare(strict_types=1);
 
 namespace App\Action\Platform\Message;
 
-use App\Form\Platform\Message\DeepLinkingRequestBuilderType;
+use App\Form\Platform\Message\DeepLinkingLaunchType;
 use OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchRequestBuilder;
 use OAT\Library\Lti1p3DeepLinking\Settings\DeepLinkingSettings;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
-class DeepLinkingLaunchRequestAction
+class DeepLinkingLaunchAction
 {
+    /** @var FlashBagInterface */
+    private $flashBag;
+
     /** @var RouterInterface */
     private $router;
 
@@ -47,11 +51,13 @@ class DeepLinkingLaunchRequestAction
     private $builder;
 
     public function __construct(
+        FlashBagInterface $flashBag,
         RouterInterface $router,
         Environment $twig,
         FormFactoryInterface $factory,
         DeepLinkingLaunchRequestBuilder $builder
     ) {
+        $this->flashBag = $flashBag;
         $this->router = $router;
         $this->twig = $twig;
         $this->factory = $factory;
@@ -60,7 +66,7 @@ class DeepLinkingLaunchRequestAction
 
     public function __invoke(Request $request): Response
     {
-        $form = $this->factory->create(DeepLinkingRequestBuilderType::class);
+        $form = $this->factory->create(DeepLinkingLaunchType::class);
 
         $form->handleRequest($request);
 
@@ -97,13 +103,18 @@ class DeepLinkingLaunchRequestAction
                 [],
                 $claims
             );
+
+            $this->flashBag->add('success', 'Deep linking generated with success');
         }
 
         return new Response(
-            $this->twig->render('platform/message/deepLinking.html.twig', [
-                'form' => $form->createView(),
-                'deepLinkingLaunchRequest' => $deepLinkingLaunchRequest
-            ])
+            $this->twig->render(
+                'platform/message/deepLinkingLaunch.html.twig',
+                [
+                    'form' => $form->createView(),
+                    'deepLinkingLaunchRequest' => $deepLinkingLaunchRequest
+                ]
+            )
         );
     }
 }

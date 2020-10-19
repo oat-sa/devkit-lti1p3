@@ -2,13 +2,13 @@ home:
     path: /
     controller: App\Action\HomeAction
 
-platform_message_lti_resource_link:
-    path: /platform/message/lti-resource-link
-    controller: App\Action\Platform\Message\LtiResourceLinkLaunchRequestAction
+platform_message_launch_lti_resource_link:
+    path: /platform/message/launch/lti-resource-link
+    controller: App\Action\Platform\Message\LtiResourceLinkLaunchAction
 
-platform_message_deep_linking:
-    path: /platform/message/deep-linking
-    controller: App\Action\Platform\Message\DeepLinkingLaunchRequestAction
+platform_message_launch_deep_linking:
+    path: /platform/message/launch/deep-linking
+    controller: App\Action\Platform\Message\DeepLinkingLaunchAction
 
 platform_message_deep_linking_return:
     path: /platform/message/deep-linking-return

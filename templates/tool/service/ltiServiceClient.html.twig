@@ -1,55 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}Tool - LTI Service Client Request Builder{% endblock %}
+{% block nav_title %}<i class="fas fa-cube"></i>&nbsp;&nbsp;Tool - Call platform service{% endblock %}
 
 {% block body %}
-    <div class="card bg-light">
-        <div class="card-header">
-            <div class="d-flex align-items-center">
-                <span class="mr-auto"><i class="fas fa-cogs"></i>&nbsp;LTI service client request builder</span>
-                <div class="btn-group" role="group">
-                    <a class="btn btn-secondary" href="{{ path('tool_service_client') }}">Reset</a>
-                </div>
+    <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
+        <div class="card bg-light">
+            <div class="card-header dropdown-toggle clickable {{ form.vars.submitted ? 'collapsed' : '' }}" role="tab" id="headingForm" data-toggle="collapse" data-parent="#accordionForm" href="#collapseForm"
+                 aria-expanded="{{ form.vars.submitted ? 'false' : 'true' }}" aria-controls="collapseForm">
+                <i class="fas fa-sign-in-alt"></i>&nbsp;Tool service client
             </div>
-        </div>
-        <div class="card-body">
-            {{ form(form) }}
+            <div id="collapseForm" class="collapse card-body  {{ form.vars.submitted ? '' : 'show' }}" role="tabpanel" aria-labelledby="headingForm" data-parent="#accordionForm">
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <div class="form-row">
+                    <div class="col-md-4">
+                        {{ form_row(form.registration) }}
+                    </div>
+                    <div class="col-md-8">
+                        {{ form_row(form.scope) }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4">
+                        {{ form_row(form.method) }}
+                    </div>
+                    <div class="col-md-8">
+                        {{ form_row(form.service_url) }}
+                    </div>
+                </div>
+                {{ form_row(form.body) }}
+            </div>
+            <div class="card-footer">
+                {{ form_widget(form.submit) }}
+                <a href="{{ path('tool_service_client') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
+            </div>
+            {{ form_end(form) }}
         </div>
     </div>
     {% if serviceData %}
     <br/>
     <div class="card bg-light">
         <div class="card-header">
-            LTI Service Response
+            <i class="fas fa-sign-in-alt"></i>&nbsp;Platform service response
         </div>
         <div class="card-body">
-            {% if serviceOk %}
-                <div class="alert alert-success" role="alert">
-                    <i class="fas fa-check"></i>&nbsp;
-                    Lti service called with success
-                </div>
-                <dl class="list-unstyled">
-                    <dt>Url</dt>
-                    <dd>
-                        {% if serviceUrl %}
-                            <a target="_blank" href="{{ serviceUrl }}">{{ serviceUrl }}</a>
-                        {% else %}
-                            n/a
-                        {% endif %}
-                    </dd>
-                    <dt>Response</dt>
-                    <dd>
-                        <pre>
-                            <code class="language-json">{{ serviceData|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
-                        </pre>
-                    </dd>
-                </dl>
-            {% else %}
-                <div class="alert alert-danger" role="alert">
-                    <i class="fas fa-exclamation-circle"></i>&nbsp;
-                    Error on LTI service call
-                </div>
-            {% endif %}
+            <pre>
+                <code class="language-json">{{ serviceData|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+            </pre>
         </div>
     </div>
     {% endif %}
