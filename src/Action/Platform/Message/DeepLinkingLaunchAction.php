@@ -104,7 +104,7 @@ class DeepLinkingLaunchAction
                 $claims
             );
 
-            $this->flashBag->add('success', 'Deep linking generated with success');
+            $this->flashBag->add('success', 'Deep linking generation success');
         }
 
         return new Response(

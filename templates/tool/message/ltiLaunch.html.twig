@@ -1,444 +1,67 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}<i class="fas fa-cubes"></i>&nbsp;&nbsp;Tool - LTI Launch Request Result{% endblock %}
+{% block nav_title %}<i class="fas fa-cubes"></i>&nbsp;&nbsp;Tool - LTI resource link launch result{% endblock %}
 
 {% block body %}
-    <div class="jumbotron">
-        <ul class="nav nav-tabs nav-fill nav-hover" id="tab" role="tablist">
+<div class="card bg-light">
+    <div class="card-header">
+        <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="message-tab" data-toggle="tab" href="#message" role="tab" aria-controls="message" aria-selected="true">
+                <a class="nav-link active" id="pills-message-tab" data-toggle="pill" href="#pills-message" role="tab" aria-controls="pills-message" aria-selected="true">
                     <i class="fas fa-envelope-open"></i>&nbsp;Message
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="security-tab" data-toggle="tab" href="#security" role="tab" aria-controls="security" aria-selected="false">
+                <a a class="nav-link" id="pills-security-tab" data-toggle="pill" href="#pills-security" role="tab" aria-controls="pills-security" aria-selected="false">
                     <i class="fas fa-shield-alt"></i>&nbsp;Security
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="deploy-tab" data-toggle="tab" href="#deploy" role="tab" aria-controls="deploy" aria-selected="false">
-                    <i class="fas fa-project-diagram"></i>&nbsp;Registration
+                <a class="nav-link" id="pills-registration-tab" data-toggle="pill" href="#pills-registration" role="tab" aria-controls="pills-registration" aria-selected="false">
+                    <i class="fas fa-share-alt"></i>&nbsp;Registration
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="user" aria-selected="false">
+                <a class="nav-link" id="pills-user-tab" data-toggle="pill" href="#pills-user" role="tab" aria-controls="pills-user" aria-selected="false">
                     <i class="fas fa-user"></i>&nbsp;User
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="nrps-tab" data-toggle="tab" href="#nrps" role="tab" aria-controls="nrps" aria-selected="false">
+                <a class="nav-link" id="pills-nrps-tab" data-toggle="pill" href="#pills-nrps" role="tab" aria-controls="pills-nrps" aria-selected="false">
                     <i class="fas fa-users"></i>&nbsp;NRPS
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="claims-tab" data-toggle="tab" href="#claims" role="tab" aria-controls="claims" aria-selected="false">
+                <a class="nav-link" id="pills-claims-tab" data-toggle="pill" href="#pills-claims" role="tab" aria-controls="pills-claims" aria-selected="false">
                     <i class="fas fa-database"></i>&nbsp;Claims
                 </a>
             </li>
         </ul>
-        <div class="tab-content" id="tabContent">
-            <div class="tab-pane fade show active" id="message" role="tabpanel" aria-labelledby="message-tab">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-text">
-                            <h5 class="card-title">
-                                <i class="fas fa-info-circle"></i>&nbsp;Details
-                            </h5>
-                            <hr/>
-                            <dl class="list-unstyled">
-                                <dt>LTI Version</dt>
-                                <dd><code>{{  token.payload.version }}</code></dd>
-                                <dt>LTI Message Type</dt>
-                                <dd><code>{{ token.payload.messageType }}</code></dd>
-                            </dl>
-                            <h5 class="card-title">
-                                <i class="fas fa-check-circle"></i>&nbsp;Validations
-                            </h5>
-                            <hr/>
-                            {% if not token.validationResult.hasError %}
-                                <div class="alert alert-success" role="alert">
-                                    <i class="fas fa-check"></i>&nbsp;
-                                    Message is valid
-                                </div>
-                            {% else %}
-                                <div class="alert alert-danger" role="alert">
-                                    <i class="fas fa-exclamation-circle"></i>&nbsp;
-                                    Message is invalid
-                                </div>
-                            {% endif %}
-                            <dl class="list-unstyled">
-                                <dt>Successful checks</dt>
-                                <dd>
-                                    {% for success in token.validationResult.successes %}
-                                        <span class="badge badge-success"><i class="fas fa-check"></i></span>&nbsp;
-                                        {{ success }}<br/>
-                                    {% else %}
-                                        n/a
-                                    {% endfor %}
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
+    </div>
+    <div class="card-body">
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-message" role="tabpanel" aria-labelledby="pills-message-tab">
+                {% include 'launch/blocks/message.html.twig' with {'token': token} %}
             </div>
-            <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-text">
-                            <h5 class="card-title">
-                                <i class="fas fa-sign-in-alt"></i>&nbsp;OpenID Connect Login Initiation
-                            </h5>
-                            <hr/>
-                            {% if token.state %}
-                                <div class="alert alert-success" role="alert">
-                                    <i class="fas fa-check"></i>&nbsp;
-                                    Message launched using OpenID Connect login initiation flow
-                                </div>
-                            {% else %}
-                                <div class="alert alert-dark" role="alert">
-                                    <i class="fas fa-exclamation-triangle"></i>&nbsp;
-                                    Message was not launched using OpenID Connect login initiation flow
-                                </div>
-                            {% endif %}
-                            <h5 class="card-title">
-                                <i class="fas fa-lock"></i>&nbspTokens
-                            </h5>
-                            <hr/>
-                            <dl class="list-unstyled">
-                                <dt>ID Token</dt>
-                                <dd>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ token.payload.token }}" role="button" title="See on jwt.io">
-                                                <i class="fas fa-external-link-alt"></i>
-                                            </a>
-                                        </div>
-                                        <input type="text" class="form-control" placeholder="token" value="{{ token.payload.token }}" readonly>
-                                    </div>
-                                </dd>
-                                <dt>OIDC State</dt>
-                                <dd>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ token.state.token }}" role="button" title="See on jwt.io">
-                                                <i class="fas fa-external-link-alt"></i>
-                                            </a>
-                                        </div>
-                                        <input type="text" class="form-control" placeholder="state" value="{{ token.state.token }}" readonly>
-                                    </div>
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
+            <div class="tab-pane fade" id="pills-security" role="tabpanel" aria-labelledby="pills-security-tab">
+                {% include 'launch/blocks/security.html.twig' with {'token': token} %}
             </div>
-            <div class="tab-pane fade" id="deploy" role="tabpanel" aria-labelledby="deploy-tab">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-text">
-                            <h5 class="card-title">
-                                <i class="fas fa-project-diagram"></i>&nbsp;Registration
-                            </h5>
-                            <hr/>
-                            <dl class="list-unstyled">
-                                <dt>ID</dt>
-                                <dd><code>{{ token.registration.identifier }}</code></dd>
-                                <dt>OAuth2 Client ID</dt>
-                                <dd>{{ token.registration.clientId }}</dd>
-                                <dt>Platform Jwks Url</dt>
-                                <dd>
-                                    {% if token.registration.platformJwksUrl %}
-                                        <a target="_blank" href="{{ token.registration.platformJwksUrl }}">{{ token.registration.platformJwksUrl }}</a>
-                                    {% else %}
-                                        n/a
-                                    {% endif %}
-                                </dd>
-                                <dt>Tool Jwks Url</dt>
-                                <dd>
-                                    {% if token.registration.toolJwksUrl %}
-                                        <a target="_blank" href="{{ token.registration.toolJwksUrl }}">{{ token.registration.toolJwksUrl }}</a>
-                                    {% else %}
-                                        n/a
-                                    {% endif %}
-                                </dd>
-                            </dl>
-                            <div class="float-left">
-                                <h5 class="card-title">
-                                    <i class="fas fa-industry"></i>&nbsp;Platform
-                                </h5>
-                                <hr/>
-                                <dl class="list-unstyled">
-                                    <dt>ID</dt>
-                                    <dd><code>{{ token.registration.platform.identifier }}</code></dd>
-                                    <dt>Name</dt>
-                                    <dd>{{ token.registration.platform.name }}</dd>
-                                    <dt>Audience</dt>
-                                    <dd>{{ token.registration.platform.audience }}</dd>
-                                    <dt>OAuth2 Access Token Url</dt>
-                                    <dd><a target="_blank" href="{{ token.registration.platform.oAuth2AccessTokenUrl }}">{{ token.registration.platform.oAuth2AccessTokenUrl }}</a></dd>
-                                    <dt>OIDC Auth Url</dt>
-                                    <dd><a href="{{ token.registration.platform.oidcAuthenticationUrl }}">{{ token.registration.platform.oidcAuthenticationUrl }}</a></dd>
-                                </dl>
-                            </div>
-                            <div class="float-right">
-                                <h5 class="card-title">
-                                    <i class="fas fa-wrench"></i>&nbsp;Tool
-                                </h5>
-                                <hr/>
-                                <dl class="list-unstyled">
-                                    <dt>ID</dt>
-                                    <dd><code>{{ token.registration.tool.identifier }}</code></dd>
-                                    <dt>Name</dt>
-                                    <dd>{{ token.registration.tool.name }}</dd>
-                                    <dt>Audience</dt>
-                                    <dd>{{ token.registration.tool.audience }}</dd>
-                                    <dt>Launch Url</dt>
-                                    <dd><a target="_blank" href="{{ token.registration.tool.launchUrl }}">{{ token.registration.tool.launchUrl }}</a></dd>
-                                    <dt>Deep Launch Url</dt>
-                                    <dd>
-                                        {% if token.registration.tool.deepLinkingUrl %}
-                                            <a target="_blank" href="{{ token.registration.tool.deepLinkingUrl }}">{{ token.registration.tool.deepLinkingUrl }}</a>
-                                        {% else %}
-                                            n/a
-                                        {% endif %}
-                                    </dd>
-                                    <dt>OIDC Login Initiation Url</dt>
-                                    <dd>
-                                        {% if token.registration.tool.oidcInitiationUrl %}
-                                            <a target="_blank" href="{{ token.registration.tool.oidcInitiationUrl }}">{{ token.registration.tool.oidcInitiationUrl }}</a>
-                                        {% else %}
-                                            n/a
-                                        {% endif %}
-                                </dl>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+            <div class="tab-pane fade" id="pills-registration" role="tabpanel" aria-labelledby="pills-registration-tab">
+                {% include 'launch/blocks/registration.html.twig' with {'token': token} %}
             </div>
-            <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-text">
-                        <h5 class="card-title">
-                            <i class="fas fa-user-shield"></i>&nbsp;Type
-                        </h5>
-                        <hr/>
-                        {% if not token.payload.userIdentity %}
-                            <div class="alert alert-dark" role="alert">
-                                <i class="fas fa-user-secret"></i>&nbsp;
-                                Anonymous User
-                            </div>
-                        {% else %}
-                            <div class="alert alert-success" role="alert">
-                                <i class="fas fa-user-check"></i>&nbsp;
-                                Platform Trusted User
-                            </div>
-                        {% endif %}
-                        </div>
-                        {% if token.payload.userIdentity %}
-                            <h5 class="card-title">
-                                <i class="fas fa-info-circle"></i>&nbsp;Details
-                            </h5>
-                            <hr/>
-                            <div class="float-left">
-                                <dl class="list-unstyled">
-                                    <dt>ID</dt>
-                                    <dd><code>{{ token.payload.userIdentity.identifier }}</code></dd>
-                                    <dt>Name</dt>
-                                    <dd>{{ token.payload.userIdentity.name|default('n/a') }}</dd>
-                                    <dt>Email</dt>
-                                    <dd>{{ token.payload.userIdentity.email|default('n/a') }}</dd>
-                                    <dt>Given name</dt>
-                                    <dd>{{ token.payload.userIdentity.givenName|default('n/a') }}</dd>
-                                    <dt>Family name</dt>
-                                    <dd>{{ token.payload.userIdentity.familyName|default('n/a') }}</dd>
-                                    <dt>Middle name</dt>
-                                    <dd>{{ token.payload.userIdentity.middleName|default('n/a') }}</dd>
-                                    <dt>Locale</dt>
-                                    <dd>{{ token.payload.userIdentity.locale|default('n/a') }}</dd>
-                                </dl>
-                            </div>
-                            <div class="float-right">
-                                <dl class="list-unstyled">
-                                    <dt>Picture</dt>
-                                    <dd>
-                                        {% if token.payload.userIdentity.picture %}
-                                            <img
-                                                    src="{{ token.payload.userIdentity.picture }}"
-                                                    class="img-thumbnail rounded"
-                                                    alt="{{ token.payload.userIdentity.picture }}"
-                                                    height="350"
-                                                    width="350"
-                                            />
-                                        {% else %}
-                                            n/a
-                                        {% endif %}
-                                    </dd>
-                                </dl>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
+            <div class="tab-pane fade" id="pills-user" role="tabpanel" aria-labelledby="pills-user-tab">
+                {% include 'launch/blocks/user.html.twig' with {'token': token} %}
             </div>
-            <div class="tab-pane fade" id="nrps" role="tabpanel" aria-labelledby="nrps-tab">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-text">
-                            <h5 class="card-title">
-                                <i class="fas fa-info-circle"></i>&nbsp;NRPS Claim Details
-                            </h5>
-                            <hr/>
-                            {% if token.payload.nrps %}
-                                <div class="alert alert-success" role="alert">
-                                    <i class="fas fa-check"></i>&nbsp;
-                                    NRPS claim provided in message
-                                </div>
-                                <dl class="list-unstyled">
-                                    <dt>Claim Service Url</dt>
-                                    <dd><a href="{{ token.payload.nrps.contextMembershipsUrl }}" target="_blank">{{ token.payload.nrps.contextMembershipsUrl }}</a></dd>
-                                    <dt>Claim Service Versions</dt>
-                                    <dd><code>{{ token.payload.nrps.serviceVersions|join(', ') }}</code></dd>
-                                </dl>
-                                <h5 class="card-title">
-                                    <i class="fas fa-sign-in-alt"></i>&nbsp;NRPS Service
-                                </h5>
-                                <hr/>
-                                <div class="card bg-light">
-                                    <div class="card-body">
-                                        <div class="form-row">
-                                            <div class="col col col-md-12">
-                                                <input type="text" id="nrpsUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.nrps.contextMembershipsUrl }}">
-                                            </div>
-                                        </div>
-                                        <br/>
-                                        <div class="form-row">
-                                            <div class="col col col-md-4">
-                                                <input type="text" id="nrpsRole" class="form-control" placeholder="Role filter">
-                                            </div>
-                                            <div class="col col col-md-4">
-                                                <input type="text" id="nrpsLimit"class="form-control" placeholder="Limit">
-                                            </div>
-                                            <div class="col col col-md-4">
-                                                <button id="nrpsLoad" class="btn-primary btn">Call NRPS Service</button>
-                                                <button id="nrpsReset" class="btn-secondary btn">Reset</button>
-                                                &nbsp;
-                                                <i id="nrpsSpinner" class="invisible fa-lg fas fa-spinner fa-spin"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="nrpsZone"></div>
-                                <div class="modal fade" id="nrpsMemberModal" tabindex="-1" role="dialog" aria-labelledby="nrpsMemberModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="nrpsMemberModalLabel">Member Properties</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <pre>
-                                                    <code id="nrpsMemberDetailsZone" class="language-json"></code>
-                                                </pre>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% else %}
-                                <div class="alert alert-dark" role="alert">
-                                    <i class="fas fa-exclamation-triangle"></i>&nbsp;
-                                    No NRPS claim provided in message
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
+            <div class="tab-pane fade" id="pills-nrps" role="tabpanel" aria-labelledby="pills-nrps-tab">
+                {% include 'launch/blocks/nrps.html.twig' with {'token': token} %}
             </div>
-            <div class="tab-pane fade" id="claims" role="tabpanel" aria-labelledby="claims-tab">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-text">
-                            <h5 class="card-title">
-                                <i class="fas fa-database"></i>&nbsp;Message Claims
-                            </h5>
-                            <hr/>
-                            <div class="card bg-light">
-                                <div class="card-body">
-                                    <div class="form-row">
-                                        <div class="col col-md-11">
-                                            <input type="text" id="claimSearch" class="form-control" placeholder="Search">
-                                        </div>
-                                        <div class="col col-md-1">
-                                            <button id="claimSearchReset" class="btn-secondary btn">Reset</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <pre>
-                                <code id="claimZone" class="language-json">{{ token.payload.token.claims|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
-                            </pre>
-                        </div>
-                    </div>
-                </div>
+            <div class="tab-pane fade" id="pills-claims" role="tabpanel" aria-labelledby="pills-claims-tab">
+                {% include 'launch/blocks/claims.html.twig' with {'token': token} %}
             </div>
         </div>
     </div>
+    <div class="card-footer text-muted">
+        <small>LTI resource link launch result</small>
+    </div>
+</div>
 {% endblock body %}
-
-{% block scripts %}
-    <script>
-        {% if token.payload.nrps %}
-        $("#nrpsLoad").click(function(){
-            $.ajax({
-                url: "{{ path('tool_ajax_service_nrps') }}",
-                method: "POST",
-                data: {
-                    registration: "{{ token.registration.identifier }}",
-                    url: $("#nrpsUrl").val(),
-                    role: $("#nrpsRole").val(),
-                    limit: $("#nrpsLimit").val()
-                },
-                beforeSend: function(result){
-                    $("#nrpsSpinner").removeClass("invisible");
-                },
-                success: function(result){
-                    $("#nrpsSpinner").addClass("invisible");
-                    $("#nrpsZone").html(result);
-                }
-            });
-        });
-
-        $("#nrpsReset").click(function(){
-            $("#nrpsZone").html("");
-            $("#nrpsUrl").val("{{ token.payload.nrps.contextMembershipsUrl }}");
-            $("#nrpsRole").val("");
-            $("#nrpsLimit").val("");
-        });
-
-        $('#nrpsMemberModal').on("show.bs.modal", function (event) {
-            $("#nrpsMemberDetailsZone").html($(event.relatedTarget).attr("data-nrps"));
-            hljs.highlightBlock(document.getElementById("nrpsMemberDetailsZone"));
-        });
-        {% endif %}
-
-        $("#claimSearch").on("input", function(){
-            $("#claimZone").unmark({
-                done: function() {
-                    $("#claimZone").mark($("#claimSearch").val());
-                }
-            });
-        });
-
-        $("#claimSearchReset").click(function(){
-            $("#claimSearch").val("");
-            $("#claimZone").unmark();
-        });
-
-        hljs.initHighlightingOnLoad();
-    </script>
-{% endblock %}

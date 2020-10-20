@@ -1,0 +1,55 @@
+{% if not token.payload.userIdentity %}
+    <div class="alert alert-dark" role="alert">
+        <i class="fas fa-user-secret"></i>&nbsp;Anonymous User
+    </div>
+{% else %}
+    <div class="alert alert-info" role="alert">
+        <i class="fas fa-user-check"></i>&nbsp;Platform trusted user
+    </div>
+{% endif %}
+{% if token.payload.userIdentity %}
+    <h6 class="card-title">
+        <i class="fas fa-info-circle"></i>&nbsp;Details
+    </h6>
+    <hr/>
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="list-unstyled">
+                <dt>Identifier</dt>
+                <dd><code>{{ token.payload.userIdentity.identifier }}</code></dd>
+                <dt>Roles</dt>
+                <dd>{{ token.payload.roles|join(', ')|default('n/a') }}</dd>
+                <dt>Name</dt>
+                <dd>{{ token.payload.userIdentity.name|default('n/a') }}</dd>
+                <dt>Email</dt>
+                <dd>{{ token.payload.userIdentity.email|default('n/a') }}</dd>
+                <dt>Given name</dt>
+                <dd>{{ token.payload.userIdentity.givenName|default('n/a') }}</dd>
+                <dt>Family name</dt>
+                <dd>{{ token.payload.userIdentity.familyName|default('n/a') }}</dd>
+                <dt>Middle name</dt>
+                <dd>{{ token.payload.userIdentity.middleName|default('n/a') }}</dd>
+                <dt>Locale</dt>
+                <dd>{{ token.payload.userIdentity.locale|default('n/a') }}</dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="list-unstyled">
+                <dt>Picture</dt>
+                <dd>
+                    {% if token.payload.userIdentity.picture %}
+                        <img
+                            src="{{ token.payload.userIdentity.picture }}"
+                            class="img-thumbnail rounded"
+                            alt="{{ token.payload.userIdentity.picture }}"
+                            height="450"
+                            width="450"
+                        />
+                    {% else %}
+                        n/a
+                    {% endif %}
+                </dd>
+            </dl>
+        </div>
+    </div>
+{% endif %}

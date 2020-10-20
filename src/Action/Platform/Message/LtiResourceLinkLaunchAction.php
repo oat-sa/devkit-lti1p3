@@ -97,7 +97,7 @@ class LtiResourceLinkLaunchAction
                 $claims
             );
 
-            $this->flashBag->add('success', 'LTI resource link generated with success');
+            $this->flashBag->add('success', 'LTI resource link generation success');
         }
 
         return new Response(

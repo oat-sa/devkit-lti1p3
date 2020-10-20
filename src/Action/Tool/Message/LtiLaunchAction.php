@@ -25,19 +25,24 @@ namespace App\Action\Tool\Message;
 use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Message\LtiToolMessageSecurityToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
 class LtiLaunchAction
 {
+    /** @var FlashBagInterface */
+    private $flashBag;
+
     /** @var Environment */
     private $twig;
 
     /** @var Security */
     private $security;
 
-    public function __construct(Environment $twig, Security $security)
+    public function __construct(FlashBagInterface $flashBag, Environment $twig, Security $security)
     {
+        $this->flashBag = $flashBag;
         $this->twig = $twig;
         $this->security = $security;
     }
@@ -46,6 +51,8 @@ class LtiLaunchAction
     {
         /** @var LtiToolMessageSecurityToken $token */
         $token = $this->security->getToken();
+
+        $this->flashBag->add('success', 'Tool launch success');
 
         return new Response($this->twig->render('tool/message/ltiLaunch.html.twig', ['token' => $token]));
     }

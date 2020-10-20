@@ -5,11 +5,11 @@
 {% block body %}
     <div class="jumbotron">
         <div class="alert alert-danger" role="alert">
-            <h2><i class="fas fa-exclamation-circle"></i>&nbsp;Error {{ code }}</h2>
+            <h3><i class="fas fa-exclamation-circle"></i>&nbsp;Error {{ code }}</h3>
             <hr/>
             <p>{{ message }}</p>
         </div>
-        <a href="{{ path('home') }}" class="btn btn-secondary btn-lg btn-block">
+        <a href="{{ path('home') }}" class="btn btn-secondary btn-block">
             <i class="fas fa-undo-alt"></i>&nbsp;Return to home page
         </a>
     </div>

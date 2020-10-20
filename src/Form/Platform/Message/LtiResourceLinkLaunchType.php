@@ -89,7 +89,7 @@ class LtiResourceLinkLaunchType extends AbstractType
             ->add(
                 'submit',
                 SubmitType::class, [
-                    'label' => '<i class="fas fa-plus-circle"></i>&nbsp;Generate',
+                    'label' => '<i class="fas fa-cogs"></i>&nbsp;Generate',
                     'label_html' => true,
                     'attr' => ['class' => 'btn-primary']
                 ]
