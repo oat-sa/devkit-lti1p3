@@ -20,40 +20,46 @@
 
 declare(strict_types=1);
 
-namespace App\Action\Tool\Message;
+namespace App\Action\Platform\Message;
 
-use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Message\LtiToolMessageSecurityToken;
+use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Message\LtiPlatformMessageSecurityToken;
+use OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
-class LtiLaunchAction
+class DeepLinkingReturnAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
-
     /** @var Environment */
     private $twig;
+
+    /** @var ResourceCollectionFactoryInterface */
+    private $factory;
 
     /** @var Security */
     private $security;
 
-    public function __construct(FlashBagInterface $flashBag, Environment $twig, Security $security)
+    public function __construct(Environment $twig, ResourceCollectionFactoryInterface $factory, Security $security)
     {
-        $this->flashBag = $flashBag;
         $this->twig = $twig;
+        $this->factory = $factory;
         $this->security = $security;
     }
 
     public function __invoke(Request $request): Response
     {
-        /** @var LtiToolMessageSecurityToken $token */
+        /** @var LtiPlatformMessageSecurityToken $token */
         $token = $this->security->getToken();
 
-        $this->flashBag->add('success', 'Tool launch success');
-
-        return new Response($this->twig->render('tool/message/ltiLaunch.html.twig', ['token' => $token]));
+        return new Response(
+            $this->twig->render(
+                'platform/message/deepLinkingReturn.html.twig',
+                [
+                    'token' => $this->security->getToken(),
+                    'resources' => $this->factory->createFromClaim($token->getPayload()->getDeepLinkingContentItems())
+                ]
+            )
+        );
     }
 }

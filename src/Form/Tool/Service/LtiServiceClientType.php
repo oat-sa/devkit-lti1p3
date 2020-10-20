@@ -44,6 +44,14 @@ class LtiServiceClientType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $httpMethodChoices = [
+            'GET' => 'GET',
+            'POST' => 'POST',
+            'PUT' => 'PUT',
+            'PATCH' => 'PATCH',
+            'DELETE' => 'DELETE',
+        ];
+
         $builder
             ->add(
                 'registration',
@@ -53,31 +61,49 @@ class LtiServiceClientType extends AbstractType
                     'help' => "Will use the selected registration's platform as target"
                 ]
             )
-            ->add('service_url', UrlType::class, [
-                'label' => 'Service Url',
-                'help' => "Url of the selected registration's platform service endpoint to call"
-            ])
-            ->add('method', ChoiceType::class, [
-                'choices' => [
-                    'GET' => 'GET',
-                    'POST' => 'POST',
-                    'PUT' => 'PUT',
-                    'PATCH' => 'PATCH',
-                    'DELETE' => 'DELETE',
-                ],
-                'label' => 'HTTP Method',
-                'help' => "HTTP method to perform the call with"
-            ])
-            ->add('body', TextareaType::class, [
-                'required' => false,
-                'attr' => ['rows' => 5],
-                'help' => "Request body to perform the call with"
-            ])
-            ->add('scope', TextType::class, [
-                'label' => 'Scopes',
-                'help' => "Scopes to provide to the selected registration's platform access token url"
-            ])
-            ->add('Submit', SubmitType::class, ['label' => 'Call service'])
+            ->add(
+                'service_url',
+                UrlType::class,
+                [
+                    'label' => 'Service Url',
+                    'help' => "Url of the selected registration's platform service endpoint to call"
+                ]
+            )
+            ->add(
+                'method',
+                ChoiceType::class,
+                [
+                    'choices' => array_combine($httpMethodChoices, $httpMethodChoices),
+                    'label' => 'Method',
+                    'help' => "HTTP Method to perform the call with"
+                ]
+            )
+            ->add(
+                'body',
+                TextareaType::class,
+                [
+                    'required' => false,
+                    'attr' => ['rows' => 5],
+                    'help' => "Request body to perform the call with"
+                ]
+            )
+            ->add(
+                'scope',
+                TextType::class,
+                [
+                    'label' => 'Scopes',
+                    'help' => "Scopes to provide to the selected registration's platform access token endpoint"
+                ]
+            )
+            ->add(
+                'submit',
+                SubmitType::class,
+                [
+                    'label' => '<i class="fas fa-sign-in-alt"></i>&nbsp;Call platform service',
+                    'label_html' => true,
+                    'attr' => ['class' => 'btn-primary']
+                ]
+            )
         ;
     }
 }
