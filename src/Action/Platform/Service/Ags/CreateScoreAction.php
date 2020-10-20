@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace App\Action\Platform\Service\Ags;
 
-use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Service\LtiServiceToken;
+use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Service\LtiServiceSecurityToken;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,7 +44,7 @@ class CreateScoreAction
 
     public function __invoke(Request $request, string $contextId, string $lineItemId): Response
     {
-        /** @var LtiServiceToken $token */
+        /** @var LtiServiceSecurityToken $token */
         $token = $this->security->getToken();
 
         $item = $this->cache->getItem('lti1p3-ags-scores');

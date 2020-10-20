@@ -26,12 +26,13 @@ use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class LtiLinkBuilderType extends AbstractType
+class LtiResourceLinkLaunchType extends AbstractType
 {
     /** @var RegistrationRepositoryInterface */
     private $repository;
@@ -47,6 +48,8 @@ class LtiLinkBuilderType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $userChoices = array_keys($this->parameterBag->get('users'));
+
         $builder
             ->add(
                 'registration',
@@ -60,25 +63,37 @@ class LtiLinkBuilderType extends AbstractType
                 'user',
                 ChoiceType::class,
                 [
-                    'choices' => array_combine(
-                        array_keys($this->parameterBag->get('users')),
-                        array_keys($this->parameterBag->get('users'))
-                    ),
+                    'choices' => array_combine($userChoices, $userChoices),
                     'placeholder' => '-anonymous-',
                     'required' => false,
                     'help' => "User for the launch"
                 ]
             )
-            ->add('launch_url', TextType::class, [
-                'required' => false,
-                'help' => "If provided, will be the launch target. If not, will use the selected registration's tool default launch url"
+            ->add(
+                'launch_url',
+                TextType::class,
+                [
+                    'required' => false,
+                    'help' => "If provided, will be the launch target. If not, will use the selected registration's tool default launch url"
+
+                ]
+            )
+            ->add(
+                'claims',
+                TextareaType::class,
+                [
+                    'required' => false,
+                    'attr' => ['rows' => 5],
+                    'help' => 'JSON formatted claims to add to the launch'
             ])
-            ->add('claims', TextareaType::class, [
-                'required' => false,
-                'attr' => ['rows' => 5],
-                'help' => "JSON formatted claims to add to the launch"
-            ])
-            ->add('Submit', SubmitType::class, ['label' => 'Build Links'])
+            ->add(
+                'submit',
+                SubmitType::class, [
+                    'label' => '<i class="fas fa-cogs"></i>&nbsp;Generate',
+                    'label_html' => true,
+                    'attr' => ['class' => 'btn-primary']
+                ]
+            )
         ;
     }
 }

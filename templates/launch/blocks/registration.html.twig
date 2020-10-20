@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-md-4">
+        <h6 class="card-title">
+            <i class="fas fa-cubes"></i>&nbsp;Platform
+        </h6>
+        <hr/>
+        <dl class="list-unstyled">
+            <dt>Identifier</dt>
+            <dd><code>{{ token.registration.platform.identifier }}</code></dd>
+            <dt>Name</dt>
+            <dd>{{ token.registration.platform.name }}</dd>
+            <dt>Audience</dt>
+            <dd>{{ token.registration.platform.audience }}</dd>
+            <dt>OAuth2 Access Token Url</dt>
+            <dd><a target="_blank" href="{{ token.registration.platform.oAuth2AccessTokenUrl }}">{{ token.registration.platform.oAuth2AccessTokenUrl }}</a></dd>
+            <dt>OIDC Authentication Url</dt>
+            <dd><a href="{{ token.registration.platform.oidcAuthenticationUrl }}">{{ token.registration.platform.oidcAuthenticationUrl }}</a></dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <h6 class="card-title">
+            <i class="fas fa-share-alt"></i>&nbsp;Registration
+        </h6>
+        <hr/>
+        <dl class="list-unstyled">
+            <dt>Identifier</dt>
+            <dd><code>{{ token.registration.identifier }}</code></dd>
+            <dt>OAuth2 Client ID</dt>
+            <dd>{{ token.registration.clientId }}</dd>
+            <dt>Platform JWKS Url</dt>
+            <dd>
+                {% if token.registration.platformJwksUrl %}
+                    <a target="_blank" href="{{ token.registration.platformJwksUrl }}">{{ token.registration.platformJwksUrl }}</a>
+                {% else %}
+                    n/a
+                {% endif %}
+            </dd>
+            <dt>Tool JWKS Url</dt>
+            <dd>
+                {% if token.registration.toolJwksUrl %}
+                    <a target="_blank" href="{{ token.registration.toolJwksUrl }}">{{ token.registration.toolJwksUrl }}</a>
+                {% else %}
+                    n/a
+                {% endif %}
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <h6 class="card-title">
+            <i class="fas fa-cube"></i>&nbsp;Tool
+        </h6>
+        <hr/>
+        <dl class="list-unstyled">
+            <dt>Identifier</dt>
+            <dd><code>{{ token.registration.tool.identifier }}</code></dd>
+            <dt>Name</dt>
+            <dd>{{ token.registration.tool.name }}</dd>
+            <dt>Audience</dt>
+            <dd>{{ token.registration.tool.audience }}</dd>
+            <dt>Default Launch Url</dt>
+            <dd><a target="_blank" href="{{ token.registration.tool.launchUrl }}">{{ token.registration.tool.launchUrl }}</a></dd>
+            <dt>Deep Launch Url</dt>
+            <dd>
+                {% if token.registration.tool.deepLinkingUrl %}
+                    <a target="_blank" href="{{ token.registration.tool.deepLinkingUrl }}">{{ token.registration.tool.deepLinkingUrl }}</a>
+                {% else %}
+                    n/a
+                {% endif %}
+            </dd>
+            <dt>OIDC Initiation Url</dt>
+            <dd>
+                {% if token.registration.tool.oidcInitiationUrl %}
+                    <a target="_blank" href="{{ token.registration.tool.oidcInitiationUrl }}">{{ token.registration.tool.oidcInitiationUrl }}</a>
+                {% else %}
+                    n/a
+                {% endif %}
+        </dl>
+    </div>
+</div>

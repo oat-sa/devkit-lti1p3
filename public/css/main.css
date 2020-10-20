@@ -1,0 +1,131 @@
+/* ---------------------------------------------------
+    NAVBAR STYLE
+----------------------------------------------------- */
+
+.navbar {
+    padding: 15px 10px;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 15px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+#sidebar {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    background: #343a40;
+    color: #fafafa;
+    transition: all 0.3s;
+}
+
+#sidebar .accordion {
+    cursor: pointer;
+}
+
+#sidebar hr {
+    border-top: 1px solid #fafafa;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+#sidebar .sidebar-header {
+    padding: 7px;
+    background: #343a40;
+}
+
+#sidebar .sidebar-header a,
+#sidebar a.card-header {
+    color: #fafafa;
+    text-decoration: none;
+}
+
+.dropdown-toggle::after {
+    position: absolute;
+    right: 20px;
+    top: 23px;
+    transition-duration: 0.3s;
+}
+
+.dropdown-toggle[aria-expanded=true]::after {
+    transform: rotate(-180deg);
+    transition-duration: 0.3s;
+    top: 23px;
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: calc(100% - 250px);
+    padding: 0px;
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#content.active {
+    width: 100%;
+}
+
+form label {
+    font-weight: 600;
+}
+
+dl dt {
+    font-weight: 500;
+}
+
+mark {
+    background: orange;
+    color: black;
+}
+
+.language-json {
+    background-color: #f8f9fa !important;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #content {
+        width: 100%;
+    }
+    #content.active {
+        width: calc(100% - 250px);
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+}

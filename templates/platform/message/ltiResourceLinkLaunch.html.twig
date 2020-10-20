@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}<i class="fas fa-cubes"></i>&nbsp;&nbsp;Platform - Launch tool{% endblock %}
+
+{% block body %}
+    <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
+        <div class="card bg-light">
+            <div class="card-header dropdown-toggle clickable {{ form.vars.submitted ? 'collapsed' : '' }}" role="tab" id="headingForm" data-toggle="collapse" data-parent="#accordionForm" href="#collapseForm"
+                 aria-expanded="{{ form.vars.submitted ? 'false' : 'true' }}" aria-controls="collapseForm">
+                <i class="fas fa-cogs"></i>&nbsp;LTI resource link generator
+            </div>
+            <div id="collapseForm" class="collapse card-body  {{ form.vars.submitted ? '' : 'show' }}" role="tabpanel" aria-labelledby="headingForm" data-parent="#accordionForm">
+            {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <div class="form-row">
+                    <div class="col-md-6">
+                        {{ form_row(form.registration) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.user) }}
+                    </div>
+                </div>
+                {{ form_row(form.launch_url) }}
+                {{ form_row(form.claims) }}
+            </div>
+            <div class="card-footer">
+                    {{ form_widget(form.submit) }}
+                    <a href="{{ path('platform_message_launch_lti_resource_link') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    {% if ltiResourceLinkLaunchRequest %}
+    <br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <i class="fas fa-sign-out-alt"></i>&nbsp;LTI resource link launch
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dl class="list-unstyled">
+                                <dt>Issuer</dt>
+                                <dd>{{ ltiResourceLinkLaunchRequest.getParameter('iss') }}</dd>
+                                <dt>Login Hint</dt>
+                                <dd>{{ ltiResourceLinkLaunchRequest.getParameter('login_hint') }}</dd>
+
+                            </dl>
+                        </div>
+                        <div class="col-sm-4">
+                            <dl class="list-unstyled">
+                                <dt>Url</dt>
+                                <dd>{{ ltiResourceLinkLaunchRequest.url }}</dd>
+                                <dt>Target Link Uri</dt>
+                                <dd>{{ ltiResourceLinkLaunchRequest.getParameter('target_link_uri') }}</dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-4">
+                            <dl class="list-unstyled">
+                                <dt>Client Id</dt>
+                                <dd>{{ ltiResourceLinkLaunchRequest.getParameter('client_id') }}</dd>
+                                <dt>Deployment Id</dt>
+                                <dd>{{ ltiResourceLinkLaunchRequest.getParameter('lti_deployment_id') }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <dl class="list-unstyled">
+                                <dt>LTI Message Hint</dt>
+                                <dd>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ ltiResourceLinkLaunchRequest.getParameter('lti_message_hint') }}" role="button" title="See on jwt.io">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="token" value="{{ ltiResourceLinkLaunchRequest.getParameter('lti_message_hint') }}" readonly>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            <div class="card-footer">
+                {{ ltiResourceLinkLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch tool',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock body %}

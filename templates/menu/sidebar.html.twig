@@ -1,0 +1,83 @@
+{% set activeMenu = app.request.pathinfo|split('/')[1]|default(null) %}
+<nav id="sidebar">
+    <div class="sidebar-header">
+        <img src="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png" width="55" height=55" class="d-inline-block" alt="">&nbsp;&nbsp;|&nbsp;
+        <h4 class="d-inline-block">
+            <strong><a href="{{ path('home') }}">LTI 1.3 <small>Demo</small></a></strong>
+        </h4>
+    </div>
+    <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+        <div class="card text-white bg-dark">
+            <a class="card-header" href="{{ path('home') }}">
+                    <h6><i class="fas fa-house-user"></i>&nbsp;&nbsp;Home</h6>
+            </a>
+        </div>
+        <div class="card text-white bg-dark">
+            <div class="card-header dropdown-toggle" role="tab" id="headingPlatform" data-toggle="collapse" data-parent="#accordionEx" href="#collapsePlatform"
+                 aria-expanded="{{ activeMenu == 'platform' ? 'true' : 'false' }}" aria-controls="collapsePlatform">
+                <h6><i class="fas fa-cubes"></i>&nbsp;&nbsp;Platform</h6>
+            </div>
+            <div id="collapsePlatform" class="collapse{{ activeMenu == 'platform' ? ' show' : '' }}" role="tabpanel" aria-labelledby="headingPlatform" data-parent="#accordionEx">
+                <div class="list-group list-group-flush">
+                    <a href="{{ path('platform_message_launch_lti_resource_link') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-sign-out-alt"></i>&nbsp;Launch tool
+                    </a>
+                    <a href="{{ path('platform_message_launch_deep_linking') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-link"></i>&nbsp;Deep linking
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card text-white bg-dark">
+            <div class="card-header dropdown-toggle" role="tab" id="headingTool" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTool"
+                 aria-expanded="{{ activeMenu == 'tool' ? 'true' : 'false' }}" aria-controls="collapseTool">
+                <h6><i class="fas fa-cube"></i>&nbsp;&nbsp;Tool</h6>
+            </div>
+            <div id="collapseTool" class="collapse{{ activeMenu == 'tool' ? ' show' : '' }}" role="tabpanel" aria-labelledby="headingTool" data-parent="#accordionEx">
+                <div class="list-group list-group-flush">
+                    <a href="{{ path('tool_service_client') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-sign-in-alt"></i>&nbsp;Call platform service
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card text-white bg-dark">
+            <div class="card-header dropdown-toggle" role="tab" id="headingStorage" data-toggle="collapse" data-parent="#accordionEx" href="#collapseStorage"
+                 aria-expanded="false" aria-controls="collapseStorage">
+                <h6><i class="fas fa-database"></i>&nbsp;&nbsp;Storage</h6>
+            </div>
+            <div id="collapseStorage" class="collapse" role="tabpanel" aria-labelledby="headingStorage" data-parent="#accordionEx">
+                <div class="list-group list-group-flush">
+                    <a href="{{ redis_commander_url }}" target="_blank" class="list-group-item list-group-item-action">
+                        <i class="fas fa-server"></i>&nbsp;Redis cache
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card text-white bg-dark">
+            <div class="card-header dropdown-toggle" role="tab" id="headingDoc" data-toggle="collapse" data-parent="#accordionEx" href="#collapseDoc"
+                 aria-expanded="false" aria-controls="collapseDoc">
+                <h6><i class="fas fa-book-reader"></i>&nbsp;&nbsp;Documentation</h6>
+            </div>
+            <div id="collapseDoc" class="collapse" role="tabpanel" aria-labelledby="headingDoc" data-parent="#accordionEx">
+                <div class="list-group list-group-flush">
+                    <a href="https://github.com/oat-sa/demo-lti1p3#readme" class="list-group-item list-group-item-action" target="_blank">
+                        <i class="fab fa-github"></i>&nbsp;Demo application
+                    </a>
+                    <a href="https://github.com/oat-sa/bundle-lti1p3#readme" class="list-group-item list-group-item-action" target="_blank">
+                        <i class="fab fa-github"></i>&nbsp;Symfony bundle
+                    </a>
+                    <a href="https://github.com/oat-sa/lib-lti1p3-core#readme" class="list-group-item list-group-item-action" target="_blank">
+                        <i class="fab fa-github"></i>&nbsp;Core library
+                    </a>
+                    <a href="https://github.com/oat-sa/lib-lti1p3-deep-linking#readme" class="list-group-item list-group-item-action" target="_blank">
+                        <i class="fab fa-github"></i>&nbsp;Deep linking library
+                    </a>
+                    <a href="https://github.com/oat-sa/lib-lti1p3-nrps#readme" class="list-group-item list-group-item-action" target="_blank">
+                        <i class="fab fa-github"></i>&nbsp;NRPS library
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

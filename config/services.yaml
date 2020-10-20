@@ -1,5 +1,6 @@
 imports:
-    - { resource: 'users/users.yaml' }
+    - { resource: 'lti1p3/users.yaml' }
+    - { resource: 'lti1p3/deep_linking_resources.yaml' }
 
 parameters:
     allowed_scopes:
@@ -20,5 +21,15 @@ services:
 
     OAT\Library\Lti1p3Core\Security\User\UserAuthenticatorInterface:
         class: App\Security\User\UserAuthenticator
+
+    OAT\Library\Lti1p3Core\User\UserIdentityFactoryInterface:
+        class: OAT\Library\Lti1p3Core\User\UserIdentityFactory
+
+    OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchRequestBuilder: ~
+
+    OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchResponseBuilder: ~
+
+    OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactoryInterface:
+        class: OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactory
 
     OAT\Library\Lti1p3Nrps\Service\Client\MembershipServiceClient: ~

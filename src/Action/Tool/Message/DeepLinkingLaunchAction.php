@@ -22,38 +22,40 @@ declare(strict_types=1);
 
 namespace App\Action\Tool\Message;
 
-use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Message\LtiToolMessageSecurityToken;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
-class LtiLaunchAction
+class DeepLinkingLaunchAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
-
     /** @var Environment */
     private $twig;
+
+    /** @var ParameterBagInterface */
+    private $parameterBag;
 
     /** @var Security */
     private $security;
 
-    public function __construct(FlashBagInterface $flashBag, Environment $twig, Security $security)
+    public function __construct(Environment $twig, ParameterBagInterface $parameterBag, Security $security)
     {
-        $this->flashBag = $flashBag;
         $this->twig = $twig;
+        $this->parameterBag = $parameterBag;
         $this->security = $security;
     }
 
     public function __invoke(Request $request): Response
     {
-        /** @var LtiToolMessageSecurityToken $token */
-        $token = $this->security->getToken();
-
-        $this->flashBag->add('success', 'Tool launch success');
-
-        return new Response($this->twig->render('tool/message/ltiLaunch.html.twig', ['token' => $token]));
+        return new Response(
+            $this->twig->render(
+                'tool/message/deepLinkingLaunch.html.twig',
+                [
+                    'resources' => $this->parameterBag->get('deeplinking_resources'),
+                    'token' => $this->security->getToken(),
+                ]
+            )
+        );
     }
 }

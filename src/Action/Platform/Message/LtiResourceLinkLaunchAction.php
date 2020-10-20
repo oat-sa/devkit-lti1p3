@@ -20,19 +20,20 @@
 
 declare(strict_types=1);
 
-namespace App\Action\Tool\Service;
+namespace App\Action\Platform\Message;
 
-use App\Form\Tool\Service\LtiServiceClientType;
-use Lcobucci\JWT\Builder;
-use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
-use OAT\Library\Lti1p3Core\Service\Client\ServiceClientInterface;
+use App\Form\Platform\Message\LtiResourceLinkLaunchType;
+use OAT\Library\Lti1p3Core\Message\Launch\Builder\LtiResourceLinkLaunchRequestBuilder;
+use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLink;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Twig\Environment;
 
-class LtiServiceClientAction
+class LtiResourceLinkLaunchAction
 {
     /** @var FlashBagInterface */
     private $flashBag;
@@ -43,64 +44,68 @@ class LtiServiceClientAction
     /** @var FormFactoryInterface */
     private $factory;
 
-    /** @var ServiceClientInterface */
-    private $client;
-
-    /** @var Builder */
+    /** @var LtiResourceLinkLaunchRequestBuilder */
     private $builder;
 
     public function __construct(
         FlashBagInterface $flashBag,
         Environment $twig,
         FormFactoryInterface $factory,
-        ServiceClientInterface $client,
-        Builder $builder
+        LtiResourceLinkLaunchRequestBuilder $builder
     ) {
         $this->flashBag = $flashBag;
         $this->twig = $twig;
         $this->factory = $factory;
-        $this->client = $client;
         $this->builder = $builder;
     }
 
     public function __invoke(Request $request): Response
     {
-        $form = $this->factory->create(LtiServiceClientType::class);
+        $form = $this->factory->create(LtiResourceLinkLaunchType::class);
 
         $form->handleRequest($request);
 
-        $serviceData = null;
+        $user = null;
+        $claims = [];
+        $ltiResourceLinkLaunchRequest = null;
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $formData = $form->getData();
 
-            /** @var RegistrationInterface $registration */
-            $registration = $formData['registration'];
-            $serviceUrl = $formData['service_url'] ?? null;
-            $method = $formData['method'] ?? 'GET';
-            $body = $formData['body'] ?? null;
-            $scopes = explode(' ', $formData['scope']);
+            $resourceLink = new LtiResourceLink(
+                Uuid::uuid4()->toString(),
+                [
+                    'url' => $formData['launch_url'] ?? null
+                ]
+            );
 
-            $options = [];
+            if ($formData['claims']) {
+                $claims = json_decode($formData['claims'], true);
 
-            if (null !== $body) {
-                $options['body'] = $body;
+                if (JSON_ERROR_NONE !== json_last_error()) {
+                    throw new BadRequestHttpException(sprintf('json_decode error: %s', json_last_error_msg()));
+                }
             }
 
-            $response = $this->client->request($registration, $method, $serviceUrl, $options, $scopes);
+            $ltiResourceLinkLaunchRequest = $this->builder->buildLtiResourceLinkLaunchRequest(
+                $resourceLink,
+                $formData['registration'],
+                $formData['user'] ?? 'anonymous',
+                null,
+                [],
+                $claims
+            );
 
-            $serviceData = json_decode((string)$response->getBody(), true);
-
-            $this->flashBag->add('success', 'LTI service called with success');
+            $this->flashBag->add('success', 'LTI resource link generation success');
         }
 
         return new Response(
             $this->twig->render(
-                'tool/service/ltiServiceClient.html.twig',
+                'platform/message/ltiResourceLinkLaunch.html.twig',
                 [
-                    'form' => $form->createView(),
-                    'serviceData' => $serviceData,
+                 'form' => $form->createView(),
+                    'ltiResourceLinkLaunchRequest' => $ltiResourceLinkLaunchRequest
                 ]
             )
         );

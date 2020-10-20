@@ -1,0 +1,39 @@
+{% if token.state %}
+    <div class="alert alert-info" role="alert">
+        <i class="fas fa-shield-alt"></i>&nbsp;
+        Message launched using OIDC flow
+    </div>
+{% else %}
+    <div class="alert alert-dark" role="alert">
+        <i class="fas fa-exclamation-circle"></i>&nbsp;
+        Message was not launched using OIDC flow
+    </div>
+{% endif %}
+<h6 class="card-title">
+    <i class="fas fa-lock"></i>&nbsp;Tokens
+</h6>
+<hr/>
+<dl class="list-unstyled">
+    <dt>ID Token</dt>
+    <dd>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ token.payload.token }}" role="button" title="See on jwt.io">
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+            <input type="text" class="form-control" placeholder="token" value="{{ token.payload.token }}" readonly>
+        </div>
+    </dd>
+    <dt>OIDC State</dt>
+    <dd>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ token.state.token }}" role="button" title="See on jwt.io">
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+            <input type="text" class="form-control" placeholder="state" value="{{ token.state.token }}" readonly>
+        </div>
+    </dd>
+</dl>
