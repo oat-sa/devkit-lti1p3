@@ -7,8 +7,10 @@ services:
         networks:
             - demo_lti1p3_network
         ports:
-            - "8888:80"
+            - "80:80"
+            - "443:443"
         expose:
+          - 80
           - 443
         volumes:
             - .:/var/www/html:cached
