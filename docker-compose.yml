@@ -51,6 +51,7 @@ services:
             - 8081
         environment:
             - REDIS_HOSTS=local:demo_lti1p3_redis:6379
+            - READ_ONLY=true
 
 volumes:
     demo_lti1p3_redis_volume:
