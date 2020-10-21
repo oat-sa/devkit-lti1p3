@@ -22,14 +22,19 @@ declare(strict_types=1);
 
 namespace App\Action\Tool\Message;
 
+use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Message\LtiToolMessageSecurityToken;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
 class DeepLinkingLaunchAction
 {
+    /** @var FlashBagInterface */
+    private $flashBag;
+
     /** @var Environment */
     private $twig;
 
@@ -39,21 +44,31 @@ class DeepLinkingLaunchAction
     /** @var Security */
     private $security;
 
-    public function __construct(Environment $twig, ParameterBagInterface $parameterBag, Security $security)
-    {
-        $this->twig = $twig;
+    public function __construct(
+        FlashBagInterface $flashBag,
+        ParameterBagInterface $parameterBag,
+        Environment $twig,
+        Security $security
+    ) {
+        $this->flashBag = $flashBag;
         $this->parameterBag = $parameterBag;
+        $this->twig = $twig;
         $this->security = $security;
     }
 
     public function __invoke(Request $request): Response
     {
+        /** @var LtiToolMessageSecurityToken $token */
+        $token = $this->security->getToken();
+
+        $this->flashBag->add('success', 'Tool deep linking launch success, please select items to be returned to the platform');
+
         return new Response(
             $this->twig->render(
                 'tool/message/deepLinkingLaunch.html.twig',
                 [
-                    'resources' => $this->parameterBag->get('deeplinking_resources'),
-                    'token' => $this->security->getToken(),
+                    'token' => $token,
+                    'resources' => $this->parameterBag->get('deeplinking_resources')
                 ]
             )
         );

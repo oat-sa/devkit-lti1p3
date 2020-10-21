@@ -1,0 +1,55 @@
+<h6 class="card-title">
+    <i class="fas fa-link"></i>&nbsp;Deep Linking available content items
+</h6>
+<hr/>
+<form action="{{ path('tool_message_deep_linking_response') }}" method="post">
+    <div class="card-columns">
+        {% for resourceIdentifier, resource in resources %}
+            <div class="card clickable content-item">
+                <div class="card-header">
+                    <input type="checkbox" name="selected-resources[]" value="{{ resourceIdentifier }}"/>&nbsp;{{ resource.title }}
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Type</strong>: <code>{{ resource.type }}</code></li>
+                        <li><strong>Url</strong>: {{ resource.url }}</li>
+                        <li><strong>Description</strong>: {{ resource.text }}</li>
+                        <li><strong>Icon</strong>: <img src="https://www.iconfinder.com/data/icons/basic-21/32/Basic-iconfinder-22-16.png"/></li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Type: <code>{{ resource.type }}</code></small>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <hr/>
+    <input type="hidden" name="registration" value="{{ token.registration.identifier }}"/>
+    <input type="hidden" name="deep-linking-return-url" value="{{ token.payload.deepLinkingSettings.deepLinkingReturnUrl }}"/>
+    <input type="hidden" name="deep-linking-data" value="{{ token.payload.deepLinkingSettings.data }}"/>
+    <button type="submit" id="deepLinkingSend" class="btn-primary btn btn-block">
+        <i class="fas fa-sign-in-alt"></i>&nbsp;Return selected items to platform
+    </button>
+</form>
+
+<script>
+    $(".content-item").click(function(event){
+        var multi = '{{ token.payload.deepLinkingSettings.shouldAcceptMultiple ? 'off' : 'on' }}';
+
+        if ($(this).find('input').prop('checked')) {
+            $(this).find('input').prop('checked', false);
+            $(this).removeClass('border-primary');
+        } else {
+            if (multi === 'off') {
+                $('.content-item').each(
+                    function() {
+                        $(this).find('input').prop('checked', false);
+                        $(this).removeClass('border-primary')
+                    }
+                );
+            }
+            $(this).find('input').prop('checked', true);
+            $(this).addClass('border-primary');
+        }
+    });
+</script>

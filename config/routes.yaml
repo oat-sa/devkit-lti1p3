@@ -16,7 +16,7 @@ platform_message_deep_linking_return:
 
 tool_message_launch:
     path: /tool/launch
-    controller: App\Action\Tool\Message\LtiLaunchAction
+    controller: App\Action\Tool\Message\LtiResourceLinkLaunchAction
 
 tool_message_deep_linking:
     path: /tool/launch/deep-linking

@@ -13,16 +13,16 @@ lti1p3:
     platforms:
         demoPlatform:
             name: "Demo platform"
-            audience: "https://lti.showcase.gcp.taocloud.org/platform"
-            oidc_authentication_url: "https://lti.showcase.gcp.taocloud.org/lti1p3/oidc/authentication"
-            oauth2_access_token_url: "https://lti.showcase.gcp.taocloud.org/lti1p3/auth/kid1/token" # docker
+            audience: "http://localhost:8888/platform"
+            oidc_authentication_url: "http://localhost:8888/lti1p3/oidc/authentication"
+            oauth2_access_token_url: "http://localhost:8888/lti1p3/auth/kid1/token" # docker
     tools:
         demoTool:
             name: "Demo tool"
-            audience: "https://lti.showcase.gcp.taocloud.org/tool"
-            oidc_initiation_url: "https://lti.showcase.gcp.taocloud.org/lti1p3/oidc/initiation"
-            launch_url: "https://lti.showcase.gcp.taocloud.org/tool/launch"
-            deep_linking_url: "https://lti.showcase.gcp.taocloud.org/tool/launch/deep-linking"
+            audience: "http://localhost:8888/tool"
+            oidc_initiation_url: "http://localhost:8888/lti1p3/oidc/initiation"
+            launch_url: "http://localhost:8888/tool/launch"
+            deep_linking_url: "http://localhost:8888/tool/launch/deep-linking"
     registrations:
         demo:
             client_id: "client_id"
@@ -33,6 +33,6 @@ lti1p3:
                 - "deploymentId2"
             platform_key_chain: "kid1"
             tool_key_chain: "kid2"
-            platform_jwks_url: "https://lti.showcase.gcp.taocloud.org/lti1p3/.well-known/jwks/platformSet.json"
-            tool_jwks_url: "https://lti.showcase.gcp.taocloud.org/lti1p3/.well-known/jwks/toolSet.json"
+            platform_jwks_url: "http://localhost:8888/lti1p3/.well-known/jwks/platformSet.json"
+            tool_jwks_url: "http://localhost:8888/lti1p3/.well-known/jwks/toolSet.json"
 
