@@ -1,12 +1,12 @@
 {% if token.state %}
     <div class="alert alert-info" role="alert">
         <i class="fas fa-shield-alt"></i>&nbsp;
-        Message launched using OIDC flow
+        Valid platform originating message (OIDC flow)
     </div>
 {% else %}
-    <div class="alert alert-dark" role="alert">
+    <div class="alert alert-danger" role="alert">
         <i class="fas fa-exclamation-circle"></i>&nbsp;
-        Message was not launched using OIDC flow
+        Invalid platform originating message (OIDC flow)
     </div>
 {% endif %}
 <h6 class="card-title">
