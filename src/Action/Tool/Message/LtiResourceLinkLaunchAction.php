@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
-class LtiLaunchAction
+class LtiResourceLinkLaunchAction
 {
     /** @var FlashBagInterface */
     private $flashBag;
@@ -52,8 +52,15 @@ class LtiLaunchAction
         /** @var LtiToolMessageSecurityToken $token */
         $token = $this->security->getToken();
 
-        $this->flashBag->add('success', 'Tool launch success');
+        $this->flashBag->add('success', 'Tool LTI resource link launch success');
 
-        return new Response($this->twig->render('tool/message/ltiLaunch.html.twig', ['token' => $token]));
+        return new Response(
+            $this->twig->render(
+                'tool/message/ltiResourceLinkLaunch.html.twig',
+                [
+                    'token' => $token
+                ]
+            )
+        );
     }
 }
