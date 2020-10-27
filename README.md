@@ -1,6 +1,6 @@
 # LTI 1.3 Demo Application
 
-> [Symfony](https://symfony.com/) demo application for LTI 1.3, to act as a [LTI 1.3 platform and / or tool](http://www.imsglobal.org/spec/lti/v1p3/#platforms-and-tools-0).
+> [Symfony](https://symfony.com/) demo application for LTI 1.3, to act as a [LTI platform and / or tool](http://www.imsglobal.org/spec/lti/v1p3/#platforms-and-tools-0).
 
 This demo application based on the following packages:
 - [LTI 1.3 symfony bundle](https://github.com/oat-sa/bundle-lti1p3)
@@ -79,16 +79,3 @@ You can access:
 | demo_lti1p3_nginx                    | [http://localhost:8888](http://localhost:8888) |
 | demo_lti1p3_redis_commander          | [http://localhost:8081](http://localhost:8081) |
 
-### Mode
-
-By default, this application runs in `dev` mode:
-- to avoid updating symfony cache on each configuration change
-- to be able to get debugging feedback on errors
-
-If you need production performances, please update to `APP_ENV=prod` in the [.env](.env) file.
-
-**Note**: on each configuration update in prod mode, you'll then need to clear the application cache:
-
-```console
-$ docker exec -it demo_lti1p3_phpfpm php bin/console ca:cl
-```
