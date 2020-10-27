@@ -3,27 +3,41 @@ parameters:
         ltiResourceLinkExample:
             type: ltiResourceLink
             url: http://localhost:8888/tool/launch
-            title: Demo app LTI launch
-            text: This is the demo app launch url
+            title: Launch demo tool
+            text: LTI resource Link to launch demo tool
             icon:
-                url: https://www.iconfinder.com/data/icons/basic-21/32/Basic-iconfinder-22-16.png
+                url: https://cdn2.iconfinder.com/data/icons/user-interface-ui-1-set/64/link-chain-hyperlink-linked-internet-20.png
             thumbnail:
-                url: https://www.iconfinder.com/data/icons/basic-21/32/Basic-iconfinder-22-16.png
+                url: https://cdn2.iconfinder.com/data/icons/user-interface-ui-1-set/64/link-chain-hyperlink-linked-internet-20.png
         imageExample:
             type: image
-            url: https://www.iconfinder.com/data/icons/basic-21/32/Basic-iconfinder-22-16.png
-            title: Demo app image
+            url: https://www.disneyphile.fr/wp-content/uploads/2020/10/fresque-star-wars.png
+            title: Star wars (image)
             text: This is the demo app image
             icon:
-                url: https://www.iconfinder.com/data/icons/basic-21/32/Basic-iconfinder-22-16.png
+                url: https://cdn4.iconfinder.com/data/icons/evil-icons-user-interface/64/picture-20.png
             thumbnail:
-                url: https://www.iconfinder.com/data/icons/basic-21/32/Basic-iconfinder-22-16.png
+                url: https://cdn4.iconfinder.com/data/icons/evil-icons-user-interface/64/picture-20.png
         linkExample:
             type: link
-            url: https://www.iconfinder.com/data/icons/basic-21/32/Basic-iconfinder-22-16.png
-            title: Demo app link
-            text: This is the demo app link
+            url: https://en.wikipedia.org/wiki/Star_Wars
+            title: Star wars (Wikipedia)
+            text: Star wars wikipedia page
             icon:
-                url: https://www.iconfinder.com/data/icons/basic-21/32/Basic-iconfinder-22-16.png
+                url: https://cdn4.iconfinder.com/data/icons/evil-icons-user-interface/64/finger-20.png
             thumbnail:
-                url: https://www.iconfinder.com/data/icons/basic-21/32/Basic-iconfinder-22-16.png
+                url: https://cdn4.iconfinder.com/data/icons/evil-icons-user-interface/64/finger-20.png
+        fileExample:
+            type: file
+            url: http://rbasra.com/images13/jedi.pdf
+            title: Jedi path (PDF)
+            text: How to become a Jedi (PDF guide)
+            icon:
+                url: https://cdn4.iconfinder.com/data/icons/48-bubbles/48/12.File-20.png
+            thumbnail:
+                url: https://cdn4.iconfinder.com/data/icons/48-bubbles/48/12.File-20.png
+        htmlFragmentExample:
+            type: html
+            html: '<div>Hello world</div>'
+            title: Hello world (HTML)
+            text: HTML frangment to say hello world

@@ -2,25 +2,55 @@
     <i class="fas fa-link"></i>&nbsp;Deep Linking available content items
 </h6>
 <hr/>
+<small>
+    <ul>
+        <li>
+            Selection:
+            <span class="badge badge-pill badge-{{ token.payload.deepLinkingSettings.shouldAcceptMultiple ? 'primary' : 'secondary' }}">
+                {{ token.payload.deepLinkingSettings.shouldAcceptMultiple ? 'multiple' : 'single' }}
+            </span>
+        </li>
+        <li>
+            Allowed types:
+            <code>[{{ token.payload.deepLinkingSettings.acceptedTypes|join(', ') }}]</code>
+        </li>
+    </ul>
+</small>
 <form action="{{ path('tool_message_deep_linking_response') }}" method="post">
     <div class="card-columns">
         {% for resourceIdentifier, resource in resources %}
+            {% if resource.type in token.payload.deepLinkingSettings.acceptedTypes %}
             <div class="card clickable content-item">
                 <div class="card-header">
-                    <input type="checkbox" name="selected-resources[]" value="{{ resourceIdentifier }}"/>&nbsp;{{ resource.title }}
+                    <input type="checkbox" name="selected-resources[]" value="{{ resourceIdentifier }}"/>
+                    &nbsp;{{ resource.title }}
                 </div>
                 <div class="card-body">
-                    <ul>
-                        <li><strong>Type</strong>: <code>{{ resource.type }}</code></li>
-                        <li><strong>Url</strong>: {{ resource.url }}</li>
-                        <li><strong>Description</strong>: {{ resource.text }}</li>
-                        <li><strong>Icon</strong>: <img src="https://www.iconfinder.com/data/icons/basic-21/32/Basic-iconfinder-22-16.png"/></li>
-                    </ul>
+                    <small>
+                        <dl class="list-unstyled">
+                            {% if resource.url is defined %}
+                                <dt>Url</dt>
+                                <dd><a href="{{ resource.url }}" target="_blank">{{ resource.url }}</a></dd>
+                            {% endif %}
+                            {% if resource.html is defined %}
+                                <dt>HTML</dt>
+                                <dd><kbd>{{ resource.html }}</kbd></dd>
+                            {% endif %}
+                            <dt>Description</dt>
+                            <dd>{{ resource.text }}</dd>
+                            {% if resource.icon is defined %}
+                                <dt>Icon</dt>
+                                <dd><img height="20px" width="20px" src="{{ resource.icon.url }}"/></dd>
+                            {% endif %}
+                        </dl>
+                    </small>
                 </div>
+
                 <div class="card-footer">
                     <small class="text-muted">Type: <code>{{ resource.type }}</code></small>
                 </div>
             </div>
+            {% endif %}
         {% endfor %}
     </div>
     <hr/>
@@ -34,7 +64,7 @@
 
 <script>
     $(".content-item").click(function(event){
-        var multi = '{{ token.payload.deepLinkingSettings.shouldAcceptMultiple ? 'off' : 'on' }}';
+        var multi = '{{ token.payload.deepLinkingSettings.shouldAcceptMultiple ? 'on' : 'off' }}';
 
         if ($(this).find('input').prop('checked')) {
             $(this).find('input').prop('checked', false);

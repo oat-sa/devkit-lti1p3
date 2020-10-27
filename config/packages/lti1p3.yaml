@@ -11,23 +11,23 @@ lti1p3:
             private_key: "file://%kernel.project_dir%/config/keys/private.key"
             private_key_passphrase: ~
     platforms:
-        demoPlatform:
-            name: "Demo platform"
+        localPlatform:
+            name: "Local platform"
             audience: "http://localhost:8888/platform"
             oidc_authentication_url: "http://localhost:8888/lti1p3/oidc/authentication"
-            oauth2_access_token_url: "http://localhost:8888/lti1p3/auth/kid1/token" # docker
+            oauth2_access_token_url: "http://localhost:8888/lti1p3/auth/kid1/token"
     tools:
-        demoTool:
-            name: "Demo tool"
+        localTool:
+            name: "Local tool"
             audience: "http://localhost:8888/tool"
             oidc_initiation_url: "http://localhost:8888/lti1p3/oidc/initiation"
             launch_url: "http://localhost:8888/tool/launch"
             deep_linking_url: "http://localhost:8888/tool/launch/deep-linking"
     registrations:
-        demo:
+        local:
             client_id: "client_id"
-            platform: "demoPlatform"
-            tool: "demoTool"
+            platform: "localPlatform"
+            tool: "localTool"
             deployment_ids:
                 - "deploymentId1"
                 - "deploymentId2"
@@ -35,4 +35,3 @@ lti1p3:
             tool_key_chain: "kid2"
             platform_jwks_url: "http://localhost:8888/lti1p3/.well-known/jwks/platformSet.json"
             tool_jwks_url: "http://localhost:8888/lti1p3/.well-known/jwks/toolSet.json"
-

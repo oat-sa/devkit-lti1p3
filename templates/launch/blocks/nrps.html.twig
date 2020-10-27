@@ -1,6 +1,6 @@
 {% if token.payload.nrps %}
-    <div class="alert alert-success" role="alert">
-        <i class="fas fa-check"></i>&nbsp;
+    <div class="alert alert-info" role="alert">
+        <i class="fas fa-users"></i>&nbsp;
         NRPS claim provided in message
     </div>
     <dl class="list-unstyled">
@@ -29,8 +29,8 @@
                     <input type="text" id="nrpsLimit"class="form-control" placeholder="Limit">
                 </div>
                 <div class="col col col-md-4">
-                    <button id="nrpsLoad" class="btn-primary btn">Call NRPS Service</button>
-                    <button id="nrpsReset" class="btn-secondary btn">Reset</button>
+                    <button id="nrpsLoad" class="btn-primary btn"><i class="fas fa-sign-in-alt"></i>&nbsp;Call NRPS Service</button>
+                    <button id="nrpsReset" class="btn-secondary btn"><i class="fas fa-undo"></i>&nbsp;Reset</button>
                     &nbsp;
                     <i id="nrpsSpinner" class="invisible fa-lg fas fa-spinner fa-spin"></i>
                 </div>
@@ -53,7 +53,7 @@
                     </pre>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
                 </div>
             </div>
         </div>
