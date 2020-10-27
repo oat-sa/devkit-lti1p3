@@ -1,52 +1,45 @@
 <br/>
 <div class="card bg-light">
-    <div class="card-body">
-        <ul class="nav nav-tabs nav-fill nav-hover" id="nrpsTab" role="tablist">
+    <div class="card-header">
+        <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="nrps-members-tab" data-toggle="tab" href="#nrps-members" role="tab" aria-controls="nrps-members" aria-selected="true">
+                <a class="nav-link active" id="pills-nrps-members-tab" data-toggle="pill" href="#pills-nrps-members" role="tab" aria-controls="pills-nrps-members" aria-selected="true">
                     <i class="fas fa-users"></i>&nbsp;Members
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="nrps-details-tab" data-toggle="tab" href="#nrps-details" role="tab" aria-controls="nrps-details" aria-selected="false">
+                <a class="nav-link" id="pills-nrps-details-tab" data-toggle="pill" href="#pills-nrps-details" role="tab" aria-controls="pills-nrps-details" aria-selected="false">
                     <i class="fas fa-info-circle"></i>&nbsp;Details
                 </a>
             </li>
         </ul>
-        <div class="tab-content" id="tabContent">
-            <div class="tab-pane fade show active" id="nrps-members" role="tabpanel" aria-labelledby="nrps-members-tab">
-                <table class="table table-bordered">
-                    <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Status</th>
-                        <th scope="col">Identifier</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Roles</th>
-                        <th scope="col">View</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for member in membership.members %}
-                        <tr>
-                            <td style="width: 3%" class="table-{{ member.status == 'Active' ? 'success' : 'danger' }}">{{ member.status }}</td>
-                            <td><code>{{ member.userIdentity.identifier }}</code></td>
-                            <td>{{ member.userIdentity.name }}</td>
-                            <td>{{ member.roles|join(', ') }}</td>
-                            <td style="width: 3%">
-                                <button class="btn btn-primary btn-sm" role="button" data-toggle="modal" data-target="#nrpsMemberModal" data-nrps="{{ member.properties|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <th scope="row" colspan="5">No members found</th>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+    </div>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-nrps-members" role="tabpanel" aria-labelledby="pills-nrps-members-tab">
+            <div class="list-group list-group-flush">
+                {% for member in membership.members %}
+                    <a class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#nrpsMemberModal" data-nrps="{{ member.properties|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
+                        <p>
+                        {% if member.status == "Active" %}
+                            <span class="badge badge-pill badge-success"><i class="fas fa-user-check"></i></span>
+                        {% else %}
+                            <span class="badge badge-pill badge-secondary"><i class="fas fa-user-times"></i></span>
+                        {% endif %}
+                            <code>[#{{ member.userIdentity.identifier }}]</code>&nbsp;{{ member.userIdentity.name }}
+                        </p>
+                        <small class="text-muted">
+                            {{ member.userIdentity.email|default('no email') }} | <code>[{{ member.roles|join(', ')|default('no roles') }}]</code>
+                        </small>
+                    </a>
+                {% else %}
+                    <a class="list-group-item list-group-item-action bg-dark">
+                        No members found
+                    </a>
+                {% endfor %}
             </div>
-            <div class="tab-pane fade" id="nrps-details" role="tabpanel" aria-labelledby="nrps-details-tab">
+        </div>
+        <div class="tab-pane fade" id="pills-nrps-details" role="tabpanel" aria-labelledby="pills-nrps-details-tab">
+            <div class="card-body">
                 <dl class="list-unstyled">
                     <dt>Identifier</dt>
                     <dd><code>{{ membership.identifier }}</code></dd>
@@ -63,11 +56,11 @@
                         {% if membership.relationLink %}
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <a class="btn btn-secondary" href="#" id="nrpsLinkUpdate" data-link="{{ membership.relationLink }}" title="Use url">
+                                    <a class="btn btn-secondary" href="#" id="nrpsLinkUpdate" data-link="{{ membership.relationLink|raw }}" title="Use url">
                                         <i class="fas fa-external-link-alt"></i>
                                     </a>
                                 </div>
-                                <input type="text" class="form-control" placeholder="token" value="{{ membership.relationLink }}" readonly>
+                                <input type="text" class="form-control" placeholder="token" value="{{ membership.relationLink|raw }}" readonly>
                             </div>
                         {% else %}
                             <input type="text" class="form-control" placeholder="token" value="n/a" readonly>
@@ -81,10 +74,13 @@
             </div>
         </div>
     </div>
+    <div class="card-footer text-muted">
+        <small>{{ membership.members|length }} member(s) found</small>
+    </div>
 </div>
+
 <script>
     $("#nrpsLinkUpdate").click(function(){
         $("#nrpsUrl").val($("#nrpsLinkUpdate").data("link"));
     });
 </script>
-

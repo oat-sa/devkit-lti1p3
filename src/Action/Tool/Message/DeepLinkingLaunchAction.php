@@ -61,7 +61,7 @@ class DeepLinkingLaunchAction
         /** @var LtiToolMessageSecurityToken $token */
         $token = $this->security->getToken();
 
-        $this->flashBag->add('success', 'Tool deep linking launch success, please select items to be returned to the platform');
+        $this->flashBag->add('success', 'Tool deep linking launch success, please select item(s) to be returned to the platform');
 
         return new Response(
             $this->twig->render(

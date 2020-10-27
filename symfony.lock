@@ -27,7 +27,7 @@
         "version": "2.1.1"
     },
     "nesbot/carbon": {
-        "version": "2.41.2"
+        "version": "2.41.3"
     },
     "nyholm/psr7": {
         "version": "1.0",
@@ -55,10 +55,10 @@
         ]
     },
     "oat-sa/lib-lti1p3-core": {
-        "version": "3.1.0"
+        "version": "3.1.1"
     },
     "oat-sa/lib-lti1p3-deep-linking": {
-        "version": "1.0.0"
+        "version": "1.0.1"
     },
     "oat-sa/lib-lti1p3-nrps": {
         "version": "2.0.0"
@@ -183,7 +183,7 @@
         ]
     },
     "symfony/http-client-contracts": {
-        "version": "v2.2.0"
+        "version": "v2.3.1"
     },
     "symfony/http-foundation": {
         "version": "v5.1.7"
@@ -322,9 +322,6 @@
             "templates/base.html.twig"
         ]
     },
-    "symfony/twig-pack": {
-        "version": "dev-master"
-    },
     "symfony/var-dumper": {
         "version": "v5.1.7"
     },
@@ -335,9 +332,9 @@
         "version": "v5.1.7"
     },
     "twig/extra-bundle": {
-        "version": "v3.0.5"
+        "version": "v3.1.0"
     },
     "twig/twig": {
-        "version": "v3.0.5"
+        "version": "v3.1.0"
     }
 }

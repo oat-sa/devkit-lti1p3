@@ -2,22 +2,44 @@
     <i class="fas fa-link"></i>&nbsp;Deep Linking returned content items
 </h6>
 <hr/>
-<div class="card-columns">
-    {% for resourceIdentifier, resource in resources %}
+
+{% for resourceIdentifier, resource in resources %}
+    {% if loop.first %}
+    <div class="card-columns">
+    {% endif %}
         <div class="card clickable content-item">
             <div class="card-header">{{ resource.title }}</div>
             <div class="card-body">
-                <ul>
-                    <li><strong>Type</strong>: <code>{{ resource.type }}</code></li>
-                    <li><strong>Url</strong>: {{ resource.url }}</li>
-                    <li><strong>Description</strong>: {{ resource.text }}</li>
-                    <li><strong>Icon</strong>: <img src="https://www.iconfinder.com/data/icons/basic-21/32/Basic-iconfinder-22-16.png"/></li>
-                </ul>
+                <small>
+                    <dl class="list-unstyled">
+                        {% if resource.url is defined %}
+                            <dt>Url</dt>
+                            <dd><a href="{{ resource.url }}" target="_blank">{{ resource.url }}</a></dd>
+                        {% endif %}
+                        {% if resource.html is defined %}
+                            <dt>HTML</dt>
+                            <dd><kbd>{{ resource.html }}</kbd></dd>
+                        {% endif %}
+                        <dt>Description</dt>
+                        <dd>{{ resource.text }}</dd>
+                        {% if resource.icon is defined %}
+                            <dt>Icon</dt>
+                            <dd><img height="20px" width="20px" src="{{ resource.icon.url }}"/></dd>
+                        {% endif %}
+                    </dl>
+                </small>
             </div>
             <div class="card-footer">
                 <small class="text-muted">Type: <code>{{ resource.type }}</code></small>
             </div>
         </div>
-    {% endfor %}
-</div>
+    {% if loop.last %}
+    </div>
+    {% endif %}
+{% else %}
+    <div class="alert alert-dark" role="alert">
+        <i class="fas fa-exclamation-circle"></i>&nbsp;No items returned
+    </div>
+{% endfor %}
+
 
