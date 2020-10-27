@@ -15,17 +15,7 @@ lti1p3:
             name: "Local platform"
             audience: "http://localhost:8888/platform"
             oidc_authentication_url: "http://localhost:8888/lti1p3/oidc/authentication"
-            oauth2_access_token_url: "http://demo_lti1p3_nginx/lti1p3/auth/kid1/token" # docker
-        imsPlatform:
-            name: "IMS platform"
-            audience: "https://lti-ri.imsglobal.org"
-            oidc_authentication_url: "https://lti-ri.imsglobal.org/platforms/978/authorizations/new"
-            oauth2_access_token_url: "https://lti-ri.imsglobal.org/platforms/978/access_tokens"
-        moodleCloudPlatform:
-            name: "Moodle Cloud platform"
-            audience: "https://lti1p3.moodlecloud.com"
-            oidc_authentication_url: "https://lti1p3.moodlecloud.com/mod/lti/auth.php"
-            oauth2_access_token_url: "https://lti1p3.moodlecloud.com/mod/lti/token.php"
+            oauth2_access_token_url: "http://localhost:8888/lti1p3/auth/kid1/token"
     tools:
         localTool:
             name: "Local tool"
@@ -44,24 +34,4 @@ lti1p3:
             platform_key_chain: "kid1"
             tool_key_chain: "kid2"
             platform_jwks_url: "http://localhost:8888/lti1p3/.well-known/jwks/platformSet.json"
-            tool_jwks_url: "http://localhost:8888/lti1p3/.well-known/jwks/toolSet.json"
-        imsPlatform:
-            client_id: "ims_client_id"
-            platform: "imsPlatform"
-            tool: "localTool"
-            deployment_ids:
-                - "imsDeploymentId1"
-            platform_key_chain: ~
-            tool_key_chain: "kid2"
-            platform_jwks_url: "https://lti-ri.imsglobal.org/platforms/978/platform_keys/986.json"
-            tool_jwks_url: "http://localhost:8888/lti1p3/.well-known/jwks/toolSet.json"
-        moodleCloudPlatform:
-            client_id: "wd3kS1vDO539Sh8"
-            platform: "moodleCloudPlatform"
-            tool: "localTool"
-            deployment_ids:
-                - "1"
-            platform_key_chain: ~
-            tool_key_chain: "kid2"
-            platform_jwks_url: "https://lti1p3.moodlecloud.com/mod/lti/certs.php"
             tool_jwks_url: "http://localhost:8888/lti1p3/.well-known/jwks/toolSet.json"
