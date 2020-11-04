@@ -32,6 +32,11 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" id="pills-bo-tab" data-toggle="pill" href="#pills-bo" role="tab" aria-controls="pills-bo" aria-selected="false">
+                    <i class="fas fa-poll"></i>&nbsp;Basic outcome
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" id="pills-claims-tab" data-toggle="pill" href="#pills-claims" role="tab" aria-controls="pills-claims" aria-selected="false">
                     <i class="fas fa-database"></i>&nbsp;Claims
                 </a>
@@ -54,6 +59,9 @@
             </div>
             <div class="tab-pane fade" id="pills-nrps" role="tabpanel" aria-labelledby="pills-nrps-tab">
                 {% include 'launch/blocks/nrps.html.twig' with {'token': token} %}
+            </div>
+            <div class="tab-pane fade" id="pills-bo" role="tabpanel" aria-labelledby="pills-bo-tab">
+                {% include 'launch/blocks/basic-outcome.html.twig' with {'token': token} %}
             </div>
             <div class="tab-pane fade" id="pills-claims" role="tabpanel" aria-labelledby="pills-claims-tab">
                 {% include 'launch/blocks/claims.html.twig' with {'token': token} %}

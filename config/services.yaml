@@ -33,3 +33,5 @@ services:
         class: OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactory
 
     OAT\Library\Lti1p3Nrps\Service\Client\MembershipServiceClient: ~
+
+    OAT\Library\Lti1p3BasicOutcome\Service\Client\BasicOutcomeServiceClient: ~

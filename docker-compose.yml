@@ -6,6 +6,7 @@ services:
         image: nginx:stable
         networks:
             - demo_lti1p3_network
+            - oat-docker
         ports:
             - "8888:80"
         expose:
@@ -23,6 +24,7 @@ services:
             - 9000
         networks:
             - demo_lti1p3_network
+            - oat-docker
         volumes:
             - .:/var/www/html:cached
         working_dir: /var/www/html
@@ -59,3 +61,5 @@ volumes:
 networks:
     demo_lti1p3_network:
         driver: bridge
+    oat-docker:
+        external: true
