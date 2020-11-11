@@ -17,8 +17,6 @@
             <dl class="list-unstyled">
                 <dt>Identifier</dt>
                 <dd><code>{{ token.payload.userIdentity.identifier }}</code></dd>
-                <dt>Roles</dt>
-                <dd>{{ token.payload.roles|join(', ')|default('n/a') }}</dd>
                 <dt>Name</dt>
                 <dd>{{ token.payload.userIdentity.name|default('n/a') }}</dd>
                 <dt>Email</dt>
@@ -42,13 +40,25 @@
                             src="{{ token.payload.userIdentity.picture }}"
                             class="img-thumbnail rounded"
                             alt="{{ token.payload.userIdentity.picture }}"
-                            height="450"
-                            width="450"
+                            height="350"
+                            width="350"
                         />
                     {% else %}
                         n/a
                     {% endif %}
                 </dd>
+            </dl>
+        </div>
+    </div>
+    <h6 class="card-title">
+        <i class="fas fa-user-tag"></i>&nbsp;Roles <small>(at launch)</small>
+    </h6>
+    <hr/>
+    <div class="row">
+        <div class="col-md-12">
+            <dl class="list-unstyled">
+                <dt>Roles</dt>
+                <dd>{{ token.payload.roles|join(', ')|default('n/a') }}</dd>
             </dl>
         </div>
     </div>

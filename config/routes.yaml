@@ -36,6 +36,11 @@ tool_ajax_service_nrps:
     controller: App\Action\Tool\Ajax\NrpsServiceClientAction
     condition: "request.isXmlHttpRequest()"
 
+platform_nrps_memberships:
+    methods: [GET]
+    path: /platform/service/nrps/memberships
+    controller: App\Action\Platform\Service\Nrps\MembershipAction
+
 platform_ags_list_scores:
     methods: [GET]
     path: /platform/service/ags-list-scores

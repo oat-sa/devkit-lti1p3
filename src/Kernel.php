@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\DependencyInjection\Compiler\ScopePass;
+use App\DependencyInjection\Compiler\ConfigurationPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -38,7 +38,7 @@ class Kernel extends BaseKernel
         $container->setParameter('container.dumper.inline_factories', true);
         $confDir = $this->getProjectDir().'/config';
 
-        $container->addCompilerPass(new ScopePass());
+        $container->addCompilerPass(new ConfigurationPass());
 
         $loader->load($confDir.'/{packages}/*'.self::CONFIG_EXTS, 'glob');
         $loader->load($confDir.'/{packages}/'.$this->environment.'/*'.self::CONFIG_EXTS, 'glob');

@@ -161,7 +161,7 @@ class DeepLinkingLaunchType extends AbstractType
                 TextareaType::class,
                 [
                     'required' => false,
-                    'attr' => ['rows' => 5],
+                    'attr' => ['rows' => 15],
                     'help' => 'JSON formatted claims to add to the launch'
                 ]
             )

@@ -21,7 +21,36 @@
                     </div>
                 </div>
                 {{ form_row(form.launch_url) }}
-                {{ form_row(form.claims) }}
+                <div class="form-group">
+                    {{ form_label(form.claims) }}<br/>
+                    <div class="input-group">
+                        <div class="input-group-prepend" role="group" aria-label="Manage claims">
+                            <div class="btn-group-vertical" role="group">
+                                <button id="claimsAdd" type="button" class="btn btn-primary btn-sm btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Add claim">
+                                    <i class="fas fa-plus-circle"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="claimsAdd">
+                                {% for title, claim in editorClaims %}
+                                    <a
+                                        class="editorClaim dropdown-item"
+                                        data-name="{{ claim.name }}"
+                                        data-value="{{ claim.value|json_encode(constant('JSON_UNESCAPED_SLASHES')) }}"
+                                    >
+                                        {{ title }}
+                                    </a>
+                                {% endfor %}
+                                </div>
+                                <button id="claimsFormat" type="button" class="btn btn-secondary btn-sm btn-block" title="Format claims">
+                                    <i class="fas fa-align-left"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                        {{ form_widget(form.claims) }}
+                    </div>
+                    {{ form_help(form.claims) }}
+                    {{ form_errors(form.claims) }}
+                </div>
             </div>
             <div class="card-footer">
                     {{ form_widget(form.submit) }}
@@ -90,4 +119,18 @@
         </div>
     </div>
     {% endif %}
+    <script>
+        $("#claimsFormat").click(function(event){
+            $("#lti_resource_link_launch_claims").val(
+                JSON.stringify(JSON.parse($("#lti_resource_link_launch_claims").val()), undefined, 4)
+            );
+        });
+
+        $(".editorClaim").click(function(event){
+            var claims = JSON.parse($("#lti_resource_link_launch_claims").val() || "{}");
+            claims[$(this).data('name')] = $(this).data('value');
+            console.log(claims);
+            $("#lti_resource_link_launch_claims").val(JSON.stringify(claims, undefined, 4));
+        });
+    </script>
 {% endblock body %}

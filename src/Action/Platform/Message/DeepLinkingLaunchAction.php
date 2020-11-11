@@ -25,6 +25,7 @@ namespace App\Action\Platform\Message;
 use App\Form\Platform\Message\DeepLinkingLaunchType;
 use OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchRequestBuilder;
 use OAT\Library\Lti1p3DeepLinking\Settings\DeepLinkingSettings;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,6 +38,9 @@ class DeepLinkingLaunchAction
 {
     /** @var FlashBagInterface */
     private $flashBag;
+
+    /** @var ParameterBagInterface */
+    private $parameterBag;
 
     /** @var RouterInterface */
     private $router;
@@ -52,12 +56,14 @@ class DeepLinkingLaunchAction
 
     public function __construct(
         FlashBagInterface $flashBag,
+        ParameterBagInterface $parameterBag,
         RouterInterface $router,
         Environment $twig,
         FormFactoryInterface $factory,
         DeepLinkingLaunchRequestBuilder $builder
     ) {
         $this->flashBag = $flashBag;
+        $this->parameterBag = $parameterBag;
         $this->router = $router;
         $this->twig = $twig;
         $this->factory = $factory;
@@ -112,7 +118,8 @@ class DeepLinkingLaunchAction
                 'platform/message/deepLinkingLaunch.html.twig',
                 [
                     'form' => $form->createView(),
-                    'deepLinkingLaunchRequest' => $deepLinkingLaunchRequest
+                    'deepLinkingLaunchRequest' => $deepLinkingLaunchRequest,
+                    'editorClaims' => $this->parameterBag->get('editor_claims')
                 ]
             )
         );

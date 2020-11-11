@@ -1,0 +1,132 @@
+parameters:
+    users:
+        c3po:
+            name: C3PO
+            email: c3po@rebels.com
+            givenName: C3PO
+            familyName: ~
+            middleName: ~
+            locale: en
+            picture: https://cdn4.iconfinder.com/data/icons/famous-characters-add-on-vol-1-flat/48/Famous_Character_-_Add_On_1-34-512.png
+            roles:
+                - Learner
+        chewbacca:
+            name: Chewbacca
+            email: chewie@rebels.com
+            givenName: ???
+            familyName: ???
+            middleName: Chewie
+            locale: en
+            picture: https://cdn3.iconfinder.com/data/icons/star-wars-color/229/chewbacca-512.png
+            roles:
+                - Learner
+        fett:
+            name: Boba Fett
+            email: b.fett@empire.gov
+            givenName: Boba
+            familyName: Fett
+            middleName: ~
+            locale: en
+            picture: https://cdn3.iconfinder.com/data/icons/star-wars-color/175/boba-fett-512.png
+            roles:
+                - Learner
+        han:
+            name: Han Solo
+            email: han@rebels.com
+            givenName: Han
+            familyName: Solo
+            middleName: ~
+            locale: en
+            picture: https://cdn3.iconfinder.com/data/icons/star-wars-color/186/han-solo-512.png
+            roles:
+                - Instructor
+        leia:
+            name: Leia Organa
+            email: leia@rebels.com
+            givenName: Leia
+            familyName: Organa
+            middleName: Alderaan
+            locale: en
+            picture: https://cdn3.iconfinder.com/data/icons/star-wars-color/175/princess-leia-512.png
+            roles:
+                - Instructor
+        luke:
+            name: Luke Skywalker
+            email: luke@jedi.com
+            givenName: Luke
+            familyName: Skywalker
+            middleName: ~
+            locale: en
+            picture: https://cdn3.iconfinder.com/data/icons/star-wars-color/193/luke-skywalker-512.png
+            roles:
+                - Learner
+        jabba:
+            name: Jabba the Hutt
+            email: jabba@desilijic.com
+            givenName: Jabba
+            familyName: Tiure
+            middleName: Desilijic
+            locale: en
+            picture: https://cdn3.iconfinder.com/data/icons/star-wars-color/276/jabba-the-hutt-512.png
+            roles:
+                - Instructor
+        maul:
+            name: Darth Maul
+            email: d.maul@empire.gov
+            givenName: ???
+            familyName: ???
+            middleName: ~
+            locale: en
+            picture: https://cdn3.iconfinder.com/data/icons/star-wars-color/181/darth-maul-512.png
+            roles:
+                - Learner
+        obiwan:
+            name: Obiwan Kenobi
+            email: o.kenobi@jedi.com
+            givenName: Obiwan
+            familyName: Kenobi
+            middleName: ~
+            locale: en
+            picture: https://cdn3.iconfinder.com/data/icons/star-wars-color/216/obiwan-kenobi-512.png
+            roles:
+                - Instructor
+        r2d2:
+            name: R2D2
+            email: r2d2@rebels.com
+            givenName: R2D2
+            familyName: ~
+            middleName: ~
+            locale: en
+            picture: https://cdn4.iconfinder.com/data/icons/famous-characters-add-on-vol-1-flat/48/Famous_Character_-_Add_On_1-39-512.png
+            roles:
+                - Learner
+        sidious:
+            name: Darth Sidious
+            email: d.sidious@empire.gov
+            givenName: Sheev
+            familyName: Palpatine
+            middleName: ~
+            locale: en
+            picture: https://cdn3.iconfinder.com/data/icons/star-wars-color/216/emperor-palpatine-512.png
+            roles:
+                - Instructor
+        vader:
+            name: Darth Vader
+            email: d.vader@empire.gov
+            givenName: Anakin
+            familyName: Skywalker
+            middleName: ~
+            locale: en
+            picture: https://cdn3.iconfinder.com/data/icons/star-wars-color/216/darth-vader-512.png
+            roles:
+                - Instructor
+        yoda:
+            name: Yoda
+            email: yoda@jedi.com
+            givenName: ???
+            familyName: ???
+            middleName: ~
+            locale: en
+            picture: https://cdn3.iconfinder.com/data/icons/star-wars-color/300/yoda-512.png
+            roles:
+                - Instructor
