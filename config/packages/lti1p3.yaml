@@ -1,4 +1,7 @@
 lti1p3:
+    scopes:
+        - 'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly'
+        - 'https://purl.imsglobal.org/spec/lti-ags/scope/score'
     key_chains:
         kid1:
             key_set_name: "platformSet"
@@ -13,16 +16,16 @@ lti1p3:
     platforms:
         localPlatform:
             name: "Local platform"
-            audience: "http://localhost:8888/platform"
-            oidc_authentication_url: "http://localhost:8888/lti1p3/oidc/authentication"
-            oauth2_access_token_url: "http://localhost:8888/lti1p3/auth/kid1/token"
+            audience: "%application_host%/platform"
+            oidc_authentication_url: "%application_host%/lti1p3/oidc/authentication"
+            oauth2_access_token_url: "http://demo_lti1p3_nginx/lti1p3/auth/kid1/token"
     tools:
         localTool:
             name: "Local tool"
-            audience: "http://localhost:8888/tool"
-            oidc_initiation_url: "http://localhost:8888/lti1p3/oidc/initiation"
-            launch_url: "http://localhost:8888/tool/launch"
-            deep_linking_url: "http://localhost:8888/tool/launch/deep-linking"
+            audience: "%application_host%/tool"
+            oidc_initiation_url: "%application_host%/lti1p3/oidc/initiation"
+            launch_url: "%application_host%/tool/launch"
+            deep_linking_url: "%application_host%/tool/launch/deep-linking"
     registrations:
         local:
             client_id: "client_id"
@@ -33,5 +36,5 @@ lti1p3:
                 - "deploymentId2"
             platform_key_chain: "kid1"
             tool_key_chain: "kid2"
-            platform_jwks_url: "http://localhost:8888/lti1p3/.well-known/jwks/platformSet.json"
-            tool_jwks_url: "http://localhost:8888/lti1p3/.well-known/jwks/toolSet.json"
+            platform_jwks_url: "%application_host%/lti1p3/.well-known/jwks/platformSet.json"
+            tool_jwks_url: "%application_host%/lti1p3/.well-known/jwks/toolSet.json"

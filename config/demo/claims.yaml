@@ -1,0 +1,56 @@
+parameters:
+    editor_claims:
+        AGS:
+            name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_AGS
+            value:
+                scopes: []
+                lineitems: "{url|required}"
+                lineitem: "{url|optional}"
+        Basic Outcome:
+            name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_BASIC_OUTCOME
+            value:
+                lis_result_sourcedid: "{string|required}"
+                lis_outcome_service_url: "{url|required}"
+        Context:
+            name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_CONTEXT
+            value:
+                id: "{string|required}"
+                type: []
+                label: "{string|optional}"
+                title: "{string|optional}"
+        Launch presentation:
+            name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_LAUNCH_PRESENTATION
+            value:
+                document_target: "{string|optional}"
+                height: "{int|optional}"
+                width: "{int|optional}"
+                return_url: "{url|optional}"
+                locale: "{string|optional}"
+        LIS:
+            name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_LIS
+            value:
+                course_offering_sourcedid: "{string|optional}"
+                course_section_sourcedid: "{string|optional}"
+                outcome_service_url: "{url|optional}"
+                person_sourcedid: "{string|optional}"
+                result_sourcedid: "{string|optional}"
+        NRPS:
+            name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_NRPS
+            value:
+                context_memberships_url: "http://demo_lti1p3_nginx/platform/service/nrps/memberships"
+                service_versions: ["2.0"]
+        Platform instance:
+            name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_TOOL_PLATFORM
+            value:
+                guid: "{string|required}"
+                contact_email: "{string|optional}"
+                description: "{string|optional}"
+                name: "{string|optional}"
+                url: "{url|optional}"
+                product_family_code: "{string|optional}"
+                version: "{string|optional}"
+
+
+
+
+

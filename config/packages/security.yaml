@@ -10,10 +10,14 @@ security:
             pattern: ^/platform/message/deep-linking-return
             stateless: true
             lti1p3_message_platform: true
-        platform_service_area:
+        platform_service_ags_area:
             pattern: ^/platform/service/ags/
             stateless: true
-            lti1p3_service: true
+            lti1p3_service: { scopes: ['https://purl.imsglobal.org/spec/lti-ags/scope/score'] }
+        platform_service_nrps_area:
+            pattern: ^/platform/service/nrps
+            stateless: true
+            lti1p3_service: { scopes: ['https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly'] }
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false

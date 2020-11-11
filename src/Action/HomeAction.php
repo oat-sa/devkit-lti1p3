@@ -25,7 +25,6 @@ namespace App\Action;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Yaml\Parser;
 use Twig\Environment;
 
 class HomeAction
@@ -44,15 +43,11 @@ class HomeAction
 
     public function __invoke(Request $request): Response
     {
-        $configuration = (new Parser())->parseFile(
-            $this->parameterBag->get('kernel.project_dir') . '/config/packages/lti1p3.yaml'
-        );
-
         return new Response(
             $this->twig->render(
                 'home/home.html.twig',
                 [
-                    'configuration' => $configuration['lti1p3']
+                    'configuration' => $this->parameterBag->get('lti1p3_resolved_configuration')
                 ]
             )
         );
