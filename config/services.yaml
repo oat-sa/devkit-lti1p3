@@ -1,15 +1,15 @@
 imports:
-    - { resource: 'lti1p3/users.yaml' }
-    - { resource: 'lti1p3/deep_linking_resources.yaml' }
+    - { resource: 'demo/claims.yaml' }
+    - { resource: 'demo/deep_linking.yaml' }
+    - { resource: 'demo/users.yaml' }
 
 parameters:
-    allowed_scopes:
-        - 'https://purl.imsglobal.org/spec/lti-ags/scope/score'
+    application_host: '%env(resolve:APP_HOST)%'
 
 services:
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        autowire: true
+        autoconfigure: true
 
     App\:
         resource: '../src/*'

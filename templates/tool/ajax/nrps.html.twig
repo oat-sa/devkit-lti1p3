@@ -19,20 +19,20 @@
             <div class="list-group list-group-flush">
                 {% for member in membership.members %}
                     <a class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#nrpsMemberModal" data-nrps="{{ member.properties|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
-                        <p>
                         {% if member.status == "Active" %}
                             <span class="badge badge-pill badge-success"><i class="fas fa-user-check"></i></span>
                         {% else %}
                             <span class="badge badge-pill badge-secondary"><i class="fas fa-user-times"></i></span>
                         {% endif %}
-                            <code>[#{{ member.userIdentity.identifier }}]</code>&nbsp;{{ member.userIdentity.name }}
-                        </p>
+                        &nbsp{{ member.userIdentity.name }}
                         <small class="text-muted">
-                            {{ member.userIdentity.email|default('no email') }} | <code>[{{ member.roles|join(', ')|default('no roles') }}]</code>
+                            ( <strong><code>#{{ member.userIdentity.identifier }}</code></strong>
+                            / <strong>roles</strong> : {{ member.roles|join(', ')|default('no roles') }}
+                            / <strong>email</strong> : {{ member.userIdentity.email|default('no email') }} )
                         </small>
                     </a>
                 {% else %}
-                    <a class="list-group-item list-group-item-action bg-dark">
+                    <a class="list-group-item list-group-item-dark">
                         No members found
                     </a>
                 {% endfor %}
@@ -56,11 +56,11 @@
                         {% if membership.relationLink %}
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <a class="btn btn-secondary" href="#" id="nrpsLinkUpdate" data-link="{{ membership.relationLink|raw }}" title="Use url">
+                                    <a class="btn btn-secondary" href="#" id="nrpsLinkUpdate" data-link="{{ membership.relationLinkUrl }}" title="Use url">
                                         <i class="fas fa-external-link-alt"></i>
                                     </a>
                                 </div>
-                                <input type="text" class="form-control" placeholder="token" value="{{ membership.relationLink|raw }}" readonly>
+                                <input type="text" class="form-control" placeholder="token" value="{{ membership.relationLink }}" readonly>
                             </div>
                         {% else %}
                             <input type="text" class="form-control" placeholder="token" value="n/a" readonly>

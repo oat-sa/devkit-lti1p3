@@ -26,6 +26,7 @@ use App\Form\Platform\Message\LtiResourceLinkLaunchType;
 use OAT\Library\Lti1p3Core\Message\Launch\Builder\LtiResourceLinkLaunchRequestBuilder;
 use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLink;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +39,9 @@ class LtiResourceLinkLaunchAction
     /** @var FlashBagInterface */
     private $flashBag;
 
+    /** @var ParameterBagInterface */
+    private $parameterBag;
+
     /** @var Environment */
     private $twig;
 
@@ -49,11 +53,13 @@ class LtiResourceLinkLaunchAction
 
     public function __construct(
         FlashBagInterface $flashBag,
+        ParameterBagInterface $parameterBag,
         Environment $twig,
         FormFactoryInterface $factory,
         LtiResourceLinkLaunchRequestBuilder $builder
     ) {
         $this->flashBag = $flashBag;
+        $this->parameterBag = $parameterBag;
         $this->twig = $twig;
         $this->factory = $factory;
         $this->builder = $builder;
@@ -104,8 +110,9 @@ class LtiResourceLinkLaunchAction
             $this->twig->render(
                 'platform/message/ltiResourceLinkLaunch.html.twig',
                 [
-                 'form' => $form->createView(),
-                    'ltiResourceLinkLaunchRequest' => $ltiResourceLinkLaunchRequest
+                    'form' => $form->createView(),
+                    'ltiResourceLinkLaunchRequest' => $ltiResourceLinkLaunchRequest,
+                    'editorClaims' => $this->parameterBag->get('editor_claims')
                 ]
             )
         );

@@ -33,7 +33,7 @@ class UserAuthenticator implements UserAuthenticatorInterface
         return new UserAuthenticationResult(
             true,
             $this->factory->create(
-                $userData['name'] ?? null,
+                $loginHint,
                 $userData['name'] ?? null,
                 $userData['email'] ?? null,
                 $userData['givenName'] ?? null,

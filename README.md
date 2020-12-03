@@ -53,7 +53,16 @@ For Windows users:
 
 ## Configuration
 
+### Platforms, tools and registrations
+
 Since this demo application relies on [LTI 1.3 symfony bundle](https://github.com/oat-sa/bundle-lti1p3), you can find [here](https://github.com/oat-sa/bundle-lti1p3/blob/master/doc/quickstart/configuration.md) instructions to configure it.
+
+### Customization
+
+You can find in the [config/demo](config/demo) folder configuration files to customize the LTI 1.3 demo application:
+- [claims.yaml](config/demo/claims.yaml): configurable editor claims list
+- [deep_linking.yaml](config/demo/deep_linking.yaml): configurable deep linking resources list
+- [users.yaml](config/demo/users.yaml): configurable users list
 
 ## Usage
 
