@@ -18,6 +18,10 @@ security:
             pattern: ^/platform/service/nrps
             stateless: true
             lti1p3_service: { scopes: ['https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly'] }
+        platform_service_basic_outcome_area:
+            pattern: ^/platform/service/basic-outcome
+            stateless: true
+            lti1p3_service: { scopes: ['https://purl.imsglobal.org/spec/lti-bo/scope/basicoutcome'] }
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false

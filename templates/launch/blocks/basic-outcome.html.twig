@@ -17,22 +17,36 @@
         <div class="card-body">
             <div class="form-row">
                 <div class="col col col-md-8">
-                    <input type="text" id="boUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.basicOutcome.lisOutcomeServiceUrl }}" readonly>
+                    <input type="text" id="boUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.basicOutcome.lisOutcomeServiceUrl }}" aria-describedby="boUrlHelp" readonly>
+                    <small id="boUrlHelp" class="form-text text-muted">Service url</small>
                 </div>
                 <div class="col col col-md-4">
                     <input type="text" id="boResultSourcedId" class="form-control" placeholder="LIS Result Sourced ID" value="{{ token.payload.basicOutcome.lisResultSourcedId }}" readonly>
+                    <small id="boResultSourcedIdHelp" class="form-text text-muted">Result sourced id</small>
                 </div>
             </div>
             <br/>
             <div class="form-row">
                 <div class="col col col-md-4">
-                    <input type="text" id="boScore" class="form-control" placeholder="Score">
+                    <div class="form-group">
+                        <select id="boOperation" aria-describedby="boOperationHelp" class="form-control">
+                            <option value="readResult" selected="selected">Read result</option>
+                            <option value="replaceResult">Replace result</option>
+                            <option value="deleteResult">Delete result</option>
+                        </select>
+                        <small id="boOperationHelp" class="form-text text-muted">Operation type</small>
+                    </div>
+                </div>
+                <div class="col col col-md-2">
+                    <input type="text" id="boScore" class="form-control" placeholder="Score" aria-describedby="boScoreHelp">
+                    <small id="boScoreHelp" class="form-text text-muted">Score</small>
+                </div>
+                <div class="col col col-md-2">
+                    <input type="text" id="boLanguage"class="form-control" placeholder="Language" aria-describedby="boLanguageHelp">
+                    <small id="boLanguageHelp" class="form-text text-muted">Language</small>
                 </div>
                 <div class="col col col-md-4">
-                    <input type="text" id="boLanguage"class="form-control" placeholder="Language">
-                </div>
-                <div class="col col col-md-4">
-                    <button id="boLoad" class="btn-primary btn"><i class="fas fa-sign-in-alt"></i>&nbsp;Call basic outcome Service</button>
+                    <button id="boLoad" class="btn-primary btn"><i class="fas fa-sign-in-alt"></i>&nbsp;Call service</button>
                     <button id="boReset" class="btn-secondary btn"><i class="fas fa-undo"></i>&nbsp;Reset</button>
                     &nbsp;
                     <i id="boSpinner" class="invisible fa-lg fas fa-spinner fa-spin"></i>
@@ -49,6 +63,7 @@
                 data: {
                     registration: "{{ token.registration.identifier }}",
                     url: $("#boUrl").val(),
+                    operation: $("#boOperation").val(),
                     resultSourcedId: $("#boResultSourcedId").val(),
                     score: $("#boScore").val(),
                     language: $("#boLanguage").val()
@@ -65,6 +80,7 @@
 
         $("#boReset").click(function(){
             $("#boZone").html("");
+            $("#boOperation").val("readResult");
             $("#boScore").val("");
             $("#boLanguage").val("");
         });

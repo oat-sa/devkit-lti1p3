@@ -13,7 +13,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "oat-sa/bundle-lti1p3": "^3.2",
-        "oat-sa/lib-lti1p3-basic-outcome": "0.2.0",
+        "oat-sa/lib-lti1p3-basic-outcome": "dev-feature/NEX-1665/basic-outcome-platform",
         "oat-sa/lib-lti1p3-deep-linking": "^1.0",
         "oat-sa/lib-lti1p3-nrps": "^3.0",
         "ramsey/uuid": "^3.9",

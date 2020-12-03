@@ -46,6 +46,11 @@ platform_nrps_memberships:
     path: /platform/service/nrps/memberships
     controller: App\Action\Platform\Service\Nrps\MembershipAction
 
+platform_basic_outcome_results:
+    methods: [POST]
+    path: /platform/service/basic-outcome
+    controller: App\Action\Platform\Service\BasicOutcome\ResultAction
+
 platform_ags_list_scores:
     methods: [GET]
     path: /platform/service/ags-list-scores
