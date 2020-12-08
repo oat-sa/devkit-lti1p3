@@ -1,6 +1,7 @@
 lti1p3:
     scopes:
         - 'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly'
+        - 'https://purl.imsglobal.org/spec/lti-bo/scope/basicoutcome'
         - 'https://purl.imsglobal.org/spec/lti-ags/scope/score'
     key_chains:
         kid1:

@@ -36,10 +36,20 @@ tool_ajax_service_nrps:
     controller: App\Action\Tool\Ajax\NrpsServiceClientAction
     condition: "request.isXmlHttpRequest()"
 
+tool_ajax_service_basic_outcome:
+    path: /tool/ajax/basic-outcome
+    controller: App\Action\Tool\Ajax\BasicOutcomeServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
 platform_nrps_memberships:
     methods: [GET]
     path: /platform/service/nrps/memberships
     controller: App\Action\Platform\Service\Nrps\MembershipAction
+
+platform_basic_outcome_results:
+    methods: [POST]
+    path: /platform/service/basic-outcome
+    controller: App\Action\Platform\Service\BasicOutcome\ResultAction
 
 platform_ags_list_scores:
     methods: [GET]

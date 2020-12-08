@@ -17,19 +17,22 @@
         <div class="card-body">
             <div class="form-row">
                 <div class="col col col-md-12">
-                    <input type="text" id="nrpsUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.nrps.contextMembershipsUrl }}">
+                    <input type="text" id="nrpsUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.nrps.contextMembershipsUrl }}" aria-describedby="nrpsUrlHelp" readonly>
+                    <small id="nrpsUrlHelp" class="form-text text-muted">Service url</small>
                 </div>
             </div>
             <br/>
             <div class="form-row">
                 <div class="col col col-md-4">
-                    <input type="text" id="nrpsRole" class="form-control" placeholder="Role filter">
+                    <input type="text" id="nrpsRole" class="form-control" placeholder="Role filter" aria-describedby="nrpsRoleHelp">
+                    <small id="nrpsRoleHelp" class="form-text text-muted">Role filter</small>
                 </div>
                 <div class="col col col-md-4">
-                    <input type="text" id="nrpsLimit"class="form-control" placeholder="Limit">
+                    <input type="text" id="nrpsLimit"class="form-control" placeholder="Limit" aria-describedby="nrpsLimitHelp">
+                    <small id="nrpsLimitHelp" class="form-text text-muted">Limit to return</small>
                 </div>
                 <div class="col col col-md-4">
-                    <button id="nrpsLoad" class="btn-primary btn"><i class="fas fa-sign-in-alt"></i>&nbsp;Call NRPS Service</button>
+                    <button id="nrpsLoad" class="btn-primary btn"><i class="fas fa-sign-in-alt"></i>&nbsp;Call service</button>
                     <button id="nrpsReset" class="btn-secondary btn"><i class="fas fa-undo"></i>&nbsp;Reset</button>
                     &nbsp;
                     <i id="nrpsSpinner" class="invisible fa-lg fas fa-spinner fa-spin"></i>

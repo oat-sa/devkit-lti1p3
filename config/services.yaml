@@ -33,3 +33,16 @@ services:
         class: OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactory
 
     OAT\Library\Lti1p3Nrps\Service\Client\MembershipServiceClient: ~
+
+    OAT\Library\Lti1p3BasicOutcome\Service\Client\BasicOutcomeServiceClient: ~
+
+    OAT\Library\Lti1p3BasicOutcome\Service\Server\Handler\BasicOutcomeServiceServerHandler: ~
+
+    OAT\Library\Lti1p3BasicOutcome\Serializer\Request\BasicOutcomeRequestSerializerInterface:
+        class: OAT\Library\Lti1p3BasicOutcome\Serializer\Request\BasicOutcomeRequestSerializer
+
+    OAT\Library\Lti1p3BasicOutcome\Serializer\Response\BasicOutcomeResponseSerializerInterface:
+        class: OAT\Library\Lti1p3BasicOutcome\Serializer\Response\BasicOutcomeResponseSerializer
+
+    OAT\Library\Lti1p3BasicOutcome\Service\Server\Processor\BasicOutcomeServiceServerProcessorInterface:
+        class: App\BasicOutcome\BasicOutcomeProcessor
