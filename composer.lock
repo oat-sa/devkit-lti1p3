@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "263f6f411221f9aaea2ad487ddbc48e9",
+    "content-hash": "3a89ac71847f5fdb0f8025942fcd001e",
     "packages": [
         {
             "name": "codercat/jwk-to-pem",
@@ -803,16 +803,16 @@
         },
         {
             "name": "oat-sa/lib-lti1p3-basic-outcome",
-            "version": "dev-feature/NEX-1665/basic-outcome-platform",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:oat-sa/lib-lti1p3-basic-outcome.git",
-                "reference": "69dac0accf2a191f8a26b39089f704f71694cb7f"
+                "url": "https://github.com/oat-sa/lib-lti1p3-basic-outcome.git",
+                "reference": "149b5a8a1613148d5ae4f84a3f4463f0a2c50a56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-basic-outcome/zipball/69dac0accf2a191f8a26b39089f704f71694cb7f",
-                "reference": "69dac0accf2a191f8a26b39089f704f71694cb7f",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-basic-outcome/zipball/149b5a8a1613148d5ae4f84a3f4463f0a2c50a56",
+                "reference": "149b5a8a1613148d5ae4f84a3f4463f0a2c50a56",
                 "shasum": ""
             },
             "require": {
@@ -821,7 +821,7 @@
                 "php": ">=7.2.0",
                 "psr/http-server-handler": "^1.0",
                 "ramsey/uuid": "^3.9",
-                "symfony/dom-crawler": "^5.2",
+                "symfony/dom-crawler": "^4.4 || ^5.1",
                 "twig/twig": "^3.0"
             },
             "require-dev": {
@@ -834,21 +834,12 @@
                     "OAT\\Library\\Lti1p3BasicOutcome\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "OAT\\Library\\Lti1p3BasicOutcome\\Tests\\": "tests/",
-                    "OAT\\Library\\Lti1p3Core\\Tests\\": "vendor/oat-sa/lib-lti1p3-core/tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-only"
             ],
             "description": "OAT LTI 1.3 Basic Outcome Library",
-            "support": {
-                "source": "https://github.com/oat-sa/lib-lti1p3-basic-outcome/tree/feature/NEX-1665/basic-outcome-platform",
-                "issues": "https://github.com/oat-sa/lib-lti1p3-basic-outcome/issues"
-            },
-            "time": "2020-12-03T06:56:23+00:00"
+            "time": "2020-12-08T15:21:40+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-core",
@@ -2622,16 +2613,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "e38520236bdc911c2f219634b485bc328746e980"
+                "reference": "ceb2b4e612bd0b4bb36a4d7fb2e800c861652f48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/e38520236bdc911c2f219634b485bc328746e980",
-                "reference": "e38520236bdc911c2f219634b485bc328746e980",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/ceb2b4e612bd0b4bb36a4d7fb2e800c861652f48",
+                "reference": "ceb2b4e612bd0b4bb36a4d7fb2e800c861652f48",
                 "shasum": ""
             },
             "require": {
@@ -2641,6 +2632,7 @@
             "require-dev": {
                 "composer/composer": "^1.0.2|^2.0",
                 "symfony/dotenv": "^4.4|^5.0",
+                "symfony/filesystem": "^4.4|^5.0",
                 "symfony/phpunit-bridge": "^4.4|^5.0",
                 "symfony/process": "^3.4|^4.4|^5.0"
             },
@@ -2681,7 +2673,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-05T10:56:45+00:00"
+            "time": "2020-12-03T10:57:35+00:00"
         },
         {
             "name": "symfony/form",
@@ -5652,9 +5644,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "oat-sa/lib-lti1p3-basic-outcome": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

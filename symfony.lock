@@ -55,7 +55,7 @@
         ]
     },
     "oat-sa/lib-lti1p3-basic-outcome": {
-        "version": "dev-feature/nex-1665/basic-outcome-platform"
+        "version": "1.0.0"
     },
     "oat-sa/lib-lti1p3-core": {
         "version": "3.3.0"
