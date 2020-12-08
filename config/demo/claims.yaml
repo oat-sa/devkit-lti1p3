@@ -9,8 +9,8 @@ parameters:
         Basic Outcome:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_BASIC_OUTCOME
             value:
-                lis_result_sourcedid: "{string|required}"
-                lis_outcome_service_url: "{url|required}"
+                lis_result_sourcedid: "123"
+                lis_outcome_service_url: "http://demo_lti1p3_nginx/platform/service/basic-outcome"
         Context:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_CONTEXT
             value:
@@ -49,8 +49,6 @@ parameters:
                 url: "{url|optional}"
                 product_family_code: "{string|optional}"
                 version: "{string|optional}"
-
-
-
-
-
+        Roles:
+            name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_ROLES
+            value: ["Learner"]

@@ -1,0 +1,37 @@
+<br/>
+<div class="card bg-light">
+    <div class="card-header">
+        <i class="fas fa-poll"></i>&nbsp;Basic outcome response
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <dl class="list-unstyled">
+                    <dt>Score</dt>
+                    <dd><code>{{ response.score|default('n/a') }}</code></dd>
+                    <dt>Language</dt>
+                    <dd>{{ response.language|default('n/a') }}</dd>
+                    <dt>Description</dt>
+                    <dd>{{ response.description|default('n/a') }}</dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <dl class="list-unstyled">
+                    <dt>Is success</dt>
+                    {% if response.success %}
+                        <dd><span class="badge badge-pill badge-success"><i class="fas fa-check"></i>&nbsp;Success</span></dd>
+                    {% else %}
+                        <dd><span class="badge badge-pill badge-danger"><i class="fas fa-exclamation-circle"></i>&nbsp;Failure</span></dd>
+                    {% endif %}
+                    <dt>Ref. identifier</dt>
+                    <dd>{{ response.referenceRequestIdentifier|default('n/a') }}</dd>
+                    <dt>Ref. operation</dt>
+                    <dd>{{ response.referenceRequestType|default('n/a') }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-muted">
+        <small>Basic outcome service response</small>
+    </div>
+</div>
