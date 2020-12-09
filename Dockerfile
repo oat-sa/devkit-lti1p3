@@ -12,7 +12,6 @@ RUN set -eux; \
             sudo \
             libmcrypt-dev \
             libpng-dev \
-            librdkafka-dev \
             libxml2-dev \
             linux-headers \
             make \
@@ -26,8 +25,12 @@ RUN set -eux; \
             zlib-dev \
             zstd-dev \
         ; \
-        yes "" | pecl install redis igbinary \
+        yes "" | pecl install redis igbinary grpc-1.30.0 protobuf-3.12.2 apcu rdkafka-3.1.3 \
         ;\
+        docker-php-ext-install opcache; \
+        docker-php-ext-install pcntl; \
+        docker-php-ext-install sysvshm; \
+        docker-php-ext-install sysvsem; \
         docker-php-ext-install intl; \
         docker-php-ext-install gd; \
         docker-php-ext-install opcache; \
@@ -36,7 +39,12 @@ RUN set -eux; \
         docker-php-ext-install sockets \
         ; \
         docker-php-ext-enable redis; \
+        docker-php-ext-enable grpc; \
+        docker-php-ext-enable protobuf; \
+        docker-php-ext-enable apcu; \
+        docker-php-ext-enable rdkafka; \
         docker-php-ext-enable igbinary; \
+        docker-php-ext-enable redis; \
         runDeps="$( \
                 scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
                 | tr ',' '\n' \
