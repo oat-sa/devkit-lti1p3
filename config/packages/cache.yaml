@@ -1,4 +1,4 @@
 framework:
     cache:
         app: cache.adapter.redis
-        default_redis_provider: redis://demo_lti1p3_redis:6379
+        default_redis_provider: '%env(resolve:REDIS_CACHE_DSN)%'
