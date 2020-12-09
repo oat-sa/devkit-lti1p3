@@ -23,7 +23,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="pills-user-tab" data-toggle="pill" href="#pills-user" role="tab" aria-controls="pills-user" aria-selected="false">
-                    <i class="fas fa-user"></i>&nbsp;User
+                    <i class="fas fa-id-card"></i>&nbsp;Identity
                 </a>
             </li>
             <li class="nav-item">
@@ -55,7 +55,7 @@
                 {% include 'launch/blocks/registration.html.twig' with {'token': token} %}
             </div>
             <div class="tab-pane fade" id="pills-user" role="tabpanel" aria-labelledby="pills-user-tab">
-                {% include 'launch/blocks/user.html.twig' with {'token': token} %}
+                {% include 'launch/blocks/identity.html.twig' with {'token': token} %}
             </div>
             <div class="tab-pane fade" id="pills-nrps" role="tabpanel" aria-labelledby="pills-nrps-tab">
                 {% include 'launch/blocks/nrps.html.twig' with {'token': token} %}
