@@ -16,7 +16,6 @@ RUN set -eux; \
             linux-headers \
             make \
             oniguruma-dev \
-            postgresql-dev \
             procps \
             unzip \
             wget \
@@ -61,9 +60,6 @@ WORKDIR /var/www/html
 #{{{ composer
 FROM demo_lti1p3-base AS composer
 
-ARG SSH_KEY
-ENV SSH_KEY=$SSH_KEY
-
 RUN set -eu; \
         EXPECTED_CHECKSUM="$(wget -q -O - https://composer.github.io/installer.sig)"; \
         php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"; \
@@ -77,7 +73,6 @@ RUN set -eu; \
         php composer-setup.php --quiet --install-dir=/usr/local/bin --filename=composer; \
         RESULT=$?; \
         rm composer-setup.php; \
-        apk --no-cache add openssh git; \
         composer self-update --1; \
         composer global require hirak/prestissimo;
 
@@ -86,14 +81,8 @@ COPY . .
 
 # Install required packages
 RUN set -eu; \
-        mkdir -p ~/.ssh; \
-        echo -e "${SSH_KEY}" > ~/.ssh/id_rsa; \
-        chmod og-rwx ~/.ssh/id_rsa; \
-        ssh-keyscan -H github.com >> ~/.ssh/known_hosts \
-        ; \
         composer install -n --optimize-autoloader --no-dev --prefer-dist; \
         composer dump-autoload -n --optimize --no-dev --classmap-authoritative; \
         rm -rf .build/; \
-        rm -rf .git; \
-        rm -rf ~/.ssh/;
+        rm -rf .git; 
 #}}} composer
