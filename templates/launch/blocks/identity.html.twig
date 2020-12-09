@@ -1,17 +1,11 @@
-{% if not token.payload.userIdentity %}
-    <div class="alert alert-dark" role="alert">
-        <i class="fas fa-user-secret"></i>&nbsp;Anonymous User
-    </div>
-{% else %}
+<h6 class="card-title">
+    <i class="fas fa-user"></i>&nbsp;User
+</h6>
+<hr/>
+{% if token.payload.userIdentity %}
     <div class="alert alert-info" role="alert">
         <i class="fas fa-user-check"></i>&nbsp;Platform trusted user
     </div>
-{% endif %}
-{% if token.payload.userIdentity %}
-    <h6 class="card-title">
-        <i class="fas fa-info-circle"></i>&nbsp;Details
-    </h6>
-    <hr/>
     <div class="row">
         <div class="col-md-6">
             <dl class="list-unstyled">
@@ -50,16 +44,19 @@
             </dl>
         </div>
     </div>
-    <h6 class="card-title">
-        <i class="fas fa-user-tag"></i>&nbsp;Roles <small>(at launch)</small>
-    </h6>
-    <hr/>
-    <div class="row">
-        <div class="col-md-12">
-            <dl class="list-unstyled">
-                <dt>Roles</dt>
-                <dd>{{ token.payload.roles|join(', ')|default('n/a') }}</dd>
-            </dl>
-        </div>
+{% else %}
+    <div class="alert alert-dark" role="alert">
+        <i class="fas fa-user-secret"></i>&nbsp;Anonymous User
     </div>
 {% endif %}
+<h6 class="card-title">
+    <i class="fas fa-user-tag"></i>&nbsp;Roles <small>(at launch)</small>
+</h6>
+<hr/>
+<div class="row">
+    <div class="col-md-12">
+        <dl class="list-unstyled">
+            <dd>{{ token.payload.roles|join(', ')|default('n/a') }}</dd>
+        </dl>
+    </div>
+</div>
