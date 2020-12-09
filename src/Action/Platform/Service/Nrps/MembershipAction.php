@@ -24,6 +24,7 @@ namespace App\Action\Platform\Service\Nrps;
 
 use App\Nrps\MembershipServiceServerBuilder;
 use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Service\LtiServiceSecurityToken;
+use OAT\Library\Lti1p3Nrps\Service\MembershipServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,10 +56,14 @@ class MembershipAction
             $request->get('offset')
         );
 
-        return new JsonResponse(
-            $membership,
-            Response::HTTP_OK,
-            $membership->getRelationLink() ? ['Link' => $membership->getRelationLink()] : []
-        );
+        $responseHeaders = [
+            'Content-Type' => MembershipServiceInterface::CONTENT_TYPE_MEMBERSHIP
+        ];
+
+        if ($membership->getRelationLink()) {
+            $responseHeaders['Link'] = $membership->getRelationLink();
+        }
+
+        return new JsonResponse($membership, Response::HTTP_OK, $responseHeaders);
     }
 }

@@ -24,6 +24,7 @@ namespace App\Action\Platform\Service\BasicOutcome;
 
 use OAT\Library\Lti1p3BasicOutcome\Serializer\Request\BasicOutcomeRequestSerializerInterface;
 use OAT\Library\Lti1p3BasicOutcome\Serializer\Response\BasicOutcomeResponseSerializerInterface;
+use OAT\Library\Lti1p3BasicOutcome\Service\BasicOutcomeServiceInterface;
 use OAT\Library\Lti1p3BasicOutcome\Service\Server\Handler\BasicOutcomeServiceServerHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,6 +56,12 @@ class ResultAction
             $this->basicOutcomeRequestSerializer->deserialize($request->getContent())
         );
 
-        return new Response($this->basicOutcomeResponseSerializer->serialize($basicOutcomeResponse));
+        return new Response(
+            $this->basicOutcomeResponseSerializer->serialize($basicOutcomeResponse),
+            Response::HTTP_OK,
+            [
+                'Content-Type' => BasicOutcomeServiceInterface::CONTENT_TYPE_BASIC_OUTCOME
+            ]
+        );
     }
 }

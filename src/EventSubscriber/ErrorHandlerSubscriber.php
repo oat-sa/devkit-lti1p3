@@ -24,6 +24,7 @@ namespace App\EventSubscriber;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -57,11 +58,24 @@ class ErrorHandlerSubscriber implements EventSubscriberInterface
 
         $this->logger->error($exception->getMessage());
 
-        $event->setResponse(
-            new Response($this->twig->render('error/error.html.twig', [
-                'code' => $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : null,
-                'message' => $exception->getMessage(),
-            ]))
-        );
+        $code = $exception instanceof HttpExceptionInterface
+            ? $exception->getStatusCode()
+            : Response::HTTP_INTERNAL_SERVER_ERROR;
+
+        if ($event->getRequest()->isXmlHttpRequest()) {
+            $event->setResponse(
+                new JsonResponse([
+                    'code' => $code,
+                    'message' => $exception->getMessage(),
+                ])
+            );
+        } else {
+            $event->setResponse(
+                new Response($this->twig->render('error/error.html.twig', [
+                    'code' => $code,
+                    'message' => $exception->getMessage(),
+                ]))
+            );
+        }
     }
 }
