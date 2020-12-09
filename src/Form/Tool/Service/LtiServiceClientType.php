@@ -83,7 +83,7 @@ class LtiServiceClientType extends AbstractType
                 TextareaType::class,
                 [
                     'required' => false,
-                    'attr' => ['rows' => 5],
+                    'attr' => ['rows' => 10],
                     'help' => "Request body to perform the call with"
                 ]
             )
@@ -93,6 +93,15 @@ class LtiServiceClientType extends AbstractType
                 [
                     'label' => 'Scopes',
                     'help' => "Scopes to provide to the selected registration's platform access token endpoint"
+                ]
+            )
+            ->add(
+                'accept',
+                TextType::class,
+                [
+                    'required' => false,
+                    'label' => 'Accept',
+                    'help' => "Request content type to perform the call with"
                 ]
             )
             ->add(

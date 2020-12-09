@@ -78,6 +78,14 @@
                 success: function(result){
                     $("#nrpsSpinner").addClass("invisible");
                     $("#nrpsZone").html(result);
+                },
+                error: function(result){
+                    $("#nrpsSpinner").addClass("invisible");
+                    $("#nrpsZone").html(
+                        '<br/><div class="alert alert-danger" role="alert">' +
+                        '<i class="fas fa-exclamation-circle"></i>&nbsp;' + result.responseJSON.message +
+                        '</div>'
+                    );
                 }
             });
         });

@@ -79,10 +79,17 @@ class LtiServiceClientAction
             $registration = $formData['registration'];
             $serviceUrl = $formData['service_url'] ?? null;
             $method = $formData['method'] ?? 'GET';
+            $accept = $formData['accept'] ?? null;
             $body = $formData['body'] ?? null;
             $scopes = explode(' ', $formData['scope']);
 
             $options = [];
+
+            if (null !== $accept) {
+                $options['headers'] = [
+                    'Accept' => $accept
+                ];
+            }
 
             if (null !== $body) {
                 $options['body'] = $body;
@@ -90,7 +97,24 @@ class LtiServiceClientAction
 
             $response = $this->client->request($registration, $method, $serviceUrl, $options, $scopes);
 
-            $serviceData = json_decode((string)$response->getBody(), true);
+            $responseContentType = strtolower($response->getHeaderLine('Content-Type'));
+
+            if(strpos($responseContentType, 'json')) {
+                $format = 'json';
+                $body = json_decode((string) $response->getBody(), true);
+            } elseif (strpos($responseContentType, 'xml')) {
+                $format = 'xml';
+                $body = (string) $response->getBody();
+            } else {
+                $format = 'html';
+                $body = (string) $response->getBody();
+            }
+
+            $serviceData = [
+                'headers' => $response->getHeaders(),
+                'format' => $format,
+                'body' => $body
+            ];
 
             $this->flashBag->add('success', 'LTI service called with success');
         }
