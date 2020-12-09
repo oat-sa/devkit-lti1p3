@@ -28,6 +28,7 @@
                         {{ form_row(form.service_url) }}
                     </div>
                 </div>
+                {{ form_row(form.accept) }}
                 {{ form_row(form.body) }}
             </div>
             <div class="card-footer">
@@ -38,17 +39,55 @@
         </div>
     </div>
     {% if serviceData %}
-    <br/>
-    <div class="card bg-light">
-        <div class="card-header">
-            <i class="fas fa-sign-in-alt"></i>&nbsp;Platform service response
+        <br/>
+        <div class="card bg-light">
+            <div class="card-header">
+                <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pills-item-tab" data-toggle="pill" href="#pills-item" role="tab" aria-controls="pills-item" aria-selected="true">
+                            <i class="fas fa-envelope-open"></i>&nbsp;Response body
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-message-tab" data-toggle="pill" href="#pills-message" role="tab" aria-controls="pills-message" aria-selected="false">
+                            <i class="fas fa-info-circle"></i>&nbsp;Response headers
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-item" role="tabpanel" aria-labelledby="pills-item-tab">
+                        {% if serviceData.format == 'json' %}
+                            <pre>
+                                <code class="language-json">{{ serviceData.body|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                            </pre>
+                        {% elseif serviceData.format == 'xml' %}
+                            <pre>
+                                <code class="language-xml">{{ serviceData.body }}</code>
+                            </pre>
+                        {% else %}
+                            <pre>
+                                <code class="language-html">{{ serviceData.body }}</code>
+                            </pre>
+                        {% endif %}
+                    </div>
+                    <div class="tab-pane fade" id="pills-message" role="tabpanel" aria-labelledby="pills-message-tab">
+                        <dl class="list-unstyled">
+                            {% for headerName, headerValue in serviceData.headers %}
+                                <dt>{{ headerName }}</dt>
+                                <dd>{{ headerValue|join(" ") }}</dd>
+                            {% else %}
+                                <dt>n/a</dt>
+                            {% endfor %}
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+                <small>Platform service response</small>
+            </div>
         </div>
-        <div class="card-body">
-            <pre>
-                <code class="language-json">{{ serviceData|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
-            </pre>
-        </div>
-    </div>
     {% endif %}
 {% endblock body %}
 
