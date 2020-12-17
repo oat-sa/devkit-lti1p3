@@ -37,19 +37,23 @@
                         <small id="boOperationHelp" class="form-text text-muted">Operation type</small>
                     </div>
                 </div>
-                <div class="col col col-md-2">
+                <div class="col col col-md-3">
                     <input type="text" id="boScore" class="form-control" placeholder="Score" aria-describedby="boScoreHelp">
                     <small id="boScoreHelp" class="form-text text-muted">Score</small>
                 </div>
-                <div class="col col col-md-2">
+                <div class="col col col-md-3">
                     <input type="text" id="boLanguage"class="form-control" placeholder="Language" aria-describedby="boLanguageHelp">
                     <small id="boLanguageHelp" class="form-text text-muted">Language</small>
                 </div>
-                <div class="col col col-md-4">
-                    <button id="boLoad" class="btn-primary btn"><i class="fas fa-sign-in-alt"></i>&nbsp;Call service</button>
-                    <button id="boReset" class="btn-secondary btn"><i class="fas fa-undo"></i>&nbsp;Reset</button>
-                    &nbsp;
-                    <i id="boSpinner" class="invisible fa-lg fas fa-spinner fa-spin"></i>
+                <div class="col col col-md-2">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button id="boLoad" class="btn-primary btn">
+                            <i id="boCall" class="fas fa-sign-in-alt"></i>&nbsp;Call
+                        </button>
+                        <button id="boReset" class="btn-secondary btn">
+                            <i class="fas fa-undo"></i>&nbsp;Reset
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,14 +73,17 @@
                     language: $("#boLanguage").val()
                 },
                 beforeSend: function(result){
-                    $("#boSpinner").removeClass("invisible");
+                    $("#boCall").removeClass("fa-sign-in-alt");
+                    $("#boCall").addClass("fa-spinner fa-spin");
                 },
                 success: function(result){
-                    $("#boSpinner").addClass("invisible");
+                    $("#boCall").removeClass("fa-spinner fa-spin");
+                    $("#boCall").addClass("fa-sign-in-alt");
                     $("#boZone").html(result);
                 },
                 error: function(result){
-                    $("#boSpinner").addClass("invisible");
+                    $("#boCall").removeClass("fa-spinner fa-spin");
+                    $("#boCall").addClass("fa-sign-in-alt");
                     $("#boZone").html(
                         '<br/><div class="alert alert-danger" role="alert">' +
                         '<i class="fas fa-exclamation-circle"></i>&nbsp;' + result.responseJSON.message +

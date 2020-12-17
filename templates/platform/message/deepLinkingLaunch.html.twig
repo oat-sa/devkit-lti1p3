@@ -39,13 +39,25 @@
                         {{ form_row(form.auto_create) }}
                     </div>
                 </div>
-                {{ form_row(form.deep_linking_url) }}
+                <div class="form-group">
+                    {{ form_label(form.deep_linking_url) }}<br/>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <a id="launchUrlLoad" class="btn btn-secondary text-white" role="button" title="Use and edit selected registration's tool default deep linking url">
+                                <i id="launchUrlLoadLogo" class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                        {{ form_widget(form.deep_linking_url) }}
+                    </div>
+                    {{ form_help(form.deep_linking_url) }}
+                    {{ form_errors(form.deep_linking_url) }}
+                </div>
                 <div class="form-group">
                     {{ form_label(form.claims) }}<br/>
                     <div class="input-group">
                         <div class="input-group-prepend" role="group" aria-label="Manage claims">
                             <div class="btn-group-vertical" role="group">
-                                <button id="claimsAdd" type="button" class="btn btn-primary btn-sm btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Add claim">
+                                <button id="claimsAdd" type="button" class="btn btn-primary btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Add claim">
                                     <i class="fas fa-plus-circle"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="claimsAdd">
@@ -59,7 +71,7 @@
                                         </a>
                                     {% endfor %}
                                 </div>
-                                <button id="claimsFormat" type="button" class="btn btn-secondary btn-sm btn-block" title="Format claims">
+                                <button id="claimsFormat" type="button" class="btn btn-secondary btn-block" title="Format claims">
                                     <i class="fas fa-align-left"></i>
                                 </button>
                             </div>
@@ -138,6 +150,31 @@
     </div>
     {% endif %}
     <script>
+        $("#launchUrlLoad").click(function(){
+            $.ajax({
+                url: "{{ path('platform_ajax_default_registration_url') }}",
+                method: "POST",
+                data: {
+                    registration: $("#deep_linking_launch_registration").find(":selected").text(),
+                    type: "{{ constant('OAT\\Library\\Lti1p3Core\\Message\\LtiMessageInterface::LTI_MESSAGE_TYPE_DEEP_LINKING_REQUEST') }}",
+                },
+                dataType: "json",
+                beforeSend: function(result){
+                    $("#launchUrlLoadLogo").removeClass("fa-edit");
+                    $("#launchUrlLoadLogo").addClass("fa-spinner fa-spin");
+                },
+                success: function(result){
+                    $("#launchUrlLoadLogo").removeClass("fa-spinner fa-spin");
+                    $("#launchUrlLoadLogo").addClass("fa-edit");
+                    $("#deep_linking_launch_deep_linking_url").val(result.url);
+                },
+                error: function(result){
+                    $("#launchUrlLoadLogo").removeClass("fa-spinner fa-spin");
+                    $("#launchUrlLoadLogo").addClass("fa-edit");
+                }
+            });
+        });
+
         $("#claimsFormat").click(function(event){
             $("#deep_linking_launch_claims").val(
                 JSON.stringify(JSON.parse($("#deep_linking_launch_claims").val()), undefined, 4)
