@@ -23,19 +23,23 @@
             </div>
             <br/>
             <div class="form-row">
-                <div class="col col col-md-4">
+                <div class="col col col-md-5">
                     <input type="text" id="nrpsRole" class="form-control" placeholder="Role filter" aria-describedby="nrpsRoleHelp">
                     <small id="nrpsRoleHelp" class="form-text text-muted">Role filter</small>
                 </div>
-                <div class="col col col-md-4">
+                <div class="col col col-md-5">
                     <input type="text" id="nrpsLimit"class="form-control" placeholder="Limit" aria-describedby="nrpsLimitHelp">
                     <small id="nrpsLimitHelp" class="form-text text-muted">Limit to return</small>
                 </div>
-                <div class="col col col-md-4">
-                    <button id="nrpsLoad" class="btn-primary btn"><i class="fas fa-sign-in-alt"></i>&nbsp;Call service</button>
-                    <button id="nrpsReset" class="btn-secondary btn"><i class="fas fa-undo"></i>&nbsp;Reset</button>
-                    &nbsp;
-                    <i id="nrpsSpinner" class="invisible fa-lg fas fa-spinner fa-spin"></i>
+                <div class="col col col-md-2">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button id="nrpsLoad" class="btn-primary btn">
+                            <i id="nrpsCall" class="fas fa-sign-in-alt"></i>&nbsp;Call
+                        </button>
+                        <button id="nrpsReset" class="btn-secondary btn">
+                            <i class="fas fa-undo"></i>&nbsp;Reset
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,14 +77,17 @@
                     limit: $("#nrpsLimit").val()
                 },
                 beforeSend: function(result){
-                    $("#nrpsSpinner").removeClass("invisible");
+                    $("#nrpsCall").removeClass("fa-sign-in-alt");
+                    $("#nrpsCall").addClass("fa-spinner fa-spin");
                 },
                 success: function(result){
-                    $("#nrpsSpinner").addClass("invisible");
+                    $("#nrpsCall").removeClass("fa-spinner fa-spin");
+                    $("#nrpsCall").addClass("fa-sign-in-alt");
                     $("#nrpsZone").html(result);
                 },
                 error: function(result){
-                    $("#nrpsSpinner").addClass("invisible");
+                    $("#nrpsCall").removeClass("fa-spinner fa-spin");
+                    $("#nrpsCall").addClass("fa-sign-in-alt");
                     $("#nrpsZone").html(
                         '<br/><div class="alert alert-danger" role="alert">' +
                         '<i class="fas fa-exclamation-circle"></i>&nbsp;' + result.responseJSON.message +

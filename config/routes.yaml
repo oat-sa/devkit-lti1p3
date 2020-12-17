@@ -31,6 +31,11 @@ tool_service_client:
     path: /tool/service/client
     controller: App\Action\Tool\Service\LtiServiceClientAction
 
+platform_ajax_default_registration_url:
+    path: /platform/ajax/registration-url
+    controller: App\Action\Platform\Ajax\RegistrationDefaultLaunchUrlAction
+    condition: "request.isXmlHttpRequest()"
+
 tool_ajax_service_nrps:
     path: /tool/ajax/nrps
     controller: App\Action\Tool\Ajax\NrpsServiceClientAction

@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.1.0
+-----
+
+* Added launch url editors for LTI launch and deep linking
+* Reworked interface for services callers
+
 1.0.0
 -----
 
