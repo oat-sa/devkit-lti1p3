@@ -20,13 +20,25 @@
                         {{ form_row(form.user) }}
                     </div>
                 </div>
-                {{ form_row(form.launch_url) }}
+                <div class="form-group">
+                    {{ form_label(form.launch_url) }}<br/>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <a id="launchUrlLoad" class="btn btn-secondary text-white" role="button" title="Use and edit selected registration's tool default launch url">
+                                <i id="launchUrlLoadLogo" class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                        {{ form_widget(form.launch_url) }}
+                    </div>
+                    {{ form_help(form.launch_url) }}
+                    {{ form_errors(form.launch_url) }}
+                </div>
                 <div class="form-group">
                     {{ form_label(form.claims) }}<br/>
                     <div class="input-group">
                         <div class="input-group-prepend" role="group" aria-label="Manage claims">
                             <div class="btn-group-vertical" role="group">
-                                <button id="claimsAdd" type="button" class="btn btn-primary btn-sm btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Add claim">
+                                <button id="claimsAdd" type="button" class="btn btn-primary btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Add claim">
                                     <i class="fas fa-plus-circle"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="claimsAdd">
@@ -40,7 +52,7 @@
                                     </a>
                                 {% endfor %}
                                 </div>
-                                <button id="claimsFormat" type="button" class="btn btn-secondary btn-sm btn-block" title="Format claims">
+                                <button id="claimsFormat" type="button" class="btn btn-secondary btn-block" title="Format claims">
                                     <i class="fas fa-align-left"></i>
                                 </button>
 
@@ -120,6 +132,31 @@
     </div>
     {% endif %}
     <script>
+        $("#launchUrlLoad").click(function(){
+            $.ajax({
+                url: "{{ path('platform_ajax_default_registration_url') }}",
+                method: "POST",
+                data: {
+                    registration: $("#lti_resource_link_launch_registration").find(":selected").text(),
+                    type: "{{ constant('OAT\\Library\\Lti1p3Core\\Message\\LtiMessageInterface::LTI_MESSAGE_TYPE_RESOURCE_LINK_REQUEST') }}",
+                },
+                dataType: "json",
+                beforeSend: function(result){
+                    $("#launchUrlLoadLogo").removeClass("fa-edit");
+                    $("#launchUrlLoadLogo").addClass("fa-spinner fa-spin");
+                },
+                success: function(result){
+                    $("#launchUrlLoadLogo").removeClass("fa-spinner fa-spin");
+                    $("#launchUrlLoadLogo").addClass("fa-edit");
+                    $("#lti_resource_link_launch_launch_url").val(result.url);
+                },
+                error: function(result){
+                    $("#launchUrlLoadLogo").removeClass("fa-spinner fa-spin");
+                    $("#launchUrlLoadLogo").addClass("fa-edit");
+                }
+            });
+        });
+
         $("#claimsFormat").click(function(event){
             $("#lti_resource_link_launch_claims").val(
                 JSON.stringify(JSON.parse($("#lti_resource_link_launch_claims").val()), undefined, 4)
