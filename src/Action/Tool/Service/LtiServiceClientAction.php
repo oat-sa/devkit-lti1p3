@@ -112,6 +112,7 @@ class LtiServiceClientAction
 
             $serviceData = [
                 'headers' => $response->getHeaders(),
+                'code' => $response->getStatusCode(),
                 'format' => $format,
                 'body' => $body
             ];

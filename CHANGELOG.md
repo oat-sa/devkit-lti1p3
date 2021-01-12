@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.2.0
+-----
+
+* Added more details to tool generic service client response interface
+
 1.1.0
 -----
 

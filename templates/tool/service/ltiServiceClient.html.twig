@@ -50,7 +50,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="pills-message-tab" data-toggle="pill" href="#pills-message" role="tab" aria-controls="pills-message" aria-selected="false">
-                            <i class="fas fa-info-circle"></i>&nbsp;Response headers
+                            <i class="fas fa-info-circle"></i>&nbsp;Response details
                         </a>
                     </li>
                 </ul>
@@ -73,6 +73,32 @@
                         {% endif %}
                     </div>
                     <div class="tab-pane fade" id="pills-message" role="tabpanel" aria-labelledby="pills-message-tab">
+                        <h6 class="card-title">
+                            <i class="fas fa-info-circle"></i>&nbsp;Status code
+                        </h6>
+                        <hr/>
+                        <dl class="list-unstyled">
+                            <dt>Code</dt>
+                            <dd>
+                                {% if serviceData.code >= 200 and serviceData.code < 300 %}
+                                    <span class="badge badge-pill badge-success">
+                                        {{ serviceData.code}}
+                                    </span>
+                                {% elseif serviceData.code >= 500 %}
+                                    <span class="badge badge-pill badge-error">
+                                        {{ serviceData.code}}
+                                    </span>
+                                {% else %}
+                                    <span class="badge badge-pill badge-warning">
+                                        {{ serviceData.code}}
+                                    </span>
+                                {% endif %}
+                            </dd>
+                        </dl>
+                        <h6 class="card-title">
+                            <i class="fas fa-info-circle"></i>&nbsp;Headers
+                        </h6>
+                        <hr/>
                         <dl class="list-unstyled">
                             {% for headerName, headerValue in serviceData.headers %}
                                 <dt>{{ headerName }}</dt>
