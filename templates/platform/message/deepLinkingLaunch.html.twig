@@ -184,7 +184,6 @@
         $(".editorClaim").click(function(event){
             var claims = JSON.parse($("#deep_linking_launch_claims").val() || "{}");
             claims[$(this).data('name')] = $(this).data('value');
-            console.log(claims);
             $("#deep_linking_launch_claims").val(JSON.stringify(claims, undefined, 4));
         });
     </script>

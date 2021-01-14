@@ -67,6 +67,10 @@
             <div class="card-footer">
                     {{ form_widget(form.submit) }}
                     <a href="{{ path('platform_message_launch_lti_resource_link') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
+                    {% if formSubmitted %}
+                        <a href="{{ path('platform_message_launch_lti_resource_link') }}" class="btn btn-secondary"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
+                        {{  formShareUrl }}
+                    {% endif %}
             </div>
             {{ form_end(form) }}
         </div>
@@ -132,6 +136,24 @@
     </div>
     {% endif %}
     <script>
+        function formatClaims() {
+            try {
+                if ($("#lti_resource_link_launch_claims").val() != '') {
+                    $("#lti_resource_link_launch_claims").val(
+                        JSON.stringify(JSON.parse($("#lti_resource_link_launch_claims").val()), undefined, 4)
+                    );
+                    $("#lti_resource_link_launch_claims").removeClass('is-invalid');
+                    $("#lti_resource_link_launch_claims").addClass('is-valid');
+                } else {
+                    $("#lti_resource_link_launch_claims").removeClass('is-invalid');
+                    $("#lti_resource_link_launch_claims").removeClass('is-valid');
+                }
+            } catch(e) {
+                $("#lti_resource_link_launch_claims").removeClass('is-valid');
+                $("#lti_resource_link_launch_claims").addClass('is-invalid');
+            }
+        }
+
         $("#launchUrlLoad").click(function(){
             $.ajax({
                 url: "{{ path('platform_ajax_default_registration_url') }}",
@@ -158,16 +180,24 @@
         });
 
         $("#claimsFormat").click(function(event){
-            $("#lti_resource_link_launch_claims").val(
-                JSON.stringify(JSON.parse($("#lti_resource_link_launch_claims").val()), undefined, 4)
-            );
+            formatClaims();
         });
 
         $(".editorClaim").click(function(event){
-            var claims = JSON.parse($("#lti_resource_link_launch_claims").val() || "{}");
-            claims[$(this).data('name')] = $(this).data('value');
-            console.log(claims);
-            $("#lti_resource_link_launch_claims").val(JSON.stringify(claims, undefined, 4));
+            try {
+                var claims = JSON.parse($("#lti_resource_link_launch_claims").val() || "{}");
+                claims[$(this).data('name')] = $(this).data('value');
+                $("#lti_resource_link_launch_claims").val(JSON.stringify(claims, undefined, 4));
+                $("#lti_resource_link_launch_claims").removeClass('is-invalid');
+                $("#lti_resource_link_launch_claims").addClass('is-valid');
+            } catch(e) {
+                $("#lti_resource_link_launch_claims").removeClass('is-valid');
+                $("#lti_resource_link_launch_claims").addClass('is-invalid');
+            }
+        });
+
+        $( document ).ready(function() {
+            formatClaims();
         });
     </script>
 {% endblock body %}
