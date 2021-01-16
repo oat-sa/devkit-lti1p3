@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace App\Form\Platform\Message;
 
+use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use OAT\Library\Lti1p3Core\Resource\File\FileInterface;
 use OAT\Library\Lti1p3Core\Resource\HtmlFragment\HtmlFragmentInterface;
@@ -30,6 +31,7 @@ use OAT\Library\Lti1p3Core\Resource\Link\LinkInterface;
 use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLinkInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -174,6 +176,20 @@ class DeepLinkingLaunchType extends AbstractType
                     'attr' => ['class' => 'btn-primary']
                 ]
             )
+        ;
+
+        $builder
+            ->get('registration')
+            ->addModelTransformer(new CallbackTransformer(
+                function (?string $registrationIdentifier) {
+                    return $registrationIdentifier
+                        ? $this->repository->find($registrationIdentifier)
+                        : null;
+                },
+                function (?RegistrationInterface $registration) {
+                    return $registration;
+                }
+            ))
         ;
     }
 }

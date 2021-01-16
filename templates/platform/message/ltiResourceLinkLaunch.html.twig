@@ -68,11 +68,32 @@
                     {{ form_widget(form.submit) }}
                     <a href="{{ path('platform_message_launch_lti_resource_link') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
                     {% if formSubmitted %}
-                        <a href="{{ path('platform_message_launch_lti_resource_link') }}" class="btn btn-secondary"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
-                        {{  formShareUrl }}
+                        <a class="btn btn-secondary text-white" data-toggle="modal" data-target="#formShareModal"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
                     {% endif %}
             </div>
             {{ form_end(form) }}
+        </div>
+        <div class="modal fade" id="formShareModal" tabindex="-1" role="dialog" aria-labelledby="formShareModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="nrpsMemberModalLabel"><i class="fas fa-info-circle"></i>&nbsp;Generator share url</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="15">{{  formShareUrl }}</textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     {% if ltiResourceLinkLaunchRequest %}

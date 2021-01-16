@@ -22,26 +22,21 @@ declare(strict_types=1);
 
 namespace App\Action\Platform\Message;
 
+use App\Form\Generator\FormShareUrlGenerator;
 use App\Form\Platform\Message\LtiResourceLinkLaunchType;
 use OAT\Library\Lti1p3Core\Message\Launch\Builder\LtiResourceLinkLaunchRequestBuilder;
 use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLink;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
 class LtiResourceLinkLaunchAction
 {
-    /** @var RouterInterface */
-    private $router;
-
     /** @var FlashBagInterface */
     private $flashBag;
 
@@ -54,22 +49,25 @@ class LtiResourceLinkLaunchAction
     /** @var FormFactoryInterface */
     private $factory;
 
+    /** @var FormShareUrlGenerator */
+    private $generator;
+
     /** @var LtiResourceLinkLaunchRequestBuilder */
     private $builder;
 
     public function __construct(
-        RouterInterface $router,
         FlashBagInterface $flashBag,
         ParameterBagInterface $parameterBag,
         Environment $twig,
         FormFactoryInterface $factory,
+        FormShareUrlGenerator $generator,
         LtiResourceLinkLaunchRequestBuilder $builder
     ) {
-        $this->router = $router;
         $this->flashBag = $flashBag;
         $this->parameterBag = $parameterBag;
         $this->twig = $twig;
         $this->factory = $factory;
+        $this->generator = $generator;
         $this->builder = $builder;
     }
 
@@ -122,20 +120,11 @@ class LtiResourceLinkLaunchAction
                 [
                     'form' => $form->createView(),
                     'formSubmitted' => $form->isSubmitted(),
-                    'formShareUrl' => $this->generateFormShareUrl($form),
+                    'formShareUrl' => $this->generator->generate('platform_message_launch_lti_resource_link', $form),
                     'ltiResourceLinkLaunchRequest' => $ltiResourceLinkLaunchRequest,
                     'editorClaims' => $this->parameterBag->get('editor_claims')
                 ]
             )
-        );
-    }
-
-    private function generateFormShareUrl(FormInterface $form): string
-    {
-        return $this->router->generate(
-            'platform_message_launch_lti_resource_link',
-            $form->getNormData(),
-            UrlGeneratorInterface::ABSOLUTE_URL
         );
     }
 }
