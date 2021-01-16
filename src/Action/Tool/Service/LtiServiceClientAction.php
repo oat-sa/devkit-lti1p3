@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace App\Action\Tool\Service;
 
+use App\Form\Generator\FormShareUrlGenerator;
 use App\Form\Tool\Service\LtiServiceClientType;
 use Lcobucci\JWT\Builder;
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
@@ -43,6 +44,9 @@ class LtiServiceClientAction
     /** @var FormFactoryInterface */
     private $factory;
 
+    /** @var FormShareUrlGenerator */
+    private $generator;
+
     /** @var ServiceClientInterface */
     private $client;
 
@@ -53,12 +57,14 @@ class LtiServiceClientAction
         FlashBagInterface $flashBag,
         Environment $twig,
         FormFactoryInterface $factory,
+        FormShareUrlGenerator $generator,
         ServiceClientInterface $client,
         Builder $builder
     ) {
         $this->flashBag = $flashBag;
         $this->twig = $twig;
         $this->factory = $factory;
+        $this->generator = $generator;
         $this->client = $client;
         $this->builder = $builder;
     }
@@ -118,6 +124,8 @@ class LtiServiceClientAction
             ];
 
             $this->flashBag->add('success', 'LTI service called with success');
+        } else {
+            $form->setData($request->query->all());
         }
 
         return new Response(
@@ -125,6 +133,8 @@ class LtiServiceClientAction
                 'tool/service/ltiServiceClient.html.twig',
                 [
                     'form' => $form->createView(),
+                    'formSubmitted' => $form->isSubmitted(),
+                    'formShareUrl' => $this->generator->generate('tool_service_client', $form),
                     'serviceData' => $serviceData,
                 ]
             )

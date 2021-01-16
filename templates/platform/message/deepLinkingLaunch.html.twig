@@ -78,6 +78,9 @@
                         </div>
                         {{ form_widget(form.claims) }}
                     </div>
+                    <div id="claimsError" class="invalid-feedback">
+                        Invalid claims, please provide a valid JSON representation
+                    </div>
                     {{ form_help(form.claims) }}
                     {{ form_errors(form.claims) }}
                 </div>
@@ -85,9 +88,13 @@
             <div class="card-footer">
                 {{ form_widget(form.submit) }}
                 <a href="{{ path('platform_message_launch_deep_linking') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
+                {% if formSubmitted %}
+                    <a class="btn btn-secondary text-white" data-toggle="modal" data-target="#formShareModal"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
+                {% endif %}
             </div>
             {{ form_end(form) }}
         </div>
+        {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
     </div>
     {% if deepLinkingLaunchRequest %}
     <br/>
@@ -150,6 +157,26 @@
     </div>
     {% endif %}
     <script>
+        function checkClaims() {
+            try {
+                if ($("#deep_linking_launch_claims").val() != '') {
+                    $("#deep_linking_launch_claims").val(
+                        JSON.stringify(JSON.parse($("#deep_linking_launch_claims").val()), undefined, 4)
+                    );
+                    $("#deep_linking_launch_claims").removeClass('is-invalid');
+                    $("#lti_resource_link_launch_claims").addClass('is-valid');
+                } else {
+                    $("#deep_linking_launch_claims").removeClass('is-invalid');
+                    $("#deep_linking_launch_claims").removeClass('is-valid');
+                }
+                $('#claimsError').hide();
+            } catch(e) {
+                $("#deep_linking_launch_claims").removeClass('is-valid');
+                $("#deep_linking_launch_claims").addClass('is-invalid');
+                $('#claimsError').show();
+            }
+        }
+
         $("#launchUrlLoad").click(function(){
             $.ajax({
                 url: "{{ path('platform_ajax_default_registration_url') }}",
@@ -176,16 +203,32 @@
         });
 
         $("#claimsFormat").click(function(event){
-            $("#deep_linking_launch_claims").val(
-                JSON.stringify(JSON.parse($("#deep_linking_launch_claims").val()), undefined, 4)
-            );
+            checkClaims();
         });
 
         $(".editorClaim").click(function(event){
-            var claims = JSON.parse($("#deep_linking_launch_claims").val() || "{}");
-            claims[$(this).data('name')] = $(this).data('value');
-            console.log(claims);
-            $("#deep_linking_launch_claims").val(JSON.stringify(claims, undefined, 4));
+            try {
+                var claims = JSON.parse($("#deep_linking_launch_claims").val() || "{}");
+                claims[$(this).data('name')] = $(this).data('value');
+                $("#deep_linking_launch_claims").val(JSON.stringify(claims, undefined, 4));
+                $("#deep_linking_launch_claims").removeClass('is-invalid');
+                $("#deep_linking_launch_claims").addClass('is-valid');
+                $('#claimsError').hide();
+            } catch(e) {
+                $("#deep_linking_launch_claims").removeClass('is-valid');
+                $("#deep_linking_launch_claims").addClass('is-invalid');
+                $('#claimsError').show();
+            }
+        });
+
+        $('form[name=deep_linking_launch]').submit(function (evt) {
+            checkClaims();
+            try {
+                JSON.parse($("#deep_linking_launch_claims").val() || "{}");
+                return;
+            } catch(e) {
+                evt.preventDefault();
+            }
         });
     </script>
 {% endblock body %}

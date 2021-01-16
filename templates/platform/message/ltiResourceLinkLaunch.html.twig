@@ -60,6 +60,9 @@
                         </div>
                         {{ form_widget(form.claims) }}
                     </div>
+                    <div id="claimsError" class="invalid-feedback">
+                        Invalid claims, please provide a valid JSON representation
+                    </div>
                     {{ form_help(form.claims) }}
                     {{ form_errors(form.claims) }}
                 </div>
@@ -67,9 +70,13 @@
             <div class="card-footer">
                     {{ form_widget(form.submit) }}
                     <a href="{{ path('platform_message_launch_lti_resource_link') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
+                    {% if formSubmitted %}
+                        <a class="btn btn-secondary text-white" data-toggle="modal" data-target="#formShareModal"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
+                    {% endif %}
             </div>
             {{ form_end(form) }}
         </div>
+        {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
     </div>
     {% if ltiResourceLinkLaunchRequest %}
     <br/>
@@ -132,6 +139,26 @@
     </div>
     {% endif %}
     <script>
+        function checkClaims() {
+            try {
+                if ($("#lti_resource_link_launch_claims").val() != '') {
+                    $("#lti_resource_link_launch_claims").val(
+                        JSON.stringify(JSON.parse($("#lti_resource_link_launch_claims").val()), undefined, 4)
+                    );
+                    $("#lti_resource_link_launch_claims").removeClass('is-invalid');
+                    $("#lti_resource_link_launch_claims").addClass('is-valid');
+                } else {
+                    $("#lti_resource_link_launch_claims").removeClass('is-invalid');
+                    $("#lti_resource_link_launch_claims").removeClass('is-valid');
+                }
+                $('#claimsError').hide();
+            } catch(e) {
+                $("#lti_resource_link_launch_claims").removeClass('is-valid');
+                $("#lti_resource_link_launch_claims").addClass('is-invalid');
+                $('#claimsError').show();
+            }
+        }
+
         $("#launchUrlLoad").click(function(){
             $.ajax({
                 url: "{{ path('platform_ajax_default_registration_url') }}",
@@ -158,16 +185,36 @@
         });
 
         $("#claimsFormat").click(function(event){
-            $("#lti_resource_link_launch_claims").val(
-                JSON.stringify(JSON.parse($("#lti_resource_link_launch_claims").val()), undefined, 4)
-            );
+            checkClaims();
         });
 
         $(".editorClaim").click(function(event){
-            var claims = JSON.parse($("#lti_resource_link_launch_claims").val() || "{}");
-            claims[$(this).data('name')] = $(this).data('value');
-            console.log(claims);
-            $("#lti_resource_link_launch_claims").val(JSON.stringify(claims, undefined, 4));
+            try {
+                var claims = JSON.parse($("#lti_resource_link_launch_claims").val() || "{}");
+                claims[$(this).data('name')] = $(this).data('value');
+                $("#lti_resource_link_launch_claims").val(JSON.stringify(claims, undefined, 4));
+                $("#lti_resource_link_launch_claims").removeClass('is-invalid');
+                $("#lti_resource_link_launch_claims").addClass('is-valid');
+                $('#claimsError').hide();
+            } catch(e) {
+                $("#lti_resource_link_launch_claims").removeClass('is-valid');
+                $("#lti_resource_link_launch_claims").addClass('is-invalid');
+                $('#claimsError').show();
+            }
+        });
+
+        $('form[name=lti_resource_link_launch]').submit(function (evt) {
+            checkClaims();
+            try {
+                JSON.parse($("#lti_resource_link_launch_claims").val() || "{}");
+                return;
+            } catch(e) {
+                evt.preventDefault();
+            }
+        });
+
+        $( document ).ready(function() {
+            checkClaims();
         });
     </script>
 {% endblock body %}
