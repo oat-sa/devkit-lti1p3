@@ -139,7 +139,7 @@ class DeepLinkingLaunchType extends AbstractType
                         'yes' => true,
                         'no' => false,
                     ],
-                    'data' => true,
+                    'empty_data' => true,
                     'required' => true,
                     'help' => 'If should accept multiple content items'
                 ]
@@ -150,10 +150,10 @@ class DeepLinkingLaunchType extends AbstractType
                 [
                     'label' => 'Auto create',
                     'choices' => [
-                        'yes' => true,
                         'no' => false,
+                        'yes' => true,
                     ],
-                    'data' => false,
+                    'empty_data' => false,
                     'required' => true,
                     'help' => 'If should auto create the content item on tool side'
                 ]

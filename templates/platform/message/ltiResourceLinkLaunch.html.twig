@@ -60,6 +60,9 @@
                         </div>
                         {{ form_widget(form.claims) }}
                     </div>
+                    <div id="claimsError" class="invalid-feedback">
+                        Invalid claims, please provide a valid JSON representation
+                    </div>
                     {{ form_help(form.claims) }}
                     {{ form_errors(form.claims) }}
                 </div>
@@ -136,7 +139,7 @@
     </div>
     {% endif %}
     <script>
-        function formatClaims() {
+        function checkClaims() {
             try {
                 if ($("#lti_resource_link_launch_claims").val() != '') {
                     $("#lti_resource_link_launch_claims").val(
@@ -148,9 +151,11 @@
                     $("#lti_resource_link_launch_claims").removeClass('is-invalid');
                     $("#lti_resource_link_launch_claims").removeClass('is-valid');
                 }
+                $('#claimsError').hide();
             } catch(e) {
                 $("#lti_resource_link_launch_claims").removeClass('is-valid');
                 $("#lti_resource_link_launch_claims").addClass('is-invalid');
+                $('#claimsError').show();
             }
         }
 
@@ -180,7 +185,7 @@
         });
 
         $("#claimsFormat").click(function(event){
-            formatClaims();
+            checkClaims();
         });
 
         $(".editorClaim").click(function(event){
@@ -190,14 +195,26 @@
                 $("#lti_resource_link_launch_claims").val(JSON.stringify(claims, undefined, 4));
                 $("#lti_resource_link_launch_claims").removeClass('is-invalid');
                 $("#lti_resource_link_launch_claims").addClass('is-valid');
+                $('#claimsError').hide();
             } catch(e) {
                 $("#lti_resource_link_launch_claims").removeClass('is-valid');
                 $("#lti_resource_link_launch_claims").addClass('is-invalid');
+                $('#claimsError').show();
+            }
+        });
+
+        $('form[name=lti_resource_link_launch]').submit(function (evt) {
+            checkClaims();
+            try {
+                JSON.parse($("#lti_resource_link_launch_claims").val() || "{}");
+                return;
+            } catch(e) {
+                evt.preventDefault();
             }
         });
 
         $( document ).ready(function() {
-            formatClaims();
+            checkClaims();
         });
     </script>
 {% endblock body %}
