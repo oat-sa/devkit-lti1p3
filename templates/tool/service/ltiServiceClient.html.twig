@@ -34,9 +34,13 @@
             <div class="card-footer">
                 {{ form_widget(form.submit) }}
                 <a href="{{ path('tool_service_client') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
+                {% if formSubmitted %}
+                    <a class="btn btn-secondary text-white" data-toggle="modal" data-target="#formShareModal"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
+                {% endif %}
             </div>
             {{ form_end(form) }}
         </div>
+        {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
     </div>
     {% if serviceData %}
         <br/>
@@ -85,7 +89,7 @@
                                         {{ serviceData.code}}
                                     </span>
                                 {% elseif serviceData.code >= 500 %}
-                                    <span class="badge badge-pill badge-error">
+                                    <span class="badge badge-pill badge-danger">
                                         {{ serviceData.code}}
                                     </span>
                                 {% else %}

@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace App\Action\Platform\Message;
 
+use App\Form\Generator\FormShareUrlGenerator;
 use App\Form\Platform\Message\LtiResourceLinkLaunchType;
 use OAT\Library\Lti1p3Core\Message\Launch\Builder\LtiResourceLinkLaunchRequestBuilder;
 use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLink;
@@ -48,6 +49,9 @@ class LtiResourceLinkLaunchAction
     /** @var FormFactoryInterface */
     private $factory;
 
+    /** @var FormShareUrlGenerator */
+    private $generator;
+
     /** @var LtiResourceLinkLaunchRequestBuilder */
     private $builder;
 
@@ -56,12 +60,14 @@ class LtiResourceLinkLaunchAction
         ParameterBagInterface $parameterBag,
         Environment $twig,
         FormFactoryInterface $factory,
+        FormShareUrlGenerator $generator,
         LtiResourceLinkLaunchRequestBuilder $builder
     ) {
         $this->flashBag = $flashBag;
         $this->parameterBag = $parameterBag;
         $this->twig = $twig;
         $this->factory = $factory;
+        $this->generator = $generator;
         $this->builder = $builder;
     }
 
@@ -104,6 +110,8 @@ class LtiResourceLinkLaunchAction
             );
 
             $this->flashBag->add('success', 'LTI resource link generation success');
+        } else {
+            $form->setData($request->query->all());
         }
 
         return new Response(
@@ -111,6 +119,8 @@ class LtiResourceLinkLaunchAction
                 'platform/message/ltiResourceLinkLaunch.html.twig',
                 [
                     'form' => $form->createView(),
+                    'formSubmitted' => $form->isSubmitted(),
+                    'formShareUrl' => $this->generator->generate('platform_message_launch_lti_resource_link', $form),
                     'ltiResourceLinkLaunchRequest' => $ltiResourceLinkLaunchRequest,
                     'editorClaims' => $this->parameterBag->get('editor_claims')
                 ]

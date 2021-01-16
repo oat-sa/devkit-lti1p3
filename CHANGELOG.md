@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.3.0
+-----
+
+* Added claims editor JSON validation (lti resource link, deep link)
+* Added possibility to share generator forms via url (lti resource link, deep link, tool service client)
+
 1.2.0
 -----
 

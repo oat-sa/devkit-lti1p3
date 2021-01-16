@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace App\Action\Platform\Message;
 
+use App\Form\Generator\FormShareUrlGenerator;
 use App\Form\Platform\Message\DeepLinkingLaunchType;
 use OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchRequestBuilder;
 use OAT\Library\Lti1p3DeepLinking\Settings\DeepLinkingSettings;
@@ -51,6 +52,9 @@ class DeepLinkingLaunchAction
     /** @var FormFactoryInterface */
     private $factory;
 
+    /** @var FormShareUrlGenerator */
+    private $generator;
+
     /** @var DeepLinkingLaunchRequestBuilder */
     private $builder;
 
@@ -60,6 +64,7 @@ class DeepLinkingLaunchAction
         RouterInterface $router,
         Environment $twig,
         FormFactoryInterface $factory,
+        FormShareUrlGenerator $generator,
         DeepLinkingLaunchRequestBuilder $builder
     ) {
         $this->flashBag = $flashBag;
@@ -67,6 +72,7 @@ class DeepLinkingLaunchAction
         $this->router = $router;
         $this->twig = $twig;
         $this->factory = $factory;
+        $this->generator = $generator;
         $this->builder = $builder;
     }
 
@@ -111,6 +117,8 @@ class DeepLinkingLaunchAction
             );
 
             $this->flashBag->add('success', 'Deep linking generation success');
+        } else {
+            $form->setData($request->query->all());
         }
 
         return new Response(
@@ -118,6 +126,8 @@ class DeepLinkingLaunchAction
                 'platform/message/deepLinkingLaunch.html.twig',
                 [
                     'form' => $form->createView(),
+                    'formSubmitted' => $form->isSubmitted(),
+                    'formShareUrl' => $this->generator->generate('platform_message_launch_deep_linking', $form),
                     'deepLinkingLaunchRequest' => $deepLinkingLaunchRequest,
                     'editorClaims' => $this->parameterBag->get('editor_claims')
                 ]
