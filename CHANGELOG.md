@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+1.4.0
+-----
+
+* Added PHP 8 support (and kept >=7.2)
+* Added version indicator on homepage
+* Updated all LTI dependencies (for PHP 8 support)
+* Updated demo app code to match new LTI dependencies breaking changes
+
 1.3.0
 -----
 

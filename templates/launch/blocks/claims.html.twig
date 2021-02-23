@@ -6,7 +6,7 @@
 </div>
 
 <pre>
-    <code id="claimZone" class="language-json">{{ token.payload.token.claims|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+    <code id="claimZone" class="language-json">{{ token.payload.token.claims.all|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
 </pre>
 
 <script>

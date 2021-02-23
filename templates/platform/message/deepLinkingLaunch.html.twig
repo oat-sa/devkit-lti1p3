@@ -109,9 +109,9 @@
                         <div class="col-sm-4">
                             <dl class="list-unstyled">
                                 <dt>Issuer</dt>
-                                <dd>{{ deepLinkingLaunchRequest.getParameter('iss') }}</dd>
+                                <dd>{{ deepLinkingLaunchRequest.parameters.get('iss') }}</dd>
                                 <dt>Login Hint</dt>
-                                <dd>{{ deepLinkingLaunchRequest.getParameter('login_hint') }}</dd>
+                                <dd>{{ deepLinkingLaunchRequest.parameters.get('login_hint') }}</dd>
 
                             </dl>
                         </div>
@@ -120,15 +120,15 @@
                                 <dt>Url</dt>
                                 <dd>{{ deepLinkingLaunchRequest.url }}</dd>
                                 <dt>Target Link Uri</dt>
-                                <dd>{{ deepLinkingLaunchRequest.getParameter('target_link_uri') }}</dd>
+                                <dd>{{ deepLinkingLaunchRequest.parameters.get('target_link_uri') }}</dd>
                             </dl>
                         </div>
                         <div class="col-sm-4">
                             <dl class="list-unstyled">
                                 <dt>Client Id</dt>
-                                <dd>{{ deepLinkingLaunchRequest.getParameter('client_id') }}</dd>
+                                <dd>{{ deepLinkingLaunchRequest.parameters.get('client_id') }}</dd>
                                 <dt>Deployment Id</dt>
-                                <dd>{{ deepLinkingLaunchRequest.getParameter('lti_deployment_id') }}</dd>
+                                <dd>{{ deepLinkingLaunchRequest.parameters.get('lti_deployment_id') }}</dd>
                             </dl>
                         </div>
                     </div>
@@ -139,11 +139,11 @@
                                 <dd>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ deepLinkingLaunchRequest.getParameter('lti_message_hint') }}" role="button" title="See on jwt.io">
+                                            <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ deepLinkingLaunchRequest.parameters().get('lti_message_hint') }}" role="button" title="See on jwt.io">
                                                 <i class="fas fa-external-link-alt"></i>
                                             </a>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="token" value="{{ deepLinkingLaunchRequest.getParameter('lti_message_hint') }}" readonly>
+                                        <input type="text" class="form-control" placeholder="token" value="{{ deepLinkingLaunchRequest.parameters().get('lti_message_hint') }}" readonly>
                                     </div>
                                 </dd>
                             </dl>

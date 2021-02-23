@@ -5,6 +5,7 @@ imports:
 
 parameters:
     application_host: '%env(resolve:APP_HOST)%'
+    application_version: '1.4.0'
 
 services:
     _defaults:
