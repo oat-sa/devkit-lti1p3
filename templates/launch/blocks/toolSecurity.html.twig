@@ -18,22 +18,22 @@
     <dd>
         <div class="input-group">
             <div class="input-group-prepend">
-                <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ token.payload.token }}" role="button" title="See on jwt.io">
+                <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ token.payload.token.toString }}" role="button" title="See on jwt.io">
                     <i class="fas fa-external-link-alt"></i>
                 </a>
             </div>
-            <input type="text" class="form-control" placeholder="token" value="{{ token.payload.token }}" readonly>
+            <input type="text" class="form-control" placeholder="token" value="{{ token.payload.token.toString }}" readonly>
         </div>
     </dd>
     <dt>OIDC State</dt>
     <dd>
         <div class="input-group">
             <div class="input-group-prepend">
-                <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ token.state.token }}" role="button" title="See on jwt.io">
+                <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ token.state.token.toString }}" role="button" title="See on jwt.io">
                     <i class="fas fa-external-link-alt"></i>
                 </a>
             </div>
-            <input type="text" class="form-control" placeholder="state" value="{{ token.state.token }}" readonly>
+            <input type="text" class="form-control" placeholder="state" value="{{ token.state.token.toString }}" readonly>
         </div>
     </dd>
 </dl>
