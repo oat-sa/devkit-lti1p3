@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.5.0
+-----
+
+* Added possibility to configure resource link at launch (fallback to auto generated one when not specified)
+* Added resource link claim in claims editor
+
 1.4.0
 -----
 

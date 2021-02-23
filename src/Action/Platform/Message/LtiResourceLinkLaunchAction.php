@@ -25,6 +25,7 @@ namespace App\Action\Platform\Message;
 use App\Form\Generator\FormShareUrlGenerator;
 use App\Form\Platform\Message\LtiResourceLinkLaunchType;
 use OAT\Library\Lti1p3Core\Message\Launch\Builder\LtiResourceLinkLaunchRequestBuilder;
+use OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface;
 use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLink;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -85,19 +86,31 @@ class LtiResourceLinkLaunchAction
 
             $formData = $form->getData();
 
-            $resourceLink = new LtiResourceLink(
-                Uuid::uuid4()->toString(),
-                [
-                    'url' => $formData['launch_url'] ?? null
-                ]
-            );
-
             if ($formData['claims']) {
                 $claims = json_decode($formData['claims'], true);
 
                 if (JSON_ERROR_NONE !== json_last_error()) {
                     throw new BadRequestHttpException(sprintf('json_decode error: %s', json_last_error_msg()));
                 }
+            }
+
+            if (isset($claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK])) {
+                $resourceLink = new LtiResourceLink(
+                    $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['id'],
+                    [
+                        'url' => $formData['launch_url'] ?? null,
+                        'title' => $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['title'] ?? null,
+                        'text' => $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['description '] ?? null,
+
+                    ]
+                );
+            } else {
+                $resourceLink = new LtiResourceLink(
+                    Uuid::uuid4()->toString(),
+                    [
+                        'url' => $formData['launch_url'] ?? null
+                    ]
+                );
             }
 
             $ltiResourceLinkLaunchRequest = $this->builder->buildLtiResourceLinkLaunchRequest(
