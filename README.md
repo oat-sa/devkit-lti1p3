@@ -1,5 +1,8 @@
 # LTI 1.3 Demo Application
 
+[![Latest Version](https://img.shields.io/github/tag/oat-sa/demo-lti1p3.svg?style=flat&label=release)](https://github.com/oat-sa/demo-lti1p3/tags)
+[![License GPL2](http://img.shields.io/badge/licence-GPL%202.0-blue.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
+
 > [Symfony](https://symfony.com/) demo application for LTI 1.3, to act as a [LTI platform and / or tool](http://www.imsglobal.org/spec/lti/v1p3/#platforms-and-tools-0).
 
 This demo application based on the following packages:

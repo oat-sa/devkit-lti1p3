@@ -2,15 +2,15 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": "^7.2.5",
+        "php": ">=7.2.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
-        "oat-sa/bundle-lti1p3": "^3.2",
-        "oat-sa/lib-lti1p3-basic-outcome": "^1.0",
-        "oat-sa/lib-lti1p3-deep-linking": "^1.0",
-        "oat-sa/lib-lti1p3-nrps": "^3.0",
-        "ramsey/uuid": "^3.9",
+        "oat-sa/bundle-lti1p3": "^4.0",
+        "oat-sa/lib-lti1p3-basic-outcome": "^2.0",
+        "oat-sa/lib-lti1p3-deep-linking": "^2.0",
+        "oat-sa/lib-lti1p3-nrps": "^4.0",
+        "ramsey/uuid": "^3.9 || ^4",
         "symfony/console": "^5.1",
         "symfony/dotenv": "^5.1",
         "symfony/expression-language": "^5.1",
@@ -38,7 +38,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "App\\Tests\\": "tests/",
+            "OAT\\Library\\Lti1p3Core\\Tests\\": "vendor/oat-sa/lib-lti1p3-core/tests"
         }
     },
     "replace": {
