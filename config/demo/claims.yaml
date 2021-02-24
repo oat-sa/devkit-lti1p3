@@ -49,6 +49,12 @@ parameters:
                 url: "{url|optional}"
                 product_family_code: "{string|optional}"
                 version: "{string|optional}"
+        Resource link:
+            name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK
+            value:
+                id: "{string|required}"
+                title: "{string|optional}"
+                description: "{string|optional}"
         Roles:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_ROLES
             value: ["Learner"]
