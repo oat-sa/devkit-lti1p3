@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.6.0
+-----
+
+* Added possibility to provide custom user on launch (for resource link and deep linking)
+
 1.5.0
 -----
 

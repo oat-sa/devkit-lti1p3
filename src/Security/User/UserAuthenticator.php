@@ -24,24 +24,42 @@ class UserAuthenticator implements UserAuthenticatorInterface
 
     public function authenticate(string $loginHint): UserAuthenticationResultInterface
     {
-        if ($loginHint === 'anonymous') {
-            return new UserAuthenticationResult(true);
+        $hint = json_decode($loginHint, true);
+
+        if ($hint['type'] === 'list') {
+
+            $userData = $this->parameterBag->get('users')[$hint['user_id']] ?? [];
+
+            return new UserAuthenticationResult(
+                true,
+                $this->factory->create(
+                    $hint['user_id'],
+                    $userData['name'] ?? null,
+                    $userData['email'] ?? null,
+                    $userData['givenName'] ?? null,
+                    $userData['familyName'] ?? null,
+                    $userData['middleName'] ?? null,
+                    $userData['locale'] ?? null,
+                    $userData['picture'] ?? null
+                )
+            );
         }
 
-        $userData = $this->parameterBag->get('users')[$loginHint] ?? [];
+        if ($hint['type'] === 'custom') {
+            return new UserAuthenticationResult(
+                true,
+                $this->factory->create(
+                    $hint['user_id'],
+                    $hint['user_name'] ?? null,
+                    $hint['user_email'] ?? null,
+                    null,
+                    null,
+                    null,
+                    $hint['user_locale'] ?? null
+                )
+            );
+        }
 
-        return new UserAuthenticationResult(
-            true,
-            $this->factory->create(
-                $loginHint,
-                $userData['name'] ?? null,
-                $userData['email'] ?? null,
-                $userData['givenName'] ?? null,
-                $userData['familyName'] ?? null,
-                $userData['middleName'] ?? null,
-                $userData['locale'] ?? null,
-                $userData['picture'] ?? null
-            )
-        );
+        return new UserAuthenticationResult(true);
     }
 }
