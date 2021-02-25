@@ -13,11 +13,30 @@
                 {{ form_start(form) }}
                 {{ form_errors(form) }}
                 <div class="form-row">
-                    <div class="col-md-6">
+                    <div class="col-md-9">
                         {{ form_row(form.registration) }}
                     </div>
-                    <div class="col-md-6">
-                        {{ form_row(form.user) }}
+                    <div class="col-md-3">
+                        {{ form_row(form.user_type) }}
+                    </div>
+                </div>
+                <div id="userList" class="form-row {{ form.user_type.vars.value != 'list' ? 'd-none' : '' }}">
+                    <div class="col-md-12">
+                        {{ form_row(form.user_list) }}
+                    </div>
+                </div>
+                <div id="userCustom" class="form-row {{ form.user_type.vars.value != 'custom' ? 'd-none' : '' }}">
+                    <div class="col-md-3">
+                        {{ form_row(form.custom_user_id) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.custom_user_name) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.custom_user_email) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.custom_user_locale) }}
                     </div>
                 </div>
                 <div class="form-row">
@@ -111,8 +130,7 @@
                                 <dt>Issuer</dt>
                                 <dd>{{ deepLinkingLaunchRequest.parameters.get('iss') }}</dd>
                                 <dt>Login Hint</dt>
-                                <dd>{{ deepLinkingLaunchRequest.parameters.get('login_hint') }}</dd>
-
+                                <dd><input type="text" class="form-control form-control-sm" placeholder="token" value="{{ deepLinkingLaunchRequest.parameters.get('login_hint') }}" readonly></dd>
                             </dl>
                         </div>
                         <div class="col-sm-4">
@@ -228,6 +246,22 @@
                 return;
             } catch(e) {
                 evt.preventDefault();
+            }
+        });
+
+        $('input[name="deep_linking_launch[user_type]"]').change(function (evt) {
+            switch($(this).val()) {
+                case 'list':
+                    $('#userList').removeClass('d-none');
+                    $('#userCustom').addClass('d-none');
+                    break;
+                case 'custom':
+                    $('#userList').addClass('d-none');
+                    $('#userCustom').removeClass('d-none');
+                    break;
+                default:
+                    $('#userList').addClass('d-none');
+                    $('#userCustom').addClass('d-none');
             }
         });
     </script>

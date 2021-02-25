@@ -113,10 +113,32 @@ class LtiResourceLinkLaunchAction
                 );
             }
 
+            switch ($formData['user_type']) {
+                case 'list':
+                    $loginHint = [
+                        'type' => 'list',
+                        'user_id' => $formData['user_list']
+                    ];
+                    break;
+                case 'custom':
+                    $loginHint = [
+                        'type' => 'custom',
+                        'user_id' => $formData['custom_user_id'] ?? Uuid::uuid4()->toString(),
+                        'user_name' => $formData['custom_user_name'],
+                        'user_email' => $formData['custom_user_email'],
+                        'user_locale' => $formData['custom_user_locale'],
+                    ];
+                    break;
+                default:
+                    $loginHint = [
+                        'type' => 'anonymous'
+                    ];
+            }
+
             $ltiResourceLinkLaunchRequest = $this->builder->buildLtiResourceLinkLaunchRequest(
                 $resourceLink,
                 $formData['registration'],
-                $formData['user'] ?? 'anonymous',
+                json_encode($loginHint),
                 null,
                 [],
                 $claims
