@@ -990,12 +990,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-core.git",
-                "reference": "2025b59614444a45f09e3fb86b942372427dc4f9"
+                "reference": "22373f851c4f002deb6d12c26fa02f4e4166fba9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-core/zipball/2025b59614444a45f09e3fb86b942372427dc4f9",
-                "reference": "2025b59614444a45f09e3fb86b942372427dc4f9",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-core/zipball/22373f851c4f002deb6d12c26fa02f4e4166fba9",
+                "reference": "22373f851c4f002deb6d12c26fa02f4e4166fba9",
                 "shasum": ""
             },
             "require": {
@@ -1030,7 +1030,7 @@
                 "GPL-2.0-only"
             ],
             "description": "OAT LTI 1.3 Core Library",
-            "time": "2021-02-13T21:08:14+00:00"
+            "time": "2021-02-24T15:54:08+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-deep-linking",
@@ -1038,12 +1038,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-deep-linking.git",
-                "reference": "24eb45a61d042d629bc76e5f422c71424d0898e6"
+                "reference": "265f9cde8139e1774d97a69ad17de61b49401a1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-deep-linking/zipball/24eb45a61d042d629bc76e5f422c71424d0898e6",
-                "reference": "24eb45a61d042d629bc76e5f422c71424d0898e6",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-deep-linking/zipball/265f9cde8139e1774d97a69ad17de61b49401a1a",
+                "reference": "265f9cde8139e1774d97a69ad17de61b49401a1a",
                 "shasum": ""
             },
             "require": {
@@ -1066,7 +1066,7 @@
                 "GPL-2.0-only"
             ],
             "description": "OAT LTI 1.3 Deep Linking Library",
-            "time": "2021-02-23T07:59:42+00:00"
+            "time": "2021-02-24T20:53:17+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-nrps",
@@ -1074,12 +1074,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-nrps.git",
-                "reference": "ed80186a2f01d52d79ad1bce3b7fd587d6266fb9"
+                "reference": "e92151e903d8b0d9c617dd6554d7337ef6562a68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-nrps/zipball/ed80186a2f01d52d79ad1bce3b7fd587d6266fb9",
-                "reference": "ed80186a2f01d52d79ad1bce3b7fd587d6266fb9",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-nrps/zipball/e92151e903d8b0d9c617dd6554d7337ef6562a68",
+                "reference": "e92151e903d8b0d9c617dd6554d7337ef6562a68",
                 "shasum": ""
             },
             "require": {
@@ -1102,7 +1102,7 @@
                 "GPL-2.0-only"
             ],
             "description": "OAT LTI 1.3 Advantage NRPS Library",
-            "time": "2021-02-23T08:31:52+00:00"
+            "time": "2021-02-24T19:54:50+00:00"
         },
         {
             "name": "php-http/message-factory",

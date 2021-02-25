@@ -26,6 +26,7 @@ use App\Form\Generator\FormShareUrlGenerator;
 use App\Form\Platform\Message\DeepLinkingLaunchType;
 use OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchRequestBuilder;
 use OAT\Library\Lti1p3DeepLinking\Settings\DeepLinkingSettings;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -107,10 +108,32 @@ class DeepLinkingLaunchAction
                 }
             }
 
+            switch ($formData['user_type']) {
+                case 'list':
+                    $loginHint = [
+                        'type' => 'list',
+                        'user_id' => $formData['user_list']
+                    ];
+                    break;
+                case 'custom':
+                    $loginHint = [
+                        'type' => 'custom',
+                        'user_id' => $formData['custom_user_id'] ?? Uuid::uuid4()->toString(),
+                        'user_name' => $formData['custom_user_name'],
+                        'user_email' => $formData['custom_user_email'],
+                        'user_locale' => $formData['custom_user_locale'],
+                    ];
+                    break;
+                default:
+                    $loginHint = [
+                        'type' => 'anonymous'
+                    ];
+            }
+
             $deepLinkingLaunchRequest = $this->builder->buildDeepLinkingLaunchRequest(
                 $deepLinkSettings,
                 $formData['registration'],
-                $formData['user'] ?? 'anonymous',
+                json_encode($loginHint),
                 null,
                 [],
                 $claims

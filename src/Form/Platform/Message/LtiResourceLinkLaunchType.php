@@ -24,6 +24,7 @@ namespace App\Form\Platform\Message;
 
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
@@ -61,13 +62,69 @@ class LtiResourceLinkLaunchType extends AbstractType
                 ]
             )
             ->add(
-                'user',
+                'user_type',
+                ChoiceType::class,
+                [
+                    'label' => '<label>User</label>',
+                    'label_html' => true,
+                    'label_attr' => [
+                        'class' => 'radio-inline'
+                    ],
+                    'choices' => [
+                        'from list' => 'list',
+                        'custom' => 'custom'
+                    ],
+                    'expanded' => true,
+                    'multiple' => false,
+                    'required' => false,
+                    'placeholder' => 'anonymous',
+                    'empty_data' => 'anonymous',
+                    'help' => 'User for the launch'
+                ]
+            )
+            ->add(
+                'user_list',
                 ChoiceType::class,
                 [
                     'choices' => array_combine($userChoices, $userChoices),
-                    'placeholder' => '-anonymous-',
+                    'required' => true,
+                    'help' => 'List of configured users available for launch'
+                ]
+            )
+            ->add(
+                'custom_user_id',
+                TextType::class,
+                [
+                    'label' => 'Custom user identifier',
                     'required' => false,
-                    'help' => "User for the launch"
+                    'help' => 'Custom user identifier (sub claim)'
+                ]
+            )
+            ->add(
+                'custom_user_name',
+                TextType::class,
+                [
+                    'required' => false,
+                    'help' => 'Custom user name (name claim)'
+
+                ]
+            )
+            ->add(
+                'custom_user_email',
+                TextType::class,
+                [
+                    'required' => false,
+                    'help' => 'Custom user email (email claim)'
+
+                ]
+            )
+            ->add(
+                'custom_user_locale',
+                TextType::class,
+                [
+                    'required' => false,
+                    'help' => 'Custom user locale (locale claim)'
+
                 ]
             )
             ->add(
