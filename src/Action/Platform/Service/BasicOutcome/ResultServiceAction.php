@@ -29,7 +29,7 @@ use OAT\Library\Lti1p3BasicOutcome\Service\Server\Handler\BasicOutcomeServiceSer
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ResultAction
+class ResultServiceAction
 {
     /** @var BasicOutcomeServiceServerHandler */
     private $handler;

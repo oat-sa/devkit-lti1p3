@@ -23,37 +23,37 @@ declare(strict_types=1);
 namespace App\Action\Platform\Service\Nrps;
 
 use App\Nrps\MembershipServiceServerBuilder;
-use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Service\LtiServiceSecurityToken;
 use OAT\Library\Lti1p3Nrps\Service\MembershipServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 
-class MembershipAction
+class MembershipServiceAction
 {
-    /** @var Security */
-    private $security;
-
     /** @var MembershipServiceServerBuilder */
     private $builder;
 
-    public function __construct(Security $security, MembershipServiceServerBuilder $builder)
+    public function __construct(MembershipServiceServerBuilder $builder)
     {
-        $this->security = $security;
         $this->builder = $builder;
     }
 
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(Request $request, string $contextIdentifier, string $membershipIdentifier): JsonResponse
     {
-        /** @var LtiServiceSecurityToken $token */
-        $token = $this->security->getToken();
+        if (false === strpos($request->headers->get('Accept', ''), MembershipServiceInterface::CONTENT_TYPE_MEMBERSHIP)) {
+            throw new NotAcceptableHttpException(
+                sprintf('Not acceptable content type, accepts: %s', MembershipServiceInterface::CONTENT_TYPE_MEMBERSHIP)
+            );
+        }
+
+        $limit = $request->get('limit');
+        $offset = $request->get('offset');
 
         $membership = $this->builder->buildContextMembership(
-            $token->getRegistration(),
             $request->get('role'),
-            $request->get('limit'),
-            $request->get('offset')
+            $limit ? intval($limit) : null,
+            $offset ? intval($offset) : null
         );
 
         $responseHeaders = [

@@ -46,15 +46,15 @@ tool_ajax_service_basic_outcome:
     controller: App\Action\Tool\Ajax\BasicOutcomeServiceClientAction
     condition: "request.isXmlHttpRequest()"
 
-platform_nrps_memberships:
+platform_service_nrps:
     methods: [GET]
-    path: /platform/service/nrps/memberships
-    controller: App\Action\Platform\Service\Nrps\MembershipAction
+    path: /platform/service/nrps/{contextIdentifier}/memberships/{membershipIdentifier}
+    controller: App\Action\Platform\Service\Nrps\MembershipServiceAction
 
 platform_basic_outcome_results:
     methods: [POST]
     path: /platform/service/basic-outcome
-    controller: App\Action\Platform\Service\BasicOutcome\ResultAction
+    controller: App\Action\Platform\Service\BasicOutcome\ResultServiceAction
 
 platform_ags_list_scores:
     methods: [GET]
@@ -70,3 +70,28 @@ platform_ags_create_score:
     methods: [POST]
     path: /platform/service/ags/{contextId}/lineitems/{lineItemId}/scores
     controller: App\Action\Platform\Service\Ags\CreateScoreAction
+
+platform_nrps_list_memberships:
+    methods: [GET]
+    path: /platform/nrps/memberships
+    controller: App\Action\Platform\Nrps\ListMembershipsAction
+
+platform_nrps_create_membership:
+    methods: [ GET, POST ]
+    path: /platform/nrps/memberships/new
+    controller: App\Action\Platform\Nrps\CreateMembershipAction
+
+platform_nrps_view_membership:
+    methods: [ GET ]
+    path: /platform/nrps/memberships/{membershipIdentifier}/view
+    controller: App\Action\Platform\Nrps\ViewMembershipAction
+
+platform_nrps_edit_membership:
+    methods: [ GET, POST ]
+    path: /platform/nrps/memberships/{membershipIdentifier}/edit
+    controller: App\Action\Platform\Nrps\EditMembershipAction
+
+platform_nrps_delete_membership:
+    methods: [ GET ]
+    path: /platform/nrps/memberships/{membershipIdentifier}/delete
+    controller: App\Action\Platform\Nrps\DeleteMembershipAction
