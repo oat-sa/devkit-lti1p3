@@ -22,114 +22,120 @@ declare(strict_types=1);
 
 namespace App\Nrps;
 
-use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
-use OAT\Library\Lti1p3Core\User\UserIdentityFactoryInterface;
-use OAT\Library\Lti1p3Nrps\Model\Context\Context;
-use OAT\Library\Lti1p3Nrps\Model\Member\Member;
 use OAT\Library\Lti1p3Nrps\Model\Member\MemberCollection;
 use OAT\Library\Lti1p3Nrps\Model\Member\MemberInterface;
-use OAT\Library\Lti1p3Nrps\Model\Membership\Membership;
 use OAT\Library\Lti1p3Nrps\Model\Membership\MembershipInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use OAT\Library\Lti1p3Nrps\Service\Server\Builder\MembershipServiceServerBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class MembershipServiceServerBuilder
+class MembershipServiceServerBuilder implements MembershipServiceServerBuilderInterface
 {
     /** @var RequestStack */
     private $requestStack;
 
-    /** @var  ParameterBagInterface */
-    private $parameterBag;
+    /** @var MembershipRepository */
+    private $repository;
 
-    /** @var  UserIdentityFactoryInterface */
+    /** @var DefaultMembershipFactory */
     private $factory;
 
-    public function __construct(
-        RequestStack $requestStack,
-        ParameterBagInterface $parameterBag,
-        UserIdentityFactoryInterface $factory
-    ) {
+    public function __construct(RequestStack $requestStack, MembershipRepository $repository, DefaultMembershipFactory $factory)
+    {
         $this->requestStack = $requestStack;
-        $this->parameterBag = $parameterBag;
+        $this->repository = $repository;
         $this->factory = $factory;
     }
 
-    public function buildContextMembership(
-        RegistrationInterface $registration,
+    public function buildResourceLinkMembership(
+        string $resourceLinkIdentifier,
         string $role = null,
-        string $limit = null,
-        string $offset = null
+        int $limit = null,
+        int $offset = null
     ): MembershipInterface {
+        return $this->build($role, $limit, $offset);
+    }
 
-        $members = new MemberCollection();
+    public function buildContextMembership(
+        string $role = null,
+        int $limit = null,
+        int $offset = null
+    ): MembershipInterface {
+        return $this->build($role, $limit, $offset);
+    }
 
-        $users = array_filter(
-            $this->parameterBag->get('users') ?? [],
-            static function (array $userData) use ($role) {
+    private function build(string $role = null, int $limit = null, int $offset = null): MembershipInterface
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $routeParameters = $request->attributes->get('_route_params');
+
+        $membershipIdentifier = $routeParameters['membershipIdentifier'] ?? null;
+        $contextIdentifier = $routeParameters['contextIdentifier'] ?? null;
+
+        if ($membershipIdentifier === 'default') {
+            $membership = $this->factory->create();
+        } else {
+            $membership = $this->repository->find($membershipIdentifier);
+        }
+
+        if (null === $membership || $membership->getContext()->getIdentifier() !== $contextIdentifier) {
+            throw new NotFoundHttpException(
+                sprintf('Membership with context %s and identifier %s cannot be found', $contextIdentifier, $membershipIdentifier)
+            );
+        }
+
+        $filteredMembers = array_filter(
+            $membership->getMembers()->all(),
+            static function (MemberInterface $member) use ($role) {
                 if (null === $role) {
                     return true;
                 }
 
-                return in_array($role, $userData['roles']);
+                return in_array($role, $member->getRoles());
             }
-         );
+        );
 
-        $slicedUsers = array_slice($users, $offset ? intval($offset) : 0, $limit ? intval($limit) : null);
+        return $membership
+            ->setMembers(new MemberCollection(array_slice($filteredMembers, $offset ?? 0, $limit ?? null)))
+            ->setRelationLink($this->buildRelationLink($request, sizeof($filteredMembers), $role, $limit, $offset));
+    }
 
-        foreach ($slicedUsers as $userIdentifier => $userData) {
-            $userIdentity = $this->factory->create(
-                $userIdentifier,
-                $userData['name'] ?? null,
-                $userData['email'] ?? null,
-                $userData['givenName'] ?? null,
-                $userData['familyName'] ?? null,
-                $userData['middleName'] ?? null,
-                $userData['locale'] ?? null,
-                $userData['picture'] ?? null
+    private function buildRelationLink(
+        Request $request,
+        int $totalCount,
+        string $role = null,
+        int $limit = null,
+        int $offset = null
+    ): ?string {
+        if ((($limit ?? 0) + ($offset ?? 0)) < $totalCount) {
+            $parsedUrl = parse_url(urldecode($request->getUri()));
+            parse_str($parsedUrl['query'] ?? '', $parsedQuery);
+
+            $nextOffset = $limit ?? 0;
+
+            if ($parsedQuery['offset'] ?? false) {
+                $nextOffset += $parsedQuery['offset'];
+            }
+
+            $relUrl = sprintf(
+                '%s://%s%s%s',
+                $parsedUrl['scheme'],
+                $parsedUrl['host'],
+                $parsedUrl['port'] ?? false ? ':' . $parsedUrl['port'] : '',
+                $parsedUrl['path']
             );
 
-            $members->add(
-                new Member(
-                    $userIdentity,
-                    MemberInterface::STATUS_ACTIVE,
-                    $userData['roles'] ?? [],
-                    ['user_id' => $userIdentifier] + $userData
-                )
+            $relUrlQuery = array_filter(
+                [
+                    'role' => $role,
+                    'offset' => $nextOffset
+                ]
             );
+
+            return $relUrl . '?' . http_build_query($relUrlQuery) . '; rel="next"';
         }
 
-        $parsedUrl = parse_url(urldecode($this->requestStack->getCurrentRequest()->getUri()));
-        parse_str($parsedUrl['query'] ?? '', $parsedQuery);
-
-        $nextOffset = $limit ? intval($limit) : 0;
-        if ($parsedQuery['offset'] ?? false) {
-            $nextOffset += $parsedQuery['offset'];
-        }
-
-        $relUrl = sprintf(
-            '%s://%s%s%s',
-            $parsedUrl['scheme'],
-            $parsedUrl['host'],
-            $parsedUrl['port'] ?? false ? ':' . $parsedUrl['port'] : '',
-            $parsedUrl['path']
-        );
-
-        $relUrlQuery = array_filter(
-            [
-                'role' => $role,
-                'offset' => $nextOffset
-            ]
-        );
-
-        return new Membership(
-            $relUrl,
-            new Context(
-                sprintf('membership-registration-%s', $registration->getIdentifier()),
-                'LTI 1.3 demo membership',
-                sprintf('LTI 1.3 demo membership for registration %s', $registration->getIdentifier())
-            ),
-            $members,
-            $nextOffset >= sizeof($users) ? null : $relUrl . '?' . http_build_query($relUrlQuery) . '; rel="next"'
-        );
+        return null;
     }
 }

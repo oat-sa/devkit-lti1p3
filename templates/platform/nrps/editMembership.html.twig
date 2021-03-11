@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}<i class="fas fa-users"></i>&nbsp;&nbsp;Platform - NRPS membership edition{% endblock %}
+
+{% block body %}
+<div class="card bg-light">
+    <div class="card-header">
+        <i class="fas fa-users"></i>&nbsp;Edit membership <code>{{ membership.identifier }}</code>
+    </div>
+    <div id="collapseForm" class="collapse card-body  {{ form.vars.submitted ? '' : 'show' }}" role="tabpanel" aria-labelledby="headingForm" data-parent="#accordionForm">
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <div class="form-row">
+            <div class="col-md-12">
+                {{ form_row(form.membership_id) }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4">
+                {{ form_row(form.context_id) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.context_label) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.context_title) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.members) }}<br/>
+            <div class="input-group">
+                <div class="input-group-prepend" role="group" aria-label="Manage members">
+                    <div class="btn-group-vertical" role="group">
+                        <button id="membersAdd" type="button" class="btn btn-primary btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Add member">
+                            <i class="fas fa-plus-circle"></i>
+                        </button>
+                        <div class="dropdown-menu d-none" aria-labelledby="membersAdd"></div>
+                        <button id="membersFormat" type="button" class="btn btn-secondary btn-block" title="Format members">
+                            <i class="fas fa-align-left"></i>
+                        </button>
+                    </div>
+                </div>
+                {{ form_widget(form.members) }}
+            </div>
+            <div id="membersError" class="invalid-feedback">
+                Invalid members, please provide a valid JSON representation
+            </div>
+            {{ form_help(form.members) }}
+            {{ form_errors(form.members) }}
+        </div>
+    </div>
+    <div class="card-footer">
+        {{ form_widget(form.submit) }}
+        <a href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': membership.identifier}) }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Cancel</a>
+    </div>
+    {{ form_end(form) }}
+</div>
+{% endblock body %}
+
+{% block scripts %}
+    <script>
+        $("#membersFormat").click(function(event){
+            checkMembers();
+        });
+
+        $("#membersAdd").click(function(event){
+            try {
+                var members = JSON.parse($("#membership_members").val() || "[]");
+                var rand = Date.now();
+                members.push({
+                    "user_id" : "member-" + rand,
+                    "roles": [
+                        "http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor"
+                    ],
+                    "status" : "Active",
+                    "name": "Member " + rand,
+                    "picture" : "https://picsum.photos/512",
+                    "email": "member-" + rand + "@example.com",
+                });
+                $("#membership_members").val(JSON.stringify(members, undefined, 4));
+                $("#membership_members").removeClass('is-invalid');
+                $("#membership_members").addClass('is-valid');
+                $('#membersError').hide();
+            } catch(e) {
+                $("#membership_members").removeClass('is-valid');
+                $("#membership_members").addClass('is-invalid');
+                $('#membersError').show();
+            }
+        });
+
+        function checkMembers() {
+            try {
+                if ($("#membership_members").val() != '') {
+                    $("#membership_members").val(
+                        JSON.stringify(JSON.parse($("#membership_members").val()), undefined, 4)
+                    );
+                    $("#membership_members").removeClass('is-invalid');
+                    $("#membership_members").addClass('is-valid');
+                } else {
+                    $("#membership_members").removeClass('is-invalid');
+                    $("#membership_members").removeClass('is-valid');
+                }
+                $('#membersError').hide();
+            } catch(e) {
+                $("#membership_members").removeClass('is-valid');
+                $("#membership_members").addClass('is-invalid');
+                $('#membersError').show();
+            }
+        }
+
+        $('form[name=membership]').submit(function (evt) {
+            checkMembers();
+            try {
+                JSON.parse($("#membership_members").val() || "[]");
+                return;
+            } catch(e) {
+                evt.preventDefault();
+            }
+        });
+
+        $( document ).ready(function() {
+            checkMembers();
+        });
+    </script>
+{% endblock %}

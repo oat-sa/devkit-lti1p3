@@ -24,7 +24,6 @@ namespace App\Form\Platform\Message;
 
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;

@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+1.7.0
+-----
+
+* Added default NRPS membership (based on users configuration file)
+* Added platform CRUD for custom NRPS memberships (cache storage)
+* Updated default NRPS service url claim editor to match default NRPS membership
+* Updated context identifier claim editor to default
+
 1.6.0
 -----
 
