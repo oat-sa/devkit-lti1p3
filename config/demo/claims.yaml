@@ -14,7 +14,7 @@ parameters:
         Context:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_CONTEXT
             value:
-                id: "{string|required}"
+                id: "default"
                 type: []
                 label: "{string|optional}"
                 title: "{string|optional}"
@@ -37,7 +37,7 @@ parameters:
         NRPS:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_NRPS
             value:
-                context_memberships_url: "http://demo_lti1p3_nginx/platform/service/nrps/memberships"
+                context_memberships_url: "http://demo_lti1p3_nginx/platform/service/nrps/default/memberships/default"
                 service_versions: ["2.0"]
         Platform instance:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_TOOL_PLATFORM

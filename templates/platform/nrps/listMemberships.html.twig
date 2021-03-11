@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}<i class="fas fa-users"></i>&nbsp;&nbsp;Platform - NRPS memberships{% endblock %}
+
+{% block body %}
+<div class="card bg-light">
+    <div class="card-header">
+        <i class="fas fa-users"></i>&nbsp;Default membership&nbsp;<small><code>(from config/demo/users.yaml)</code></small>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item list-group-item-action">
+            <div class="clearfix">
+                <div class="float-left">
+                    <i class="fas fa-users"></i>&nbsp;<code>{{ defaultMembership.identifier }}</code>
+                    &nbsp;-&nbsp;
+                    <small class="text-muted">{{ defaultMembership.members.count }} member(s)</small>
+                    <br/>
+                    <small class="text-muted">
+                        {{ absolute_url(path('platform_service_nrps', {'contextIdentifier': defaultMembership.context.identifier, 'membershipIdentifier': defaultMembership.identifier})) }}
+                    </small>
+                </div>
+                <div class="float-right">
+                    <a class="btn btn-secondary btn-sm" href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': defaultMembership.identifier}) }}">
+                        <i class="fas fa-info-circle"></i>&nbsp;Details
+                    </a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<hr/>
+<div class="card bg-light">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+            <i class="fas fa-users"></i>&nbsp;Custom memberships&nbsp;<small><code>(non persistent cache storage)</code></small>
+        </div>
+        <a class="btn btn-primary" href="{{ path('platform_nrps_create_membership') }}">
+            <i class="fas fa-plus-circle"></i>&nbsp;Create
+        </a>
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for membership in memberships %}
+            <li class="list-group-item list-group-item-action">
+                <div class="clearfix">
+                    <div class="float-left">
+                        <i class="fas fa-users"></i>&nbsp;<code>{{ membership.identifier }}</code>
+                        &nbsp;-&nbsp;
+                        <small class="text-muted">{{ membership.members.count }} member(s)</small>
+                        <br/>
+                        <small class="text-muted">
+                            {{ absolute_url(path('platform_service_nrps', {'contextIdentifier': membership.context.identifier, 'membershipIdentifier': membership.identifier})) }}
+                        </small>
+                    </div>
+                    <div class="float-right">
+                        <a class="btn btn-secondary btn-sm" href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': membership.identifier}) }}">
+                            <i class="fas fa-info-circle"></i>&nbsp;Details
+                        </a>
+                        <a class="btn btn-danger text-white btn-sm" href="{{ path('platform_nrps_delete_membership', {'membershipIdentifier': membership.identifier}) }}" onclick="return confirm('Are you sure?')">
+                            <i class="fas fa-trash-alt"></i>&nbsp;Delete
+                        </a>
+                    </div>
+                </div>
+            </li>
+        {% else %}
+            <li class="list-group-item">No custom memberships available</li>
+        {% endfor %}
+    </ul>
+    <div class="card-footer text-muted">
+        <small>{{ memberships|length }} custom membership(s) found</small>
+    </div>
+</div>
+{% endblock body %}
+
+{% block scripts %}
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+{% endblock %}

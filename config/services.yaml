@@ -5,7 +5,7 @@ imports:
 
 parameters:
     application_host: '%env(resolve:APP_HOST)%'
-    application_version: '1.6.0'
+    application_version: '1.7.0'
 
 services:
     _defaults:
@@ -34,6 +34,9 @@ services:
         class: OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactory
 
     OAT\Library\Lti1p3Nrps\Service\Client\MembershipServiceClient: ~
+
+    OAT\Library\Lti1p3Nrps\Factory\Member\MemberFactoryInterface:
+        class: OAT\Library\Lti1p3Nrps\Factory\Member\MemberFactory
 
     OAT\Library\Lti1p3BasicOutcome\Service\Client\BasicOutcomeServiceClient: ~
 
