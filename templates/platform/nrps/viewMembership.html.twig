@@ -8,7 +8,7 @@
         <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="pills-message-tab" data-toggle="pill" href="#pills-message" role="tab" aria-controls="pills-message" aria-selected="true">
-                    <i class="fas fa-info-circle"></i>&nbsp;Membership details
+                    <i class="fas fa-info-circle"></i>&nbsp;Details
                 </a>
             </li>
             <li class="nav-item">
@@ -26,16 +26,18 @@
                         <dl class="list-unstyled">
                             <dt>Identifier</dt>
                             <dd><code>{{ membership.identifier }}</code></dd>
-                            <dt>Members count</dt>
+                            <dt>Members</dt>
                             <dd>{{ membership.members.count|default('n/a') }}</dd>
                             <dt>NRPS service url</dt>
-                            <dd>{{ absolute_url(path('platform_service_nrps', {'contextIdentifier': membership.context.identifier, 'membershipIdentifier': membership.identifier})) }}</dd>
+                            {% set nrpsUrl = absolute_url(path('platform_service_nrps', {'contextIdentifier': membership.context.identifier, 'membershipIdentifier': membership.identifier})) %}
+                            <dd>
+                                <a href="{{ nrpsUrl }}" target="_blank">{{ nrpsUrl }}</a>
                         </dl>
                     </div>
                     <div class="col-md-6">
                         <dl class="list-unstyled">
                             <dt>Context identifier</dt>
-                            <dd>{{ membership.context.identifier }}</dd>
+                            <dd><code>{{ membership.context.identifier }}</code></dd>
                             <dt>Context label</dt>
                             <dd>{{ membership.context.label|default('n/a') }}</dd>
                             <dt>Context title</dt>

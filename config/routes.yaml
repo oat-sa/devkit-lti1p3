@@ -71,27 +71,37 @@ platform_ags_create_score:
     path: /platform/service/ags/{contextId}/lineitems/{lineItemId}/scores
     controller: App\Action\Platform\Service\Ags\CreateScoreAction
 
+platform_basic_outcome_list:
+    methods: [GET]
+    path: /platform/basic-outcomes
+    controller: App\Action\Platform\BasicOutcome\ListBasicOutcomesAction
+
+platform_basic_outcome_delete:
+    methods: [GET]
+    path: /platform/basic-outcomes/{basicOutcomeIdentifier}/delete
+    controller: App\Action\Platform\BasicOutcome\DeleteBasicOutcomeAction
+
 platform_nrps_list_memberships:
     methods: [GET]
     path: /platform/nrps/memberships
     controller: App\Action\Platform\Nrps\ListMembershipsAction
 
 platform_nrps_create_membership:
-    methods: [ GET, POST ]
+    methods: [GET, POST]
     path: /platform/nrps/memberships/new
     controller: App\Action\Platform\Nrps\CreateMembershipAction
 
 platform_nrps_view_membership:
-    methods: [ GET ]
+    methods: [GET]
     path: /platform/nrps/memberships/{membershipIdentifier}/view
     controller: App\Action\Platform\Nrps\ViewMembershipAction
 
 platform_nrps_edit_membership:
-    methods: [ GET, POST ]
+    methods: [GET, POST]
     path: /platform/nrps/memberships/{membershipIdentifier}/edit
     controller: App\Action\Platform\Nrps\EditMembershipAction
 
 platform_nrps_delete_membership:
-    methods: [ GET ]
+    methods: [GET]
     path: /platform/nrps/memberships/{membershipIdentifier}/delete
     controller: App\Action\Platform\Nrps\DeleteMembershipAction

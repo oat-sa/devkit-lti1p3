@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.8.0
+-----
+
+* Added platform basic outcome list
+* Updated platform NRPS memberships list
+
 1.7.0
 -----
 

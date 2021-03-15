@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}<i class="fas fa-poll"></i>&nbsp;&nbsp;Platform - Basic outcomes{% endblock %}
+
+{% block body %}
+<div class="card bg-light">
+    <div class="card-header">
+        <i class="fas fa-poll"></i>&nbsp;Basic outcomes
+    </div>
+    <div class="card-body">
+        {% if basicOutcomes|length > 0 %}
+            <table id="basicOutcomes" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Identifier</th>
+                    <th>Score</th>
+                    <th>Language</th>
+                    <th>Registration</th>
+                    <th>Tool</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for basicOutcomeIdentifier, basicOutcome in basicOutcomes %}
+                    <tr>
+                        <td>
+                            <code>{{ basicOutcomeIdentifier }}</code>
+                        </td>
+                        <td>
+                            <span class="badge badge-pill badge-primary">
+                                {{ basicOutcome.score }}
+                            </span>
+                        </td>
+                        <td>
+                            {{ basicOutcome.language }}
+                        </td>
+                        <td>
+                            {{ basicOutcome.registration }}
+                        </td>
+                        <td>
+                            {{ basicOutcome.tool }}
+                        </td>
+                        <td style="width:1px;white-space:nowrap;">
+                            <a class="btn btn-danger text-white btn-sm" href="{{ absolute_url(path('platform_basic_outcome_delete', {'basicOutcomeIdentifier': basicOutcomeIdentifier})) }}" onclick="return confirm('Are you sure?')">
+                                <i class="fas fa-trash-alt"></i>&nbsp;Delete
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            No basic outcomes available
+        {% endif %}
+    </div>
+    <div class="card-footer text-muted">
+        <small><code><i class="fas fa-exclamation-triangle"></i>&nbsp;Non persistent cache storage</code></small>
+    </div>
+</div>
+{% endblock body %}
+
+{% block scripts %}
+    <script>
+        {% if basicOutcomes|length > 0 %}
+        $(document).ready(function() {
+            $('#basicOutcomes').DataTable(
+                {
+                    "language": {
+                        "paginate": {
+                            "previous": "<",
+                            "next": ">",
+                        }
+                    }
+                }
+            );
+        } );
+        {% endif %}
+    </script>
+{% endblock %}

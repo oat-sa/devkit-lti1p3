@@ -9,7 +9,7 @@ parameters:
         Basic Outcome:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_BASIC_OUTCOME
             value:
-                lis_result_sourcedid: "123"
+                lis_result_sourcedid: "default"
                 lis_outcome_service_url: "http://demo_lti1p3_nginx/platform/service/basic-outcome"
         Context:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_CONTEXT
