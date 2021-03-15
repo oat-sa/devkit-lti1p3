@@ -22,37 +22,53 @@ declare(strict_types=1);
 
 namespace App\BasicOutcome;
 
-use Carbon\Carbon;
+use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Service\LtiServiceSecurityToken;
 use OAT\Library\Lti1p3BasicOutcome\Service\Server\Processor\BasicOutcomeServiceServerProcessorInterface;
 use OAT\Library\Lti1p3BasicOutcome\Service\Server\Processor\BasicOutcomeServiceServerProcessorResult;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Security\Core\Security;
 
 class BasicOutcomeProcessor implements BasicOutcomeServiceServerProcessorInterface
 {
+    public const CACHE_KEY = 'lti1p3-nrps-basic-outcomes';
+
+    /** @var Security */
+    private $security;
+
     /** @var CacheItemPoolInterface */
     private $cache;
 
-    public function __construct(CacheItemPoolInterface $cache)
+    public function __construct(Security $security, CacheItemPoolInterface $cache)
     {
+        $this->security = $security;
         $this->cache = $cache;
     }
 
     public function processReadResult(string $sourcedId): BasicOutcomeServiceServerProcessorResult
     {
-        $cacheKey = sprintf('lti1p3-basic-outcome-%s', $sourcedId);
+        $basicOutcomeCache = $this->cache->getItem(self::CACHE_KEY);
 
-        if ($this->cache->hasItem($cacheKey)) {
+        if ($basicOutcomeCache->isHit()) {
 
-            $itemData = $this->cache->getItem($cacheKey)->get();
+            $basicOutcomeList = $basicOutcomeCache->get();
+            $basicOutcomeKey = $this->getBasicOutcomeKey($sourcedId);
 
-            $score = floatval($itemData['score']);
-            $language = $itemData['language'] ?? null;
+            if (array_key_exists($basicOutcomeKey, $basicOutcomeList)) {
+
+                $score = floatval($basicOutcomeList[$basicOutcomeKey]['score']);
+                $language = $basicOutcomeList[$basicOutcomeKey]['language'] ?? null;
+
+                return new BasicOutcomeServiceServerProcessorResult(
+                    true,
+                    sprintf('The current score for sourced id %s is %s and for language %s', $sourcedId, $score, $language),
+                    $score,
+                    $language
+                );
+            }
 
             return new BasicOutcomeServiceServerProcessorResult(
                 true,
-                sprintf('The current score for sourced id %s is %s and for language %s', $sourcedId, $score, $language),
-                $score,
-                $language
+                sprintf('The current score for sourced id %s is non existing', $sourcedId)
             );
         }
 
@@ -64,18 +80,29 @@ class BasicOutcomeProcessor implements BasicOutcomeServiceServerProcessorInterfa
 
     public function processReplaceResult(string $sourcedId, float $score, string $language = 'en'): BasicOutcomeServiceServerProcessorResult
     {
-        $item = $this->cache->getItem(sprintf('lti1p3-basic-outcome-%s', $sourcedId));
+        /** @var LtiServiceSecurityToken $token */
+        $token = $this->security->getToken();
 
-        $item
-            ->set([
-                'score' => $score,
-                'language' => $language
-            ])
-            ->expiresAt(
-                Carbon::now()->addSeconds(3600)
-            );
+        $basicOutcomeCache = $this->cache->getItem(self::CACHE_KEY);
 
-        $this->cache->save($item);
+        $basicOutcomeList = [];
+
+        if ($basicOutcomeCache->isHit()) {
+            $basicOutcomeList = $basicOutcomeCache->get();
+        }
+
+        $basicOutcomeKey = $this->getBasicOutcomeKey($sourcedId);
+
+        $basicOutcomeList[$basicOutcomeKey] = [
+            'score' => $score,
+            'language' => $language,
+            'registration' => $token->getRegistration()->getIdentifier(),
+            'tool' => $token->getRegistration()->getTool()->getIdentifier(),
+        ];
+
+        $basicOutcomeCache->set($basicOutcomeList);
+
+        $this->cache->save($basicOutcomeCache);
 
         return new BasicOutcomeServiceServerProcessorResult(
             true,
@@ -87,11 +114,33 @@ class BasicOutcomeProcessor implements BasicOutcomeServiceServerProcessorInterfa
 
     public function processDeleteResult(string $sourcedId): BasicOutcomeServiceServerProcessorResult
     {
-        $this->cache->deleteItem(sprintf('lti1p3-basic-outcome-%s', $sourcedId));
+        $basicOutcomeCache = $this->cache->getItem(self::CACHE_KEY);
+
+        $basicOutcomeKey = $this->getBasicOutcomeKey($sourcedId);
+
+        $basicOutcomeList = [];
+
+        if ($basicOutcomeCache->isHit()) {
+            $basicOutcomeList = $basicOutcomeCache->get();
+        }
+
+        unset($basicOutcomeList[$basicOutcomeKey]);
+
+        $basicOutcomeCache->set($basicOutcomeList);
+
+        $this->cache->save($basicOutcomeCache);
 
         return new BasicOutcomeServiceServerProcessorResult(
             true,
             sprintf('The score for sourced id %s has been deleted', $sourcedId)
         );
+    }
+
+    private function getBasicOutcomeKey(string $sourcedId): string
+    {
+        /** @var LtiServiceSecurityToken $token */
+        $token = $this->security->getToken();
+
+        return sprintf('%s-%s', $token->getRegistration()->getIdentifier(), $sourcedId);
     }
 }

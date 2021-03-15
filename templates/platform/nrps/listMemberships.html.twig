@@ -4,75 +4,163 @@
 
 {% block body %}
 <div class="card bg-light">
-    <div class="card-header">
-        <i class="fas fa-users"></i>&nbsp;Default membership&nbsp;<small><code>(from config/demo/users.yaml)</code></small>
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+            <i class="fas fa-users"></i>&nbsp;Default membership
+        </div>
+        <div>
+            <a class="btn btn-info text-white" data-toggle="modal" data-target="#membershipServiceUrlModal" data-nrps-service-url="{{ absolute_url(path('platform_service_nrps', {'contextIdentifier': defaultMembership.context.identifier, 'membershipIdentifier': defaultMembership.identifier})) }}">
+                <i class="fas fa-link"></i>&nbsp;NRPS
+            </a>
+            <a class="btn btn-primary" href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': defaultMembership.identifier}) }}">
+                <i class="fas fa-info-circle"></i>&nbsp;Details
+            </a>
+        </div>
     </div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item list-group-item-action">
-            <div class="clearfix">
-                <div class="float-left">
-                    <i class="fas fa-users"></i>&nbsp;<code>{{ defaultMembership.identifier }}</code>
-                    &nbsp;-&nbsp;
-                    <small class="text-muted">{{ defaultMembership.members.count }} member(s)</small>
-                    <br/>
-                    <small class="text-muted">
-                        {{ absolute_url(path('platform_service_nrps', {'contextIdentifier': defaultMembership.context.identifier, 'membershipIdentifier': defaultMembership.identifier})) }}
-                    </small>
-                </div>
-                <div class="float-right">
-                    <a class="btn btn-secondary btn-sm" href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': defaultMembership.identifier}) }}">
-                        <i class="fas fa-info-circle"></i>&nbsp;Details
-                    </a>
-                </div>
-            </div>
-        </li>
-    </ul>
+    <div class="card-body">
+        Identifier: <code>{{ defaultMembership.identifier }}</code>
+        &nbsp;-&nbsp;
+        Context: <code>{{ defaultMembership.context.identifier }}</code>
+        &nbsp;-&nbsp;
+        <small class="text-muted">{{ defaultMembership.members.count }} member(s)</small>
+    </div>
+    <div class="card-footer text-muted">
+        <small>From <code>config/demo/users.yaml</code></small>
+    </div>
 </div>
-<hr/>
+<br/>
 <div class="card bg-light">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div>
-            <i class="fas fa-users"></i>&nbsp;Custom memberships&nbsp;<small><code>(non persistent cache storage)</code></small>
+            <i class="fas fa-users"></i>&nbsp;Custom memberships
         </div>
         <a class="btn btn-primary" href="{{ path('platform_nrps_create_membership') }}">
             <i class="fas fa-plus-circle"></i>&nbsp;Create
         </a>
     </div>
-    <ul class="list-group list-group-flush">
-        {% for membership in memberships %}
-            <li class="list-group-item list-group-item-action">
-                <div class="clearfix">
-                    <div class="float-left">
-                        <i class="fas fa-users"></i>&nbsp;<code>{{ membership.identifier }}</code>
-                        &nbsp;-&nbsp;
-                        <small class="text-muted">{{ membership.members.count }} member(s)</small>
-                        <br/>
-                        <small class="text-muted">
-                            {{ absolute_url(path('platform_service_nrps', {'contextIdentifier': membership.context.identifier, 'membershipIdentifier': membership.identifier})) }}
-                        </small>
-                    </div>
-                    <div class="float-right">
-                        <a class="btn btn-secondary btn-sm" href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': membership.identifier}) }}">
-                            <i class="fas fa-info-circle"></i>&nbsp;Details
-                        </a>
-                        <a class="btn btn-danger text-white btn-sm" href="{{ path('platform_nrps_delete_membership', {'membershipIdentifier': membership.identifier}) }}" onclick="return confirm('Are you sure?')">
-                            <i class="fas fa-trash-alt"></i>&nbsp;Delete
-                        </a>
-                    </div>
-                </div>
-            </li>
+    <div class="card-body">
+        {% if memberships|length > 0 %}
+            <table id="memberships" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Identifier</th>
+                    <th>Context</th>
+                    <th>Members</th>
+                    <th>NRPS</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for membership in memberships %}
+                    <tr>
+                        <td>
+                            <code>{{ membership.identifier }}</code>
+                        </td>
+                        <td>
+                            <code>{{ membership.context.identifier }}</code>
+                        </td>
+                        <td>
+                            {{ membership.members.count }}
+                        </td>
+                        <td style="width:1px;white-space:nowrap;">
+                            <a class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#membershipServiceUrlModal" data-nrps-service-url="{{ absolute_url(path('platform_service_nrps', {'contextIdentifier': membership.context.identifier, 'membershipIdentifier': membership.identifier})) }}">
+                                <i class="fas fa-link"></i>&nbsp;NRPS
+                            </a>
+                        </td>
+                        <td style="width:1px;white-space:nowrap;">
+                            <a class="btn btn-primary btn-sm" href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': membership.identifier}) }}">
+                                <i class="fas fa-info-circle"></i>&nbsp;Details
+                            </a>
+                            <a class="btn btn-danger text-white btn-sm" href="{{ path('platform_nrps_delete_membership', {'membershipIdentifier': membership.identifier}) }}" onclick="return confirm('Are you sure?')">
+                                <i class="fas fa-trash-alt"></i>&nbsp;Delete
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         {% else %}
-            <li class="list-group-item">No custom memberships available</li>
-        {% endfor %}
-    </ul>
+            No custom memberships available
+        {% endif %}
+    </div>
     <div class="card-footer text-muted">
-        <small>{{ memberships|length }} custom membership(s) found</small>
+        <small><code><i class="fas fa-exclamation-triangle"></i>&nbsp;Non persistent cache storage</code></small>
+    </div>
+</div>
+<div class="modal fade" id="membershipServiceUrlModal" tabindex="-1" role="dialog" aria-labelledby="membershipServiceUrlModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="membershipServiceUrlModalLabel"><i class="fas fa-info-circle"></i>&nbsp;Membership NRPS Service URL</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <textarea class="form-control" id="membershipServiceUrlField" rows="15"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="membershipServiceUrlCopy" type="button" class="btn btn-secondary">
+                    <i id="membershipServiceUrlCopyLogo" class="fas fa-copy"></i>&nbsp;
+                    <span id="membershipServiceUrlCopyText">Copy to clipboard</span>
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock body %}
 
 {% block scripts %}
     <script>
-        hljs.initHighlightingOnLoad();
+        $('#membershipServiceUrlModal').on("show.bs.modal", function (event) {
+            $("#membershipServiceUrlField").val($(event.relatedTarget).attr("data-nrps-service-url"));
+        });
+
+        function copyUrlToClipboard() {
+
+            $('#membershipServiceUrlField').select();
+            document.execCommand("copy");
+
+            $('#membershipServiceUrlCopy').removeClass('btn-secondary');
+            $('#membershipServiceUrlCopy').addClass('btn-success');
+            $('#membershipServiceUrlCopyLogo').removeClass('fa-copy');
+            $('#membershipServiceUrlCopyLogo').addClass('fa-check');
+            $('#membershipServiceUrlCopyText').html('Copied !');
+            setTimeout(
+                function() {
+                    $('#membershipServiceUrlCopy').removeClass('btn-success');
+                    $('#membershipServiceUrlCopy').addClass('btn-secondary');
+                    $('#membershipServiceUrlCopyLogo').removeClass('fa-check');
+                    $('#membershipServiceUrlCopyLogo').addClass('fa-copy');
+                    $('#membershipServiceUrlCopyText').html('Copy to clipboard');
+
+                },
+                1500
+            );
+        }
+
+        $("#membershipServiceUrlCopy").click(function(event){
+            copyUrlToClipboard();
+        });
+
+        {% if memberships|length > 0 %}
+        $(document).ready(function() {
+            $('#memberships').DataTable(
+                {
+                    "language": {
+                        "paginate": {
+                            "previous": "<",
+                            "next": ">",
+                        }
+                    }
+                }
+            );
+        } );
+        {% endif %}
     </script>
 {% endblock %}
