@@ -110,7 +110,7 @@ class LtiServiceClientType extends AbstractType
                 'submit',
                 SubmitType::class,
                 [
-                    'label' => '<i class="fas fa-sign-in-alt"></i>&nbsp;Call platform service',
+                    'label' => '<i class="fas fa-sign-in-alt"></i>&nbsp;Call LTI service',
                     'label_html' => true,
                     'attr' => ['class' => 'btn-primary']
                 ]

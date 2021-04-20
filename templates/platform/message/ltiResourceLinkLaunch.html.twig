@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}<i class="fas fa-cubes"></i>&nbsp;&nbsp;Platform - Launch tool{% endblock %}
+{% block nav_title %}<i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Platform - Launch resource link{% endblock %}
 
 {% block body %}
     <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
@@ -95,8 +95,8 @@
             </div>
             {{ form_end(form) }}
         </div>
-        {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
     </div>
+    {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
     {% if ltiResourceLinkLaunchRequest %}
     <br/>
     <div class="row">
@@ -151,7 +151,7 @@
                     </div>
                 </div>
             <div class="card-footer">
-                {{ ltiResourceLinkLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch tool',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+                {{ ltiResourceLinkLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch resource link',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
             </div>
         </div>
     </div>

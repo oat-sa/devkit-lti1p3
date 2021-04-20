@@ -24,6 +24,7 @@ namespace App\Action\Platform\Message;
 
 use App\Form\Generator\FormShareUrlGenerator;
 use App\Form\Platform\Message\DeepLinkingLaunchType;
+use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchRequestBuilder;
 use OAT\Library\Lti1p3DeepLinking\Settings\DeepLinkingSettings;
 use Ramsey\Uuid\Uuid;
@@ -130,10 +131,14 @@ class DeepLinkingLaunchAction
                     ];
             }
 
+            /** @var RegistrationInterface $registration */
+            $registration = $formData['registration'];
+
             $deepLinkingLaunchRequest = $this->builder->buildDeepLinkingLaunchRequest(
                 $deepLinkSettings,
-                $formData['registration'],
+                $registration,
                 json_encode($loginHint),
+                $formData['deep_linking_url'] ?? $registration->getTool()->getDeepLinkingUrl(),
                 null,
                 [],
                 $claims

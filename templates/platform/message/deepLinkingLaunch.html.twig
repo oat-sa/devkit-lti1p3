@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}<i class="fas fa-cubes"></i>&nbsp;&nbsp;Platform - Deep linking{% endblock %}
+{% block nav_title %}<i class="fas fa-link"></i>&nbsp;&nbsp;Platform - Launch deep linking{% endblock %}
 
 {% block body %}
     <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
@@ -113,8 +113,8 @@
             </div>
             {{ form_end(form) }}
         </div>
-        {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
     </div>
+    {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
     {% if deepLinkingLaunchRequest %}
     <br/>
     <div class="row">

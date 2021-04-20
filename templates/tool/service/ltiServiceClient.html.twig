@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}<i class="fas fa-cube"></i>&nbsp;&nbsp;Tool - Call platform service{% endblock %}
+{% block nav_title %}<i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Tool - Call LTI service{% endblock %}
 
 {% block body %}
     <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
         <div class="card bg-light">
             <div class="card-header dropdown-toggle clickable {{ form.vars.submitted ? 'collapsed' : '' }}" role="tab" id="headingForm" data-toggle="collapse" data-parent="#accordionForm" href="#collapseForm"
                  aria-expanded="{{ form.vars.submitted ? 'false' : 'true' }}" aria-controls="collapseForm">
-                <i class="fas fa-sign-in-alt"></i>&nbsp;Tool service client
+                <i class="fas fa-sign-in-alt"></i>&nbsp;LTI service client
             </div>
             <div id="collapseForm" class="collapse card-body  {{ form.vars.submitted ? '' : 'show' }}" role="tabpanel" aria-labelledby="headingForm" data-parent="#accordionForm">
                 {{ form_start(form) }}
@@ -40,8 +40,8 @@
             </div>
             {{ form_end(form) }}
         </div>
-        {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
     </div>
+    {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
     {% if serviceData %}
         <br/>
         <div class="card bg-light">
