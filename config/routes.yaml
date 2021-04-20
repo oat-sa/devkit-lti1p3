@@ -49,12 +49,12 @@ tool_ajax_service_basic_outcome:
 platform_service_nrps:
     methods: [GET]
     path: /platform/service/nrps/{contextIdentifier}/memberships/{membershipIdentifier}
-    controller: App\Action\Platform\Service\Nrps\MembershipServiceAction
+    controller: app.service.nrps_membership_controller
 
 platform_basic_outcome_results:
     methods: [POST]
     path: /platform/service/basic-outcome
-    controller: App\Action\Platform\Service\BasicOutcome\ResultServiceAction
+    controller: app.service.basic_outcome_controller
 
 platform_ags_list_scores:
     methods: [GET]

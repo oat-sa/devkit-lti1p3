@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+1.9.0
+-----
+
+* Added platform proctoring test sessions list
+* Updated LTI core library and bundle to version 6.x
+* Updated sidebar menu  
+* Replaced NRPS and basic outcome services endpoints with bundle request handler abstraction
+
 1.8.0
 -----
 

@@ -25,7 +25,7 @@ namespace App\Action\Tool\Service;
 use App\Form\Generator\FormShareUrlGenerator;
 use App\Form\Tool\Service\LtiServiceClientType;
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
-use OAT\Library\Lti1p3Core\Service\Client\ServiceClientInterface;
+use OAT\Library\Lti1p3Core\Service\Client\LtiServiceClientInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +46,7 @@ class LtiServiceClientAction
     /** @var FormShareUrlGenerator */
     private $generator;
 
-    /** @var ServiceClientInterface */
+    /** @var LtiServiceClientInterface */
     private $client;
 
     public function __construct(
@@ -54,7 +54,7 @@ class LtiServiceClientAction
         Environment $twig,
         FormFactoryInterface $factory,
         FormShareUrlGenerator $generator,
-        ServiceClientInterface $client
+        LtiServiceClientInterface $client
     ) {
         $this->flashBag = $flashBag;
         $this->twig = $twig;
