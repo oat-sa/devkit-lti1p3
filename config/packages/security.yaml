@@ -7,7 +7,7 @@ security:
             stateless: true
             lti1p3_message_tool: true
         platform_message_area:
-            pattern: ^/platform/message/deep-linking-return
+            pattern: ^/platform/message/return
             stateless: true
             lti1p3_message_platform: true
         platform_service_ags_area:

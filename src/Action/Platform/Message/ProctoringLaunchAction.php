@@ -146,7 +146,7 @@ class ProctoringLaunchAction
                 $claims
             );
 
-            $this->flashBag->add('success', 'Proctoring launch generation success');
+            $this->flashBag->add('success', 'LtiStartProctoring generation success');
         } else {
             $form->setData($request->query->all());
         }

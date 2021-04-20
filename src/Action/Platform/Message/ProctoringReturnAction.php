@@ -20,16 +20,15 @@
 
 declare(strict_types=1);
 
-namespace App\Action\Tool\Message;
+namespace App\Action\Platform\Message;
 
-use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Message\LtiToolMessageSecurityToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
-class ProctoringLaunchAction
+class ProctoringReturnAction
 {
     /** @var FlashBagInterface */
     private $flashBag;
@@ -44,7 +43,8 @@ class ProctoringLaunchAction
         FlashBagInterface $flashBag,
         Environment $twig,
         Security $security
-    ) {
+    )
+    {
         $this->flashBag = $flashBag;
         $this->twig = $twig;
         $this->security = $security;
@@ -52,16 +52,13 @@ class ProctoringLaunchAction
 
     public function __invoke(Request $request): Response
     {
-        /** @var LtiToolMessageSecurityToken $token */
-        $token = $this->security->getToken();
-
-        $this->flashBag->add('success', 'Tool LtiStartProctoring launch success');
+        $this->flashBag->add('success', 'Platform LtiStartAssessment launch success');
 
         return new Response(
             $this->twig->render(
-                'tool/message/proctoringLaunch.html.twig',
+                'platform/message/proctoringReturn.html.twig',
                 [
-                    'token' => $token,
+                    'token' => $this->security->getToken()
                 ]
             )
         );

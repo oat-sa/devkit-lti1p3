@@ -144,7 +144,7 @@ class DeepLinkingLaunchAction
                 $claims
             );
 
-            $this->flashBag->add('success', 'Deep linking launch generation success');
+            $this->flashBag->add('success', 'LtiDeepLinkingRequest generation success');
         } else {
             $form->setData($request->query->all());
         }

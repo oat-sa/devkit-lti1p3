@@ -52,7 +52,7 @@ class LtiResourceLinkLaunchAction
         /** @var LtiToolMessageSecurityToken $token */
         $token = $this->security->getToken();
 
-        $this->flashBag->add('success', 'Tool LTI resource link launch success');
+        $this->flashBag->add('success', 'Tool LtiResourceLinkRequest launch success');
 
         return new Response(
             $this->twig->render(

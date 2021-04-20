@@ -1,0 +1,15 @@
+<div class="alert alert-info" role="alert">
+    This step is normally used in a real proctoring tool to allow the proctor to validate the candidate attempt.<br/>
+    Since this is a demo application, no validation will be done here.<br/>
+    To continue the proctoring launch flow, click on the button below to return to the platform with a <code>LtiStartAssessment</code> message.
+</div>
+<form action="{{ path('tool_message_proctoring_response') }}" method="post">
+    <input type="hidden" name="registration" value="{{ token.registration.identifier }}"/>
+    <input type="hidden" name="resource-link-id" value="{{ token.payload.resourceLink.identifier }}"/>
+    <input type="hidden" name="start-assessment-url" value="{{ token.payload.proctoringStartAssessmentUrl }}"/>
+    <input type="hidden" name="session-data" value="{{ token.payload.proctoringSessionData }}"/>
+    <input type="hidden" name="attempt-number" value="{{ token.payload.proctoringAttemptNumber }}"/>
+    <button type="submit" class="btn-primary btn btn-block">
+        <i class="fas fa-sign-in-alt"></i>&nbsp;Launch LtiStartAssessment
+    </button>
+</form>

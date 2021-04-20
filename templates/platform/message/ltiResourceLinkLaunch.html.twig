@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}<i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Platform - Launch resource link{% endblock %}
+{% block nav_title %}<i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Platform - LtiResourceLinkRequest launch{% endblock %}
 
 {% block body %}
     <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
         <div class="card bg-light">
             <div class="card-header dropdown-toggle clickable {{ form.vars.submitted ? 'collapsed' : '' }}" role="tab" id="headingForm" data-toggle="collapse" data-parent="#accordionForm" href="#collapseForm"
                  aria-expanded="{{ form.vars.submitted ? 'false' : 'true' }}" aria-controls="collapseForm">
-                <i class="fas fa-cogs"></i>&nbsp;LTI resource link launch generator
+                <i class="fas fa-cogs"></i>&nbsp;<code>LtiResourceLinkRequest</code> generator
             </div>
             <div id="collapseForm" class="collapse card-body  {{ form.vars.submitted ? '' : 'show' }}" role="tabpanel" aria-labelledby="headingForm" data-parent="#accordionForm">
             {{ form_start(form) }}
@@ -103,7 +103,7 @@
         <div class="col-sm-12">
             <div class="card bg-light">
                 <div class="card-header">
-                    <i class="fas fa-sign-out-alt"></i>&nbsp;LTI resource link launch
+                    <i class="fas fa-sign-out-alt"></i>&nbsp;<code>LtiResourceLinkRequest</code> launch
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -151,7 +151,7 @@
                     </div>
                 </div>
             <div class="card-footer">
-                {{ ltiResourceLinkLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch resource link',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+                {{ ltiResourceLinkLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch LtiResourceLinkRequest',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
             </div>
         </div>
     </div>

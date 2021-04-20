@@ -11,12 +11,16 @@ platform_message_launch_deep_linking:
     controller: App\Action\Platform\Message\DeepLinkingLaunchAction
 
 platform_message_deep_linking_return:
-    path: /platform/message/deep-linking-return
+    path: /platform/message/return/deep-linking
     controller: App\Action\Platform\Message\DeepLinkingReturnAction
 
 platform_message_launch_proctoring:
     path: /platform/message/launch/proctoring
     controller: App\Action\Platform\Message\ProctoringLaunchAction
+
+platform_message_proctoring_return:
+    path: /platform/message/return/proctoring
+    controller: App\Action\Platform\Message\ProctoringReturnAction
 
 tool_message_launch:
     path: /tool/launch
@@ -34,6 +38,11 @@ tool_message_deep_linking_response:
     methods: [POST]
     path: /tool/deep-linking-response
     controller: App\Action\Tool\Message\DeepLinkingResponseAction
+
+tool_message_proctoring_response:
+    methods: [POST]
+    path: /tool/proctoring-response
+    controller: App\Action\Tool\Message\ProctoringResponseAction
 
 tool_service_client:
     path: /tool/service/client

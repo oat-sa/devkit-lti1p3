@@ -144,7 +144,7 @@ class LtiResourceLinkLaunchAction
                 $claims
             );
 
-            $this->flashBag->add('success', 'LTI resource link launch generation success');
+            $this->flashBag->add('success', 'LtiResourceLinkRequest generation success');
         } else {
             $form->setData($request->query->all());
         }

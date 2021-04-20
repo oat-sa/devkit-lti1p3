@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace App\Action\Tool\Message;
 
+use OAT\Library\Lti1p3Core\Message\Payload\Claim\ResourceLinkClaim;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactoryInterface;
 use OAT\Library\Lti1p3Proctoring\Message\Launch\Builder\StartAssessmentLaunchRequestBuilder;
@@ -59,32 +60,14 @@ class ProctoringResponseAction
     {
         $registration = $this->repository->find($request->get('registration'));
 
-        $availableResources = $this->parameterBag->get('deeplinking_resources');
-        $selectedResources = [];
-
-        foreach ($request->get('selected-resources', []) as $resourceIdentifier) {
-            $selectedResources[] = $availableResources[$resourceIdentifier];
-        }
-
-        $resourceCollection = $this->factory->create($selectedResources);
-
-        $deepLinkingResponse = $this->builder->buildStartAssessmentLaunchRequest(
-            $resourceCollection,
+        $startAssessmentMessage = $this->builder->buildStartAssessmentLaunchRequest(
+            new ResourceLinkClaim($request->get('resource-link-id')),
             $registration,
-            $request->get('deep-linking-return-url'),
-            null,
-            $request->get('deep-linking-data')
+            $request->get('start-assessment-url'),
+            $request->get('session-data'),
+            (int)$request->get('attempt-number')
         );
 
-        /*$deepLinkingResponse = $this->builder->buildLaunchErrorResponse(
-            $registration,
-            $request->get('deep-linking-return-url'),
-            null,
-            $request->get('deep-linking-data'),
-            'error message',
-            'error log'
-        );*/
-
-        return new Response($deepLinkingResponse->toHtmlRedirectForm());
+        return new Response($startAssessmentMessage->toHtmlRedirectForm());
     }
 }
