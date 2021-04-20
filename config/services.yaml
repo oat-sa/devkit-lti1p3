@@ -5,7 +5,7 @@ imports:
 
 parameters:
     application_host: '%env(resolve:APP_HOST)%'
-    application_version: '1.8.0'
+    application_version: '1.9.0'
 
 services:
     _defaults:
@@ -34,6 +34,22 @@ services:
 
     OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactoryInterface:
         class: OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactory
+
+    # LTI proctoring dependencies
+    OAT\Library\Lti1p3Proctoring\Message\Launch\Builder\StartProctoringLaunchRequestBuilder: ~
+
+    OAT\Library\Lti1p3Proctoring\Message\Launch\Builder\StartAssessmentLaunchRequestBuilder: ~
+
+    OAT\Library\Lti1p3Proctoring\Service\Server\Handler\AcsServiceServerRequestHandler:
+        arguments:
+            - '@App\Proctoring\AcsServiceServerControlProcessor'
+
+    app.service.proctoring_acs_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Proctoring\Service\Server\Handler\AcsServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
 
     # LTI NRPS dependencies
     OAT\Library\Lti1p3Nrps\Service\Client\MembershipServiceClient: ~

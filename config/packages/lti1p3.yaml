@@ -3,6 +3,7 @@ lti1p3:
         - 'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly'
         - 'https://purl.imsglobal.org/spec/lti-bo/scope/basicoutcome'
         - 'https://purl.imsglobal.org/spec/lti-ags/scope/score'
+        - 'https://purl.imsglobal.org/spec/lti-ap/scope/control.all'
     key_chains:
         kid1:
             key_set_name: "platformSet"

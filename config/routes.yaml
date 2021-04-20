@@ -14,6 +14,10 @@ platform_message_deep_linking_return:
     path: /platform/message/deep-linking-return
     controller: App\Action\Platform\Message\DeepLinkingReturnAction
 
+platform_message_launch_proctoring:
+    path: /platform/message/launch/proctoring
+    controller: App\Action\Platform\Message\ProctoringLaunchAction
+
 tool_message_launch:
     path: /tool/launch
     controller: App\Action\Tool\Message\LtiResourceLinkLaunchAction
@@ -21,6 +25,10 @@ tool_message_launch:
 tool_message_deep_linking:
     path: /tool/launch/deep-linking
     controller: App\Action\Tool\Message\DeepLinkingLaunchAction
+
+tool_message_proctoring:
+    path: /tool/launch/proctoring
+    controller: App\Action\Tool\Message\ProctoringLaunchAction
 
 tool_message_deep_linking_response:
     methods: [POST]
@@ -34,6 +42,11 @@ tool_service_client:
 platform_ajax_default_registration_url:
     path: /platform/ajax/registration-url
     controller: App\Action\Platform\Ajax\RegistrationDefaultLaunchUrlAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_client_autocomplete:
+    path: /tool/ajax/service-client/autocomplete
+    controller: App\Action\Tool\Ajax\LtiServiceClientAutocompleteAction
     condition: "request.isXmlHttpRequest()"
 
 tool_ajax_service_nrps:
@@ -50,6 +63,11 @@ platform_service_nrps:
     methods: [GET]
     path: /platform/service/nrps/{contextIdentifier}/memberships/{membershipIdentifier}
     controller: app.service.nrps_membership_controller
+
+platform_service_acs:
+    methods: [POST]
+    path: /platform/service/acs/{assessmentIdentifier}
+    controller: app.service.proctoring_acs_controller
 
 platform_basic_outcome_results:
     methods: [POST]
@@ -105,3 +123,28 @@ platform_nrps_delete_membership:
     methods: [GET]
     path: /platform/nrps/memberships/{membershipIdentifier}/delete
     controller: App\Action\Platform\Nrps\DeleteMembershipAction
+
+platform_proctoring_list_assessments:
+    methods: [GET]
+    path: /platform/prtoctoring/assessments
+    controller: App\Action\Platform\Proctoring\ListAssessmentsAction
+
+platform_proctoring_create_assessment:
+    methods: [GET, POST]
+    path: /platform/proctoring/assessments/new
+    controller: App\Action\Platform\Proctoring\CreateAssessmentAction
+
+platform_proctoring_view_assessment:
+    methods: [GET]
+    path: /platform/proctoring/assessments/{assessmentIdentifier}/view
+    controller: App\Action\Platform\Proctoring\ViewAssessmentAction
+
+platform_proctoring_edit_assessment:
+    methods: [GET, POST]
+    path: /platform/proctoring/assessments/{assessmentIdentifier}/edit
+    controller: App\Action\Platform\Proctoring\EditAssessmentAction
+
+platform_proctoring_delete_assessment:
+    methods: [GET]
+    path: /platform/proctoring/assessments/{assessmentIdentifier}/delete
+    controller: App\Action\Platform\Proctoring\DeleteAssessmentAction

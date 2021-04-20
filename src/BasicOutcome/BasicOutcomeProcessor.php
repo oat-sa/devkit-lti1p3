@@ -29,7 +29,7 @@ use Psr\Cache\CacheItemPoolInterface;
 
 class BasicOutcomeProcessor implements BasicOutcomeServiceServerProcessorInterface
 {
-    public const CACHE_KEY = 'lti1p3-nrps-basic-outcomes';
+    public const CACHE_KEY = 'lti1p3-basic-outcomes';
 
     /** @var CacheItemPoolInterface */
     private $cache;

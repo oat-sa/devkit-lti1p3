@@ -72,6 +72,9 @@
     "oat-sa/lib-lti1p3-nrps": {
         "version": "6.0.0"
     },
+    "oat-sa/lib-lti1p3-proctoring": {
+        "version": "0.2.0"
+    },
     "php-http/message-factory": {
         "version": "v1.0.2"
     },

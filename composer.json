@@ -10,6 +10,7 @@
         "oat-sa/lib-lti1p3-basic-outcome": "^4.0",
         "oat-sa/lib-lti1p3-deep-linking": "^4.0",
         "oat-sa/lib-lti1p3-nrps": "^6.0",
+        "oat-sa/lib-lti1p3-proctoring": "^0.2.0",
         "ramsey/uuid": "^3.9 || ^4",
         "symfony/console": "^5.2",
         "symfony/dotenv": "^5.2",
@@ -23,8 +24,6 @@
         "symfony/yaml": "^5.2",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
-    },
-    "require-dev": {
     },
     "config": {
         "preferred-install": {

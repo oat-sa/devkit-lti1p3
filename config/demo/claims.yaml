@@ -6,6 +6,17 @@ parameters:
                 scopes: []
                 lineitems: "{url|required}"
                 lineitem: "{url|optional}"
+        ACS:
+            name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_ACS
+            value:
+                actions: [
+                    'pause',
+                    'resume',
+                    'terminate',
+                    'update',
+                    'flag'
+                ]
+                assessment_control_url: "{url|required}"
         Basic Outcome:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_BASIC_OUTCOME
             value:

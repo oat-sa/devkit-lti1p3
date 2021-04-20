@@ -24,21 +24,17 @@ namespace App\Form\Platform\Message;
 
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
-use OAT\Library\Lti1p3Core\Resource\File\FileInterface;
-use OAT\Library\Lti1p3Core\Resource\HtmlFragment\HtmlFragmentInterface;
-use OAT\Library\Lti1p3Core\Resource\Image\ImageInterface;
-use OAT\Library\Lti1p3Core\Resource\Link\LinkInterface;
-use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLinkInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class DeepLinkingLaunchType extends AbstractType
+class ProctoringLaunchType extends AbstractType
 {
     /** @var RegistrationRepositoryInterface */
     private $repository;
@@ -55,20 +51,6 @@ class DeepLinkingLaunchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $userChoices = array_keys($this->parameterBag->get('users'));
-        
-        $acceptTypesChoices = [
-            LinkInterface::TYPE,
-            LtiResourceLinkInterface::TYPE,
-            FileInterface::TYPE,
-            ImageInterface::TYPE,
-            HtmlFragmentInterface::TYPE,
-        ];
-        
-        $acceptPresentationChoices = [
-            'iframe',
-            'window',
-            'embed',
-        ];
 
         $builder
             ->add(
@@ -146,73 +128,31 @@ class DeepLinkingLaunchType extends AbstractType
                 ]
             )
             ->add(
-                'accept_types',
-                ChoiceType::class,
-                [
-                    'label' => 'Accepted types',
-                    'choices' => array_combine($acceptTypesChoices, $acceptTypesChoices),
-                    'required' => true,
-                    'multiple' => true,
-                    'help' => 'Accepted content item types'
-                ]
-            )
-            ->add(
-                'accept_presentation_document_targets',
-                ChoiceType::class,
-                [
-                    'label' => 'Accepted targets',
-                    'choices' => array_combine($acceptPresentationChoices, $acceptPresentationChoices),
-                    'required' => true,
-                    'multiple' => true,
-                    'help' => 'Accepted document targets'
-                ]
-            )
-            ->add(
-                'deep_linking_url',
+                'start_proctoring_url',
                 TextType::class,
                 [
                     'label' => 'Launch url',
-                    'required' => false,
-                    'help' => 'If provided, will be the deep linking content selection url. If not, will use the selected registration tool default deep linking url'
+                    'required' => true,
+                    'help' => 'Url where to send the startProctoring message'
 
                 ]
             )
             ->add(
-                'accept_media_types',
+                'start_assessment_url',
                 TextType::class,
                 [
-                    'label' => 'Accepted media types',
-                    'required' => false,
-                    'help' => 'Accepted media types, comma separated'
+                    'required' => true,
+                    'help' => 'Url where to get back the startAssessment message'
 
                 ]
             )
             ->add(
-                'accept_multiple',
-                ChoiceType::class,
+                'attempt_number',
+                IntegerType::class,
                 [
-                    'label' => 'Accept multiple',
-                    'choices' => [
-                        'yes' => true,
-                        'no' => false,
-                    ],
-                    'empty_data' => true,
                     'required' => true,
-                    'help' => 'If should accept multiple content items'
-                ]
-            )
-            ->add(
-                'auto_create',
-                ChoiceType::class,
-                [
-                    'label' => 'Auto create',
-                    'choices' => [
-                        'no' => false,
-                        'yes' => true,
-                    ],
-                    'empty_data' => false,
-                    'required' => true,
-                    'help' => 'If should auto create the content item on tool side'
+                    'help' => 'Attempt number'
+
                 ]
             )
             ->add(

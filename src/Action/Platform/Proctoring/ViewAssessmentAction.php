@@ -20,40 +20,52 @@
 
 declare(strict_types=1);
 
-namespace App\Action\Platform\Nrps;
+namespace App\Action\Platform\Proctoring;
 
-use App\Nrps\DefaultMembershipFactory;
-use App\Nrps\MembershipRepository;
+use App\Proctoring\AssessmentRepository;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 
-class ListMembershipsAction
+class ViewAssessmentAction
 {
-    /** @var MembershipRepository */
+    /** @var AssessmentRepository */
     private $repository;
-
-    /** @var DefaultMembershipFactory */
-    private $factory;
 
     /** @var Environment */
     private $twig;
 
-    public function __construct(MembershipRepository $repository, DefaultMembershipFactory $factory, Environment $twig)
-    {
+    /** @var FormFactoryInterface */
+    private $formFactory;
+
+    public function __construct(
+        AssessmentRepository $repository,
+        Environment $twig,
+        FormFactoryInterface $formFactory
+    ) {
         $this->repository = $repository;
-        $this->factory = $factory;
         $this->twig = $twig;
+        $this->formFactory = $formFactory;
     }
 
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request, string $assessmentIdentifier): Response
     {
+
+        $assessment = $this->repository->find($assessmentIdentifier);
+
+        if (null === $assessment) {
+            throw new NotFoundHttpException(
+                sprintf('Cannot find assessment with id %s', $assessmentIdentifier)
+            );
+        }
+
         return new Response(
             $this->twig->render(
-                'platform/nrps/listMemberships.html.twig',
+                'platform/proctoring/viewAssessment.html.twig',
                 [
-                    'defaultMembership' => $this->factory->create(),
-                    'memberships' => $this->repository->findAll()
+                    'assessment' => $assessment
                 ]
             )
         );

@@ -20,14 +20,13 @@
 
 declare(strict_types=1);
 
-namespace App\Nrps;
+namespace App\Proctoring;
 
-use OAT\Library\Lti1p3Nrps\Model\Membership\MembershipInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
-class MembershipRepository
+class AssessmentRepository
 {
-    private const CACHE_KEY = 'lti1p3-nrps-memberships';
+    public const CACHE_KEY = 'lti1p3-proctoring-assessment';
 
     /** @var CacheItemPoolInterface */
     private $cache;
@@ -37,15 +36,15 @@ class MembershipRepository
         $this->cache = $cache;
     }
 
-    public function find(string $identifier): ?MembershipInterface
+    public function find(string $assessmentIdentifier): ?Assessment
     {
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
         if ($cache->isHit()) {
-            $memberships = $cache->get();
+            $assessments = $cache->get();
 
-            if (array_key_exists($identifier, $memberships)) {
-                return $memberships[$identifier];
+            if (array_key_exists($assessmentIdentifier, $assessments)) {
+                return $assessments[$assessmentIdentifier];
             }
         }
 
@@ -63,26 +62,26 @@ class MembershipRepository
         return [];
     }
 
-    public function save(MembershipInterface $membership): void
+    public function save(Assessment $assessment): void
     {
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
         $memberships = $cache->get();
 
-        $memberships[$membership->getIdentifier()] = $membership;
+        $memberships[$assessment->getIdentifier()] = $assessment;
 
         $cache->set($memberships);
 
         $this->cache->save($cache);
     }
 
-    public function delete(MembershipInterface $membership): void
+    public function delete(Assessment $assessment): void
     {
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
         $memberships = $cache->get();
 
-        unset($memberships[$membership->getIdentifier()]);
+        unset($memberships[$assessment->getIdentifier()]);
 
         $cache->set($memberships);
 

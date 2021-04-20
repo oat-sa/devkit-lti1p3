@@ -20,40 +20,48 @@
 
 declare(strict_types=1);
 
-namespace App\Action\Platform\Nrps;
+namespace App\Action\Tool\Message;
 
-use App\Nrps\DefaultMembershipFactory;
-use App\Nrps\MembershipRepository;
+use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Message\LtiToolMessageSecurityToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
-class ListMembershipsAction
+class ProctoringLaunchAction
 {
-    /** @var MembershipRepository */
-    private $repository;
-
-    /** @var DefaultMembershipFactory */
-    private $factory;
+    /** @var FlashBagInterface */
+    private $flashBag;
 
     /** @var Environment */
     private $twig;
 
-    public function __construct(MembershipRepository $repository, DefaultMembershipFactory $factory, Environment $twig)
-    {
-        $this->repository = $repository;
-        $this->factory = $factory;
+    /** @var Security */
+    private $security;
+
+    public function __construct(
+        FlashBagInterface $flashBag,
+        Environment $twig,
+        Security $security
+    ) {
+        $this->flashBag = $flashBag;
         $this->twig = $twig;
+        $this->security = $security;
     }
 
     public function __invoke(Request $request): Response
     {
+        /** @var LtiToolMessageSecurityToken $token */
+        $token = $this->security->getToken();
+
+        $this->flashBag->add('success', 'Tool proctoring launch success');
+
         return new Response(
             $this->twig->render(
-                'platform/nrps/listMemberships.html.twig',
+                'tool/message/proctoringLaunch.html.twig',
                 [
-                    'defaultMembership' => $this->factory->create(),
-                    'memberships' => $this->repository->findAll()
+                    'token' => $token,
                 ]
             )
         );

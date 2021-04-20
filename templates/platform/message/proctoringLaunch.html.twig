@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}<i class="fas fa-link"></i>&nbsp;&nbsp;Platform - Launch deep linking{% endblock %}
+{% block nav_title %}<i class="fas fa-file-signature"></i>&nbsp;&nbsp;Platform - Launch proctoring{% endblock %}
 
 {% block body %}
     <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
         <div class="card bg-light">
             <div class="card-header dropdown-toggle clickable {{ form.vars.submitted ? 'collapsed' : '' }}" role="tab" id="headingForm" data-toggle="collapse" data-parent="#accordionForm" href="#collapseForm"
                  aria-expanded="{{ form.vars.submitted ? 'false' : 'true' }}" aria-controls="collapseForm">
-                <i class="fas fa-cogs"></i>&nbsp;Deep linking launch generator
+                <i class="fas fa-cogs"></i>&nbsp;Proctoring launch generator
             </div>
             <div id="collapseForm" class="collapse card-body  {{ form.vars.submitted ? '' : 'show' }}" role="tabpanel" aria-labelledby="headingForm" data-parent="#accordionForm">
-                {{ form_start(form) }}
+            {{ form_start(form) }}
                 {{ form_errors(form) }}
                 <div class="form-row">
                     <div class="col-md-9">
@@ -39,37 +39,26 @@
                         {{ form_row(form.custom_user_locale) }}
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-md-6">
-                        {{ form_row(form.accept_types) }}
-                    </div>
-                    <div class="col-md-6">
-                        {{ form_row(form.accept_presentation_document_targets) }}
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-6">
-                        {{ form_row(form.accept_media_types) }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form_row(form.accept_multiple) }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form_row(form.auto_create) }}
-                    </div>
-                </div>
                 <div class="form-group">
-                    {{ form_label(form.deep_linking_url) }}<br/>
+                    {{ form_label(form.start_proctoring_url) }}<br/>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <a id="launchUrlLoad" class="btn btn-secondary text-white" role="button" title="Use and edit selected registration's tool default deep linking url">
+                            <a id="launchUrlLoad" class="btn btn-secondary text-white" role="button" title="Use and edit selected registration's tool default launch url">
                                 <i id="launchUrlLoadLogo" class="fas fa-edit"></i>
                             </a>
                         </div>
-                        {{ form_widget(form.deep_linking_url) }}
+                        {{ form_widget(form.start_proctoring_url) }}
                     </div>
-                    {{ form_help(form.deep_linking_url) }}
-                    {{ form_errors(form.deep_linking_url) }}
+                    {{ form_help(form.start_proctoring_url) }}
+                    {{ form_errors(form.start_proctoring_url) }}
+                </div>
+                <div class="form-row">
+                    <div class="col-md-9">
+                        {{ form_row(form.start_assessment_url) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.attempt_number) }}
+                    </div>
                 </div>
                 <div class="form-group">
                     {{ form_label(form.claims) }}<br/>
@@ -80,19 +69,20 @@
                                     <i class="fas fa-plus-circle"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="claimsAdd">
-                                    {% for title, claim in editorClaims %}
-                                        <a
-                                                class="editorClaim dropdown-item"
-                                                data-name="{{ claim.name }}"
-                                                data-value="{{ claim.value|json_encode(constant('JSON_UNESCAPED_SLASHES')) }}"
-                                        >
-                                            {{ title }}
-                                        </a>
-                                    {% endfor %}
+                                {% for title, claim in editorClaims %}
+                                    <a
+                                        class="editorClaim dropdown-item"
+                                        data-name="{{ claim.name }}"
+                                        data-value="{{ claim.value|json_encode(constant('JSON_UNESCAPED_SLASHES')) }}"
+                                    >
+                                        {{ title }}
+                                    </a>
+                                {% endfor %}
                                 </div>
                                 <button id="claimsFormat" type="button" class="btn btn-secondary btn-block" title="Format claims">
                                     <i class="fas fa-align-left"></i>
                                 </button>
+
                             </div>
                         </div>
                         {{ form_widget(form.claims) }}
@@ -105,48 +95,48 @@
                 </div>
             </div>
             <div class="card-footer">
-                {{ form_widget(form.submit) }}
-                <a href="{{ path('platform_message_launch_deep_linking') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
-                {% if formSubmitted %}
-                    <a class="btn btn-secondary text-white" data-toggle="modal" data-target="#formShareModal"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
-                {% endif %}
+                    {{ form_widget(form.submit) }}
+                    <a href="{{ path('platform_message_launch_proctoring') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
+                    {% if formSubmitted %}
+                        <a class="btn btn-secondary text-white" data-toggle="modal" data-target="#formShareModal"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
+                    {% endif %}
             </div>
             {{ form_end(form) }}
         </div>
     </div>
     {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
-    {% if deepLinkingLaunchRequest %}
+    {% if startProctoringLaunchRequest %}
     <br/>
     <div class="row">
         <div class="col-sm-12">
             <div class="card bg-light">
                 <div class="card-header">
-                    <i class="fas fa-link"></i>&nbsp;Deep Linking launch
+                    <i class="fas fa-sign-out-alt"></i>&nbsp;Proctoring launch
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-4">
                             <dl class="list-unstyled">
                                 <dt>Issuer</dt>
-                                <dd>{{ deepLinkingLaunchRequest.parameters.get('iss') }}</dd>
+                                <dd>{{ startProctoringLaunchRequest.parameters.get('iss') }}</dd>
                                 <dt>Login Hint</dt>
-                                <dd><input type="text" class="form-control form-control-sm" placeholder="token" value="{{ deepLinkingLaunchRequest.parameters.get('login_hint') }}" readonly></dd>
+                                <dd><input type="text" class="form-control form-control-sm" placeholder="token" value="{{ startProctoringLaunchRequest.parameters.get('login_hint') }}" readonly></dd>
                             </dl>
                         </div>
                         <div class="col-sm-4">
                             <dl class="list-unstyled">
                                 <dt>Url</dt>
-                                <dd>{{ deepLinkingLaunchRequest.url }}</dd>
+                                <dd>{{ startProctoringLaunchRequest.url }}</dd>
                                 <dt>Target Link Uri</dt>
-                                <dd>{{ deepLinkingLaunchRequest.parameters.get('target_link_uri') }}</dd>
+                                <dd>{{ startProctoringLaunchRequest.parameters.get('target_link_uri') }}</dd>
                             </dl>
                         </div>
                         <div class="col-sm-4">
                             <dl class="list-unstyled">
                                 <dt>Client Id</dt>
-                                <dd>{{ deepLinkingLaunchRequest.parameters.get('client_id') }}</dd>
+                                <dd>{{ startProctoringLaunchRequest.parameters.get('client_id') }}</dd>
                                 <dt>Deployment Id</dt>
-                                <dd>{{ deepLinkingLaunchRequest.parameters.get('lti_deployment_id') }}</dd>
+                                <dd>{{ startProctoringLaunchRequest.parameters.get('lti_deployment_id') }}</dd>
                             </dl>
                         </div>
                     </div>
@@ -157,11 +147,11 @@
                                 <dd>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ deepLinkingLaunchRequest.parameters().get('lti_message_hint') }}" role="button" title="See on jwt.io">
+                                            <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ startProctoringLaunchRequest.parameters().get('lti_message_hint') }}" role="button" title="See on jwt.io">
                                                 <i class="fas fa-external-link-alt"></i>
                                             </a>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="token" value="{{ deepLinkingLaunchRequest.parameters().get('lti_message_hint') }}" readonly>
+                                        <input type="text" class="form-control" placeholder="token" value="{{ startProctoringLaunchRequest.parameters().get('lti_message_hint') }}" readonly>
                                     </div>
                                 </dd>
                             </dl>
@@ -169,7 +159,7 @@
                     </div>
                 </div>
             <div class="card-footer">
-                {{ deepLinkingLaunchRequest.toHtmlLink('<i class="fas fa-link"></i>&nbsp;Launch deep linking', {'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+                {{ startProctoringLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch proctoring',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
             </div>
         </div>
     </div>
@@ -177,20 +167,20 @@
     <script>
         function checkClaims() {
             try {
-                if ($("#deep_linking_launch_claims").val() != '') {
-                    $("#deep_linking_launch_claims").val(
-                        JSON.stringify(JSON.parse($("#deep_linking_launch_claims").val()), undefined, 4)
+                if ($("#proctoring_launch_claims").val() != '') {
+                    $("#proctoring_launch_claims").val(
+                        JSON.stringify(JSON.parse($("#proctoring_launch_claims").val()), undefined, 4)
                     );
-                    $("#deep_linking_launch_claims").removeClass('is-invalid');
-                    $("#lti_resource_link_launch_claims").addClass('is-valid');
+                    $("#proctoring_launch_claims").removeClass('is-invalid');
+                    $("#proctoring_launch_claims").addClass('is-valid');
                 } else {
-                    $("#deep_linking_launch_claims").removeClass('is-invalid');
-                    $("#deep_linking_launch_claims").removeClass('is-valid');
+                    $("#proctoring_launch_claims").removeClass('is-invalid');
+                    $("#proctoring_launch_claims").removeClass('is-valid');
                 }
                 $('#claimsError').hide();
             } catch(e) {
-                $("#deep_linking_launch_claims").removeClass('is-valid');
-                $("#deep_linking_launch_claims").addClass('is-invalid');
+                $("#proctoring_launch_claims").removeClass('is-valid');
+                $("#proctoring_launch_claims").addClass('is-invalid');
                 $('#claimsError').show();
             }
         }
@@ -200,8 +190,8 @@
                 url: "{{ path('platform_ajax_default_registration_url') }}",
                 method: "POST",
                 data: {
-                    registration: $("#deep_linking_launch_registration").find(":selected").text(),
-                    type: "{{ constant('OAT\\Library\\Lti1p3Core\\Message\\LtiMessageInterface::LTI_MESSAGE_TYPE_DEEP_LINKING_REQUEST') }}",
+                    registration: $("#proctoring_launch_registration").find(":selected").text(),
+                    type: "{{ constant('OAT\\Library\\Lti1p3Core\\Message\\LtiMessageInterface::LTI_MESSAGE_TYPE_RESOURCE_LINK_REQUEST') }}",
                 },
                 dataType: "json",
                 beforeSend: function(result){
@@ -211,7 +201,7 @@
                 success: function(result){
                     $("#launchUrlLoadLogo").removeClass("fa-spinner fa-spin");
                     $("#launchUrlLoadLogo").addClass("fa-edit");
-                    $("#deep_linking_launch_deep_linking_url").val(result.url);
+                    $("#proctoring_launch_start_proctoring_url").val(result.url);
                 },
                 error: function(result){
                     $("#launchUrlLoadLogo").removeClass("fa-spinner fa-spin");
@@ -226,30 +216,30 @@
 
         $(".editorClaim").click(function(event){
             try {
-                var claims = JSON.parse($("#deep_linking_launch_claims").val() || "{}");
+                var claims = JSON.parse($("#proctoring_launch_claims").val() || "{}");
                 claims[$(this).data('name')] = $(this).data('value');
-                $("#deep_linking_launch_claims").val(JSON.stringify(claims, undefined, 4));
-                $("#deep_linking_launch_claims").removeClass('is-invalid');
-                $("#deep_linking_launch_claims").addClass('is-valid');
+                $("#proctoring_launch_claims").val(JSON.stringify(claims, undefined, 4));
+                $("#proctoring_launch_claims").removeClass('is-invalid');
+                $("#proctoring_launch_claims").addClass('is-valid');
                 $('#claimsError').hide();
             } catch(e) {
-                $("#deep_linking_launch_claims").removeClass('is-valid');
-                $("#deep_linking_launch_claims").addClass('is-invalid');
+                $("#proctoring_launch_claims").removeClass('is-valid');
+                $("#proctoring_launch_claims").addClass('is-invalid');
                 $('#claimsError').show();
             }
         });
 
-        $('form[name=deep_linking_launch]').submit(function (evt) {
+        $('form[name=proctoring_launch]').submit(function (evt) {
             checkClaims();
             try {
-                JSON.parse($("#deep_linking_launch_claims").val() || "{}");
+                JSON.parse($("#proctoring_launch_claims").val() || "{}");
                 return;
             } catch(e) {
                 evt.preventDefault();
             }
         });
 
-        $('input[name="deep_linking_launch[user_type]"]').change(function (evt) {
+        $('input[name="proctoring_launch[user_type]"]').change(function (evt) {
             switch($(this).val()) {
                 case 'list':
                     $('#userList').removeClass('d-none');
@@ -263,6 +253,10 @@
                     $('#userList').addClass('d-none');
                     $('#userCustom').addClass('d-none');
             }
+        });
+
+        $( document ).ready(function() {
+            checkClaims();
         });
     </script>
 {% endblock body %}

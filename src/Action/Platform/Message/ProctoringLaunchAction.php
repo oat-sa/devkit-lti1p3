@@ -23,10 +23,10 @@ declare(strict_types=1);
 namespace App\Action\Platform\Message;
 
 use App\Form\Generator\FormShareUrlGenerator;
-use App\Form\Platform\Message\DeepLinkingLaunchType;
-use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
-use OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchRequestBuilder;
-use OAT\Library\Lti1p3DeepLinking\Settings\DeepLinkingSettings;
+use App\Form\Platform\Message\ProctoringLaunchType;
+use OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface;
+use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLink;
+use OAT\Library\Lti1p3Proctoring\Message\Launch\Builder\StartProctoringLaunchRequestBuilder;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -34,19 +34,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
-class DeepLinkingLaunchAction
+class ProctoringLaunchAction
 {
     /** @var FlashBagInterface */
     private $flashBag;
 
     /** @var ParameterBagInterface */
     private $parameterBag;
-
-    /** @var RouterInterface */
-    private $router;
 
     /** @var Environment */
     private $twig;
@@ -57,21 +53,19 @@ class DeepLinkingLaunchAction
     /** @var FormShareUrlGenerator */
     private $generator;
 
-    /** @var DeepLinkingLaunchRequestBuilder */
+    /** @var StartProctoringLaunchRequestBuilder */
     private $builder;
 
     public function __construct(
         FlashBagInterface $flashBag,
         ParameterBagInterface $parameterBag,
-        RouterInterface $router,
         Environment $twig,
         FormFactoryInterface $factory,
         FormShareUrlGenerator $generator,
-        DeepLinkingLaunchRequestBuilder $builder
+        StartProctoringLaunchRequestBuilder $builder
     ) {
         $this->flashBag = $flashBag;
         $this->parameterBag = $parameterBag;
-        $this->router = $router;
         $this->twig = $twig;
         $this->factory = $factory;
         $this->generator = $generator;
@@ -80,26 +74,17 @@ class DeepLinkingLaunchAction
 
     public function __invoke(Request $request): Response
     {
-        $form = $this->factory->create(DeepLinkingLaunchType::class);
+        $form = $this->factory->create(ProctoringLaunchType::class);
 
         $form->handleRequest($request);
 
         $user = null;
         $claims = [];
-        $deepLinkingLaunchRequest = null;
+        $startProctoringLaunchRequest = null;
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $formData = $form->getData();
-
-            $deepLinkSettings = new DeepLinkingSettings(
-                $this->router->generate('platform_message_deep_linking_return', [], RouterInterface::ABSOLUTE_URL),
-                $formData['accept_types'],
-                $formData['accept_presentation_document_targets'],
-                $formData['accept_media_types'],
-                $formData['accept_multiple'],
-                $formData['auto_create']
-            );
 
             if ($formData['claims']) {
                 $claims = json_decode($formData['claims'], true);
@@ -107,6 +92,25 @@ class DeepLinkingLaunchAction
                 if (JSON_ERROR_NONE !== json_last_error()) {
                     throw new BadRequestHttpException(sprintf('json_decode error: %s', json_last_error_msg()));
                 }
+            }
+
+            if (isset($claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK])) {
+                $resourceLink = new LtiResourceLink(
+                    $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['id'],
+                    [
+                        'url' => $formData['start_proctoring_url'] ?? null,
+                        'title' => $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['title'] ?? null,
+                        'text' => $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['description'] ?? null,
+
+                    ]
+                );
+            } else {
+                $resourceLink = new LtiResourceLink(
+                    Uuid::uuid4()->toString(),
+                    [
+                        'url' => $formData['start_proctoring_url'] ?? null
+                    ]
+                );
             }
 
             switch ($formData['user_type']) {
@@ -131,32 +135,30 @@ class DeepLinkingLaunchAction
                     ];
             }
 
-            /** @var RegistrationInterface $registration */
-            $registration = $formData['registration'];
-
-            $deepLinkingLaunchRequest = $this->builder->buildDeepLinkingLaunchRequest(
-                $deepLinkSettings,
-                $registration,
+            $startProctoringLaunchRequest = $this->builder->buildStartProctoringLaunchRequest(
+                $resourceLink,
+                $formData['registration'],
+                $formData['start_assessment_url'],
                 json_encode($loginHint),
-                $formData['deep_linking_url'] ?? $registration->getTool()->getDeepLinkingUrl(),
+                $formData['attempt_number'],
                 null,
                 [],
                 $claims
             );
 
-            $this->flashBag->add('success', 'Deep linking launch generation success');
+            $this->flashBag->add('success', 'Proctoring launch generation success');
         } else {
             $form->setData($request->query->all());
         }
 
         return new Response(
             $this->twig->render(
-                'platform/message/deepLinkingLaunch.html.twig',
+                'platform/message/proctoringLaunch.html.twig',
                 [
                     'form' => $form->createView(),
                     'formSubmitted' => $form->isSubmitted(),
-                    'formShareUrl' => $this->generator->generate('platform_message_launch_deep_linking', $form),
-                    'deepLinkingLaunchRequest' => $deepLinkingLaunchRequest,
+                    'formShareUrl' => $this->generator->generate('platform_message_launch_proctoring', $form),
+                    'startProctoringLaunchRequest' => $startProctoringLaunchRequest,
                     'editorClaims' => $this->parameterBag->get('editor_claims')
                 ]
             )

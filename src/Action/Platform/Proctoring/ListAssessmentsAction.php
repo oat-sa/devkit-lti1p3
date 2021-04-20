@@ -20,17 +20,17 @@
 
 declare(strict_types=1);
 
-namespace App\Action\Platform\Nrps;
+namespace App\Action\Platform\Proctoring;
 
 use App\Nrps\DefaultMembershipFactory;
-use App\Nrps\MembershipRepository;
+use App\Proctoring\AssessmentRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-class ListMembershipsAction
+class ListAssessmentsAction
 {
-    /** @var MembershipRepository */
+    /** @var AssessmentRepository */
     private $repository;
 
     /** @var DefaultMembershipFactory */
@@ -39,7 +39,7 @@ class ListMembershipsAction
     /** @var Environment */
     private $twig;
 
-    public function __construct(MembershipRepository $repository, DefaultMembershipFactory $factory, Environment $twig)
+    public function __construct(AssessmentRepository $repository, DefaultMembershipFactory $factory, Environment $twig)
     {
         $this->repository = $repository;
         $this->factory = $factory;
@@ -50,10 +50,9 @@ class ListMembershipsAction
     {
         return new Response(
             $this->twig->render(
-                'platform/nrps/listMemberships.html.twig',
+                'platform/proctoring/listAssessments.html.twig',
                 [
-                    'defaultMembership' => $this->factory->create(),
-                    'memberships' => $this->repository->findAll()
+                    'assessments' => $this->repository->findAll()
                 ]
             )
         );

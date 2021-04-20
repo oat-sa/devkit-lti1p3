@@ -79,16 +79,22 @@ class LtiServiceClientAction
             $registration = $formData['registration'];
             $serviceUrl = $formData['service_url'] ?? null;
             $method = $formData['method'] ?? 'GET';
-            $accept = $formData['accept'] ?? null;
+            $media = $formData['media'] ?? null;
             $body = $formData['body'] ?? null;
             $scopes = explode(' ', $formData['scope']);
 
             $options = [];
 
-            if (null !== $accept) {
-                $options['headers'] = [
-                    'Accept' => $accept
-                ];
+            if (null !== $media) {
+                if ($method === 'GET') {
+                    $options['headers'] = [
+                        'Accept' => $media
+                    ];
+                } else {
+                    $options['headers'] = [
+                        'Content-Type' => $media
+                    ];
+                }
             }
 
             if (null !== $body) {

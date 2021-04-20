@@ -53,6 +53,8 @@ class AppExtension extends AbstractExtension
             case 'platform_message_launch_deep_linking':
             case 'tool_message_deep_linking':
             case 'platform_message_deep_linking_return':
+            case 'platform_message_launch_proctoring':
+            case 'tool_message_launch_proctoring':
                 return 'message';
             case 'tool_service_client':
                 return 'service';
@@ -63,6 +65,11 @@ class AppExtension extends AbstractExtension
             case 'platform_nrps_view_membership':
             case 'platform_nrps_edit_membership':
             case 'platform_nrps_delete_membership':
+            case 'platform_proctoring_list_assessments':
+            case 'platform_proctoring_create_assessment':
+            case 'platform_proctoring_view_assessment':
+            case 'platform_proctoring_edit_assessment':
+            case 'platform_proctoring_delete_assessment':
                 return 'platform';
             default:
                 return null;

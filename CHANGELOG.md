@@ -4,9 +4,11 @@ CHANGELOG
 1.9.0
 -----
 
-* Added platform proctoring test sessions list
+* Added ACS claim to editor
+* Added platform CRUD for proctoring test sessions
+* Added autocomplete fields for scope and media type on service client interface
 * Updated LTI core library and bundle to version 6.x
-* Updated sidebar menu  
+* Updated sidebar menus and templates headers
 * Replaced NRPS and basic outcome services endpoints with bundle request handler abstraction
 
 1.8.0
