@@ -74,6 +74,9 @@
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
+#home-jumbotron {
+    padding: 2rem 1rem !important;
+}
 
 #content {
     width: calc(100% - 250px);
@@ -110,6 +113,14 @@ mark {
 
 .clickable {
     cursor: pointer;
+}
+
+div.dropdown-multicol{
+    width: 30em;
+}
+div.dropdown-row>a.dropdown-item{
+    display:inline-block;
+    width: 49%;
 }
 
 /* ---------------------------------------------------

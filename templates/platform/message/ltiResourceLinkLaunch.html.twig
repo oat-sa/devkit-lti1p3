@@ -60,16 +60,25 @@
                                 <button id="claimsAdd" type="button" class="btn btn-primary btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Add claim">
                                     <i class="fas fa-plus-circle"></i>
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="claimsAdd">
-                                {% for title, claim in editorClaims %}
-                                    <a
-                                        class="editorClaim dropdown-item"
-                                        data-name="{{ claim.name }}"
-                                        data-value="{{ claim.value|json_encode(constant('JSON_UNESCAPED_SLASHES')) }}"
-                                    >
-                                        {{ title }}
-                                    </a>
-                                {% endfor %}
+                                <div class="dropdown-menu dropdown-multicol" aria-labelledby="claimsAdd">
+                                    {% for title, claim in editorClaims %}
+                                        {% if loop.first %}
+                                            <div class="dropdown-row">
+                                        {% endif %}
+                                            <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="{{ claim.name }}"
+                                                data-value="{{ claim.value|json_encode(constant('JSON_UNESCAPED_SLASHES')) }}"
+                                            >
+                                                {{ title }}
+                                            </a>
+                                        {% if loop.index % 2 == 0 %}
+                                            </div><div class="dropdown-row">
+                                        {% endif %}
+                                        {% if loop.last %}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
                                 <button id="claimsFormat" type="button" class="btn btn-secondary btn-block" title="Format claims">
                                     <i class="fas fa-align-left"></i>
