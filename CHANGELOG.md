@@ -14,6 +14,7 @@ CHANGELOG
 * Updated default registration name from local to demo  
 * Updated default users roles to match IMS roles vocabulary
 * Updated claim editor dropdown to be multi columns
+* Merged all message launch endpoints into a central one
 
 1.8.0
 -----

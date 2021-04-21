@@ -60,6 +60,11 @@ tool_ajax_service_basic_outcome:
     controller: App\Action\Tool\Ajax\BasicOutcomeServiceClientAction
     condition: "request.isXmlHttpRequest()"
 
+tool_ajax_service_acs:
+    path: /tool/ajax/acs
+    controller: App\Action\Tool\Ajax\AcsServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
 platform_service_nrps:
     methods: [GET]
     path: /platform/service/nrps/{contextIdentifier}/memberships/{membershipIdentifier}

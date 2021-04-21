@@ -27,6 +27,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" id="pills-acs-tab" data-toggle="pill" href="#pills-acs" role="tab" aria-controls="pills-acs" aria-selected="false">
+                        <i class="fas fa-file-signature"></i>&nbsp;ACS
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="pills-claims-tab" data-toggle="pill" href="#pills-claims" role="tab" aria-controls="pills-claims" aria-selected="false">
                         <i class="fas fa-database"></i>&nbsp;Claims
                     </a>
@@ -46,6 +51,9 @@
                 </div>
                 <div class="tab-pane fade" id="pills-registration" role="tabpanel" aria-labelledby="pills-registration-tab">
                     {% include 'launch/blocks/registration.html.twig' with {'token': token} %}
+                </div>
+                <div class="tab-pane fade" id="pills-acs" role="tabpanel" aria-labelledby="pills-acs-tab">
+                    {% include 'launch/blocks/acs.html.twig' with {'token': token} %}
                 </div>
                 <div class="tab-pane fade" id="pills-claims" role="tabpanel" aria-labelledby="pills-claims-tab">
                     {% include 'launch/blocks/claims.html.twig' with {'token': token} %}
