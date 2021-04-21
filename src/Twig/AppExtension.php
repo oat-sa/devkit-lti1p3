@@ -51,11 +51,9 @@ class AppExtension extends AbstractExtension
             case 'platform_message_launch_lti_resource_link':
             case 'tool_message_launch':
             case 'platform_message_launch_deep_linking':
-            case 'tool_message_deep_linking':
             case 'platform_message_deep_linking_return':
             case 'platform_message_launch_proctoring':
             case 'tool_message_launch_proctoring':
-            case 'tool_message_proctoring':
             case 'platform_message_proctoring_return':
                 return 'message';
             case 'tool_service_client':

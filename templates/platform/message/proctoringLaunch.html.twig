@@ -264,6 +264,10 @@
             }
         });
 
+        $("#use-start-assessment-url").click(function(event){
+            $("#proctoring_launch_start_assessment_url").val($(this).data('url'));
+        });
+
         $( document ).ready(function() {
             checkClaims();
         });

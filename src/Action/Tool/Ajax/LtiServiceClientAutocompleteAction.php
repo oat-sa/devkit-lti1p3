@@ -57,14 +57,8 @@ class LtiServiceClientAutocompleteAction
             AcsServiceInterface::AUTHORIZATION_SCOPE_CONTROL,
         ];
 
-
         $filteredScopes = !empty($query)
-            ? array_filter(
-                $scopes,
-                static function (string $value) use ($query): bool {
-                    return false !== strpos($value, $query);
-                }
-            )
+            ? $this->filterData($query, $scopes)
             : $scopes;
 
         return array_values($filteredScopes);
@@ -79,14 +73,19 @@ class LtiServiceClientAutocompleteAction
         ];
 
         $filteredMedias = !empty($query)
-            ? array_filter(
-                $medias,
-                static function (string $value) use ($query): bool {
-                    return false !== strpos($value, $query);
-                }
-            )
+            ? $this->filterData($query, $medias)
             : $medias;
 
         return array_values($filteredMedias);
+    }
+
+    private function filterData(string $query, array $data): array
+    {
+        return array_filter(
+            $data,
+            static function (string $value) use ($query): bool {
+                return false !== strpos($value, $query);
+            }
+        );
     }
 }

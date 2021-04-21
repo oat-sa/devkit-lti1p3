@@ -33,6 +33,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class ProctoringLaunchType extends AbstractType
 {
@@ -42,15 +43,24 @@ class ProctoringLaunchType extends AbstractType
     /** @var ParameterBagInterface */
     private $parameterBag;
 
-    public function __construct(RegistrationRepositoryInterface $repository, ParameterBagInterface $parameterBag)
-    {
+    /** @var RouterInterface */
+    private $router;
+
+    public function __construct(
+        RegistrationRepositoryInterface $repository,
+        ParameterBagInterface $parameterBag,
+        RouterInterface $router
+    ) {
         $this->repository = $repository;
         $this->parameterBag = $parameterBag;
+        $this->router = $router;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $userChoices = array_keys($this->parameterBag->get('users'));
+
+        $demoStartAssessmentUrl = $this->router->generate('platform_message_proctoring_return', [], RouterInterface::ABSOLUTE_URL);
 
         $builder
             ->add(
@@ -132,8 +142,9 @@ class ProctoringLaunchType extends AbstractType
                 TextType::class,
                 [
                     'label' => 'Launch url',
-                    'required' => true,
-                    'help' => 'Url where to send the startProctoring message'
+                    'required' => false,
+                    'help_html' => true,
+                    'help' => 'If provided, will be the url where to send the <code>LtiStartProctoring</code> message. If not, will use the selected registration tool default launch url'
 
                 ]
             )
@@ -142,7 +153,8 @@ class ProctoringLaunchType extends AbstractType
                 TextType::class,
                 [
                     'required' => true,
-                    'help' => 'Url where to get back the startAssessment message'
+                    'help_html' => true,
+                    'help' => 'Url where to receive back the <code>LtistartAssessment</code> message (for demo app, use: <a id="use-start-assessment-url" data-url="' . $demoStartAssessmentUrl . '" href="#">/platform/message/return/proctoring</a>)'
 
                 ]
             )

@@ -24,15 +24,7 @@ platform_message_proctoring_return:
 
 tool_message_launch:
     path: /tool/launch
-    controller: App\Action\Tool\Message\LtiResourceLinkLaunchAction
-
-tool_message_deep_linking:
-    path: /tool/launch/deep-linking
-    controller: App\Action\Tool\Message\DeepLinkingLaunchAction
-
-tool_message_proctoring:
-    path: /tool/launch/proctoring
-    controller: App\Action\Tool\Message\ProctoringLaunchAction
+    controller: App\Action\Tool\Message\MessageLaunchAction
 
 tool_message_deep_linking_response:
     methods: [POST]
