@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace App\Action\Tool\Message;
 
+use OAT\Library\Lti1p3Core\Message\Payload\Claim\ProctoringVerifiedUserClaim;
 use OAT\Library\Lti1p3Core\Message\Payload\Claim\ResourceLinkClaim;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactoryInterface;
@@ -65,7 +66,15 @@ class ProctoringResponseAction
             $registration,
             $request->get('start-assessment-url'),
             $request->get('session-data'),
-            (int)$request->get('attempt-number')
+            (int)$request->get('attempt-number'),
+            null,
+            [
+                new ProctoringVerifiedUserClaim(
+                    [
+                        'name' => $request->get('verified-user-name')
+                    ]
+                )
+            ]
         );
 
         return new Response($startAssessmentMessage->toHtmlRedirectForm());

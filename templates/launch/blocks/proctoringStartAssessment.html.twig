@@ -10,6 +10,7 @@
     <input type="hidden" name="start-assessment-url" value="{{ token.payload.proctoringStartAssessmentUrl }}"/>
     <input type="hidden" name="session-data" value="{{ token.payload.proctoringSessionData }}"/>
     <input type="hidden" name="attempt-number" value="{{ token.payload.proctoringAttemptNumber }}"/>
+    <input type="hidden" name="verified-user-name" value="{{ token.payload.token.claims.get('name') }}"/>
     <button type="submit" class="btn-primary btn btn-block">
         <i class="fas fa-sign-in-alt"></i>&nbsp;Launch LtiStartAssessment
     </button>
