@@ -1,0 +1,152 @@
+{% if token.payload.acs %}
+    <div class="alert alert-info" role="alert">
+        <i class="fas fa-file-signature"></i>&nbsp;
+        ACS claim provided in message
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="list-unstyled">
+                <dt>Claim service url</dt>
+                <dd><a href="{{ token.payload.acs.assessmentControlUrl }}" target="_blank">{{ token.payload.acs.assessmentControlUrl }}</a></dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="list-unstyled">
+                <dt>Claim actions</dt>
+                <dd><code>{{ token.payload.acs.actions|join(', ') }}</code></dd>
+            </dl>
+        </div>
+    </div>
+    <h6 class="card-title">
+        <i class="fas fa-sign-in-alt"></i>&nbsp;ACS Service
+    </h6>
+    <hr/>
+    <div class="card bg-light">
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col col col-md-12">
+                    <input type="text" id="acsUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.acs.assessmentControlUrl }}" aria-describedby="boUrlHelp" readonly>
+                    <small id="acsUrlHelp" class="form-text text-muted">Service url</small>
+                </div>
+            </div>
+            <br/>
+            <div class="form-row">
+                <div class="col col col-md-3">
+                    <input type="text" id="acsResourceLink" class="form-control" placeholder="Resource link identifier" value="{{ token.payload.resourceLink.identifier }}" aria-describedby="acsResourceLinkHelp">
+                    <small id="acsResourceLinkHelp" class="form-text text-muted">Resource link identifier</small>
+                </div>
+                <div class="col col col-md-3">
+                    <input type="text" id="acsIss" class="form-control" placeholder="Issuer" value="{{ token.payload.token.claims.get('iss') }}" aria-describedby="acsIssHelp">
+                    <small id="acsIssHelp" class="form-text text-muted">Issuer identifier</small>
+                </div>
+                <div class="col col col-md-3">
+                    <input type="text" id="acsSub" class="form-control" placeholder="User" value="{{ token.payload.token.claims.get('sub') }}" aria-describedby="acsSubHelp">
+                    <small id="acsSubHelp" class="form-text text-muted">User identifier</small>
+                </div>
+                <div class="col col col-md-3">
+                    <input type="number" id="acsAttemptNumber" class="form-control" placeholder="Attempt number" value="{{ token.payload.proctoringAttemptNumber }}" aria-describedby="acsAttemptNumberHelp">
+                    <small id="acsAttemptNumberHelp" class="form-text text-muted">Attempt number</small>
+                </div>
+            </div>
+            <br/>
+            <div class="form-row">
+                <div class="col col col-md-3">
+                    <input type="number" id="acsExtraTime" class="form-control" placeholder="Extra time" aria-describedby="acsExtraTimeHelp">
+                    <small id="acsExtraTimeHelp" class="form-text text-muted">Extra time</small>
+                </div>
+                <div class="col col col-md-3">
+                    <input type="number" min="0" max="1" step="0.1" id="acsSeverity" class="form-control" placeholder="Incident severity" aria-describedby="acsSeverityHelp">
+                    <small id="acsSeverityHelp" class="form-text text-muted">Incident severity</small>
+                </div>
+                <div class="col col col-md-3">
+                    <input type="text" min="0" max="1" id="acsReasonCode" class="form-control" placeholder="Reason code" aria-describedby="acsReasonCodeHelp">
+                    <small id="acsReasonCodeHelp" class="form-text text-muted">Reason code</small>
+                </div>
+                <div class="col col col-md-3">
+                    <input type="text" min="0" max="1" id="acsReasonMessage" class="form-control" placeholder="Reason message" aria-describedby="acsReasonMessageHelp">
+                    <small id="acsReasonMessageHelp" class="form-text text-muted">Reason message</small>
+                </div>
+            </div>
+            <br/>
+            <div class="form-row">
+                <div class="col col col-md-10">
+                    <div class="form-group">
+                        <select id="acsAction" aria-describedby="acsActionHelp" class="form-control">
+                            {% for action in token.payload.acs.actions %}
+                                <option value="{{ action }}">{{ action }}</option>
+                            {% endfor %}
+                        </select>
+                        <small id="acsActionHelp" class="form-text text-muted">Action</small>
+                    </div>
+                </div>
+                <div class="col col col-md-2">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button id="acsLoad" class="btn-primary btn">
+                            <i id="acsCall" class="fas fa-sign-in-alt"></i>&nbsp;Call
+                        </button>
+                        <button id="acsReset" class="btn-secondary btn">
+                            <i class="fas fa-undo"></i>&nbsp;Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="acsZone"></div>
+    <script>
+        $("#acsLoad").click(function(){
+            $.ajax({
+                url: "{{ path('tool_ajax_service_acs') }}",
+                method: "POST",
+                data: {
+                    registration: "{{ token.registration.identifier }}",
+                    acsUrl: $("#acsUrl").val(),
+                    acsAction: $("#acsAction").val(),
+                    acsResourceLink: $("#acsResourceLink").val(),
+                    acsIss: $("#acsIss").val(),
+                    acsSub: $("#acsSub").val(),
+                    acsAttemptNumber: $("#acsAttemptNumber").val(),
+                    acsExtraTime: $("#acsExtraTime").val(),
+                    acsSeverity: $("#acsSeverity").val(),
+                    acsReasonCode: $("#acsReasonCode").val(),
+                    acsReasonMessage: $("#acsReasonMessage").val()
+                },
+                beforeSend: function(result){
+                    $("#acsCall").removeClass("fa-sign-in-alt");
+                    $("#acsCall").addClass("fa-spinner fa-spin");
+                },
+                success: function(result){
+                    $("#acsCall").removeClass("fa-spinner fa-spin");
+                    $("#acsCall").addClass("fa-sign-in-alt");
+                    $("#acsZone").html(result);
+                },
+                error: function(result){
+                    $("#acsCall").removeClass("fa-spinner fa-spin");
+                    $("#acsCall").addClass("fa-sign-in-alt");
+                    $("#acsZone").html(
+                        '<br/><div class="alert alert-danger" role="alert">' +
+                        '<i class="fas fa-exclamation-circle"></i>&nbsp;' + result.responseJSON.message +
+                        '</div>'
+                    );
+                }
+            });
+        });
+
+        $("#acsReset").click(function(){
+            $("#acsZone").html("");
+            $('#acsAction :nth-child(1)').prop('selected', true);
+            $("#acsResourceLink").val("{{ token.payload.resourceLink.identifier }}");
+            $("#acsIss").val("{{ token.payload.token.claims.get('iss') }}");
+            $("#acsSub").val("{{ token.payload.token.claims.get('sub') }}");
+            $("#acsAttemptNumber").val("{{ token.payload.proctoringAttemptNumber }}");
+            $("#acsExtraTime").val("");
+            $("#acsSeverity").val("");
+            $("#acsReasonCode").val("");
+            $("#acsReasonMessage").val("");
+        });
+    </script>
+{% else %}
+    <div class="alert alert-dark" role="alert">
+        <i class="fas fa-exclamation-circle"></i>&nbsp;No ACS claim provided in message
+    </div>
+{% endif %}

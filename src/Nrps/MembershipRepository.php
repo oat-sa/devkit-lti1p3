@@ -57,7 +57,7 @@ class MembershipRepository
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
         if ($cache->isHit()) {
-            return $memberships = $cache->get();
+            return $cache->get();
         }
 
         return [];

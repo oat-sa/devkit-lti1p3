@@ -98,19 +98,19 @@ class LtiServiceClientType extends AbstractType
                 ]
             )
             ->add(
-                'accept',
+                'media',
                 TextType::class,
                 [
                     'required' => false,
-                    'label' => 'Accept',
-                    'help' => "Request content type to perform the call with"
+                    'label' => 'Media type',
+                    'help' => 'Request accept or content type header to perform the call with'
                 ]
             )
             ->add(
                 'submit',
                 SubmitType::class,
                 [
-                    'label' => '<i class="fas fa-sign-in-alt"></i>&nbsp;Call platform service',
+                    'label' => '<i class="fas fa-sign-in-alt"></i>&nbsp;Call LTI service',
                     'label_html' => true,
                     'attr' => ['class' => 'btn-primary']
                 ]

@@ -6,25 +6,24 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
-        "oat-sa/bundle-lti1p3": "^4.0",
-        "oat-sa/lib-lti1p3-basic-outcome": "^2.0",
-        "oat-sa/lib-lti1p3-deep-linking": "^2.0",
-        "oat-sa/lib-lti1p3-nrps": "^4.0",
+        "oat-sa/bundle-lti1p3": "^6.0",
+        "oat-sa/lib-lti1p3-basic-outcome": "^4.0",
+        "oat-sa/lib-lti1p3-deep-linking": "^4.0",
+        "oat-sa/lib-lti1p3-nrps": "^6.0",
+        "oat-sa/lib-lti1p3-proctoring": "^0.2.0",
         "ramsey/uuid": "^3.9 || ^4",
-        "symfony/console": "^5.1",
-        "symfony/dotenv": "^5.1",
-        "symfony/expression-language": "^5.1",
+        "symfony/console": "^5.2",
+        "symfony/dotenv": "^5.2",
+        "symfony/expression-language": "^5.2",
         "symfony/flex": "^1.3.1",
-        "symfony/form": "^5.1",
-        "symfony/framework-bundle": "^5.1",
+        "symfony/form": "^5.2",
+        "symfony/framework-bundle": "^5.2",
         "symfony/monolog-bundle": "^3.5",
-        "symfony/twig-bundle": "^5.1",
-        "symfony/validator": "^5.1",
-        "symfony/yaml": "^5.1",
+        "symfony/twig-bundle": "^5.2",
+        "symfony/validator": "^5.2",
+        "symfony/yaml": "^5.2",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
-    },
-    "require-dev": {
     },
     "config": {
         "preferred-install": {
@@ -70,7 +69,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "^5.1"
+            "require": "^5.2"
         }
     }
 }

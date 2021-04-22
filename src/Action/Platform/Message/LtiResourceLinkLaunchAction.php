@@ -100,7 +100,7 @@ class LtiResourceLinkLaunchAction
                     [
                         'url' => $formData['launch_url'] ?? null,
                         'title' => $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['title'] ?? null,
-                        'text' => $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['description '] ?? null,
+                        'text' => $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['description'] ?? null,
 
                     ]
                 );
@@ -144,7 +144,7 @@ class LtiResourceLinkLaunchAction
                 $claims
             );
 
-            $this->flashBag->add('success', 'LTI resource link generation success');
+            $this->flashBag->add('success', 'LtiResourceLinkRequest generation success');
         } else {
             $form->setData($request->query->all());
         }

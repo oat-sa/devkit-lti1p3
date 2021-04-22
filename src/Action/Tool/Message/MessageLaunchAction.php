@@ -23,6 +23,8 @@ declare(strict_types=1);
 namespace App\Action\Tool\Message;
 
 use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Message\LtiToolMessageSecurityToken;
+use OAT\Library\Lti1p3Core\Message\LtiMessageInterface;
+use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,16 +32,16 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
-class DeepLinkingLaunchAction
+class MessageLaunchAction
 {
     /** @var FlashBagInterface */
     private $flashBag;
 
-    /** @var Environment */
-    private $twig;
-
     /** @var ParameterBagInterface */
     private $parameterBag;
+
+    /** @var Environment */
+    private $twig;
 
     /** @var Security */
     private $security;
@@ -61,7 +63,40 @@ class DeepLinkingLaunchAction
         /** @var LtiToolMessageSecurityToken $token */
         $token = $this->security->getToken();
 
-        $this->flashBag->add('success', 'Tool deep linking launch success, please select item(s) to be returned to the platform');
+        switch($token->getPayload()->getMessageType()) {
+            case LtiMessageInterface::LTI_MESSAGE_TYPE_RESOURCE_LINK_REQUEST:
+                return $this->handleLtiResourceLinkRequest($token);
+            case LtiMessageInterface::LTI_MESSAGE_TYPE_DEEP_LINKING_REQUEST:
+                return $this->handleLtiDeepLinkingRequest($token);
+            case LtiMessageInterface::LTI_MESSAGE_TYPE_START_PROCTORING:
+                return $this->handleLtiStartProctoring($token);
+            default:
+                throw new RuntimeException(
+                    sprintf('Unhandled LTI message-type %s', $token->getPayload()->getMessageType())
+                );
+        }
+    }
+
+    private function handleLtiResourceLinkRequest(LtiToolMessageSecurityToken $token): Response
+    {
+        $this->flashBag->add('success', 'Tool LtiResourceLinkRequest launch success');
+
+        return new Response(
+            $this->twig->render(
+                'tool/message/ltiResourceLinkLaunch.html.twig',
+                [
+                    'token' => $token
+                ]
+            )
+        );
+    }
+
+    private function handleLtiDeepLinkingRequest(LtiToolMessageSecurityToken $token): Response
+    {
+        $this->flashBag->add(
+            'success',
+            'Tool LtiDeepLinkingRequest launch success, please select item(s) to be returned to the platform'
+        );
 
         return new Response(
             $this->twig->render(
@@ -69,6 +104,20 @@ class DeepLinkingLaunchAction
                 [
                     'token' => $token,
                     'resources' => $this->parameterBag->get('deeplinking_resources')
+                ]
+            )
+        );
+    }
+
+    private function handleLtiStartProctoring(LtiToolMessageSecurityToken $token): Response
+    {
+        $this->flashBag->add('success', 'Tool LtiStartProctoring launch success');
+
+        return new Response(
+            $this->twig->render(
+                'tool/message/proctoringLaunch.html.twig',
+                [
+                    'token' => $token,
                 ]
             )
         );

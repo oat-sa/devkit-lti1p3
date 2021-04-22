@@ -7,7 +7,7 @@ security:
             stateless: true
             lti1p3_message_tool: true
         platform_message_area:
-            pattern: ^/platform/message/deep-linking-return
+            pattern: ^/platform/message/return
             stateless: true
             lti1p3_message_platform: true
         platform_service_ags_area:
@@ -18,6 +18,10 @@ security:
             pattern: ^/platform/service/nrps
             stateless: true
             lti1p3_service: { scopes: ['https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly'] }
+        platform_service_acs_area:
+            pattern: ^/platform/service/acs
+            stateless: true
+            lti1p3_service: { scopes: [ 'https://purl.imsglobal.org/spec/lti-ap/scope/control.all' ] }
         platform_service_basic_outcome_area:
             pattern: ^/platform/service/basic-outcome
             stateless: true

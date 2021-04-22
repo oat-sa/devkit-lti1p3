@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}<i class="fas fa-file-signature-"></i>&nbsp;&nbsp;Platform - ACS assessment creation{% endblock %}
+
+{% block body %}
+<div class="card bg-light">
+    <div class="card-header">
+        <i class="fas fa-file-signature"></i>&nbsp;Create assessment
+    </div>
+    <div class="card-body">
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <div class="form-row">
+            <div class="col-md-6">
+                {{ form_row(form.assessment_id) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.assessment_status) }}
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        {{ form_widget(form.submit) }}
+        <a href="{{ path('platform_proctoring_list_assessments') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Cancel</a>
+    </div>
+    {{ form_end(form) }}
+</div>
+{% endblock body %}

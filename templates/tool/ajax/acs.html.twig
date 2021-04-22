@@ -1,0 +1,17 @@
+<br/>
+<div class="card bg-light">
+    <div class="card-header">
+        <i class="fas fa-file-signature"></i>&nbsp;ACS response
+    </div>
+    <div class="card-body">
+        <pre>
+            <code id="acsControlResultZone" class="language-json hljs">{{ controlResult|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+        </pre>
+    </div>
+    <div class="card-footer text-muted">
+        <small>ACS service response</small>
+    </div>
+</div>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>

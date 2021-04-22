@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace App\Nrps;
 
+use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3Nrps\Model\Member\MemberCollection;
 use OAT\Library\Lti1p3Nrps\Model\Member\MemberInterface;
 use OAT\Library\Lti1p3Nrps\Model\Membership\MembershipInterface;
@@ -41,14 +42,18 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
     /** @var DefaultMembershipFactory */
     private $factory;
 
-    public function __construct(RequestStack $requestStack, MembershipRepository $repository, DefaultMembershipFactory $factory)
-    {
+    public function __construct(
+        RequestStack $requestStack,
+        MembershipRepository $repository,
+        DefaultMembershipFactory $factory
+    ) {
         $this->requestStack = $requestStack;
         $this->repository = $repository;
         $this->factory = $factory;
     }
 
     public function buildResourceLinkMembership(
+        RegistrationInterface $registration,
         string $resourceLinkIdentifier,
         string $role = null,
         int $limit = null,
@@ -58,6 +63,7 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
     }
 
     public function buildContextMembership(
+        RegistrationInterface $registration,
         string $role = null,
         int $limit = null,
         int $offset = null

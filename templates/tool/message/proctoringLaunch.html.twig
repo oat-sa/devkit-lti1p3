@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}<i class="fas fa-file-signature"></i>&nbsp;&nbsp;Tool - LtiStartProctoring result{% endblock %}
+
+{% block body %}
+    <div class="card bg-light">
+        <div class="card-header">
+            <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-proctor-tab" data-toggle="pill" href="#pills-proctor" role="tab" aria-controls="pills-proctor" aria-selected="true">
+                        <i class="fas fa-file-signature"></i>&nbsp;LtiStartAssessment
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-message-tab" data-toggle="pill" href="#pills-message" role="tab" aria-controls="pills-message" aria-selected="false">
+                        <i class="fas fa-envelope-open"></i>&nbsp;Message
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a a class="nav-link" id="pills-security-tab" data-toggle="pill" href="#pills-security" role="tab" aria-controls="pills-security" aria-selected="false">
+                        <i class="fas fa-shield-alt"></i>&nbsp;Security
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-registration-tab" data-toggle="pill" href="#pills-registration" role="tab" aria-controls="pills-registration" aria-selected="false">
+                        <i class="fas fa-share-alt"></i>&nbsp;Registration
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-acs-tab" data-toggle="pill" href="#pills-acs" role="tab" aria-controls="pills-acs" aria-selected="false">
+                        <i class="fas fa-file-signature"></i>&nbsp;ACS
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-claims-tab" data-toggle="pill" href="#pills-claims" role="tab" aria-controls="pills-claims" aria-selected="false">
+                        <i class="fas fa-database"></i>&nbsp;Claims
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-proctor" role="tabpanel" aria-labelledby="pills-item-tab">
+                    {% include 'launch/blocks/proctoringStartAssessment.html.twig' with {'token': token} %}
+                </div>
+                <div class="tab-pane fade" id="pills-message" role="tabpanel" aria-labelledby="pills-message-tab">
+                    {% include 'launch/blocks/message.html.twig' with {'token': token} %}
+                </div>
+                <div class="tab-pane fade" id="pills-security" role="tabpanel" aria-labelledby="pills-security-tab">
+                    {% include 'launch/blocks/toolSecurity.html.twig' with {'token': token} %}
+                </div>
+                <div class="tab-pane fade" id="pills-registration" role="tabpanel" aria-labelledby="pills-registration-tab">
+                    {% include 'launch/blocks/registration.html.twig' with {'token': token} %}
+                </div>
+                <div class="tab-pane fade" id="pills-acs" role="tabpanel" aria-labelledby="pills-acs-tab">
+                    {% include 'launch/blocks/acs.html.twig' with {'token': token} %}
+                </div>
+                <div class="tab-pane fade" id="pills-claims" role="tabpanel" aria-labelledby="pills-claims-tab">
+                    {% include 'launch/blocks/claims.html.twig' with {'token': token} %}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <small><code>LtiStartProctoring</code> launch result</small>
+        </div>
+    </div>
+{% endblock body %}

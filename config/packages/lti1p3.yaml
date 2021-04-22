@@ -3,6 +3,7 @@ lti1p3:
         - 'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly'
         - 'https://purl.imsglobal.org/spec/lti-bo/scope/basicoutcome'
         - 'https://purl.imsglobal.org/spec/lti-ags/scope/score'
+        - 'https://purl.imsglobal.org/spec/lti-ap/scope/control.all'
     key_chains:
         kid1:
             key_set_name: "platformSet"
@@ -15,23 +16,23 @@ lti1p3:
             private_key: "file://%kernel.project_dir%/config/keys/private.key"
             private_key_passphrase: ~
     platforms:
-        localPlatform:
-            name: "Local platform"
+        demoPlatform:
+            name: "Demo app platform"
             audience: "%application_host%/platform"
             oidc_authentication_url: "%application_host%/lti1p3/oidc/authentication"
             oauth2_access_token_url: "http://demo_lti1p3_nginx/lti1p3/auth/kid1/token"
     tools:
-        localTool:
-            name: "Local tool"
+        demoTool:
+            name: "Demo app tool"
             audience: "%application_host%/tool"
             oidc_initiation_url: "%application_host%/lti1p3/oidc/initiation"
             launch_url: "%application_host%/tool/launch"
-            deep_linking_url: "%application_host%/tool/launch/deep-linking"
+            deep_linking_url: "%application_host%/tool/launch"
     registrations:
-        local:
+        demo:
             client_id: "client_id"
-            platform: "localPlatform"
-            tool: "localTool"
+            platform: "demoPlatform"
+            tool: "demoTool"
             deployment_ids:
                 - "deploymentId1"
                 - "deploymentId2"

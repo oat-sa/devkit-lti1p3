@@ -2,8 +2,9 @@
 
 namespace App\Security\User;
 
-use OAT\Library\Lti1p3Core\Security\User\UserAuthenticationResult;
-use OAT\Library\Lti1p3Core\Security\User\UserAuthenticationResultInterface;
+use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
+use OAT\Library\Lti1p3Core\Security\User\Result\UserAuthenticationResult;
+use OAT\Library\Lti1p3Core\Security\User\Result\UserAuthenticationResultInterface;
 use OAT\Library\Lti1p3Core\Security\User\UserAuthenticatorInterface;
 use OAT\Library\Lti1p3Core\User\UserIdentityFactoryInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -22,7 +23,7 @@ class UserAuthenticator implements UserAuthenticatorInterface
         $this->parameterBag = $parameterBag;
     }
 
-    public function authenticate(string $loginHint): UserAuthenticationResultInterface
+    public function authenticate(RegistrationInterface $registration, string $loginHint): UserAuthenticationResultInterface
     {
         $hint = json_decode($loginHint, true);
 

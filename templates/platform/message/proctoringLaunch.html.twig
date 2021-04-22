@@ -1,0 +1,275 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}<i class="fas fa-file-signature"></i>&nbsp;&nbsp;Platform - LtiStartProctoring launch{% endblock %}
+
+{% block body %}
+    <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
+        <div class="card bg-light">
+            <div class="card-header dropdown-toggle clickable {{ form.vars.submitted ? 'collapsed' : '' }}" role="tab" id="headingForm" data-toggle="collapse" data-parent="#accordionForm" href="#collapseForm"
+                 aria-expanded="{{ form.vars.submitted ? 'false' : 'true' }}" aria-controls="collapseForm">
+                <i class="fas fa-cogs"></i>&nbsp;<code>LtiStartProctoring</code> generator
+            </div>
+            <div id="collapseForm" class="collapse card-body  {{ form.vars.submitted ? '' : 'show' }}" role="tabpanel" aria-labelledby="headingForm" data-parent="#accordionForm">
+            {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <div class="form-row">
+                    <div class="col-md-9">
+                        {{ form_row(form.registration) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.user_type) }}
+                    </div>
+                </div>
+                <div id="userList" class="form-row {{ form.user_type.vars.value != 'list' ? 'd-none' : '' }}">
+                    <div class="col-md-12">
+                        {{ form_row(form.user_list) }}
+                    </div>
+                </div>
+                <div id="userCustom" class="form-row {{ form.user_type.vars.value != 'custom' ? 'd-none' : '' }}">
+                    <div class="col-md-3">
+                        {{ form_row(form.custom_user_id) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.custom_user_name) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.custom_user_email) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.custom_user_locale) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.start_proctoring_url) }}<br/>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <a id="launchUrlLoad" class="btn btn-secondary text-white" role="button" title="Use and edit selected registration's tool default launch url">
+                                <i id="launchUrlLoadLogo" class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                        {{ form_widget(form.start_proctoring_url) }}
+                    </div>
+                    {{ form_help(form.start_proctoring_url) }}
+                    {{ form_errors(form.start_proctoring_url) }}
+                </div>
+                <div class="form-row">
+                    <div class="col-md-9">
+                        {{ form_row(form.start_assessment_url) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.attempt_number) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.claims) }}<br/>
+                    <div class="input-group">
+                        <div class="input-group-prepend" role="group" aria-label="Manage claims">
+                            <div class="btn-group-vertical" role="group">
+                                <button id="claimsAdd" type="button" class="btn btn-primary btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Add claim">
+                                    <i class="fas fa-plus-circle"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-multicol" aria-labelledby="claimsAdd">
+                                    {% for title, claim in editorClaims %}
+                                        {% if loop.first %}
+                                            <div class="dropdown-row">
+                                        {% endif %}
+                                        <a
+                                            class="editorClaim dropdown-item"
+                                            data-name="{{ claim.name }}"
+                                            data-value="{{ claim.value|json_encode(constant('JSON_UNESCAPED_SLASHES')) }}"
+                                        >
+                                            {{ title }}
+                                        </a>
+                                        {% if loop.index % 2 == 0 %}
+                                            </div><div class="dropdown-row">
+                                        {% endif %}
+                                        {% if loop.last %}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <button id="claimsFormat" type="button" class="btn btn-secondary btn-block" title="Format claims">
+                                    <i class="fas fa-align-left"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                        {{ form_widget(form.claims) }}
+                    </div>
+                    <div id="claimsError" class="invalid-feedback">
+                        Invalid claims, please provide a valid JSON representation
+                    </div>
+                    {{ form_help(form.claims) }}
+                    {{ form_errors(form.claims) }}
+                </div>
+            </div>
+            <div class="card-footer">
+                    {{ form_widget(form.submit) }}
+                    <a href="{{ path('platform_message_launch_proctoring') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
+                    {% if formSubmitted %}
+                        <a class="btn btn-secondary text-white" data-toggle="modal" data-target="#formShareModal"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
+                    {% endif %}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
+    {% if startProctoringLaunchRequest %}
+    <br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <i class="fas fa-sign-out-alt"></i>&nbsp;<code>LtiStartProctoring</code> launch
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dl class="list-unstyled">
+                                <dt>Issuer</dt>
+                                <dd>{{ startProctoringLaunchRequest.parameters.get('iss') }}</dd>
+                                <dt>Login Hint</dt>
+                                <dd><input type="text" class="form-control form-control-sm" placeholder="token" value="{{ startProctoringLaunchRequest.parameters.get('login_hint') }}" readonly></dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-4">
+                            <dl class="list-unstyled">
+                                <dt>Url</dt>
+                                <dd>{{ startProctoringLaunchRequest.url }}</dd>
+                                <dt>Target Link Uri</dt>
+                                <dd>{{ startProctoringLaunchRequest.parameters.get('target_link_uri') }}</dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-4">
+                            <dl class="list-unstyled">
+                                <dt>Client Id</dt>
+                                <dd>{{ startProctoringLaunchRequest.parameters.get('client_id') }}</dd>
+                                <dt>Deployment Id</dt>
+                                <dd>{{ startProctoringLaunchRequest.parameters.get('lti_deployment_id') }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <dl class="list-unstyled">
+                                <dt>LTI Message Hint</dt>
+                                <dd>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ startProctoringLaunchRequest.parameters().get('lti_message_hint') }}" role="button" title="See on jwt.io">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="token" value="{{ startProctoringLaunchRequest.parameters().get('lti_message_hint') }}" readonly>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            <div class="card-footer">
+                {{ startProctoringLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch LtiStartProctoring',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <script>
+        function checkClaims() {
+            try {
+                if ($("#proctoring_launch_claims").val() != '') {
+                    $("#proctoring_launch_claims").val(
+                        JSON.stringify(JSON.parse($("#proctoring_launch_claims").val()), undefined, 4)
+                    );
+                    $("#proctoring_launch_claims").removeClass('is-invalid');
+                    $("#proctoring_launch_claims").addClass('is-valid');
+                } else {
+                    $("#proctoring_launch_claims").removeClass('is-invalid');
+                    $("#proctoring_launch_claims").removeClass('is-valid');
+                }
+                $('#claimsError').hide();
+            } catch(e) {
+                $("#proctoring_launch_claims").removeClass('is-valid');
+                $("#proctoring_launch_claims").addClass('is-invalid');
+                $('#claimsError').show();
+            }
+        }
+
+        $("#launchUrlLoad").click(function(){
+            $.ajax({
+                url: "{{ path('platform_ajax_default_registration_url') }}",
+                method: "POST",
+                data: {
+                    registration: $("#proctoring_launch_registration").find(":selected").text(),
+                    type: "{{ constant('OAT\\Library\\Lti1p3Core\\Message\\LtiMessageInterface::LTI_MESSAGE_TYPE_RESOURCE_LINK_REQUEST') }}",
+                },
+                dataType: "json",
+                beforeSend: function(result){
+                    $("#launchUrlLoadLogo").removeClass("fa-edit");
+                    $("#launchUrlLoadLogo").addClass("fa-spinner fa-spin");
+                },
+                success: function(result){
+                    $("#launchUrlLoadLogo").removeClass("fa-spinner fa-spin");
+                    $("#launchUrlLoadLogo").addClass("fa-edit");
+                    $("#proctoring_launch_start_proctoring_url").val(result.url);
+                },
+                error: function(result){
+                    $("#launchUrlLoadLogo").removeClass("fa-spinner fa-spin");
+                    $("#launchUrlLoadLogo").addClass("fa-edit");
+                }
+            });
+        });
+
+        $("#claimsFormat").click(function(event){
+            checkClaims();
+        });
+
+        $(".editorClaim").click(function(event){
+            try {
+                var claims = JSON.parse($("#proctoring_launch_claims").val() || "{}");
+                claims[$(this).data('name')] = $(this).data('value');
+                $("#proctoring_launch_claims").val(JSON.stringify(claims, undefined, 4));
+                $("#proctoring_launch_claims").removeClass('is-invalid');
+                $("#proctoring_launch_claims").addClass('is-valid');
+                $('#claimsError').hide();
+            } catch(e) {
+                $("#proctoring_launch_claims").removeClass('is-valid');
+                $("#proctoring_launch_claims").addClass('is-invalid');
+                $('#claimsError').show();
+            }
+        });
+
+        $('form[name=proctoring_launch]').submit(function (evt) {
+            checkClaims();
+            try {
+                JSON.parse($("#proctoring_launch_claims").val() || "{}");
+                return;
+            } catch(e) {
+                evt.preventDefault();
+            }
+        });
+
+        $('input[name="proctoring_launch[user_type]"]').change(function (evt) {
+            switch($(this).val()) {
+                case 'list':
+                    $('#userList').removeClass('d-none');
+                    $('#userCustom').addClass('d-none');
+                    break;
+                case 'custom':
+                    $('#userList').addClass('d-none');
+                    $('#userCustom').removeClass('d-none');
+                    break;
+                default:
+                    $('#userList').addClass('d-none');
+                    $('#userCustom').addClass('d-none');
+            }
+        });
+
+        $("#use-start-assessment-url").click(function(event){
+            $("#proctoring_launch_start_assessment_url").val($(this).data('url'));
+        });
+
+        $( document ).ready(function() {
+            checkClaims();
+        });
+    </script>
+{% endblock body %}
