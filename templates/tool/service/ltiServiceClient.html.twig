@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}<i class="fas fa-cube"></i>&nbsp;&nbsp;Tool - Call platform service{% endblock %}
+{% block nav_title %}<i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Tool - Call LTI service{% endblock %}
 
 {% block body %}
     <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
         <div class="card bg-light">
             <div class="card-header dropdown-toggle clickable {{ form.vars.submitted ? 'collapsed' : '' }}" role="tab" id="headingForm" data-toggle="collapse" data-parent="#accordionForm" href="#collapseForm"
                  aria-expanded="{{ form.vars.submitted ? 'false' : 'true' }}" aria-controls="collapseForm">
-                <i class="fas fa-sign-in-alt"></i>&nbsp;Tool service client
+                <i class="fas fa-sign-in-alt"></i>&nbsp;LTI service client
             </div>
             <div id="collapseForm" class="collapse card-body  {{ form.vars.submitted ? '' : 'show' }}" role="tabpanel" aria-labelledby="headingForm" data-parent="#accordionForm">
                 {{ form_start(form) }}
@@ -28,7 +28,7 @@
                         {{ form_row(form.service_url) }}
                     </div>
                 </div>
-                {{ form_row(form.accept) }}
+                {{ form_row(form.media) }}
                 {{ form_row(form.body) }}
             </div>
             <div class="card-footer">
@@ -40,8 +40,8 @@
             </div>
             {{ form_end(form) }}
         </div>
-        {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
     </div>
+    {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
     {% if serviceData %}
         <br/>
         <div class="card bg-light">
@@ -115,7 +115,7 @@
                 </div>
             </div>
             <div class="card-footer text-muted">
-                <small>Platform service response</small>
+                <small>LTI service response</small>
             </div>
         </div>
     {% endif %}
@@ -123,6 +123,23 @@
 
 {% block scripts %}
     <script>
+        $('#lti_service_client_scope').autoComplete({
+            minLength: 0,
+            preventEnter: true,
+            resolverSettings: {
+                url: '{{ path('tool_ajax_service_client_autocomplete', {'type': 'scope'}) }}',
+                requestThrottling: 100
+            }
+        });
+        $('#lti_service_client_media').autoComplete({
+            minLength: 0,
+            preventEnter: true,
+            resolverSettings: {
+                url: '{{ path('tool_ajax_service_client_autocomplete', {'type': 'media'}) }}',
+                requestThrottling: 100
+            }
+        });
+
         hljs.initHighlightingOnLoad();
     </script>
 {% endblock %}

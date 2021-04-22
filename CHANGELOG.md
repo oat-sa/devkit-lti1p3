@@ -1,6 +1,21 @@
 CHANGELOG
 =========
 
+1.9.0
+-----
+
+* Added ACS claim to editor
+* Added platform CRUD for proctoring test sessions
+* Added proctoring messages flow handling  
+* Added autocomplete fields for scope and media type on service client interface
+* Updated NRPS and basic outcome services endpoints with bundle request handler abstraction
+* Updated LTI core library and bundle to version 6.x
+* Updated sidebar menus and templates headers
+* Updated default registration name from local to demo  
+* Updated default users roles to match IMS roles vocabulary
+* Updated claim editor dropdown to be multi columns
+* Merged all message launch endpoints into a central one
+
 1.8.0
 -----
 

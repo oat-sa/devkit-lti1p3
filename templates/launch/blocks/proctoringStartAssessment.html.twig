@@ -1,0 +1,17 @@
+<div class="alert alert-info" role="alert">
+    <i class="fas fa-info-circle"></i>&nbsp;This step is normally used in a real proctoring tool to allow the proctor to validate the candidate attempt.<br/>
+    Since this is a demo application, <strong>no validation</strong> will be done here.<br/>
+    <hr/>
+    To <strong>continue</strong> the proctoring launch flow, click on the button below to <strong>return to the platform</strong> with a <strong><code>LtiStartAssessment</code></strong> message.
+</div>
+<form action="{{ path('tool_message_proctoring_response') }}" method="post">
+    <input type="hidden" name="registration" value="{{ token.registration.identifier }}"/>
+    <input type="hidden" name="resource-link-id" value="{{ token.payload.resourceLink.identifier }}"/>
+    <input type="hidden" name="start-assessment-url" value="{{ token.payload.proctoringStartAssessmentUrl }}"/>
+    <input type="hidden" name="session-data" value="{{ token.payload.proctoringSessionData }}"/>
+    <input type="hidden" name="attempt-number" value="{{ token.payload.proctoringAttemptNumber }}"/>
+    <input type="hidden" name="verified-user-name" value="{{ token.payload.token.claims.get('name') }}"/>
+    <button type="submit" class="btn-primary btn btn-block">
+        <i class="fas fa-sign-in-alt"></i>&nbsp;Launch LtiStartAssessment
+    </button>
+</form>

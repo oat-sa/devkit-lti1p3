@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}<i class="fas fa-file-signature"></i>&nbsp;&nbsp;Platform - ACS assessments{% endblock %}
+
+{% block body %}
+<div class="card bg-light">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+            <i class="fas fa-file-signature"></i>&nbsp;Assessments
+        </div>
+        <a class="btn btn-primary" href="{{ path('platform_proctoring_create_assessment') }}">
+            <i class="fas fa-plus-circle"></i>&nbsp;Create
+        </a>
+    </div>
+    <div class="card-body">
+        {% if assessments|length > 0 %}
+            <table id="memberships" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Identifier</th>
+                    <th>Status</th>
+                    <th>ACS Controls</th>
+                    <th>ACS</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for assessment in assessments %}
+                    <tr>
+                        <td>
+                            <code>{{ assessment.identifier }}</code>
+                        </td>
+                        <td>
+                             <span class="badge badge-pill badge-primary">
+                                {{ assessment.status }}
+                            </span>
+                        </td>
+                        <td>
+                            {{ assessment.controls|length }}
+                        </td>
+                        <td style="width:1px;white-space:nowrap;">
+                            <a class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#acsServiceUrlModal" data-acs-service-url="{{ absolute_url(path('platform_service_acs', {'assessmentIdentifier': assessment.identifier})) }}">
+                                <i class="fas fa-link"></i>&nbsp;ACS
+                            </a>
+                        </td>
+                        <td style="width:1px;white-space:nowrap;">
+                            <a class="btn btn-primary btn-sm" href="{{ path('platform_proctoring_view_assessment', {'assessmentIdentifier': assessment.identifier}) }}">
+                                <i class="fas fa-info-circle"></i>&nbsp;Details
+                            </a>
+                            <a class="btn btn-danger text-white btn-sm" href="{{ path('platform_proctoring_delete_assessment', {'assessmentIdentifier': assessment.identifier}) }}" onclick="return confirm('Are you sure?')">
+                                <i class="fas fa-trash-alt"></i>&nbsp;Delete
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            No assessments available
+        {% endif %}
+    </div>
+    <div class="card-footer text-muted">
+        <small><code><i class="fas fa-exclamation-triangle"></i>&nbsp;Non persistent cache storage</code></small>
+    </div>
+</div>
+<div class="modal fade" id="acsServiceUrlModal" tabindex="-1" role="dialog" aria-labelledby="acsServiceUrlModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="acsServiceUrlModalLabel"><i class="fas fa-info-circle"></i>&nbsp;ACS Service URL</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <textarea class="form-control" id="acsServiceUrlField" rows="15"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="acsServiceUrlCopy" type="button" class="btn btn-secondary">
+                    <i id="acsServiceUrlCopyLogo" class="fas fa-copy"></i>&nbsp;
+                    <span id="acsServiceUrlCopyText">Copy to clipboard</span>
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+{% block scripts %}
+    <script>
+        $('#acsServiceUrlModal').on("show.bs.modal", function (event) {
+            $("#acsServiceUrlField").val($(event.relatedTarget).attr("data-acs-service-url"));
+        });
+
+        function copyUrlToClipboard() {
+
+            $('#acsServiceUrlField').select();
+            document.execCommand("copy");
+
+            $('#acsServiceUrlCopy').removeClass('btn-secondary');
+            $('#acsServiceUrlCopy').addClass('btn-success');
+            $('#acsServiceUrlCopyLogo').removeClass('fa-copy');
+            $('#acsServiceUrlCopyLogo').addClass('fa-check');
+            $('#acsServiceUrlCopyText').html('Copied !');
+            setTimeout(
+                function() {
+                    $('#acsServiceUrlCopy').removeClass('btn-success');
+                    $('#acsServiceUrlCopy').addClass('btn-secondary');
+                    $('#acsServiceUrlCopyLogo').removeClass('fa-check');
+                    $('#acsServiceUrlCopyLogo').addClass('fa-copy');
+                    $('#acsServiceUrlCopyText').html('Copy to clipboard');
+
+                },
+                1500
+            );
+        }
+
+        $("#acsServiceUrlCopy").click(function(event){
+            copyUrlToClipboard();
+        });
+
+        {% if assessments|length > 0 %}
+        $(document).ready(function() {
+            $('#memberships').DataTable(
+                {
+                    "language": {
+                        "paginate": {
+                            "previous": "<",
+                            "next": ">",
+                        }
+                    }
+                }
+            );
+        } );
+        {% endif %}
+    </script>
+{% endblock %}

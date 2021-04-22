@@ -1,4 +1,5 @@
-{% set activeMenu = app.request.pathinfo|split('/')[1]|default(null) %}
+{% set activeMenu = getActiveMenu() %}
+{{ activeMenu }}
 <nav id="sidebar">
     <div class="sidebar-header">
         <img src="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png" width="55" height=55" class="d-inline-block" alt="">&nbsp;&nbsp;|&nbsp;
@@ -15,34 +16,50 @@
         <div class="card text-white bg-dark">
             <div class="card-header dropdown-toggle" role="tab" id="headingPlatform" data-toggle="collapse" data-parent="#accordionEx" href="#collapsePlatform"
                  aria-expanded="{{ activeMenu == 'platform' ? 'true' : 'false' }}" aria-controls="collapsePlatform">
-                <h6><i class="fas fa-cubes"></i>&nbsp;&nbsp;Platform</h6>
+                <h6><i class="fas fa-cubes"></i>&nbsp;&nbsp;Demo platform</h6>
             </div>
             <div id="collapsePlatform" class="collapse{{ activeMenu == 'platform' ? ' show' : '' }}" role="tabpanel" aria-labelledby="headingPlatform" data-parent="#accordionEx">
                 <div class="list-group list-group-flush">
-                    <a href="{{ path('platform_message_launch_lti_resource_link') }}" class="list-group-item list-group-item-action">
-                        <i class="fas fa-sign-out-alt"></i>&nbsp;Launch tool
-                    </a>
-                    <a href="{{ path('platform_message_launch_deep_linking') }}" class="list-group-item list-group-item-action">
-                        <i class="fas fa-link"></i>&nbsp;Deep linking
-                    </a>
                     <a href="{{ path('platform_basic_outcome_list') }}" class="list-group-item list-group-item-action">
-                        <i class="fas fa-poll"></i>&nbsp;Basic outcome
+                        <i class="fas fa-poll"></i>&nbsp;Basic outcomes
                     </a>
                     <a href="{{ path('platform_nrps_list_memberships') }}" class="list-group-item list-group-item-action">
-                        <i class="fas fa-users"></i>&nbsp;NRPS
+                        <i class="fas fa-users"></i>&nbsp;NRPS memberships
+                    </a>
+                    <a href="{{ path('platform_proctoring_list_assessments') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-file-signature"></i>&nbsp;ACS assessments
                     </a>
                 </div>
             </div>
         </div>
         <div class="card text-white bg-dark">
-            <div class="card-header dropdown-toggle" role="tab" id="headingTool" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTool"
-                 aria-expanded="{{ activeMenu == 'tool' ? 'true' : 'false' }}" aria-controls="collapseTool">
-                <h6><i class="fas fa-cube"></i>&nbsp;&nbsp;Tool</h6>
+            <div class="card-header dropdown-toggle" role="tab" id="headingMessage" data-toggle="collapse" data-parent="#accordionEx" href="#collapseMessage"
+                 aria-expanded="{{ activeMenu == 'message' ? 'true' : 'false' }}" aria-controls="collapseMessage">
+                <h6><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;LTI messages</h6>
             </div>
-            <div id="collapseTool" class="collapse{{ activeMenu == 'tool' ? ' show' : '' }}" role="tabpanel" aria-labelledby="headingTool" data-parent="#accordionEx">
+            <div id="collapseMessage" class="collapse{{ activeMenu == 'message' ? ' show' : '' }}" role="tabpanel" aria-labelledby="headingMessage" data-parent="#accordionEx">
+                <div class="list-group list-group-flush">
+                    <a href="{{ path('platform_message_launch_lti_resource_link') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-sign-out-alt"></i>&nbsp;LtiResourceLinkRequest
+                    </a>
+                    <a href="{{ path('platform_message_launch_deep_linking') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-link"></i>&nbsp;LtiDeepLinkingRequest
+                    </a>
+                    <a href="{{ path('platform_message_launch_proctoring') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-file-signature"></i>&nbsp;LtiStartProctoring
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card text-white bg-dark">
+            <div class="card-header dropdown-toggle" role="tab" id="headingService" data-toggle="collapse" data-parent="#accordionEx" href="#collapseService"
+                 aria-expanded="{{ activeMenu == 'service' ? 'true' : 'false' }}" aria-controls="collapseService">
+                <h6><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;LTI services</h6>
+            </div>
+            <div id="collapseService" class="collapse{{ activeMenu == 'service' ? ' show' : '' }}" role="tabpanel" aria-labelledby="headingService" data-parent="#accordionEx">
                 <div class="list-group list-group-flush">
                     <a href="{{ path('tool_service_client') }}" class="list-group-item list-group-item-action">
-                        <i class="fas fa-sign-in-alt"></i>&nbsp;Call platform service
+                        <i class="fas fa-sign-in-alt"></i>&nbsp;LTI service client
                     </a>
                 </div>
             </div>
@@ -84,6 +101,9 @@
                     </a>
                     <a href="https://github.com/oat-sa/lib-lti1p3-nrps#readme" class="list-group-item list-group-item-action" target="_blank">
                         <i class="fab fa-github"></i>&nbsp;NRPS library
+                    </a>
+                    <a href="https://github.com/oat-sa/lib-lti1p3-proctoring#readme" class="list-group-item list-group-item-action" target="_blank">
+                        <i class="fab fa-github"></i>&nbsp;Proctoring library
                     </a>
                 </div>
             </div>

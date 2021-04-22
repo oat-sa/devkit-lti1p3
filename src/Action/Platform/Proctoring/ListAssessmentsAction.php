@@ -20,45 +20,39 @@
 
 declare(strict_types=1);
 
-namespace App\Action\Tool\Message;
+namespace App\Action\Platform\Proctoring;
 
-use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Message\LtiToolMessageSecurityToken;
+use App\Nrps\DefaultMembershipFactory;
+use App\Proctoring\AssessmentRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
-class LtiResourceLinkLaunchAction
+class ListAssessmentsAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var AssessmentRepository */
+    private $repository;
+
+    /** @var DefaultMembershipFactory */
+    private $factory;
 
     /** @var Environment */
     private $twig;
 
-    /** @var Security */
-    private $security;
-
-    public function __construct(FlashBagInterface $flashBag, Environment $twig, Security $security)
+    public function __construct(AssessmentRepository $repository, DefaultMembershipFactory $factory, Environment $twig)
     {
-        $this->flashBag = $flashBag;
+        $this->repository = $repository;
+        $this->factory = $factory;
         $this->twig = $twig;
-        $this->security = $security;
     }
 
     public function __invoke(Request $request): Response
     {
-        /** @var LtiToolMessageSecurityToken $token */
-        $token = $this->security->getToken();
-
-        $this->flashBag->add('success', 'Tool LTI resource link launch success');
-
         return new Response(
             $this->twig->render(
-                'tool/message/ltiResourceLinkLaunch.html.twig',
+                'platform/proctoring/listAssessments.html.twig',
                 [
-                    'token' => $token
+                    'assessments' => $this->repository->findAll()
                 ]
             )
         );

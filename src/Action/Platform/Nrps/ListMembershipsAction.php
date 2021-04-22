@@ -39,7 +39,6 @@ class ListMembershipsAction
     /** @var Environment */
     private $twig;
 
-
     public function __construct(MembershipRepository $repository, DefaultMembershipFactory $factory, Environment $twig)
     {
         $this->repository = $repository;

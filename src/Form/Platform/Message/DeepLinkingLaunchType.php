@@ -171,8 +171,10 @@ class DeepLinkingLaunchType extends AbstractType
                 'deep_linking_url',
                 TextType::class,
                 [
+                    'label' => 'Launch url',
                     'required' => false,
-                    'help' => 'If provided, will be the deep linking content selection url. If not, will use the selected registration tool default deep linking url'
+                    'help_html' => true,
+                    'help' => 'If provided, will be the url where to send the <code>LtiDeepLinkingRequest</code> message. If not, will use the selected registration tool default deep linking url'
 
                 ]
             )

@@ -5,7 +5,7 @@ imports:
 
 parameters:
     application_host: '%env(resolve:APP_HOST)%'
-    application_version: '1.8.0'
+    application_version: '1.9.0'
 
 services:
     _defaults:
@@ -20,12 +20,14 @@ services:
         resource: '../src/Action'
         tags: ['controller.service_arguments']
 
+    # LTI core dependencies
     OAT\Library\Lti1p3Core\Security\User\UserAuthenticatorInterface:
         class: App\Security\User\UserAuthenticator
 
     OAT\Library\Lti1p3Core\User\UserIdentityFactoryInterface:
         class: OAT\Library\Lti1p3Core\User\UserIdentityFactory
 
+    # LTI deep linking dependencies
     OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchRequestBuilder: ~
 
     OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchResponseBuilder: ~
@@ -33,20 +35,51 @@ services:
     OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactoryInterface:
         class: OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactory
 
+    # LTI proctoring dependencies
+    OAT\Library\Lti1p3Proctoring\Service\Client\AcsServiceClient: ~
+
+    OAT\Library\Lti1p3Proctoring\Message\Launch\Builder\StartProctoringLaunchRequestBuilder: ~
+
+    OAT\Library\Lti1p3Proctoring\Message\Launch\Builder\StartAssessmentLaunchRequestBuilder: ~
+
+    OAT\Library\Lti1p3Proctoring\Service\Server\Handler\AcsServiceServerRequestHandler:
+        arguments:
+            - '@App\Proctoring\AcsServiceServerControlProcessor'
+
+    app.service.proctoring_acs_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Proctoring\Service\Server\Handler\AcsServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
+
+    # LTI NRPS dependencies
     OAT\Library\Lti1p3Nrps\Service\Client\MembershipServiceClient: ~
 
     OAT\Library\Lti1p3Nrps\Factory\Member\MemberFactoryInterface:
         class: OAT\Library\Lti1p3Nrps\Factory\Member\MemberFactory
 
+    OAT\Library\Lti1p3Nrps\Service\Server\Handler\MembershipServiceServerRequestHandler:
+        arguments:
+            - '@App\Nrps\MembershipServiceServerBuilder'
+
+    app.service.nrps_membership_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Nrps\Service\Server\Handler\MembershipServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
+
+    # LTI basic outcome dependencies
     OAT\Library\Lti1p3BasicOutcome\Service\Client\BasicOutcomeServiceClient: ~
 
-    OAT\Library\Lti1p3BasicOutcome\Service\Server\Handler\BasicOutcomeServiceServerHandler: ~
+    OAT\Library\Lti1p3BasicOutcome\Service\Server\Handler\BasicOutcomeServiceServerRequestHandler:
+        arguments:
+            - '@App\BasicOutcome\BasicOutcomeProcessor'
 
-    OAT\Library\Lti1p3BasicOutcome\Serializer\Request\BasicOutcomeRequestSerializerInterface:
-        class: OAT\Library\Lti1p3BasicOutcome\Serializer\Request\BasicOutcomeRequestSerializer
-
-    OAT\Library\Lti1p3BasicOutcome\Serializer\Response\BasicOutcomeResponseSerializerInterface:
-        class: OAT\Library\Lti1p3BasicOutcome\Serializer\Response\BasicOutcomeResponseSerializer
-
-    OAT\Library\Lti1p3BasicOutcome\Service\Server\Processor\BasicOutcomeServiceServerProcessorInterface:
-        class: App\BasicOutcome\BasicOutcomeProcessor
+    app.service.basic_outcome_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3BasicOutcome\Service\Server\Handler\BasicOutcomeServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]

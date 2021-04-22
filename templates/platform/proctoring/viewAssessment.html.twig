@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}<i class="fas fa-file-signature"></i>&nbsp;&nbsp;Platform - ACS assessment details{% endblock %}
+
+{% block body %}
+<div class="card bg-light">
+    <div class="card-header">
+        <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-message-tab" data-toggle="pill" href="#pills-message" role="tab" aria-controls="pills-message" aria-selected="true">
+                    <i class="fas fa-info-circle"></i>&nbsp;Details
+                </a>
+            </li>
+            <li class="nav-item">
+                <a a class="nav-link" id="pills-security-tab" data-toggle="pill" href="#pills-security" role="tab" aria-controls="pills-security" aria-selected="false">
+                    <i class="fas fa-file-signature"></i>&nbsp;ACS Controls
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-message" role="tabpanel" aria-labelledby="pills-message-tab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Identifier</dt>
+                            <dd><code>{{ assessment.identifier }}</code></dd>
+                            <dt>ACS controls</dt>
+                            <dd>{{ assessment.controls|length }}</dd>
+                            <dt>ACS service url</dt>
+                            {% set acsUrl = absolute_url(path('platform_service_acs', {'assessmentIdentifier': assessment.identifier})) %}
+                            <dd>
+                                <a href="{{ acsUrl }}" target="_blank">{{ acsUrl }}</a>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Status</dt>
+                            <dd>
+                                <span class="badge badge-pill badge-primary">
+                                    {{ assessment.status }}
+                                </span>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-security" role="tabpanel" aria-labelledby="pills-security-tab">
+                <div class="input-group mb-3">
+                    <input type="text" id="acsControlSearch" class="form-control" placeholder="Search">
+                    <div class="input-group-append">
+                        <button id="acsControlSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                    </div>
+                </div>
+                <pre>
+                    <code id="acsControlZone" class="language-json">{{ assessment.controls|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                </pre>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-primary text-white" href="{{ path('platform_proctoring_edit_assessment', {'assessmentIdentifier': assessment.identifier}) }}">
+            <i class="fas fa-edit"></i>&nbsp;Edit
+        </a>
+        <a class="btn btn-danger text-white" href="{{ path('platform_proctoring_delete_assessment', {'assessmentIdentifier': assessment.identifier}) }}" onclick="return confirm('Are you sure?')">
+            <i class="fas fa-trash-alt"></i>&nbsp;Delete
+        </a>
+        <a class="btn btn-secondary text-white" href="{{ path('platform_proctoring_list_assessments') }}">
+            <i class="fas fa-undo-alt"></i>&nbsp;Back to list
+        </a>
+    </div>
+</div>
+{% endblock body %}
+
+{% block scripts %}
+    <script>
+        $("#acsControlSearch").on("input", function(){
+            $("#acsControlZone").unmark({
+                done: function() {
+                    $("#acsControlZone").mark($("#acsControlSearch").val());
+                }
+            });
+        });
+
+        $("#acsControlSearchReset").click(function(){
+            $("#acsControlSearch").val("");
+            $("#acsControlZone").unmark();
+        });
+
+        hljs.initHighlightingOnLoad();
+    </script>
+{% endblock %}

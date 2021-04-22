@@ -6,6 +6,17 @@ parameters:
                 scopes: []
                 lineitems: "{url|required}"
                 lineitem: "{url|optional}"
+        ACS:
+            name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_ACS
+            value:
+                actions: [
+                    'pause',
+                    'resume',
+                    'terminate',
+                    'update',
+                    'flag'
+                ]
+                assessment_control_url: "{url|required}"
         Basic Outcome:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_BASIC_OUTCOME
             value:
@@ -57,4 +68,4 @@ parameters:
                 description: "{string|optional}"
         Roles:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_ROLES
-            value: ["Learner"]
+            value: ["http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"]

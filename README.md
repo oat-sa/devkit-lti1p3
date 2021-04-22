@@ -10,6 +10,7 @@ This demo application based on the following packages:
 - [LTI 1.3 NRPS library](https://github.com/oat-sa/lib-lti1p3-nrps)
 - [LTI 1.3 deep linking library](https://github.com/oat-sa/lib-lti1p3-deep-linking)
 - [LTI 1.3 basic outcome library](https://github.com/oat-sa/lib-lti1p3-basic-outcome)
+- [LTI 1.3 proctoring library](https://github.com/oat-sa/lib-lti1p3-proctoring)
 - [LTI 1.3 core library](https://github.com/oat-sa/lib-lti1p3-core)
 
 
@@ -32,6 +33,7 @@ This demo application respect the following LTI 1.3 [IMS](http://www.imsglobal.o
 - [IMS LTI 1.3 NRPS](https://www.imsglobal.org/spec/lti-nrps/v2p0)
 - [IMS LTI 1.3 Deep Linking](https://www.imsglobal.org/spec/lti-dl/v2p0/)
 - [IMS LTI 1.3 Basic Outcome](https://www.imsglobal.org/spec/lti-bo/v1p1)
+- [IMS LTI 1.3 Proctoring](https://www.imsglobal.org/spec/proctoring/v1p0)
 - [IMS LTI 1.3 Core](http://www.imsglobal.org/spec/lti/v1p3)
 
 ## Installation

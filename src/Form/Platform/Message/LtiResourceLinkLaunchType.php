@@ -131,7 +131,8 @@ class LtiResourceLinkLaunchType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
-                    'help' => "If provided, will be the launch target. If not, will use the selected registration's tool default launch url"
+                    'help_html' => true,
+                    'help' => "If provided, will be the url where to send the <code>LtiResourceLinkRequest</code> message. If not, will use the selected registration tool default launch url"
 
                 ]
             )

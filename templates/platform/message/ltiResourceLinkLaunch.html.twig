@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}<i class="fas fa-cubes"></i>&nbsp;&nbsp;Platform - Launch tool{% endblock %}
+{% block nav_title %}<i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Platform - LtiResourceLinkRequest launch{% endblock %}
 
 {% block body %}
     <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
         <div class="card bg-light">
             <div class="card-header dropdown-toggle clickable {{ form.vars.submitted ? 'collapsed' : '' }}" role="tab" id="headingForm" data-toggle="collapse" data-parent="#accordionForm" href="#collapseForm"
                  aria-expanded="{{ form.vars.submitted ? 'false' : 'true' }}" aria-controls="collapseForm">
-                <i class="fas fa-cogs"></i>&nbsp;LTI resource link generator
+                <i class="fas fa-cogs"></i>&nbsp;<code>LtiResourceLinkRequest</code> generator
             </div>
             <div id="collapseForm" class="collapse card-body  {{ form.vars.submitted ? '' : 'show' }}" role="tabpanel" aria-labelledby="headingForm" data-parent="#accordionForm">
             {{ form_start(form) }}
@@ -60,16 +60,25 @@
                                 <button id="claimsAdd" type="button" class="btn btn-primary btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Add claim">
                                     <i class="fas fa-plus-circle"></i>
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="claimsAdd">
-                                {% for title, claim in editorClaims %}
-                                    <a
-                                        class="editorClaim dropdown-item"
-                                        data-name="{{ claim.name }}"
-                                        data-value="{{ claim.value|json_encode(constant('JSON_UNESCAPED_SLASHES')) }}"
-                                    >
-                                        {{ title }}
-                                    </a>
-                                {% endfor %}
+                                <div class="dropdown-menu dropdown-multicol" aria-labelledby="claimsAdd">
+                                    {% for title, claim in editorClaims %}
+                                        {% if loop.first %}
+                                            <div class="dropdown-row">
+                                        {% endif %}
+                                            <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="{{ claim.name }}"
+                                                data-value="{{ claim.value|json_encode(constant('JSON_UNESCAPED_SLASHES')) }}"
+                                            >
+                                                {{ title }}
+                                            </a>
+                                        {% if loop.index % 2 == 0 %}
+                                            </div><div class="dropdown-row">
+                                        {% endif %}
+                                        {% if loop.last %}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
                                 <button id="claimsFormat" type="button" class="btn btn-secondary btn-block" title="Format claims">
                                     <i class="fas fa-align-left"></i>
@@ -95,15 +104,15 @@
             </div>
             {{ form_end(form) }}
         </div>
-        {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
     </div>
+    {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
     {% if ltiResourceLinkLaunchRequest %}
     <br/>
     <div class="row">
         <div class="col-sm-12">
             <div class="card bg-light">
                 <div class="card-header">
-                    <i class="fas fa-sign-out-alt"></i>&nbsp;LTI resource link launch
+                    <i class="fas fa-sign-out-alt"></i>&nbsp;<code>LtiResourceLinkRequest</code> launch
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -151,7 +160,7 @@
                     </div>
                 </div>
             <div class="card-footer">
-                {{ ltiResourceLinkLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch tool',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+                {{ ltiResourceLinkLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch LtiResourceLinkRequest',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
             </div>
         </div>
     </div>

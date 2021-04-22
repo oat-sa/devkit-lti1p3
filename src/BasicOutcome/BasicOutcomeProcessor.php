@@ -22,36 +22,33 @@ declare(strict_types=1);
 
 namespace App\BasicOutcome;
 
-use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Service\LtiServiceSecurityToken;
 use OAT\Library\Lti1p3BasicOutcome\Service\Server\Processor\BasicOutcomeServiceServerProcessorInterface;
-use OAT\Library\Lti1p3BasicOutcome\Service\Server\Processor\BasicOutcomeServiceServerProcessorResult;
+use OAT\Library\Lti1p3BasicOutcome\Service\Server\Processor\Result\BasicOutcomeServiceServerProcessorResult;
+use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use Psr\Cache\CacheItemPoolInterface;
-use Symfony\Component\Security\Core\Security;
 
 class BasicOutcomeProcessor implements BasicOutcomeServiceServerProcessorInterface
 {
-    public const CACHE_KEY = 'lti1p3-nrps-basic-outcomes';
-
-    /** @var Security */
-    private $security;
+    public const CACHE_KEY = 'lti1p3-basic-outcomes';
 
     /** @var CacheItemPoolInterface */
     private $cache;
 
-    public function __construct(Security $security, CacheItemPoolInterface $cache)
+    public function __construct(CacheItemPoolInterface $cache)
     {
-        $this->security = $security;
         $this->cache = $cache;
     }
 
-    public function processReadResult(string $sourcedId): BasicOutcomeServiceServerProcessorResult
-    {
+    public function processReadResult(
+        RegistrationInterface $registration,
+        string $sourcedId
+    ): BasicOutcomeServiceServerProcessorResult {
         $basicOutcomeCache = $this->cache->getItem(self::CACHE_KEY);
 
         if ($basicOutcomeCache->isHit()) {
 
             $basicOutcomeList = $basicOutcomeCache->get();
-            $basicOutcomeKey = $this->getBasicOutcomeKey($sourcedId);
+            $basicOutcomeKey = $this->getBasicOutcomeKey($registration, $sourcedId);
 
             if (array_key_exists($basicOutcomeKey, $basicOutcomeList)) {
 
@@ -78,11 +75,12 @@ class BasicOutcomeProcessor implements BasicOutcomeServiceServerProcessorInterfa
         );
     }
 
-    public function processReplaceResult(string $sourcedId, float $score, string $language = 'en'): BasicOutcomeServiceServerProcessorResult
-    {
-        /** @var LtiServiceSecurityToken $token */
-        $token = $this->security->getToken();
-
+    public function processReplaceResult(
+        RegistrationInterface $registration,
+        string $sourcedId,
+        float $score,
+        string $language = 'en'
+    ): BasicOutcomeServiceServerProcessorResult {
         $basicOutcomeCache = $this->cache->getItem(self::CACHE_KEY);
 
         $basicOutcomeList = [];
@@ -91,13 +89,13 @@ class BasicOutcomeProcessor implements BasicOutcomeServiceServerProcessorInterfa
             $basicOutcomeList = $basicOutcomeCache->get();
         }
 
-        $basicOutcomeKey = $this->getBasicOutcomeKey($sourcedId);
+        $basicOutcomeKey = $this->getBasicOutcomeKey($registration, $sourcedId);
 
         $basicOutcomeList[$basicOutcomeKey] = [
             'score' => $score,
             'language' => $language,
-            'registration' => $token->getRegistration()->getIdentifier(),
-            'tool' => $token->getRegistration()->getTool()->getIdentifier(),
+            'registration' => $registration->getIdentifier(),
+            'tool' => $registration->getTool()->getIdentifier(),
         ];
 
         $basicOutcomeCache->set($basicOutcomeList);
@@ -112,11 +110,13 @@ class BasicOutcomeProcessor implements BasicOutcomeServiceServerProcessorInterfa
         );
     }
 
-    public function processDeleteResult(string $sourcedId): BasicOutcomeServiceServerProcessorResult
-    {
+    public function processDeleteResult(
+        RegistrationInterface $registration,
+        string $sourcedId
+    ): BasicOutcomeServiceServerProcessorResult {
         $basicOutcomeCache = $this->cache->getItem(self::CACHE_KEY);
 
-        $basicOutcomeKey = $this->getBasicOutcomeKey($sourcedId);
+        $basicOutcomeKey = $this->getBasicOutcomeKey($registration, $sourcedId);
 
         $basicOutcomeList = [];
 
@@ -136,11 +136,8 @@ class BasicOutcomeProcessor implements BasicOutcomeServiceServerProcessorInterfa
         );
     }
 
-    private function getBasicOutcomeKey(string $sourcedId): string
+    private function getBasicOutcomeKey(RegistrationInterface $registration, string $sourcedId): string
     {
-        /** @var LtiServiceSecurityToken $token */
-        $token = $this->security->getToken();
-
-        return sprintf('%s-%s', $token->getRegistration()->getIdentifier(), $sourcedId);
+        return sprintf('%s-%s', $registration->getIdentifier(), $sourcedId);
     }
 }
