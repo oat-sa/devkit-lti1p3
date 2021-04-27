@@ -15,7 +15,7 @@
         "version": "1.4.1"
     },
     "guzzlehttp/psr7": {
-        "version": "1.8.1"
+        "version": "1.8.2"
     },
     "lcobucci/clock": {
         "version": "2.0.0"

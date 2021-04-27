@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de12e4ddfdaa2062f677844b8c716be5",
+    "content-hash": "c4d850f628da450dd5217aaf074d65d4",
     "packages": [
         {
             "name": "brick/math",
@@ -332,16 +332,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.8.1",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "35ea11d335fd638b5882ff1725228b3d35496ab1"
+                "reference": "dc960a912984efb74d0a90222870c72c87f10c91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/35ea11d335fd638b5882ff1725228b3d35496ab1",
-                "reference": "35ea11d335fd638b5882ff1725228b3d35496ab1",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/dc960a912984efb74d0a90222870c72c87f10c91",
+                "reference": "dc960a912984efb74d0a90222870c72c87f10c91",
                 "shasum": ""
             },
             "require": {
@@ -401,9 +401,9 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/1.8.1"
+                "source": "https://github.com/guzzle/psr7/tree/1.8.2"
             },
-            "time": "2021-03-21T16:25:00+00:00"
+            "time": "2021-04-26T09:17:50+00:00"
         },
         {
             "name": "lcobucci/clock",
@@ -1002,16 +1002,16 @@
         },
         {
             "name": "oat-sa/bundle-lti1p3",
-            "version": "6.0.0",
+            "version": "6.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/bundle-lti1p3.git",
-                "reference": "4e7737e9907337025366b662b85c094170ba86cb"
+                "reference": "a27a410d6131cc90b9de7a3d1dc57e1ff1afd828"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/bundle-lti1p3/zipball/4e7737e9907337025366b662b85c094170ba86cb",
-                "reference": "4e7737e9907337025366b662b85c094170ba86cb",
+                "url": "https://api.github.com/repos/oat-sa/bundle-lti1p3/zipball/a27a410d6131cc90b9de7a3d1dc57e1ff1afd828",
+                "reference": "a27a410d6131cc90b9de7a3d1dc57e1ff1afd828",
                 "shasum": ""
             },
             "require": {
@@ -1052,9 +1052,9 @@
             ],
             "support": {
                 "issues": "https://github.com/oat-sa/bundle-lti1p3/issues",
-                "source": "https://github.com/oat-sa/bundle-lti1p3/tree/6.0.0"
+                "source": "https://github.com/oat-sa/bundle-lti1p3/tree/6.1.0"
             },
-            "time": "2021-04-20T08:25:39+00:00"
+            "time": "2021-04-28T08:38:44+00:00"
         },
         {
             "name": "oat-sa/lib-health-check",
@@ -1146,19 +1146,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-core.git",
-                "reference": "783e156748410fb0eddf21bc9deab60d472cec5e"
+                "reference": "d42b569376c4449b9b85d755d3d5022f4e29d972"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-core/zipball/783e156748410fb0eddf21bc9deab60d472cec5e",
-                "reference": "783e156748410fb0eddf21bc9deab60d472cec5e",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-core/zipball/d42b569376c4449b9b85d755d3d5022f4e29d972",
+                "reference": "d42b569376c4449b9b85d755d3d5022f4e29d972",
                 "shasum": ""
             },
             "require": {
                 "codercat/jwk-to-pem": "^1.0",
                 "ext-json": "*",
                 "ext-openssl": "*",
-                "guzzlehttp/guzzle": "^7.2",
+                "guzzlehttp/guzzle": "^6.5 || ^7.0",
                 "lcobucci/jwt": "^3.4 || ^4.0",
                 "league/oauth2-server": "^8.2",
                 "nesbot/carbon": "^2.43",
@@ -1193,7 +1193,7 @@
                 "issues": "https://github.com/oat-sa/lib-lti1p3-core/issues",
                 "source": "https://github.com/oat-sa/lib-lti1p3-core/tree/6.0.0"
             },
-            "time": "2021-04-20T08:19:58+00:00"
+            "time": "2021-04-26T08:33:00+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-deep-linking",
