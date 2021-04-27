@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2642e34e4306d5e0ede55fc2db434294",
+    "content-hash": "de12e4ddfdaa2062f677844b8c716be5",
     "packages": [
         {
             "name": "brick/math",
@@ -948,6 +948,59 @@
             "time": "2021-02-18T15:41:32+00:00"
         },
         {
+            "name": "oat-sa/bundle-health-check",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oat-sa/bundle-health-check.git",
+                "reference": "55fb47ca770e78fd63bfeaaa94c1dcf2b8927cb2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oat-sa/bundle-health-check/zipball/55fb47ca770e78fd63bfeaaa94c1dcf2b8927cb2",
+                "reference": "55fb47ca770e78fd63bfeaaa94c1dcf2b8927cb2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "oat-sa/lib-health-check": "^1.1",
+                "php": ">=7.2.0",
+                "psr/log": "^1.1",
+                "symfony/console": "^4.4 || ^5.0",
+                "symfony/framework-bundle": "^4.4 || ^5.0",
+                "symfony/yaml": "^4.4 || ^5.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.4",
+                "phpunit/phpunit": "8.5.14",
+                "symfony/browser-kit": "^4.4 || ^5.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "OAT\\Bundle\\HealthCheckBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "description": "Health Check Bundle",
+            "keywords": [
+                "check",
+                "health",
+                "symfony"
+            ],
+            "support": {
+                "issues": "https://github.com/oat-sa/bundle-health-check/issues",
+                "source": "https://github.com/oat-sa/bundle-health-check/tree/2.1.0"
+            },
+            "time": "2021-03-24T09:33:52+00:00"
+        },
+        {
             "name": "oat-sa/bundle-lti1p3",
             "version": "6.0.0",
             "source": {
@@ -1002,6 +1055,45 @@
                 "source": "https://github.com/oat-sa/bundle-lti1p3/tree/6.0.0"
             },
             "time": "2021-04-20T08:25:39+00:00"
+        },
+        {
+            "name": "oat-sa/lib-health-check",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oat-sa/lib-health-check.git",
+                "reference": "0d79a33c78ed9e998475b9089c57ed4a4b5529ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oat-sa/lib-health-check/zipball/0d79a33c78ed9e998475b9089c57ed4a4b5529ef",
+                "reference": "0d79a33c78ed9e998475b9089c57ed4a4b5529ef",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0",
+                "psr/log": "^1.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.4",
+                "phpunit/phpunit": "8.5.14"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "OAT\\Library\\HealthCheck\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-only"
+            ],
+            "description": "OAT Health Check Library",
+            "support": {
+                "issues": "https://github.com/oat-sa/lib-health-check/issues",
+                "source": "https://github.com/oat-sa/lib-health-check/tree/1.1.0"
+            },
+            "time": "2021-03-24T08:46:02+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-basic-outcome",

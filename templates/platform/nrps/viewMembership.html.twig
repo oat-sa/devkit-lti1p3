@@ -29,7 +29,7 @@
                             <dt>Members</dt>
                             <dd>{{ membership.members.count|default('n/a') }}</dd>
                             <dt>NRPS service url</dt>
-                            {% set nrpsUrl = absolute_url(path('platform_service_nrps', {'contextIdentifier': membership.context.identifier, 'membershipIdentifier': membership.identifier})) %}
+                            {% set nrpsUrl = absolute_app_url('platform_service_nrps', {'contextIdentifier': membership.context.identifier, 'membershipIdentifier': membership.identifier}) %}
                             <dd>
                                 <a href="{{ nrpsUrl }}" target="_blank">{{ nrpsUrl }}</a>
                             </dd>

@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+1.9.1
+-----
+
+* Added heath check bundle
+* Fixed main css file url
+* Fixed absolute urls generation
+
 1.9.0
 -----
 
