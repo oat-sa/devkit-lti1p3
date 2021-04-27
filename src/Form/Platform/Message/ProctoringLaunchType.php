@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace App\Form\Platform\Message;
 
+use App\Generator\UrlGenerator;
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -33,7 +34,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Routing\RouterInterface;
 
 class ProctoringLaunchType extends AbstractType
 {
@@ -43,24 +43,24 @@ class ProctoringLaunchType extends AbstractType
     /** @var ParameterBagInterface */
     private $parameterBag;
 
-    /** @var RouterInterface */
-    private $router;
+    /** @var UrlGenerator */
+    private $generator;
 
     public function __construct(
         RegistrationRepositoryInterface $repository,
         ParameterBagInterface $parameterBag,
-        RouterInterface $router
+        UrlGenerator $generator
     ) {
         $this->repository = $repository;
         $this->parameterBag = $parameterBag;
-        $this->router = $router;
+        $this->generator = $generator;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $userChoices = array_keys($this->parameterBag->get('users'));
 
-        $demoStartAssessmentUrl = $this->router->generate('platform_message_proctoring_return', [], RouterInterface::ABSOLUTE_URL);
+        $demoStartAssessmentUrl = $this->generator->generate('platform_message_proctoring_return');
 
         $builder
             ->add(

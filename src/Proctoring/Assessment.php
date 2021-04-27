@@ -22,11 +22,7 @@ declare(strict_types=1);
 
 namespace App\Proctoring;
 
-use OAT\Library\Lti1p3BasicOutcome\Service\Server\Processor\BasicOutcomeServiceServerProcessorInterface;
-use OAT\Library\Lti1p3BasicOutcome\Service\Server\Processor\Result\BasicOutcomeServiceServerProcessorResult;
-use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3Proctoring\Model\AcsControlInterface;
-use Psr\Cache\CacheItemPoolInterface;
 
 class Assessment
 {

@@ -29,7 +29,7 @@
                             <dt>ACS controls</dt>
                             <dd>{{ assessment.controls|length }}</dd>
                             <dt>ACS service url</dt>
-                            {% set acsUrl = absolute_url(path('platform_service_acs', {'assessmentIdentifier': assessment.identifier})) %}
+                            {% set acsUrl = absolute_app_url('platform_service_acs', {'assessmentIdentifier': assessment.identifier}) %}
                             <dd>
                                 <a href="{{ acsUrl }}" target="_blank">{{ acsUrl }}</a>
                             </dd>

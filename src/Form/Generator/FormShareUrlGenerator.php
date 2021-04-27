@@ -22,19 +22,18 @@ declare(strict_types=1);
 
 namespace App\Form\Generator;
 
+use App\Generator\UrlGenerator;
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\RouterInterface;
 
 class FormShareUrlGenerator
 {
-    /** @var RouterInterface */
-    private $router;
+    /** @var UrlGenerator */
+    private $generator;
 
-    public function __construct(RouterInterface $router)
+    public function __construct(UrlGenerator $generator)
     {
-        $this->router = $router;
+        $this->generator = $generator;
     }
 
     public function generate(string $url, FormInterface $form): string
@@ -48,6 +47,6 @@ class FormShareUrlGenerator
            $form->getData()
        );
 
-       return $this->router->generate($url, $queryParams, UrlGeneratorInterface::ABSOLUTE_URL);
+       return $this->generator->generate($url, $queryParams);
    }
 }
