@@ -41,7 +41,7 @@
                             {{ basicOutcome.tool }}
                         </td>
                         <td style="width:1px;white-space:nowrap;">
-                            <a class="btn btn-danger text-white btn-sm" href="{{ absolute_url(path('platform_basic_outcome_delete', {'basicOutcomeIdentifier': basicOutcomeIdentifier})) }}" onclick="return confirm('Are you sure?')">
+                            <a class="btn btn-danger text-white btn-sm" href="{{ path('platform_basic_outcome_delete', {'basicOutcomeIdentifier': basicOutcomeIdentifier}) }}" onclick="return confirm('Are you sure?')">
                                 <i class="fas fa-trash-alt"></i>&nbsp;Delete
                             </a>
                         </td>

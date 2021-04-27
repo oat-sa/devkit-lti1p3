@@ -9,7 +9,7 @@
             <i class="fas fa-users"></i>&nbsp;Default membership
         </div>
         <div>
-            <a class="btn btn-info text-white" data-toggle="modal" data-target="#membershipServiceUrlModal" data-nrps-service-url="{{ absolute_url(path('platform_service_nrps', {'contextIdentifier': defaultMembership.context.identifier, 'membershipIdentifier': defaultMembership.identifier})) }}">
+            <a class="btn btn-info text-white" data-toggle="modal" data-target="#membershipServiceUrlModal" data-nrps-service-url="{{ absolute_app_url('platform_service_nrps', {'contextIdentifier': defaultMembership.context.identifier, 'membershipIdentifier': defaultMembership.identifier}) }}">
                 <i class="fas fa-link"></i>&nbsp;NRPS
             </a>
             <a class="btn btn-primary" href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': defaultMembership.identifier}) }}">
@@ -63,7 +63,7 @@
                             {{ membership.members.count }}
                         </td>
                         <td style="width:1px;white-space:nowrap;">
-                            <a class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#membershipServiceUrlModal" data-nrps-service-url="{{ absolute_url(path('platform_service_nrps', {'contextIdentifier': membership.context.identifier, 'membershipIdentifier': membership.identifier})) }}">
+                            <a class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#membershipServiceUrlModal" data-nrps-service-url="{{ absolute_app_url('platform_service_nrps', {'contextIdentifier': membership.context.identifier, 'membershipIdentifier': membership.identifier}) }}">
                                 <i class="fas fa-link"></i>&nbsp;NRPS
                             </a>
                         </td>

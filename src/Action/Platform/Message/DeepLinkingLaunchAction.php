@@ -24,6 +24,7 @@ namespace App\Action\Platform\Message;
 
 use App\Form\Generator\FormShareUrlGenerator;
 use App\Form\Platform\Message\DeepLinkingLaunchType;
+use App\Generator\UrlGenerator;
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchRequestBuilder;
 use OAT\Library\Lti1p3DeepLinking\Settings\DeepLinkingSettings;
@@ -55,7 +56,10 @@ class DeepLinkingLaunchAction
     private $factory;
 
     /** @var FormShareUrlGenerator */
-    private $generator;
+    private $formShareUrlGenerator;
+
+    /** @var UrlGenerator */
+    private $urlGenerator;
 
     /** @var DeepLinkingLaunchRequestBuilder */
     private $builder;
@@ -66,7 +70,8 @@ class DeepLinkingLaunchAction
         RouterInterface $router,
         Environment $twig,
         FormFactoryInterface $factory,
-        FormShareUrlGenerator $generator,
+        FormShareUrlGenerator $formShareUrlGenerator,
+        UrlGenerator $urlGenerator,
         DeepLinkingLaunchRequestBuilder $builder
     ) {
         $this->flashBag = $flashBag;
@@ -74,7 +79,8 @@ class DeepLinkingLaunchAction
         $this->router = $router;
         $this->twig = $twig;
         $this->factory = $factory;
-        $this->generator = $generator;
+        $this->formShareUrlGenerator = $formShareUrlGenerator;
+        $this->urlGenerator = $urlGenerator;
         $this->builder = $builder;
     }
 
@@ -84,7 +90,6 @@ class DeepLinkingLaunchAction
 
         $form->handleRequest($request);
 
-        $user = null;
         $claims = [];
         $deepLinkingLaunchRequest = null;
 
@@ -93,7 +98,7 @@ class DeepLinkingLaunchAction
             $formData = $form->getData();
 
             $deepLinkSettings = new DeepLinkingSettings(
-                $this->router->generate('platform_message_deep_linking_return', [], RouterInterface::ABSOLUTE_URL),
+                $this->urlGenerator->generate('platform_message_deep_linking_return'),
                 $formData['accept_types'],
                 $formData['accept_presentation_document_targets'],
                 $formData['accept_media_types'],
@@ -155,7 +160,7 @@ class DeepLinkingLaunchAction
                 [
                     'form' => $form->createView(),
                     'formSubmitted' => $form->isSubmitted(),
-                    'formShareUrl' => $this->generator->generate('platform_message_launch_deep_linking', $form),
+                    'formShareUrl' => $this->formShareUrlGenerator->generate('platform_message_launch_deep_linking', $form),
                     'deepLinkingLaunchRequest' => $deepLinkingLaunchRequest,
                     'editorClaims' => $this->parameterBag->get('editor_claims')
                 ]

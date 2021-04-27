@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
+use App\Generator\UrlGenerator;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -31,16 +32,26 @@ class AppExtension extends AbstractExtension
     /** @var RequestStack */
     private $requestStack;
 
-    public function __construct(RequestStack $requestStack)
+    /** @var UrlGenerator */
+    private $generator;
+
+    public function __construct(RequestStack $requestStack, UrlGenerator $generator)
     {
         $this->requestStack = $requestStack;
+        $this->generator = $generator;
     }
 
     public function getFunctions(): array
     {
         return [
+            new TwigFunction('absolute_app_url', [$this, 'getAbsoluteAppUrl']),
             new TwigFunction('getActiveMenu', [$this, 'getActiveMenu']),
         ];
+    }
+
+    public function getAbsoluteAppUrl(string $name, array $parameters = []): string
+    {
+        return $this->generator->generate($name, $parameters);
     }
 
     public function getActiveMenu(): ?string

@@ -47,6 +47,18 @@
             "config/packages/nyholm_psr7.yaml"
         ]
     },
+    "oat-sa/bundle-health-check": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "943305d896cdfaca7a59a6721fc609b95905fedc"
+        },
+        "files": [
+            "config/routes/health_check.yaml"
+        ]
+    },
     "oat-sa/bundle-lti1p3": {
         "version": "3.0",
         "recipe": {
@@ -59,6 +71,9 @@
             "config/packages/lti1p3.yaml",
             "config/routes/lti1p3.yaml"
         ]
+    },
+    "oat-sa/lib-health-check": {
+        "version": "1.1.0"
     },
     "oat-sa/lib-lti1p3-basic-outcome": {
         "version": "4.0.0"
