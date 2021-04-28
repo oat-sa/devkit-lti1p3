@@ -54,6 +54,7 @@ COPY . .
 
 # Install required packages
 RUN set -eux; \
+        composer self-update --2; \
         composer install -n --optimize-autoloader --no-dev --prefer-dist; \
         composer dump-autoload -n --optimize --no-dev --classmap-authoritative; \
         rm -rf .build/;
