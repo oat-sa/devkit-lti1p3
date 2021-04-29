@@ -51,8 +51,8 @@
             <br/>
             <div class="form-row">
                 <div class="col col col-md-3">
-                    <input type="number" id="acsExtraTime" class="form-control" placeholder="Extra time" aria-describedby="acsExtraTimeHelp">
-                    <small id="acsExtraTimeHelp" class="form-text text-muted">Extra time</small>
+                    <input id="acsDate" class="form-control" placeholder="" aria-describedby="acsDateHelp">
+                    <small id="acsDateHelp" class="form-text text-muted">Incident date</small>
                 </div>
                 <div class="col col col-md-3">
                     <input type="number" min="0" max="1" step="0.1" id="acsSeverity" class="form-control" placeholder="Incident severity" aria-describedby="acsSeverityHelp">
@@ -69,7 +69,11 @@
             </div>
             <br/>
             <div class="form-row">
-                <div class="col col col-md-10">
+                <div class="col col col-md-3">
+                    <input type="number" id="acsExtraTime" class="form-control" placeholder="Extra time" aria-describedby="acsExtraTimeHelp">
+                    <small id="acsExtraTimeHelp" class="form-text text-muted">Extra time</small>
+                </div>
+                <div class="col col col-md-7">
                     <div class="form-group">
                         <select id="acsAction" aria-describedby="acsActionHelp" class="form-control">
                             {% for action in token.payload.acs.actions %}
@@ -94,6 +98,15 @@
     </div>
     <div id="acsZone"></div>
     <script>
+        $('#acsDate').datetimepicker({
+            uiLibrary: 'bootstrap4',
+            iconsLibrary: 'fontawesome',
+            format: 'yyyy-mm-dd HH:MM',
+            modal: false,
+            header: false,
+            footer: false
+        });
+
         $("#acsLoad").click(function(){
             $.ajax({
                 url: "{{ path('tool_ajax_service_acs') }}",
@@ -107,6 +120,7 @@
                     acsSub: $("#acsSub").val(),
                     acsAttemptNumber: $("#acsAttemptNumber").val(),
                     acsExtraTime: $("#acsExtraTime").val(),
+                    acsDate: $("#acsDate").val(),
                     acsSeverity: $("#acsSeverity").val(),
                     acsReasonCode: $("#acsReasonCode").val(),
                     acsReasonMessage: $("#acsReasonMessage").val()
@@ -139,6 +153,7 @@
             $("#acsIss").val("{{ token.payload.token.claims.get('iss') }}");
             $("#acsSub").val("{{ token.payload.token.claims.get('sub') }}");
             $("#acsAttemptNumber").val("{{ token.payload.proctoringAttemptNumber }}");
+            $("#acsDate").val("");
             $("#acsExtraTime").val("");
             $("#acsSeverity").val("");
             $("#acsReasonCode").val("");
