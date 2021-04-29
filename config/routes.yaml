@@ -132,7 +132,7 @@ platform_nrps_delete_membership:
 
 platform_proctoring_list_assessments:
     methods: [GET]
-    path: /platform/prtoctoring/assessments
+    path: /platform/proctoring/assessments
     controller: App\Action\Platform\Proctoring\ListAssessmentsAction
 
 platform_proctoring_create_assessment:
@@ -154,3 +154,28 @@ platform_proctoring_delete_assessment:
     methods: [GET]
     path: /platform/proctoring/assessments/{assessmentIdentifier}/delete
     controller: App\Action\Platform\Proctoring\DeleteAssessmentAction
+
+platform_ags_list_line_items:
+    methods: [GET]
+    path: /platform/ags/line-items
+    controller: App\Action\Platform\Ags\ListLineItemsAction
+
+platform_ags_create_line_item:
+    methods: [GET, POST]
+    path: /platform/ags/line-items/new
+    controller: App\Action\Platform\Ags\CreateLineItemAction
+
+platform_ags_view_line_item:
+    methods: [GET]
+    path: /platform/ags/line-items/{lineItemIdentifier}/view
+    controller: App\Action\Platform\Ags\ViewLineItemAction
+
+platform_ags_edit_line_item:
+    methods: [GET, POST]
+    path: /platform/ags/line-items/{lineItemIdentifier}/edit
+    controller: App\Action\Platform\Ags\EditLineItemAction
+
+platform_ags_delete_line_item:
+    methods: [GET]
+    path: /platform/ags/line-items/{lineItemIdentifier}/delete
+    controller: App\Action\Platform\Ags\DeleteLineItemAction

@@ -1,6 +1,12 @@
 {
     "type": "project",
     "license": "proprietary",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/oat-sa/lib-lti1p3-ags"
+        }
+    ],
     "require": {
         "php": ">=7.2.0",
         "ext-ctype": "*",
@@ -8,6 +14,7 @@
         "ext-json": "*",
         "oat-sa/bundle-health-check": "^2.1",
         "oat-sa/bundle-lti1p3": "^6.1",
+        "oat-sa/lib-lti1p3-ags": "dev-feature/full-ags",
         "oat-sa/lib-lti1p3-basic-outcome": "^4.0",
         "oat-sa/lib-lti1p3-deep-linking": "^4.0",
         "oat-sa/lib-lti1p3-nrps": "^6.0",

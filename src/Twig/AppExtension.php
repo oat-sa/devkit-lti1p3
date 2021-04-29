@@ -81,6 +81,11 @@ class AppExtension extends AbstractExtension
             case 'platform_proctoring_view_assessment':
             case 'platform_proctoring_edit_assessment':
             case 'platform_proctoring_delete_assessment':
+            case 'platform_ags_list_line_items':
+            case 'platform_ags_create_line_item':
+            case 'platform_ags_view_line_item':
+            case 'platform_ags_edit_line_item':
+            case 'platform_ags_delete_line_item':
                 return 'platform';
             default:
                 return null;

@@ -30,7 +30,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Throwable;
-use Twig\Environment;
 
 class DeleteBasicOutcomeAction
 {
@@ -40,21 +39,16 @@ class DeleteBasicOutcomeAction
     /** @var CacheItemPoolInterface */
     private $cache;
 
-    /** @var Environment */
-    private $twig;
-
     /** @var RouterInterface */
     private $router;
 
     public function __construct(
         FlashBagInterface $flashBag,
         CacheItemPoolInterface $cache,
-        Environment $twig,
         RouterInterface $router
     ) {
         $this->flashBag = $flashBag;
         $this->cache = $cache;
-        $this->twig = $twig;
         $this->router = $router;
     }
 

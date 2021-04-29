@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace App\Action\Platform\Proctoring;
 
 use App\Proctoring\AssessmentRepository;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -37,22 +36,16 @@ class ViewAssessmentAction
     /** @var Environment */
     private $twig;
 
-    /** @var FormFactoryInterface */
-    private $formFactory;
-
     public function __construct(
         AssessmentRepository $repository,
-        Environment $twig,
-        FormFactoryInterface $formFactory
+        Environment $twig
     ) {
         $this->repository = $repository;
         $this->twig = $twig;
-        $this->formFactory = $formFactory;
     }
 
     public function __invoke(Request $request, string $assessmentIdentifier): Response
     {
-
         $assessment = $this->repository->find($assessmentIdentifier);
 
         if (null === $assessment) {

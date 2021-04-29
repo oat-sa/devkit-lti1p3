@@ -20,22 +20,22 @@
 
 declare(strict_types=1);
 
-namespace App\Action\Platform\Proctoring;
+namespace App\Action\Platform\Ags;
 
-use App\Proctoring\AssessmentRepository;
+use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-class ListAssessmentsAction
+class ListLineItemsAction
 {
-    /** @var AssessmentRepository */
+    /** @var LineItemRepositoryInterface */
     private $repository;
 
     /** @var Environment */
     private $twig;
 
-    public function __construct(AssessmentRepository $repository, Environment $twig)
+    public function __construct(LineItemRepositoryInterface $repository, Environment $twig)
     {
         $this->repository = $repository;
         $this->twig = $twig;
@@ -45,9 +45,9 @@ class ListAssessmentsAction
     {
         return new Response(
             $this->twig->render(
-                'platform/proctoring/listAssessments.html.twig',
+                'platform/ags/listLineItems.html.twig',
                 [
-                    'assessments' => $this->repository->findAll()
+                    'lineItems' => $this->repository->findBy()->all()
                 ]
             )
         );

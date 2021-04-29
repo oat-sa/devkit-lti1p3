@@ -24,7 +24,6 @@ namespace App\Action\Platform\Nrps;
 
 use App\Nrps\DefaultMembershipFactory;
 use App\Nrps\MembershipRepository;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -38,21 +37,16 @@ class ViewMembershipAction
     /** @var Environment */
     private $twig;
 
-    /** @var FormFactoryInterface */
-    private $formFactory;
-
     /** @var DefaultMembershipFactory */
     private $membershipFactory;
 
     public function __construct(
         MembershipRepository $repository,
         Environment $twig,
-        FormFactoryInterface $formFactory,
         DefaultMembershipFactory $membershipFactory
     ) {
         $this->repository = $repository;
         $this->twig = $twig;
-        $this->formFactory = $formFactory;
         $this->membershipFactory = $membershipFactory;
     }
 

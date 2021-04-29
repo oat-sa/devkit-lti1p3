@@ -27,6 +27,10 @@ services:
     OAT\Library\Lti1p3Core\User\UserIdentityFactoryInterface:
         class: OAT\Library\Lti1p3Core\User\UserIdentityFactory
 
+    # LTI AGS dependencies
+    OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface:
+        class: App\Ags\LineItemRepository
+
     # LTI deep linking dependencies
     OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchRequestBuilder: ~
 

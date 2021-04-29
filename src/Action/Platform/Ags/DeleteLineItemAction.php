@@ -20,9 +20,9 @@
 
 declare(strict_types=1);
 
-namespace App\Action\Platform\Nrps;
+namespace App\Action\Platform\Ags;
 
-use App\Nrps\MembershipRepository;
+use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,12 +31,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Throwable;
 
-class DeleteMembershipAction
+class DeleteLineItemAction
 {
     /** @var FlashBagInterface */
     private $flashBag;
 
-    /** @var MembershipRepository */
+    /** @var LineItemRepositoryInterface */
     private $repository;
 
     /** @var RouterInterface */
@@ -44,7 +44,7 @@ class DeleteMembershipAction
 
     public function __construct(
         FlashBagInterface $flashBag,
-        MembershipRepository $repository,
+        LineItemRepositoryInterface $repository,
         RouterInterface $router
     ) {
         $this->flashBag = $flashBag;
@@ -52,24 +52,24 @@ class DeleteMembershipAction
         $this->router = $router;
     }
 
-    public function __invoke(Request $request, string $membershipIdentifier): Response
+    public function __invoke(Request $request, string $lineItemIdentifier): Response
     {
-        $membership = $this->repository->find($membershipIdentifier);
+        $lineItem = $this->repository->find($lineItemIdentifier);
 
-        if (null === $membership) {
+        if (null === $lineItem) {
             throw new NotFoundHttpException(
-                sprintf('Cannot find membership with id %s', $membershipIdentifier)
+                sprintf('Cannot find line item with id %s', $lineItemIdentifier)
             );
         }
 
         try {
-            $this->repository->delete($membership);
+            $this->repository->delete($lineItemIdentifier);
 
-            $this->flashBag->add('success', sprintf('Membership %s deletion success', $membershipIdentifier));
+            $this->flashBag->add('success', sprintf('Line item %s deletion success', $lineItemIdentifier));
         } catch (Throwable $exception) {
             $this->flashBag->add('error', $exception->getMessage());
         }
 
-        return new RedirectResponse($this->router->generate('platform_nrps_list_memberships'));
+        return new RedirectResponse($this->router->generate('platform_ags_list_line_items'));
     }
 }

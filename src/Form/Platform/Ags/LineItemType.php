@@ -20,17 +20,16 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Platform\Proctoring;
+namespace App\Form\Platform\Ags;
 
-use OAT\Library\Lti1p3Proctoring\Model\AcsControlResultInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AssessmentType extends AbstractType
+class LineItemType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -43,30 +42,33 @@ class AssessmentType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $statuses = array_combine(
-            AcsControlResultInterface::SUPPORTED_STATUSES,
-            AcsControlResultInterface::SUPPORTED_STATUSES
-        );
-
         $builder
             ->add(
-                'assessment_id',
+                'line_item_id',
                 TextType::class,
                 [
                     'label' => 'Identifier',
                     'required' => true,
-                    'help' => 'Assessment identifier',
+                    'help' => 'Line item identifier',
                     'disabled' => $options['edit'] ?? false
                 ]
             )
             ->add(
-                'assessment_status',
-                ChoiceType::class,
+                'line_item_label',
+                TextType::class,
                 [
-                    'label' => 'Status',
+                    'label' => 'Label',
                     'required' => true,
-                    'help' => 'Assessment status',
-                    'choices' => $statuses
+                    'help' => 'Line item label'
+                ]
+            )
+            ->add(
+                'line_item_score_maximum',
+                IntegerType::class,
+                [
+                    'label' => 'Score maximum',
+                    'required' => true,
+                    'help' => 'Line item score maximum'
                 ]
             )
             ->add(

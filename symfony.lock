@@ -75,6 +75,9 @@
     "oat-sa/lib-health-check": {
         "version": "1.1.0"
     },
+    "oat-sa/lib-lti1p3-ags": {
+        "version": "dev-feature/full-ags"
+    },
     "oat-sa/lib-lti1p3-basic-outcome": {
         "version": "4.0.0"
     },

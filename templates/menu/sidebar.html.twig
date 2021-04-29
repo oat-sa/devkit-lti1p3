@@ -20,14 +20,17 @@
             </div>
             <div id="collapsePlatform" class="collapse{{ activeMenu == 'platform' ? ' show' : '' }}" role="tabpanel" aria-labelledby="headingPlatform" data-parent="#accordionEx">
                 <div class="list-group list-group-flush">
+                    <a href="{{ path('platform_proctoring_list_assessments') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-file-signature"></i>&nbsp;ACS assessments
+                    </a>
+                    <a href="{{ path('platform_ags_list_line_items') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-graduation-cap"></i>&nbsp;AGS line items
+                    </a>
                     <a href="{{ path('platform_basic_outcome_list') }}" class="list-group-item list-group-item-action">
                         <i class="fas fa-poll"></i>&nbsp;Basic outcomes
                     </a>
                     <a href="{{ path('platform_nrps_list_memberships') }}" class="list-group-item list-group-item-action">
                         <i class="fas fa-users"></i>&nbsp;NRPS memberships
-                    </a>
-                    <a href="{{ path('platform_proctoring_list_assessments') }}" class="list-group-item list-group-item-action">
-                        <i class="fas fa-file-signature"></i>&nbsp;ACS assessments
                     </a>
                 </div>
             </div>
