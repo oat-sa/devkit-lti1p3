@@ -72,5 +72,8 @@
             "allow-contrib": false,
             "require": "^5.2"
         }
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "^5.2"
     }
 }
