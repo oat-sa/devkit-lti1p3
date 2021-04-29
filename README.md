@@ -21,6 +21,7 @@ This demo application based on the following packages:
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
+- [Tests](#tests)
 
 ## Live demo
  
@@ -95,3 +96,11 @@ You can access:
 | demo_lti1p3_nginx                    | [http://localhost:8888](http://localhost:8888) |
 | demo_lti1p3_redis_commander          | [http://localhost:8081](http://localhost:8081) |
 
+## Tests
+
+To run tests:
+
+```console
+$ bin/phpunit
+```
+**Note**: see [phpunit.xml.dist](phpunit.xml.dist) for available test suites.
