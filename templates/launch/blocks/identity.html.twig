@@ -56,7 +56,11 @@
 <div class="row">
     <div class="col-md-12">
         <dl class="list-unstyled">
-            <dd>{{ token.payload.roles|join(', ')|default('n/a') }}</dd>
+            {% for role in token.payload.roles  %}
+                <dd><code>{{ role }}</code></dd>
+            {% else %}
+                <dd>n/a</dd>
+            {% endfor %}
         </dl>
     </div>
 </div>
