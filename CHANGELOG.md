@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.10.0
+-----
+
+* Added platform CRUD for AGS line items, result and scores
+* Added AGS services handling
+
 1.9.1
 -----
 

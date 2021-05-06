@@ -77,7 +77,8 @@ class CreateLineItemAction
             $lineItem = new LineItem(
                  $formData['line_item_score_maximum'],
                  $formData['line_item_label'],
-                 $formData['line_item_id']
+                 $formData['line_item_id'],
+                 $formData['line_item_context_id']
             );
 
             $this->repository->save($lineItem);

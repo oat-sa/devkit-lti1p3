@@ -40,7 +40,7 @@ class LineItemRepository implements LineItemRepositoryInterface
         $this->cache = $cache;
     }
 
-    public function find(string $lineItemIdentifier): ?LineItemInterface
+    public function find(string $lineItemIdentifier, ?string $contextIdentifier = null): ?LineItemInterface
     {
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
@@ -48,7 +48,14 @@ class LineItemRepository implements LineItemRepositoryInterface
             $lineItems = $cache->get();
 
             if (array_key_exists($lineItemIdentifier, $lineItems)) {
-                return $lineItems[$lineItemIdentifier];
+                /** @var LineItemInterface $lineItem */
+                $lineItem = $lineItems[$lineItemIdentifier];
+
+                if (null !== $contextIdentifier) {
+                    return $lineItem->getContextIdentifier() === $contextIdentifier ? $lineItem : null;
+                }
+
+                return $lineItem;
             }
         }
 
@@ -72,6 +79,7 @@ class LineItemRepository implements LineItemRepositoryInterface
 
             $lineItems = $cache->get();
 
+            /** @var LineItemInterface $lineItem */
             foreach ($lineItems as $lineItem) {
                 $found = true;
 
@@ -96,11 +104,11 @@ class LineItemRepository implements LineItemRepositoryInterface
                 }
             }
 
-            $hasNext = ($limit ? intval($limit) : 0) >= sizeof($lineItems);
+            $hasNext = ($limit ?: 0) >= sizeof($lineItems);
         }
 
         return new LineItemCollection(
-            array_slice($foundLineItems, $offset ? intval($offset) : 0, $limit ? intval($limit) : null),
+            array_slice($foundLineItems, $offset ?: 0, $limit),
             $hasNext
         );
     }
@@ -120,16 +128,20 @@ class LineItemRepository implements LineItemRepositoryInterface
         return $lineItem;
     }
 
-    public function delete(string $lineItemIdentifier): void
+    public function delete(string $lineItemIdentifier, ?string $contextIdentifier = null): void
     {
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
         $lineItems = $cache->get();
 
-        unset($lineItems[$lineItemIdentifier]);
+        $lineItem = $this->find($lineItemIdentifier, $contextIdentifier);
 
-        $cache->set($lineItems);
+        if (null !== $lineItem) {
+            unset($lineItems[$lineItem->getIdentifier()]);
 
-        $this->cache->save($cache);
+            $cache->set($lineItems);
+
+            $this->cache->save($cache);
+        }
     }
 }

@@ -34,7 +34,7 @@
                             <dt>Label</dt>
                             <dd>{{ lineItem.label }}</dd>
                             <dt>AGS service url</dt>
-                            {% set agsUrl = 'todo' %}
+                            {% set agsUrl = absolute_app_url('platform_service_ags_get_line_item', {'lineItemIdentifier': lineItem.identifier, 'contextIdentifier': lineItem.contextIdentifier}) %}
                             <dd>
                                 <a href="{{ agsUrl }}" target="_blank">{{ agsUrl }}</a>
                             </dd>
@@ -42,6 +42,10 @@
                     </div>
                     <div class="col-md-6">
                         <dl class="list-unstyled">
+                            <dt>Context identifier</dt>
+                            <dd>
+                                <code>{{ lineItem.contextIdentifier }}</code>
+                            </dd>
                             <dt>Score maximum</dt>
                             <dd>
                                 <span class="badge badge-pill badge-primary">

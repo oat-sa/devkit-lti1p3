@@ -23,8 +23,10 @@ declare(strict_types=1);
 namespace App\Twig;
 
 use App\Generator\UrlGenerator;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
@@ -45,7 +47,14 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('absolute_app_url', [$this, 'getAbsoluteAppUrl']),
-            new TwigFunction('getActiveMenu', [$this, 'getActiveMenu']),
+            new TwigFunction('get_active_menu', [$this, 'getActiveMenu']),
+        ];
+    }
+
+    public function getFilters()
+    {
+        return [
+            new TwigFilter('scrap_app_dom', [$this, 'scrapAppDom']),
         ];
     }
 
@@ -90,5 +99,18 @@ class AppExtension extends AbstractExtension
             default:
                 return null;
         }
+    }
+
+    public function scrapAppDom(string $dom): string
+    {
+        $crawler = new Crawler($dom);
+
+        $filter = $crawler->filter('body.lti1p3-demo-app div.lti1p3-demo-app-content');
+
+        if ($filter->count() !== 0) {
+            return $filter->first()->html();
+        }
+
+        return $dom;
     }
 }

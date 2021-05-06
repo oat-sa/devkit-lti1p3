@@ -5,7 +5,7 @@ imports:
 
 parameters:
     application_host: '%env(resolve:APP_HOST)%'
-    application_version: '1.9.1'
+    application_version: '1.10.0'
 
 services:
     _defaults:
@@ -30,6 +30,28 @@ services:
     # LTI AGS dependencies
     OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface:
         class: App\Ags\LineItemRepository
+
+    OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\ListLineItemServiceServerRequestHandler:
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
+
+    OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\GetLineItemServiceServerRequestHandler:
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
+
+    app.service.ags_list_line_items_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\ListLineItemServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
+
+    app.service.ags_get_line_item_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\GetLineItemServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
 
     # LTI deep linking dependencies
     OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchRequestBuilder: ~

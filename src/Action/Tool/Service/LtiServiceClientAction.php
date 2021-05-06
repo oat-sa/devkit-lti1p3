@@ -24,6 +24,8 @@ namespace App\Action\Tool\Service;
 
 use App\Form\Generator\FormShareUrlGenerator;
 use App\Form\Tool\Service\LtiServiceClientType;
+use GuzzleHttp\Exception\RequestException;
+use OAT\Library\Lti1p3Core\Exception\LtiExceptionInterface;
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3Core\Service\Client\LtiServiceClientInterface;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -101,7 +103,15 @@ class LtiServiceClientAction
                 $options['body'] = $body;
             }
 
-            $response = $this->client->request($registration, $method, $serviceUrl, $options, $scopes);
+            try {
+                $response = $this->client->request($registration, $method, $serviceUrl, $options, $scopes);
+            } catch (LtiExceptionInterface $exception) {
+                if ($exception->getPrevious() instanceof RequestException){
+                    $response = $exception->getPrevious()->getResponse();
+                } else {
+                    throw $exception;
+                }
+            }
 
             $responseContentType = strtolower($response->getHeaderLine('Content-Type'));
 

@@ -75,10 +75,20 @@ platform_service_acs:
     path: /platform/service/acs/{assessmentIdentifier}
     controller: app.service.proctoring_acs_controller
 
-platform_basic_outcome_results:
+platform_service_basic_outcome:
     methods: [POST]
     path: /platform/service/basic-outcome
     controller: app.service.basic_outcome_controller
+
+platform_service_ags_list_line_items:
+    methods: [GET]
+    path: /platform/service/ags/{contextIdentifier}/lineitems
+    controller: app.service.ags_list_line_items_controller
+
+platform_service_ags_get_line_item:
+    methods: [GET]
+    path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}
+    controller: app.service.ags_get_line_item_controller
 
 platform_ags_list_scores:
     methods: [GET]

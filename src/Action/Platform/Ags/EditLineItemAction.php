@@ -78,6 +78,7 @@ class EditLineItemAction
             LineItemType::class,
             [
                 'line_item_id' => $lineItem->getIdentifier(),
+                'line_item_context_id' => $lineItem->getContextIdentifier(),
                 'line_item_label' => $lineItem->getLabel(),
                 'line_item_score_maximum' => $lineItem->getScoreMaximum(),
             ],
@@ -94,7 +95,8 @@ class EditLineItemAction
 
             $lineItem
                 ->setLabel($formData['line_item_label'])
-                ->setScoreMaximum($formData['line_item_score_maximum']);
+                ->setScoreMaximum($formData['line_item_score_maximum'])
+                ->setContextIdentifier($formData['line_item_context_id'] ?? null);
 
             $this->repository->save($lineItem);
 

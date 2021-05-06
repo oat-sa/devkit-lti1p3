@@ -11,13 +11,16 @@
         {{ form_start(form) }}
         {{ form_errors(form) }}
         <div class="form-row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 {{ form_row(form.line_item_id) }}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
+                {{ form_row(form.line_item_context_id) }}
+            </div>
+            <div class="col-md-3">
                 {{ form_row(form.line_item_label) }}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 {{ form_row(form.line_item_score_maximum) }}
             </div>
         </div>

@@ -54,6 +54,15 @@ class LineItemType extends AbstractType
                 ]
             )
             ->add(
+                'line_item_context_id',
+                TextType::class,
+                [
+                    'label' => 'Context identifier',
+                    'required' => true,
+                    'help' => 'Line item context identifier'
+                ]
+            )
+            ->add(
                 'line_item_label',
                 TextType::class,
                 [
