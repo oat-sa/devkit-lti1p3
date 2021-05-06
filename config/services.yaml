@@ -39,6 +39,10 @@ services:
         arguments:
             - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
 
+    OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\DeleteLineItemServiceServerRequestHandler:
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
+
     app.service.ags_list_line_items_controller:
         class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
         factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
@@ -51,6 +55,13 @@ services:
         factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
         arguments:
             - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\GetLineItemServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
+
+    app.service.ags_delete_line_item_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\DeleteLineItemServiceServerRequestHandler'
         tags: [ 'controller.service_arguments' ]
 
     # LTI deep linking dependencies
