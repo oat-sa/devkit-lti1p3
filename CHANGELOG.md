@@ -4,6 +4,7 @@ CHANGELOG
 1.10.0
 -----
 
+* Added incident time datepicker field for ACS tab
 * Added platform CRUD for AGS line items, result and scores
 * Added AGS services handling
 * Added optional uri parameter for proctoring start assessment endpoint  

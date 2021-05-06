@@ -14,7 +14,7 @@
     </div>
     <div class="card-body">
         {% if assessments|length > 0 %}
-            <table id="memberships" class="table table-striped table-bordered" style="width:100%">
+            <table id="assessments" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                 <thead>
                 <tr>
                     <th>Identifier</th>
@@ -126,12 +126,25 @@
 
         {% if assessments|length > 0 %}
         $(document).ready(function() {
-            $('#memberships').DataTable(
+            $('#assessments').DataTable(
                 {
-                    "language": {
-                        "paginate": {
-                            "previous": "<",
-                            "next": ">",
+                    responsive: {
+                        details: {
+                            display: $.fn.dataTable.Responsive.display.modal( {
+                                header: function ( row ) {
+                                    var data = row.data();
+                                    return 'Details for ' + data[0];
+                                }
+                            } ),
+                            renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                                tableClass: 'table'
+                            } )
+                        }
+                    },
+                    language: {
+                        paginate: {
+                            previous: "<",
+                            next: ">"
                         }
                     }
                 }

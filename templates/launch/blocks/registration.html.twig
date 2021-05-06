@@ -11,9 +11,9 @@
             <dd>{{ token.registration.platform.name }}</dd>
             <dt>Audience</dt>
             <dd>{{ token.registration.platform.audience }}</dd>
-            <dt>OAuth2 Access Token Url</dt>
+            <dt>OAuth2 access token url</dt>
             <dd><a target="_blank" href="{{ token.registration.platform.oAuth2AccessTokenUrl }}">{{ token.registration.platform.oAuth2AccessTokenUrl }}</a></dd>
-            <dt>OIDC Authentication Url</dt>
+            <dt>OIDC authentication url</dt>
             <dd><a href="{{ token.registration.platform.oidcAuthenticationUrl }}">{{ token.registration.platform.oidcAuthenticationUrl }}</a></dd>
         </dl>
     </div>
@@ -25,9 +25,9 @@
         <dl class="list-unstyled">
             <dt>Identifier</dt>
             <dd><code>{{ token.registration.identifier }}</code></dd>
-            <dt>OAuth2 Client ID</dt>
+            <dt>OAuth2 client id</dt>
             <dd>{{ token.registration.clientId }}</dd>
-            <dt>Platform JWKS Url</dt>
+            <dt>Platform JWKS url</dt>
             <dd>
                 {% if token.registration.platformJwksUrl %}
                     <a target="_blank" href="{{ token.registration.platformJwksUrl }}">{{ token.registration.platformJwksUrl }}</a>
@@ -35,7 +35,7 @@
                     n/a
                 {% endif %}
             </dd>
-            <dt>Tool JWKS Url</dt>
+            <dt>Tool JWKS url</dt>
             <dd>
                 {% if token.registration.toolJwksUrl %}
                     <a target="_blank" href="{{ token.registration.toolJwksUrl }}">{{ token.registration.toolJwksUrl }}</a>
@@ -57,9 +57,9 @@
             <dd>{{ token.registration.tool.name }}</dd>
             <dt>Audience</dt>
             <dd>{{ token.registration.tool.audience }}</dd>
-            <dt>Default Launch Url</dt>
+            <dt>Default launch url</dt>
             <dd><a target="_blank" href="{{ token.registration.tool.launchUrl }}">{{ token.registration.tool.launchUrl }}</a></dd>
-            <dt>Deep Launch Url</dt>
+            <dt>Deep linking url</dt>
             <dd>
                 {% if token.registration.tool.deepLinkingUrl %}
                     <a target="_blank" href="{{ token.registration.tool.deepLinkingUrl }}">{{ token.registration.tool.deepLinkingUrl }}</a>
@@ -67,7 +67,7 @@
                     n/a
                 {% endif %}
             </dd>
-            <dt>OIDC Initiation Url</dt>
+            <dt>OIDC initiation url</dt>
             <dd>
                 {% if token.registration.tool.oidcInitiationUrl %}
                     <a target="_blank" href="{{ token.registration.tool.oidcInitiationUrl }}">{{ token.registration.tool.oidcInitiationUrl }}</a>

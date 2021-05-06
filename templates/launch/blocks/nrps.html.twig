@@ -4,9 +4,9 @@
         NRPS claim provided in message
     </div>
     <dl class="list-unstyled">
-        <dt>Claim Service Url</dt>
+        <dt>Claim service url</dt>
         <dd><a href="{{ token.payload.nrps.contextMembershipsUrl }}" target="_blank">{{ token.payload.nrps.contextMembershipsUrl }}</a></dd>
-        <dt>Claim Service Versions</dt>
+        <dt>Claim service versions</dt>
         <dd><code>{{ token.payload.nrps.serviceVersions|join(', ') }}</code></dd>
     </dl>
     <h6 class="card-title">

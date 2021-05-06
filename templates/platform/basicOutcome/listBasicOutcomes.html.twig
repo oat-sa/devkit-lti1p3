@@ -9,7 +9,7 @@
     </div>
     <div class="card-body">
         {% if basicOutcomes|length > 0 %}
-            <table id="basicOutcomes" class="table table-striped table-bordered" style="width:100%">
+            <table id="basicOutcomes" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                 <thead>
                 <tr>
                     <th>Identifier</th>
@@ -65,10 +65,23 @@
         $(document).ready(function() {
             $('#basicOutcomes').DataTable(
                 {
-                    "language": {
-                        "paginate": {
-                            "previous": "<",
-                            "next": ">",
+                    responsive: {
+                        details: {
+                            display: $.fn.dataTable.Responsive.display.modal( {
+                                header: function ( row ) {
+                                    var data = row.data();
+                                    return 'Details for ' + data[0];
+                                }
+                            } ),
+                            renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                                tableClass: 'table'
+                            } )
+                        }
+                    },
+                    language: {
+                        paginate: {
+                            previous: "<",
+                            next: ">"
                         }
                     }
                 }

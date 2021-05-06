@@ -16,9 +16,9 @@
         </h6>
         <hr/>
         <dl class="list-unstyled">
-            <dt>LTI Version</dt>
+            <dt>LTI version</dt>
             <dd><code>{{  token.payload.version }}</code></dd>
-            <dt>LTI Message Type</dt>
+            <dt>LTI message type</dt>
             <dd><code>{{ token.payload.messageType }}</code></dd>
         </dl>
     </div>
@@ -31,7 +31,7 @@
         <dl class="list-unstyled">
             <dd>
                 {% for success in token.validationResult.successes %}
-                    <span class="badge badge-pill badge-success"><i class="fas fa-check"></i></span>&nbsp{{ success }}<br/>
+                    <span class="badge badge-pill badge-success"><i class="fas fa-check-circle"></i></span>&nbsp{{ success }}<br/>
                 {% else %}
                     n/a
                 {% endfor %}
