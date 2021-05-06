@@ -96,6 +96,11 @@ platform_service_ags_delete_line_item:
     path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}
     controller: app.service.ags_delete_line_item_controller
 
+platform_service_ags_save_line_item:
+    methods: [POST, PUT]
+    path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}
+    controller: app.service.ags_save_line_item_controller
+
 platform_ags_list_scores:
     methods: [GET]
     path: /platform/service/ags-list-scores

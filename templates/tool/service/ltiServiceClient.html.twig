@@ -62,63 +62,69 @@
             <div class="card-body">
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-item" role="tabpanel" aria-labelledby="pills-item-tab">
-                        {% if serviceData.format == 'json' %}
-                            <div class="input-group mb-3">
-                                <input type="text" id="responseSearch" class="form-control" placeholder="Search">
-                                <div class="input-group-append">
-                                    <button id="responseSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                        {% if serviceData.body is not empty %}
+                            {% if serviceData.format == 'json' %}
+                                <div class="input-group mb-3">
+                                    <input type="text" id="responseSearch" class="form-control" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button id="responseSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <pre>
+                                <pre>
                                 <code id="responseZone" class="language-json">{{ serviceData.body|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
                             </pre>
-                        {% elseif serviceData.format == 'xml' %}
-                            <div class="input-group mb-3">
-                                <input type="text" id="responseSearch" class="form-control" placeholder="Search">
-                                <div class="input-group-append">
-                                    <button id="responseSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                            {% elseif serviceData.format == 'xml' %}
+                                <div class="input-group mb-3">
+                                    <input type="text" id="responseSearch" class="form-control" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button id="responseSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <pre>
+                                <pre>
                                 <code id="responseZone" class="language-xml">{{ serviceData.body }}</code>
                             </pre>
-                        {% else %}
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#htmlResponseModal">
-                                        <i class="fas fa-eye"></i>&nbsp;Preview
-                                    </button>
+                            {% else %}
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#htmlResponseModal">
+                                            <i class="fas fa-eye"></i>&nbsp;Preview
+                                        </button>
+                                    </div>
+                                    <input type="text" id="responseSearch" class="form-control" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button id="responseSearchReset" class="btn-secondary btn">
+                                            <i class="fas fa-undo-alt"></i>&nbsp;Reset
+                                        </button>
+                                    </div>
                                 </div>
-                                <input type="text" id="responseSearch" class="form-control" placeholder="Search">
-                                <div class="input-group-append">
-                                    <button id="responseSearchReset" class="btn-secondary btn">
-                                        <i class="fas fa-undo-alt"></i>&nbsp;Reset
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="modal fade" id="htmlResponseModal" tabindex="-1" role="dialog" aria-labelledby="htmlResponseModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-eye"></i>&nbsp;Response preview</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="container">
-                                                {{ serviceData.body|scrap_app_dom|raw }}
+                                <div class="modal fade" id="htmlResponseModal" tabindex="-1" role="dialog" aria-labelledby="htmlResponseModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-eye"></i>&nbsp;Response preview</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                                            <div class="modal-body">
+                                                <div class="container">
+                                                    {{ serviceData.body|scrap_app_dom|raw }}
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <pre>
+                                <pre>
                                 <code id="responseZone" class="language-html">{{ serviceData.body }}</code>
                             </pre>
+                            {% endif %}
+                        {% else %}
+                            <div class="alert alert-dark" role="alert">
+                                <i class="fas fa-ban"></i>&nbsp;Empty response body
+                            </div>
                         {% endif %}
                     </div>
                     <div class="tab-pane fade" id="pills-message" role="tabpanel" aria-labelledby="pills-message-tab">
