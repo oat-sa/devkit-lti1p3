@@ -53,14 +53,7 @@
                 &nbsp;<a class="navbar-brand" href="#">{% block nav_title %}{% endblock %}</a>
             </nav>
             <div class="container-fluid lti1p3-demo-app-content">
-                {% for message in app.flashes('success') %}
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="fas fa-check"></i>&nbsp;{{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                {% endfor %}
+                {% include 'flash/flashes.html.twig' %}
                 {% block body %}{% endblock %}
             </div>
         </div>

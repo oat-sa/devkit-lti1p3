@@ -55,12 +55,16 @@
 <hr/>
 <div class="row">
     <div class="col-md-12">
-        <dl class="list-unstyled">
-            {% for role in token.payload.roles  %}
-                <dd><code>{{ role }}</code></dd>
-            {% else %}
-                <dd>n/a</dd>
-            {% endfor %}
-        </dl>
+        {% if token.payload.roles is not empty  %}
+            <dl class="list-unstyled">
+                {% for role in token.payload.roles  %}
+                    <dd><code>{{ role }}</code></dd>
+                {% endfor %}
+            </dl>
+        {% else %}
+            <div class="alert alert-dark" role="alert">
+                <i class="fas fa-ban"></i>&nbsp;No roles provided
+            </div>
+        {% endif %}
     </div>
 </div>

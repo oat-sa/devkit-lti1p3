@@ -126,14 +126,27 @@ class LtiServiceClientAction
                 $body = (string) $response->getBody();
             }
 
+            $serviceStatusCode = $response->getStatusCode();
+
             $serviceData = [
                 'headers' => $response->getHeaders(),
-                'code' => $response->getStatusCode(),
+                'code' => $serviceStatusCode,
                 'format' => $format,
                 'body' => $body
             ];
 
-            $this->flashBag->add('success', 'LTI service called with success');
+            if ($serviceStatusCode >= 200 && $serviceStatusCode < 300) {
+                $flashType = 'success';
+                $flashMessage = sprintf('LTI service success (%s)', $serviceStatusCode);
+            } elseif ($serviceStatusCode >= 500) {
+                $flashType = 'error';
+                $flashMessage = sprintf('LTI service server error (%s)', $serviceStatusCode);
+            } else {
+                $flashType = 'warning';
+                $flashMessage = sprintf('LTI service client error (%s)', $serviceStatusCode);
+            }
+
+            $this->flashBag->add($flashType, $flashMessage);
         } else {
             $form->setData($request->query->all());
         }
