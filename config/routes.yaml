@@ -19,8 +19,9 @@ platform_message_launch_proctoring:
     controller: App\Action\Platform\Message\ProctoringLaunchAction
 
 platform_message_proctoring_return:
-    path: /platform/message/return/proctoring
+    path: /platform/message/return/proctoring/{identifier}
     controller: App\Action\Platform\Message\ProctoringReturnAction
+    defaults: { identifier: '' }
 
 tool_message_launch:
     path: /tool/launch

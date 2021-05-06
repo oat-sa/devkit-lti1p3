@@ -6,6 +6,8 @@ CHANGELOG
 
 * Added platform CRUD for AGS line items, result and scores
 * Added AGS services handling
+* Added optional uri parameter for proctoring start assessment endpoint  
+* Updated LTI service client
 
 1.9.1
 -----
