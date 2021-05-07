@@ -20,7 +20,6 @@
                     <th>Identifier</th>
                     <th>Status</th>
                     <th>ACS Controls</th>
-                    <th>ACS</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -39,17 +38,17 @@
                             {{ assessment.controls|length }}
                         </td>
                         <td style="width:1px;white-space:nowrap;">
-                            <a class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#acsServiceUrlModal" data-acs-service-url="{{ absolute_app_url('platform_service_acs', {'assessmentIdentifier': assessment.identifier}) }}">
-                                <i class="fas fa-link"></i>&nbsp;ACS
-                            </a>
-                        </td>
-                        <td style="width:1px;white-space:nowrap;">
-                            <a class="btn btn-primary btn-sm" href="{{ path('platform_proctoring_view_assessment', {'assessmentIdentifier': assessment.identifier}) }}">
-                                <i class="fas fa-info-circle"></i>&nbsp;Details
-                            </a>
-                            <a class="btn btn-danger text-white btn-sm" href="{{ path('platform_proctoring_delete_assessment', {'assessmentIdentifier': assessment.identifier}) }}" onclick="return confirm('Are you sure?')">
-                                <i class="fas fa-trash-alt"></i>&nbsp;Delete
-                            </a>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a class="btn btn-info text-white" data-toggle="modal" data-target="#acsServiceUrlModal" data-acs-service-url="{{ absolute_app_url('platform_service_acs', {'assessmentIdentifier': assessment.identifier}) }}">
+                                    <i class="fas fa-link"></i>&nbsp;ACS
+                                </a>
+                                <a class="btn btn-primary" href="{{ path('platform_proctoring_view_assessment', {'assessmentIdentifier': assessment.identifier}) }}">
+                                    <i class="fas fa-info-circle"></i>&nbsp;Details
+                                </a>
+                                <a class="btn btn-danger text-white" href="{{ path('platform_proctoring_delete_assessment', {'assessmentIdentifier': assessment.identifier}) }}" onclick="return confirm('Are you sure?')">
+                                    <i class="fas fa-trash-alt"></i>&nbsp;Delete
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}
@@ -80,11 +79,13 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="acsServiceUrlCopy" type="button" class="btn btn-secondary">
-                    <i id="acsServiceUrlCopyLogo" class="fas fa-copy"></i>&nbsp;
-                    <span id="acsServiceUrlCopyText">Copy to clipboard</span>
-                </button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button id="acsServiceUrlCopy" type="button" class="btn btn-info">
+                        <i id="acsServiceUrlCopyLogo" class="fas fa-copy"></i>&nbsp;
+                        <span id="acsServiceUrlCopyText">Copy to clipboard</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -102,7 +103,7 @@
             $('#acsServiceUrlField').select();
             document.execCommand("copy");
 
-            $('#acsServiceUrlCopy').removeClass('btn-secondary');
+            $('#acsServiceUrlCopy').removeClass('btn-info');
             $('#acsServiceUrlCopy').addClass('btn-success');
             $('#acsServiceUrlCopyLogo').removeClass('fa-copy');
             $('#acsServiceUrlCopyLogo').addClass('fa-check');
@@ -110,7 +111,7 @@
             setTimeout(
                 function() {
                     $('#acsServiceUrlCopy').removeClass('btn-success');
-                    $('#acsServiceUrlCopy').addClass('btn-secondary');
+                    $('#acsServiceUrlCopy').addClass('btn-info');
                     $('#acsServiceUrlCopyLogo').removeClass('fa-check');
                     $('#acsServiceUrlCopyLogo').addClass('fa-copy');
                     $('#acsServiceUrlCopyText').html('Copy to clipboard');

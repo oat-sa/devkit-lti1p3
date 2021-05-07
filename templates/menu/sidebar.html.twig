@@ -16,7 +16,7 @@
         <div class="card text-white bg-dark">
             <div class="card-header dropdown-toggle" role="tab" id="headingPlatform" data-toggle="collapse" data-parent="#accordionEx" href="#collapsePlatform"
                  aria-expanded="{{ activeMenu == 'platform' ? 'true' : 'false' }}" aria-controls="collapsePlatform">
-                <h6><i class="fas fa-cubes"></i>&nbsp;&nbsp;Demo platform</h6>
+                <h6><i class="fas fa-cubes"></i>&nbsp;&nbsp;Platform</h6>
             </div>
             <div id="collapsePlatform" class="collapse{{ activeMenu == 'platform' ? ' show' : '' }}" role="tabpanel" aria-labelledby="headingPlatform" data-parent="#accordionEx">
                 <div class="list-group list-group-flush">
@@ -63,19 +63,6 @@
                 <div class="list-group list-group-flush">
                     <a href="{{ path('tool_service_client') }}" class="list-group-item list-group-item-action">
                         <i class="fas fa-sign-in-alt"></i>&nbsp;LTI service client
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="card text-white bg-dark">
-            <div class="card-header dropdown-toggle" role="tab" id="headingStorage" data-toggle="collapse" data-parent="#accordionEx" href="#collapseStorage"
-                 aria-expanded="false" aria-controls="collapseStorage">
-                <h6><i class="fas fa-database"></i>&nbsp;&nbsp;Storage</h6>
-            </div>
-            <div id="collapseStorage" class="collapse" role="tabpanel" aria-labelledby="headingStorage" data-parent="#accordionEx">
-                <div class="list-group list-group-flush">
-                    <a href="{{ redis_commander_url }}" target="_blank" class="list-group-item list-group-item-action">
-                        <i class="fas fa-server"></i>&nbsp;Redis cache
                     </a>
                 </div>
             </div>

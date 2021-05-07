@@ -15,11 +15,13 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="shareCopy" type="button" class="btn btn-secondary">
-                    <i id="shareCopyLogo" class="fas fa-copy"></i>&nbsp;
-                    <span id="shareCopyText">Copy to clipboard</span>
-                </button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button id="shareCopy" type="button" class="btn btn-info">
+                        <i id="shareCopyLogo" class="fas fa-copy"></i>&nbsp;
+                        <span id="shareCopyText">Copy to clipboard</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -30,7 +32,7 @@
         $('#shareUrlField').select();
         document.execCommand("copy");
 
-        $('#shareCopy').removeClass('btn-secondary');
+        $('#shareCopy').removeClass('btn-info');
         $('#shareCopy').addClass('btn-success');
         $('#shareCopyLogo').removeClass('fa-copy');
         $('#shareCopyLogo').addClass('fa-check');
@@ -38,7 +40,7 @@
         setTimeout(
             function() {
                 $('#shareCopy').removeClass('btn-success');
-                $('#shareCopy').addClass('btn-secondary');
+                $('#shareCopy').addClass('btn-info');
                 $('#shareCopyLogo').removeClass('fa-check');
                 $('#shareCopyLogo').addClass('fa-copy');
                 $('#shareCopyText').html('Copy to clipboard');

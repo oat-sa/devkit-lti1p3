@@ -26,8 +26,10 @@
         </div>
     </div>
     <div class="card-footer">
-        {{ form_widget(form.submit) }}
-        <a href="{{ path('platform_ags_list_line_items') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Cancel</a>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            {{ form_widget(form.submit) }}
+            <a href="{{ path('platform_ags_list_line_items') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Cancel</a>
+        </div>
     </div>
     {{ form_end(form) }}
 </div>

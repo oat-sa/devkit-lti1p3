@@ -62,15 +62,17 @@
         </div>
     </div>
     <div class="card-footer">
-        <a class="btn btn-primary text-white" href="{{ path('platform_proctoring_edit_assessment', {'assessmentIdentifier': assessment.identifier}) }}">
-            <i class="fas fa-edit"></i>&nbsp;Edit
-        </a>
-        <a class="btn btn-danger text-white" href="{{ path('platform_proctoring_delete_assessment', {'assessmentIdentifier': assessment.identifier}) }}" onclick="return confirm('Are you sure?')">
-            <i class="fas fa-trash-alt"></i>&nbsp;Delete
-        </a>
-        <a class="btn btn-secondary text-white" href="{{ path('platform_proctoring_list_assessments') }}">
-            <i class="fas fa-undo-alt"></i>&nbsp;Back to list
-        </a>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <a class="btn btn-primary text-white" href="{{ path('platform_proctoring_edit_assessment', {'assessmentIdentifier': assessment.identifier}) }}">
+                <i class="fas fa-edit"></i>&nbsp;Edit
+            </a>
+            <a class="btn btn-danger text-white" href="{{ path('platform_proctoring_delete_assessment', {'assessmentIdentifier': assessment.identifier}) }}" onclick="return confirm('Are you sure?')">
+                <i class="fas fa-trash-alt"></i>&nbsp;Delete
+            </a>
+            <a class="btn btn-secondary text-white" href="{{ path('platform_proctoring_list_assessments') }}">
+                <i class="fas fa-undo-alt"></i>&nbsp;Back to list
+            </a>
+        </div>
     </div>
 </div>
 {% endblock body %}

@@ -3,17 +3,24 @@
         <i class="fas fa-poll"></i>&nbsp;
         Basic outcome claim provided in message
     </div>
-    <dl class="list-unstyled">
-        <dt>Claim service url</dt>
-        <dd><a href="{{ token.payload.basicOutcome.lisOutcomeServiceUrl }}" target="_blank">{{ token.payload.basicOutcome.lisOutcomeServiceUrl }}</a></dd>
-        <dt>Claim result sourced id</dt>
-        <dd><code>{{ token.payload.basicOutcome.lisResultSourcedId }}</code></dd>
-    </dl>
-    <h6 class="card-title">
-        <i class="fas fa-sign-in-alt"></i>&nbsp;Basic outcome service
-    </h6>
-    <hr/>
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="list-unstyled">
+                <dt>Claim service url</dt>
+                <dd><a href="{{ token.payload.basicOutcome.lisOutcomeServiceUrl }}" target="_blank">{{ token.payload.basicOutcome.lisOutcomeServiceUrl }}</a></dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="list-unstyled">
+                <dt>Claim result sourced id</dt>
+                <dd><code>{{ token.payload.basicOutcome.lisResultSourcedId }}</code></dd>
+            </dl>
+        </div>
+    </div>
     <div class="card bg-light">
+        <div class="card-header">
+            <i class="fas fa-sign-in-alt"></i>&nbsp;Basic outcome service request
+        </div>
         <div class="card-body">
             <div class="form-row">
                 <div class="col col col-md-8">
@@ -37,24 +44,24 @@
                         <small id="boOperationHelp" class="form-text text-muted">Operation type</small>
                     </div>
                 </div>
-                <div class="col col col-md-3">
+                <div class="col col col-md-4">
                     <input type="text" id="boScore" class="form-control" placeholder="Score" aria-describedby="boScoreHelp">
                     <small id="boScoreHelp" class="form-text text-muted">Score</small>
                 </div>
-                <div class="col col col-md-3">
+                <div class="col col col-md-4">
                     <input type="text" id="boLanguage"class="form-control" placeholder="Language" aria-describedby="boLanguageHelp">
                     <small id="boLanguageHelp" class="form-text text-muted">Language</small>
                 </div>
-                <div class="col col col-md-2">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button id="boLoad" class="btn-primary btn">
-                            <i id="boCall" class="fas fa-sign-in-alt"></i>&nbsp;Call
-                        </button>
-                        <button id="boReset" class="btn-secondary btn">
-                            <i class="fas fa-undo"></i>&nbsp;Reset
-                        </button>
-                    </div>
-                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button id="boLoad" class="btn-primary btn">
+                    <i id="boCall" class="fas fa-sign-in-alt"></i>&nbsp;Call basic outcome service
+                </button>
+                <button id="boReset" class="btn-secondary btn">
+                    <i class="fas fa-undo"></i>&nbsp;Reset
+                </button>
             </div>
         </div>
     </div>
@@ -82,11 +89,21 @@
                     $("#boZone").html(result);
                 },
                 error: function(result){
+                    console.log(result);
                     $("#boCall").removeClass("fa-spinner fa-spin");
                     $("#boCall").addClass("fa-sign-in-alt");
                     $("#boZone").html(
-                        '<br/><div class="alert alert-danger" role="alert">' +
-                        '<i class="fas fa-exclamation-circle"></i>&nbsp;' + result.responseJSON.message +
+                        '<br/><div class="card bg-light">' +
+                            '<div class="card-header"><i class="fas fa-poll"></i>&nbsp;Basic outcome service response</div>' +
+                            '<div class="card-body">' +
+                                '<h5 class="card-title"></h5>' +
+                                '<div class="alert alert-danger" role="alert">'+
+                                '<i class="fas fa-exclamation-circle"></i>&nbsp;Error ' +
+                                result.responseJSON.code +
+                                ': ' +
+                                result.responseJSON.message +
+                                '</div>' +
+                            '</div>' +
                         '</div>'
                     );
                 }

@@ -9,12 +9,14 @@
             <i class="fas fa-users"></i>&nbsp;Default membership
         </div>
         <div>
-            <a class="btn btn-info text-white" data-toggle="modal" data-target="#membershipServiceUrlModal" data-nrps-service-url="{{ absolute_app_url('platform_service_nrps', {'contextIdentifier': defaultMembership.context.identifier, 'membershipIdentifier': defaultMembership.identifier}) }}">
-                <i class="fas fa-link"></i>&nbsp;NRPS
-            </a>
-            <a class="btn btn-primary" href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': defaultMembership.identifier}) }}">
-                <i class="fas fa-info-circle"></i>&nbsp;Details
-            </a>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <a class="btn btn-info text-white" data-toggle="modal" data-target="#membershipServiceUrlModal" data-nrps-service-url="{{ absolute_app_url('platform_service_nrps', {'contextIdentifier': defaultMembership.context.identifier, 'membershipIdentifier': defaultMembership.identifier}) }}">
+                    <i class="fas fa-link"></i>&nbsp;NRPS
+                </a>
+                <a class="btn btn-primary" href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': defaultMembership.identifier}) }}">
+                    <i class="fas fa-info-circle"></i>&nbsp;Details
+                </a>
+            </div>
         </div>
     </div>
     <div class="card-body">
@@ -46,7 +48,6 @@
                     <th>Identifier</th>
                     <th>Context</th>
                     <th>Members</th>
-                    <th>NRPS</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -63,17 +64,17 @@
                             {{ membership.members.count }}
                         </td>
                         <td style="width:1px;white-space:nowrap;">
-                            <a class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#membershipServiceUrlModal" data-nrps-service-url="{{ absolute_app_url('platform_service_nrps', {'contextIdentifier': membership.context.identifier, 'membershipIdentifier': membership.identifier}) }}">
-                                <i class="fas fa-link"></i>&nbsp;NRPS
-                            </a>
-                        </td>
-                        <td style="width:1px;white-space:nowrap;">
-                            <a class="btn btn-primary btn-sm" href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': membership.identifier}) }}">
-                                <i class="fas fa-info-circle"></i>&nbsp;Details
-                            </a>
-                            <a class="btn btn-danger text-white btn-sm" href="{{ path('platform_nrps_delete_membership', {'membershipIdentifier': membership.identifier}) }}" onclick="return confirm('Are you sure?')">
-                                <i class="fas fa-trash-alt"></i>&nbsp;Delete
-                            </a>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a class="btn btn-info text-white" data-toggle="modal" data-target="#membershipServiceUrlModal" data-nrps-service-url="{{ absolute_app_url('platform_service_nrps', {'contextIdentifier': membership.context.identifier, 'membershipIdentifier': membership.identifier}) }}">
+                                    <i class="fas fa-link"></i>&nbsp;NRPS
+                                </a>
+                                <a class="btn btn-primary" href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': membership.identifier}) }}">
+                                    <i class="fas fa-info-circle"></i>&nbsp;Details
+                                </a>
+                                <a class="btn btn-danger text-white" href="{{ path('platform_nrps_delete_membership', {'membershipIdentifier': membership.identifier}) }}" onclick="return confirm('Are you sure?')">
+                                    <i class="fas fa-trash-alt"></i>&nbsp;Delete
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}
@@ -104,11 +105,13 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="membershipServiceUrlCopy" type="button" class="btn btn-secondary">
-                    <i id="membershipServiceUrlCopyLogo" class="fas fa-copy"></i>&nbsp;
-                    <span id="membershipServiceUrlCopyText">Copy to clipboard</span>
-                </button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button id="membershipServiceUrlCopy" type="button" class="btn btn-info">
+                        <i id="membershipServiceUrlCopyLogo" class="fas fa-copy"></i>&nbsp;
+                        <span id="membershipServiceUrlCopyText">Copy to clipboard</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -126,7 +129,7 @@
             $('#membershipServiceUrlField').select();
             document.execCommand("copy");
 
-            $('#membershipServiceUrlCopy').removeClass('btn-secondary');
+            $('#membershipServiceUrlCopy').removeClass('btn-info');
             $('#membershipServiceUrlCopy').addClass('btn-success');
             $('#membershipServiceUrlCopyLogo').removeClass('fa-copy');
             $('#membershipServiceUrlCopyLogo').addClass('fa-check');
@@ -134,7 +137,7 @@
             setTimeout(
                 function() {
                     $('#membershipServiceUrlCopy').removeClass('btn-success');
-                    $('#membershipServiceUrlCopy').addClass('btn-secondary');
+                    $('#membershipServiceUrlCopy').addClass('btn-info');
                     $('#membershipServiceUrlCopyLogo').removeClass('fa-check');
                     $('#membershipServiceUrlCopyLogo').addClass('fa-copy');
                     $('#membershipServiceUrlCopyText').html('Copy to clipboard');

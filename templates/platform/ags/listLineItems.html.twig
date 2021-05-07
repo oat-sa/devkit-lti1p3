@@ -20,7 +20,6 @@
                     <th>Identifier</th>
                     <th>Context</th>
                     <th>Label</th>
-                    <th>AGS</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -37,17 +36,17 @@
                             {{ lineItem.label }}
                         </td>
                         <td style="width:1px;white-space:nowrap;">
-                            <a class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#agsServiceUrlModal" data-ags-service-url="">
-                                <i class="fas fa-link"></i>&nbsp;AGS
-                            </a>
-                        </td>
-                        <td style="width:1px;white-space:nowrap;">
-                            <a class="btn btn-primary btn-sm" href="{{ path('platform_ags_view_line_item', {'lineItemIdentifier': lineItem.identifier}) }}">
-                                <i class="fas fa-info-circle"></i>&nbsp;Details
-                            </a>
-                            <a class="btn btn-danger text-white btn-sm" href="{{ path('platform_ags_delete_line_item', {'lineItemIdentifier': lineItem.identifier}) }}" onclick="return confirm('Are you sure?')">
-                                <i class="fas fa-trash-alt"></i>&nbsp;Delete
-                            </a>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a class="btn btn-info text-white" data-toggle="modal" data-target="#agsServiceUrlModal" data-ags-service-url="">
+                                    <i class="fas fa-link"></i>&nbsp;AGS
+                                </a>
+                                <a class="btn btn-primary" href="{{ path('platform_ags_view_line_item', {'lineItemIdentifier': lineItem.identifier}) }}">
+                                    <i class="fas fa-info-circle"></i>&nbsp;Details
+                                </a>
+                                <a class="btn btn-danger text-white" href="{{ path('platform_ags_delete_line_item', {'lineItemIdentifier': lineItem.identifier}) }}" onclick="return confirm('Are you sure?')">
+                                    <i class="fas fa-trash-alt"></i>&nbsp;Delete
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}
@@ -78,11 +77,13 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="agsServiceUrlCopy" type="button" class="btn btn-secondary">
-                    <i id="agsServiceUrlCopyLogo" class="fas fa-copy"></i>&nbsp;
-                    <span id="agsServiceUrlCopyText">Copy to clipboard</span>
-                </button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button id="agsServiceUrlCopy" type="button" class="btn btn-info">
+                        <i id="agsServiceUrlCopyLogo" class="fas fa-copy"></i>&nbsp;
+                        <span id="agsServiceUrlCopyText">Copy to clipboard</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -100,7 +101,7 @@
             $('#agsServiceUrlField').select();
             document.execCommand("copy");
 
-            $('#agsServiceUrlCopy').removeClass('btn-secondary');
+            $('#agsServiceUrlCopy').removeClass('btn-info');
             $('#agsServiceUrlCopy').addClass('btn-success');
             $('#agsServiceUrlCopyLogo').removeClass('fa-copy');
             $('#agsServiceUrlCopyLogo').addClass('fa-check');
@@ -108,7 +109,7 @@
             setTimeout(
                 function() {
                     $('#agsServiceUrlCopy').removeClass('btn-success');
-                    $('#agsServiceUrlCopy').addClass('btn-secondary');
+                    $('#agsServiceUrlCopy').addClass('btn-info');
                     $('#agsServiceUrlCopyLogo').removeClass('fa-check');
                     $('#agsServiceUrlCopyLogo').addClass('fa-copy');
                     $('#agsServiceUrlCopyText').html('Copy to clipboard');

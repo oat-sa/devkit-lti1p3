@@ -9,33 +9,34 @@
         Message is invalid
     </div>
 {% endif %}
-<div class="row">
-    <div class="col-md-6">
-        <h6 class="card-title">
+<div class="card-deck">
+    <div class="card bg-light">
+        <div class="card-header">
             <i class="fas fa-info-circle"></i>&nbsp;Details
-        </h6>
-        <hr/>
-        <dl class="list-unstyled">
-            <dt>LTI version</dt>
-            <dd><code>{{  token.payload.version }}</code></dd>
-            <dt>LTI message type</dt>
-            <dd><code>{{ token.payload.messageType }}</code></dd>
-        </dl>
+        </div>
+        <div class="card-body">
+            <dl class="list-unstyled">
+                <dt>LTI version</dt>
+                <dd><code>{{  token.payload.version }}</code></dd>
+                <dt>LTI message type</dt>
+                <dd><code>{{ token.payload.messageType }}</code></dd>
+            </dl>
+        </div>
     </div>
-    <div class="col-md-6">
-        <h6 class="card-title">
+    <div class="card bg-light">
+        <div class="card-header">
             <i class="fas fa-check-circle"></i>&nbsp;Validations
-        </h6>
-        <hr/>
-
-        <dl class="list-unstyled">
-            <dd>
-                {% for success in token.validationResult.successes %}
-                    <span class="badge badge-pill badge-success"><i class="fas fa-check-circle"></i></span>&nbsp{{ success }}<br/>
-                {% else %}
-                    n/a
-                {% endfor %}
-            </dd>
-        </dl>
+        </div>
+        <div class="card-body">
+            <dl class="list-unstyled">
+                <dd>
+                    {% for success in token.validationResult.successes %}
+                        <span class="badge badge-pill badge-success"><i class="fas fa-check-circle"></i></span>&nbsp{{ success }}<br/>
+                    {% else %}
+                        n/a
+                    {% endfor %}
+                </dd>
+            </dl>
+        </div>
     </div>
 </div>

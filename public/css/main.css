@@ -147,7 +147,7 @@ div.dropdown-row>a.dropdown-item{
         width: 100%;
     }
     .navbar-brand {
-        max-width: 280px;
+        max-width: 250px;
         overflow: hidden !important;
         text-overflow: ellipsis;
     }
