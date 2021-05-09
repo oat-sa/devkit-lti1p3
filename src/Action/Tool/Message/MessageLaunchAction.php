@@ -95,7 +95,7 @@ class MessageLaunchAction
     {
         $this->flashBag->add(
             'success',
-            'Tool LtiDeepLinkingRequest launch success, please select item(s) to be returned to the platform'
+            'Tool LtiDeepLinkingRequest launch success, please select content item(s) to be returned to the platform'
         );
 
         return new Response(

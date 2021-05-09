@@ -13,7 +13,7 @@ parameters:
             type: image
             url: https://www.disneyphile.fr/wp-content/uploads/2020/10/fresque-star-wars.png
             title: Star wars (image)
-            text: This is the demo app image
+            text: Star wars image
             icon:
                 url: https://cdn4.iconfinder.com/data/icons/evil-icons-user-interface/64/picture-20.png
             thumbnail:
@@ -40,4 +40,4 @@ parameters:
             type: html
             html: '<div>Hello world</div>'
             title: Hello world (HTML)
-            text: HTML frangment to say hello world
+            text: HTML fragment to say hello world

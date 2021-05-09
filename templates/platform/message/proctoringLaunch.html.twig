@@ -54,7 +54,17 @@
                 </div>
                 <div class="form-row">
                     <div class="col-md-9">
-                        {{ form_row(form.start_assessment_url) }}
+                        {{ form_label(form.start_assessment_url) }}<br/>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <a id="startAssessmentUrlLoad" class="btn btn-secondary text-white" role="button" title="Use and edit selected demo app default start assessment url">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </div>
+                            {{ form_widget(form.start_assessment_url) }}
+                        </div>
+                        {{ form_help(form.start_assessment_url) }}
+                        {{ form_errors(form.start_assessment_url) }}
                     </div>
                     <div class="col-md-3">
                         {{ form_row(form.attempt_number) }}
@@ -131,7 +141,7 @@
                                 <dt>Issuer</dt>
                                 <dd>{{ startProctoringLaunchRequest.parameters.get('iss') }}</dd>
                                 <dt>Login hint</dt>
-                                <dd><input type="text" class="form-control form-control-sm" placeholder="token" value="{{ startProctoringLaunchRequest.parameters.get('login_hint') }}" readonly></dd>
+                                <dd><input type="text" class="form-control" placeholder="token" value="{{ startProctoringLaunchRequest.parameters.get('login_hint') }}" readonly></dd>
                             </dl>
                         </div>
                         <div class="col-sm-4">
@@ -266,8 +276,10 @@
             }
         });
 
-        $("#use-start-assessment-url").click(function(event){
-            $("#proctoring_launch_start_assessment_url").val($(this).data('url'));
+        $("#startAssessmentUrlLoad").click(function(event){
+            $("#proctoring_launch_start_assessment_url").val(
+                $("#proctoring_launch_start_assessment_url").data('demo-start-assessment-url')
+            );
         });
 
         $( document ).ready(function() {

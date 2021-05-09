@@ -1,45 +1,45 @@
-<h6 class="card-title">
-    <i class="fas fa-link"></i>&nbsp;Deep Linking returned content items
-</h6>
-<hr/>
-
-{% for resourceIdentifier, resource in resources %}
-    {% if loop.first %}
-    <div class="card-columns">
-    {% endif %}
-        <div class="card content-item">
-            <div class="card-header">{{ resource.title }}</div>
-            <div class="card-body">
-                <small>
-                    <dl class="list-unstyled">
-                        {% if resource.url is defined %}
-                            <dt>Url</dt>
-                            <dd><a href="{{ resource.url }}" target="_blank">{{ resource.url }}</a></dd>
-                        {% endif %}
-                        {% if resource.html is defined %}
-                            <dt>HTML</dt>
-                            <dd><kbd>{{ resource.html }}</kbd></dd>
-                        {% endif %}
-                        <dt>Description</dt>
-                        <dd>{{ resource.text }}</dd>
-                        {% if resource.icon is defined %}
-                            <dt>Icon</dt>
-                            <dd><img height="20px" width="20px" src="{{ resource.icon.url }}"/></dd>
-                        {% endif %}
-                    </dl>
-                </small>
+<div class="card bg-light">
+    <div class="card-header">
+        <i class="fas fa-link"></i>&nbsp;Returned content item(s)
+    </div>
+    <div class="card-body">
+    {% for resourceIdentifier, resource in resources %}
+        {% if loop.first %}
+        <div class="card-columns">
+        {% endif %}
+            <div class="card content-item">
+                <div class="card-header">{{ resource.title }}</div>
+                <div class="card-body">
+                    <small>
+                        <dl class="list-unstyled">
+                            {% if resource.url is defined %}
+                                <dt>Url</dt>
+                                <dd><a href="{{ resource.url }}" target="_blank">{{ resource.url }}</a></dd>
+                            {% endif %}
+                            {% if resource.html is defined %}
+                                <dt>HTML</dt>
+                                <dd><kbd>{{ resource.html }}</kbd></dd>
+                            {% endif %}
+                            <dt>Description</dt>
+                            <dd>{{ resource.text }}</dd>
+                            {% if resource.icon is defined %}
+                                <dt>Icon</dt>
+                                <dd><img height="20px" width="20px" src="{{ resource.icon.url }}"/></dd>
+                            {% endif %}
+                        </dl>
+                    </small>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Type: <code>{{ resource.type }}</code></small>
+                </div>
             </div>
-            <div class="card-footer">
-                <small class="text-muted">Type: <code>{{ resource.type }}</code></small>
-            </div>
+        {% if loop.last %}
         </div>
-    {% if loop.last %}
+        {% endif %}
+    {% else %}
+        <div class="alert alert-dark" role="alert">
+            <i class="fas fa-ban"></i>&nbsp;No items returned
+        </div>
+    {% endfor %}
     </div>
-    {% endif %}
-{% else %}
-    <div class="alert alert-dark" role="alert">
-        <i class="fas fa-ban"></i>&nbsp;No items returned
-    </div>
-{% endfor %}
-
-
+</div>

@@ -3,25 +3,32 @@
         <i class="fas fa-file-signature"></i>&nbsp;
         ACS claim provided in message
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <dl class="list-unstyled">
-                <dt>Claim service url</dt>
-                <dd><a href="{{ token.payload.acs.assessmentControlUrl }}" target="_blank">{{ token.payload.acs.assessmentControlUrl }}</a></dd>
-            </dl>
+    <div class="card bg-light">
+        <div class="card-header">
+            <i class="fas fa-info-circle"></i>&nbsp;ACS service details
         </div>
-        <div class="col-md-6">
-            <dl class="list-unstyled">
-                <dt>Claim actions</dt>
-                <dd><code>{{ token.payload.acs.actions|join(', ') }}</code></dd>
-            </dl>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="list-unstyled">
+                        <dt>Claim service url</dt>
+                        <dd><a href="{{ token.payload.acs.assessmentControlUrl }}" target="_blank">{{ token.payload.acs.assessmentControlUrl }}</a></dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="list-unstyled">
+                        <dt>Claim actions</dt>
+                        <dd><code>{{ token.payload.acs.actions|join(', ') }}</code></dd>
+                    </dl>
+                </div>
+            </div>
         </div>
     </div>
-    <h6 class="card-title">
-        <i class="fas fa-sign-in-alt"></i>&nbsp;ACS Service
-    </h6>
-    <hr/>
+    <br/>
     <div class="card bg-light">
+        <div class="card-header">
+            <i class="fas fa-sign-in-alt"></i>&nbsp;ACS service request
+        </div>
         <div class="card-body">
             <div class="form-row">
                 <div class="col col col-md-12">
@@ -69,11 +76,11 @@
             </div>
             <br/>
             <div class="form-row">
-                <div class="col col col-md-3">
+                <div class="col col col-md-6">
                     <input type="number" id="acsExtraTime" class="form-control" placeholder="Extra time" aria-describedby="acsExtraTimeHelp">
                     <small id="acsExtraTimeHelp" class="form-text text-muted">Extra time</small>
                 </div>
-                <div class="col col col-md-7">
+                <div class="col col col-md-6">
                     <div class="form-group">
                         <select id="acsAction" aria-describedby="acsActionHelp" class="form-control">
                             {% for action in token.payload.acs.actions %}
@@ -83,16 +90,16 @@
                         <small id="acsActionHelp" class="form-text text-muted">Action</small>
                     </div>
                 </div>
-                <div class="col col col-md-2">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button id="acsLoad" class="btn-primary btn">
-                            <i id="acsCall" class="fas fa-sign-in-alt"></i>&nbsp;Call
-                        </button>
-                        <button id="acsReset" class="btn-secondary btn">
-                            <i class="fas fa-undo"></i>&nbsp;Reset
-                        </button>
-                    </div>
-                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button id="acsLoad" class="btn-primary btn">
+                    <i id="acsCall" class="fas fa-sign-in-alt"></i>&nbsp;Call ACS service
+                </button>
+                <button id="acsReset" class="btn-secondary btn">
+                    <i class="fas fa-undo"></i>&nbsp;Reset
+                </button>
             </div>
         </div>
     </div>
@@ -138,8 +145,17 @@
                     $("#acsCall").removeClass("fa-spinner fa-spin");
                     $("#acsCall").addClass("fa-sign-in-alt");
                     $("#acsZone").html(
-                        '<br/><div class="alert alert-danger" role="alert">' +
-                        '<i class="fas fa-exclamation-circle"></i>&nbsp;' + result.responseJSON.message +
+                        '<br/><div class="card bg-light">' +
+                        '<div class="card-header"><i class="fas fa-file-signature"></i>&nbsp;ACS service response</div>' +
+                        '<div class="card-body">' +
+                        '<h5 class="card-title"></h5>' +
+                        '<div class="alert alert-danger" role="alert">'+
+                        '<i class="fas fa-exclamation-circle"></i>&nbsp;Error ' +
+                        result.responseJSON.code +
+                        ': ' +
+                        result.responseJSON.message +
+                        '</div>' +
+                        '</div>' +
                         '</div>'
                     );
                 }

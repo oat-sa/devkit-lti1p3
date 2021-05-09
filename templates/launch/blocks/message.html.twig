@@ -1,18 +1,18 @@
 {% if not token.validationResult.hasError %}
     <div class="alert alert-info" role="alert">
         <i class="fas fa-check"></i>&nbsp;
-        Message is valid
+        Valid LTI message
     </div>
 {% else %}
     <div class="alert alert-danger" role="alert">
         <i class="fas fa-exclamation-circle"></i>&nbsp;
-        Message is invalid
+        Invalid LTI message
     </div>
 {% endif %}
 <div class="card-deck">
     <div class="card bg-light">
         <div class="card-header">
-            <i class="fas fa-info-circle"></i>&nbsp;Details
+            <i class="fas fa-info-circle"></i>&nbsp;Message details
         </div>
         <div class="card-body">
             <dl class="list-unstyled">
@@ -25,7 +25,7 @@
     </div>
     <div class="card bg-light">
         <div class="card-header">
-            <i class="fas fa-check-circle"></i>&nbsp;Validations
+            <i class="fas fa-check-circle"></i>&nbsp;Message validations
         </div>
         <div class="card-body">
             <dl class="list-unstyled">

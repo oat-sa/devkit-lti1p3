@@ -3,17 +3,32 @@
         <i class="fas fa-users"></i>&nbsp;
         NRPS claim provided in message
     </div>
-    <dl class="list-unstyled">
-        <dt>Claim service url</dt>
-        <dd><a href="{{ token.payload.nrps.contextMembershipsUrl }}" target="_blank">{{ token.payload.nrps.contextMembershipsUrl }}</a></dd>
-        <dt>Claim service versions</dt>
-        <dd><code>{{ token.payload.nrps.serviceVersions|join(', ') }}</code></dd>
-    </dl>
-    <h6 class="card-title">
-        <i class="fas fa-sign-in-alt"></i>&nbsp;NRPS Service
-    </h6>
-    <hr/>
     <div class="card bg-light">
+        <div class="card-header">
+            <i class="fas fa-info-circle"></i>&nbsp;NRPS service details
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="list-unstyled">
+                        <dt>Claim service url</dt>
+                        <dd><a href="{{ token.payload.nrps.contextMembershipsUrl }}" target="_blank">{{ token.payload.nrps.contextMembershipsUrl }}</a></dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="list-unstyled">
+                        <dt>Claim service versions</dt>
+                        <dd><code>{{ token.payload.nrps.serviceVersions|join(', ') }}</code></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="card bg-light">
+        <div class="card-header">
+            <i class="fas fa-sign-in-alt"></i>&nbsp;NRPS service request
+        </div>
         <div class="card-body">
             <div class="form-row">
                 <div class="col col col-md-12">
@@ -23,24 +38,24 @@
             </div>
             <br/>
             <div class="form-row">
-                <div class="col col col-md-5">
+                <div class="col col col-md-10">
                     <input type="text" id="nrpsRole" class="form-control" placeholder="Role filter" aria-describedby="nrpsRoleHelp">
                     <small id="nrpsRoleHelp" class="form-text text-muted">Role filter</small>
                 </div>
-                <div class="col col col-md-5">
+                <div class="col col col-md-2">
                     <input type="text" id="nrpsLimit"class="form-control" placeholder="Limit" aria-describedby="nrpsLimitHelp">
                     <small id="nrpsLimitHelp" class="form-text text-muted">Limit to return</small>
                 </div>
-                <div class="col col col-md-2">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button id="nrpsLoad" class="btn-primary btn">
-                            <i id="nrpsCall" class="fas fa-sign-in-alt"></i>&nbsp;Call
-                        </button>
-                        <button id="nrpsReset" class="btn-secondary btn">
-                            <i class="fas fa-undo"></i>&nbsp;Reset
-                        </button>
-                    </div>
-                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button id="nrpsLoad" class="btn-primary btn">
+                    <i id="nrpsCall" class="fas fa-sign-in-alt"></i>&nbsp;Call NRPS service
+                </button>
+                <button id="nrpsReset" class="btn-secondary btn">
+                    <i class="fas fa-undo"></i>&nbsp;Reset
+                </button>
             </div>
         </div>
     </div>
@@ -89,8 +104,17 @@
                     $("#nrpsCall").removeClass("fa-spinner fa-spin");
                     $("#nrpsCall").addClass("fa-sign-in-alt");
                     $("#nrpsZone").html(
-                        '<br/><div class="alert alert-danger" role="alert">' +
-                        '<i class="fas fa-exclamation-circle"></i>&nbsp;' + result.responseJSON.message +
+                        '<br/><div class="card bg-light">' +
+                        '<div class="card-header"><i class="fas fa-users"></i>&nbsp;NRPS service response</div>' +
+                        '<div class="card-body">' +
+                        '<h5 class="card-title"></h5>' +
+                        '<div class="alert alert-danger" role="alert">'+
+                        '<i class="fas fa-exclamation-circle"></i>&nbsp;Error ' +
+                        result.responseJSON.code +
+                        ': ' +
+                        result.responseJSON.message +
+                        '</div>' +
+                        '</div>' +
                         '</div>'
                     );
                 }
