@@ -21,6 +21,9 @@ services:
         tags: ['controller.service_arguments']
 
     # LTI core dependencies
+    OAT\Library\Lti1p3Core\Util\Generator\IdGeneratorInterface:
+        class: OAT\Library\Lti1p3Core\Util\Generator\IdGenerator
+
     OAT\Library\Lti1p3Core\Security\User\UserAuthenticatorInterface:
         class: App\Security\User\UserAuthenticator
 
@@ -43,7 +46,11 @@ services:
         arguments:
             - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
 
-    OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\SaveLineItemServiceServerRequestHandler:
+    OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\CreateLineItemServiceServerRequestHandler:
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
+
+    OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\UpdateLineItemServiceServerRequestHandler:
         arguments:
             - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
 
@@ -68,11 +75,18 @@ services:
             - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\DeleteLineItemServiceServerRequestHandler'
         tags: [ 'controller.service_arguments' ]
 
-    app.service.ags_save_line_item_controller:
+    app.service.ags_create_line_item_controller:
         class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
         factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
         arguments:
-            - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\SaveLineItemServiceServerRequestHandler'
+            - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\CreateLineItemServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
+
+    app.service.ags_update_line_item_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\UpdateLineItemServiceServerRequestHandler'
         tags: [ 'controller.service_arguments' ]
 
     # LTI deep linking dependencies

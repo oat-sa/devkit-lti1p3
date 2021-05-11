@@ -26,6 +26,7 @@ use OAT\Library\Lti1p3Ags\Model\LineItem\LineItemCollection;
 use OAT\Library\Lti1p3Ags\Model\LineItem\LineItemCollectionInterface;
 use OAT\Library\Lti1p3Ags\Model\LineItem\LineItemInterface;
 use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
+use OAT\Library\Lti1p3Core\Util\Generator\IdGeneratorInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
 class LineItemRepository implements LineItemRepositoryInterface
@@ -35,9 +36,13 @@ class LineItemRepository implements LineItemRepositoryInterface
     /** @var CacheItemPoolInterface */
     private $cache;
 
-    public function __construct(CacheItemPoolInterface $cache)
+    /** @var IdGeneratorInterface */
+    private $generator;
+
+    public function __construct(CacheItemPoolInterface $cache, IdGeneratorInterface $generator)
     {
         $this->cache = $cache;
+        $this->generator = $generator;
     }
 
     public function find(string $lineItemIdentifier, ?string $contextIdentifier = null): ?LineItemInterface
@@ -118,6 +123,10 @@ class LineItemRepository implements LineItemRepositoryInterface
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
         $lineItems = $cache->get();
+
+        if (null === $lineItem->getIdentifier()) {
+            $lineItem->setIdentifier($this->generator->generate());
+        }
 
         $lineItems[$lineItem->getIdentifier()] = $lineItem;
 
