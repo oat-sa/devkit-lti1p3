@@ -31,56 +31,33 @@
         </div>
         <div class="card-body">
             <div class="form-row">
-                <div class="col col col-md-12">
+                <div class="col col-md-12">
                     <input type="text" id="acsUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.acs.assessmentControlUrl }}" aria-describedby="boUrlHelp" readonly>
                     <small id="acsUrlHelp" class="form-text text-muted">Service url</small>
                 </div>
             </div>
             <br/>
             <div class="form-row">
-                <div class="col col col-md-3">
+                <div class="col col-md-3">
                     <input type="text" id="acsResourceLink" class="form-control" placeholder="Resource link identifier" value="{{ token.payload.resourceLink.identifier }}" aria-describedby="acsResourceLinkHelp">
                     <small id="acsResourceLinkHelp" class="form-text text-muted">Resource link identifier</small>
                 </div>
-                <div class="col col col-md-3">
+                <div class="col col-md-3">
                     <input type="text" id="acsIss" class="form-control" placeholder="Issuer" value="{{ token.payload.token.claims.get('iss') }}" aria-describedby="acsIssHelp">
                     <small id="acsIssHelp" class="form-text text-muted">Issuer identifier</small>
                 </div>
-                <div class="col col col-md-3">
+                <div class="col col-md-3">
                     <input type="text" id="acsSub" class="form-control" placeholder="User" value="{{ token.payload.token.claims.get('sub') }}" aria-describedby="acsSubHelp">
                     <small id="acsSubHelp" class="form-text text-muted">User identifier</small>
                 </div>
-                <div class="col col col-md-3">
+                <div class="col col-md-3">
                     <input type="number" id="acsAttemptNumber" class="form-control" placeholder="Attempt number" value="{{ token.payload.proctoringAttemptNumber }}" aria-describedby="acsAttemptNumberHelp">
                     <small id="acsAttemptNumberHelp" class="form-text text-muted">Attempt number</small>
                 </div>
             </div>
             <br/>
             <div class="form-row">
-                <div class="col col col-md-3">
-                    <input id="acsDate" class="form-control" placeholder="" aria-describedby="acsDateHelp">
-                    <small id="acsDateHelp" class="form-text text-muted">Incident date</small>
-                </div>
-                <div class="col col col-md-3">
-                    <input type="number" min="0" max="1" step="0.1" id="acsSeverity" class="form-control" placeholder="Incident severity" aria-describedby="acsSeverityHelp">
-                    <small id="acsSeverityHelp" class="form-text text-muted">Incident severity</small>
-                </div>
-                <div class="col col col-md-3">
-                    <input type="text" min="0" max="1" id="acsReasonCode" class="form-control" placeholder="Reason code" aria-describedby="acsReasonCodeHelp">
-                    <small id="acsReasonCodeHelp" class="form-text text-muted">Reason code</small>
-                </div>
-                <div class="col col col-md-3">
-                    <input type="text" min="0" max="1" id="acsReasonMessage" class="form-control" placeholder="Reason message" aria-describedby="acsReasonMessageHelp">
-                    <small id="acsReasonMessageHelp" class="form-text text-muted">Reason message</small>
-                </div>
-            </div>
-            <br/>
-            <div class="form-row">
-                <div class="col col col-md-6">
-                    <input type="number" id="acsExtraTime" class="form-control" placeholder="Extra time" aria-describedby="acsExtraTimeHelp">
-                    <small id="acsExtraTimeHelp" class="form-text text-muted">Extra time</small>
-                </div>
-                <div class="col col col-md-6">
+                <div class="col col-md-3">
                     <div class="form-group">
                         <select id="acsAction" aria-describedby="acsActionHelp" class="form-control">
                             {% for action in token.payload.acs.actions %}
@@ -89,6 +66,39 @@
                         </select>
                         <small id="acsActionHelp" class="form-text text-muted">Action</small>
                     </div>
+                </div>
+                <div class="col col-md-3">
+                    <input type="number" id="acsExtraTime" class="form-control" placeholder="Extra time" aria-describedby="acsExtraTimeHelp">
+                    <small id="acsExtraTimeHelp" class="form-text text-muted">Extra time</small>
+                </div>
+                <div class="col col-md-3">
+                    <div class="form-group">
+                        <div class="input-group" id="acsDatetimepicker" data-target-input="nearest">
+                            <div class="input-group-prepend">
+                                <a id="launchUrlLoad" class="btn btn-secondary text-white" data-target="#acsDatetimepicker" data-toggle="datetimepicker">
+                                    <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <input id="acsDate" type="text" class="form-control datetimepicker-input" data-target="#acsDatetimepicker" aria-describedby="acsDateHelp"/>
+
+                        </div>
+                    </div>
+                    <small id="acsDateHelp" class="form-text text-muted">Incident date</small>
+                </div>
+                <div class="col col-md-3">
+                    <input type="number" min="0" max="1" step="0.1" id="acsSeverity" class="form-control" placeholder="Incident severity" aria-describedby="acsSeverityHelp">
+                    <small id="acsSeverityHelp" class="form-text text-muted">Incident severity</small>
+                </div>
+            </div>
+            <br/>
+            <div class="form-row">
+                <div class="col col-md-3">
+                    <input type="text" min="0" max="1" id="acsReasonCode" class="form-control" placeholder="Reason code" aria-describedby="acsReasonCodeHelp">
+                    <small id="acsReasonCodeHelp" class="form-text text-muted">Reason code</small>
+                </div>
+                <div class="col col-md-9">
+                    <input type="text" min="0" max="1" id="acsReasonMessage" class="form-control" placeholder="Reason message" aria-describedby="acsReasonMessageHelp">
+                    <small id="acsReasonMessageHelp" class="form-text text-muted">Reason message</small>
                 </div>
             </div>
         </div>
@@ -105,13 +115,14 @@
     </div>
     <div id="acsZone"></div>
     <script>
-        $('#acsDate').datetimepicker({
-            uiLibrary: 'bootstrap4',
-            iconsLibrary: 'fontawesome',
-            format: 'yyyy-mm-dd HH:MM',
-            modal: false,
-            header: false,
-            footer: false
+        $('#acsDatetimepicker').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm',
+            allowInputToggle: true,
+            buttons: {
+                showToday: true,
+                showClear: true,
+                showClose: true
+            }
         });
 
         $("#acsLoad").click(function(){

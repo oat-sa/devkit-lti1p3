@@ -132,6 +132,10 @@ div.dropdown-row>a.dropdown-item{
     font-weight: 400;
 }
 
+.bootstrap-datetimepicker-widget table td, .bootstrap-datetimepicker-widget table th {
+    border-top: none !important;
+}
+
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
