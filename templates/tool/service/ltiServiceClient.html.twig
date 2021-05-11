@@ -132,42 +132,73 @@
                     <div class="tab-pane fade" id="pills-message" role="tabpanel" aria-labelledby="pills-message-tab">
                         <div class="row">
                             <div class="col-md-6">
-                                <h6 class="card-title">
-                                    <i class="fas fa-info-circle"></i>&nbsp;Status code
-                                </h6>
-                                <hr/>
-                                <dl class="list-unstyled">
-                                    <dt>Code</dt>
-                                    <dd>
-                                        {% if serviceData.code >= 200 and serviceData.code < 300 %}
-                                            <span class="badge badge-pill badge-success">
-                                        {{ serviceData.code}}
-                                    </span>
-                                        {% elseif serviceData.code >= 500 %}
-                                            <span class="badge badge-pill badge-danger">
-                                        {{ serviceData.code}}
-                                    </span>
-                                        {% else %}
-                                            <span class="badge badge-pill badge-warning">
-                                        {{ serviceData.code}}
-                                    </span>
-                                        {% endif %}
-                                    </dd>
-                                </dl>
+                                <div class="card bg-light">
+                                    <div class="card-header">
+                                        <i class="fas fa-code"></i>&nbsp;Status code
+                                    </div>
+                                    <div class="card-body">
+                                        <dl class="list-unstyled">
+                                            <dt>Response status code</dt>
+                                            <dd>
+                                                {% if serviceData.code >= 200 and serviceData.code < 300 %}
+                                                    <span class="badge badge-pill badge-success">
+                                                    {{ serviceData.code}}
+                                                </span>
+                                                {% elseif serviceData.code >= 500 %}
+                                                    <span class="badge badge-pill badge-danger">
+                                                    {{ serviceData.code}}
+                                                </span>
+                                                {% else %}
+                                                    <span class="badge badge-pill badge-warning">
+                                                    {{ serviceData.code}}
+                                                </span>
+                                                {% endif %}
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="card bg-light">
+                                    <div class="card-header">
+                                        <i class="fas fa-stopwatch"></i>&nbsp;Duration
+                                    </div>
+                                    <div class="card-body">
+                                        <dl class="list-unstyled">
+                                            <dt>Call duration</dt>
+                                            <dd> {{ serviceData.duration }} ms</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="card bg-light">
+                                    <div class="card-header">
+                                        <i class="fas fa-microchip"></i>&nbsp;Memory
+                                    </div>
+                                    <div class="card-body">
+                                        <dl class="list-unstyled">
+                                            <dt>Call memory usage</dt>
+                                            <dd> {{ serviceData.memory }} bytes</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <br/>
                             </div>
                             <div class="col-md-6">
-                                <h6 class="card-title">
-                                    <i class="fas fa-info-circle"></i>&nbsp;Headers
-                                </h6>
-                                <hr/>
-                                <dl class="list-unstyled">
-                                    {% for headerName, headerValue in serviceData.headers %}
-                                        <dt>{{ headerName }}</dt>
-                                        <dd>{{ headerValue|join(" ") }}</dd>
-                                    {% else %}
-                                        <dt>n/a</dt>
-                                    {% endfor %}
-                                </dl>
+                                <div class="card bg-light">
+                                    <div class="card-header">
+                                        <i class="fas fa-file-code"></i>&nbsp;Headers
+                                    </div>
+                                    <div class="card-body">
+                                        <dl class="list-unstyled">
+                                            {% for headerName, headerValue in serviceData.headers %}
+                                                <dt>{{ headerName }}</dt>
+                                                <dd>{{ headerValue|join(" ") }}</dd>
+                                            {% else %}
+                                                <dt>n/a</dt>
+                                            {% endfor %}
+                                        </dl>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

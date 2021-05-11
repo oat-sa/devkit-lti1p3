@@ -1,6 +1,6 @@
 {% if not token.validationResult.hasError %}
     <div class="alert alert-info" role="alert">
-        <i class="fas fa-check"></i>&nbsp;
+        <i class="fas fa-check-circle"></i>&nbsp;
         Valid LTI message
     </div>
 {% else %}
@@ -31,7 +31,7 @@
             <dl class="list-unstyled">
                 <dd>
                     {% for success in token.validationResult.successes %}
-                        <span class="badge badge-pill badge-success"><i class="fas fa-check-circle"></i></span>&nbsp{{ success }}<br/>
+                        <span class="badge badge-success"><i class="fas fa-check-circle"></i></span>&nbsp{{ success }}<br/>
                     {% else %}
                         n/a
                     {% endfor %}

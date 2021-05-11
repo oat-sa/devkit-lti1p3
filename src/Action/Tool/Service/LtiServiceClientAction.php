@@ -32,6 +32,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Twig\Environment;
 
 class LtiServiceClientAction
@@ -103,6 +104,10 @@ class LtiServiceClientAction
                 $options['body'] = $body;
             }
 
+            $stopwatch = new Stopwatch();
+
+            $stopwatch->start('serviceCall');
+
             try {
                 $response = $this->client->request($registration, $method, $serviceUrl, $options, $scopes);
             } catch (LtiExceptionInterface $exception) {
@@ -112,6 +117,8 @@ class LtiServiceClientAction
                     throw $exception;
                 }
             }
+
+            $stopWatchEvent = $stopwatch->stop('serviceCall');
 
             $responseContentType = strtolower($response->getHeaderLine('Content-Type'));
 
@@ -131,6 +138,8 @@ class LtiServiceClientAction
             $serviceData = [
                 'headers' => $response->getHeaders(),
                 'code' => $serviceStatusCode,
+                'duration' => $stopWatchEvent->getDuration(),
+                'memory' => $stopWatchEvent->getMemory(),
                 'format' => $format,
                 'body' => $body
             ];
