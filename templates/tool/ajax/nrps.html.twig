@@ -24,7 +24,7 @@
                         {% else %}
                             <span class="badge badge-pill badge-secondary"><i class="fas fa-user-times"></i></span>
                         {% endif %}
-                        &nbsp{{ member.userIdentity.name }}
+                        &nbsp;{{ member.userIdentity.name }}
                         <small class="text-muted">
                             ( <strong><code>#{{ member.userIdentity.identifier }}</code></strong>
                             / <strong>roles</strong> : {{ member.roles|join(', ')|default('no roles') }}
@@ -33,7 +33,7 @@
                     </a>
                 {% else %}
                     <a class="list-group-item list-group-item-dark">
-                        No members found
+                        <i class="fas fa-ban"></i>&nbsp;No members found
                     </a>
                 {% endfor %}
             </div>

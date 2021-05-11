@@ -66,6 +66,11 @@ tool_ajax_service_acs:
     controller: App\Action\Tool\Ajax\AcsServiceClientAction
     condition: "request.isXmlHttpRequest()"
 
+tool_ajax_service_ags_list_lineitems:
+    path: /tool/ajax/ags/line-items
+    controller: App\Action\Tool\Ajax\Ags\ListLineItemsServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
 platform_service_nrps:
     methods: [GET]
     path: /platform/service/nrps/{contextIdentifier}/memberships/{membershipIdentifier}

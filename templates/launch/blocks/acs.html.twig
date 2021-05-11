@@ -3,23 +3,26 @@
         <i class="fas fa-file-signature"></i>&nbsp;
         ACS claim provided in message
     </div>
-    <div class="card bg-light">
-        <div class="card-header">
-            <i class="fas fa-info-circle"></i>&nbsp;ACS service details
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <dl class="list-unstyled">
-                        <dt>Claim service url</dt>
-                        <dd><a href="{{ token.payload.acs.assessmentControlUrl }}" target="_blank">{{ token.payload.acs.assessmentControlUrl }}</a></dd>
-                    </dl>
-                </div>
-                <div class="col-md-6">
-                    <dl class="list-unstyled">
-                        <dt>Claim actions</dt>
-                        <dd><code>{{ token.payload.acs.actions|join(', ') }}</code></dd>
-                    </dl>
+    <div class="accordion md-accordion" id="accordionAcsDetails" role="tablist" aria-multiselectable="true">
+        <div class="card bg-light">
+            <div class="card-header dropdown-toggle clickable collapsed" role="tab" id="accordionAcsDetailsHeading" data-toggle="collapse" data-parent="#accordionAcsDetails" href="#accordionAcsDetailsBody"
+                 aria-expanded="false" aria-controls="accordionAcsDetailsBody">
+                <i class="fas fa-info-circle"></i>&nbsp;ACS claim details
+            </div>
+            <div id="accordionAcsDetailsBody" class="collapse card-body" role="tabpanel" aria-labelledby="accordionAcsDetailsHeading" data-parent="#accordionAcsDetails">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Claim service url</dt>
+                            <dd><a href="{{ token.payload.acs.assessmentControlUrl }}" target="_blank">{{ token.payload.acs.assessmentControlUrl }}</a></dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Claim actions</dt>
+                            <dd><code>{{ token.payload.acs.actions|join(', ') }}</code></dd>
+                        </dl>
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,7 +42,7 @@
             <br/>
             <div class="form-row">
                 <div class="col col-md-3">
-                    <input type="text" id="acsResourceLink" class="form-control" placeholder="Resource link identifier" value="{{ token.payload.resourceLink.identifier }}" aria-describedby="acsResourceLinkHelp">
+                    <input type="text" id="acsResourceLink" class="form-control" placeholder="Resource link" value="{{ token.payload.resourceLink.identifier }}" aria-describedby="acsResourceLinkHelp">
                     <small id="acsResourceLinkHelp" class="form-text text-muted">Resource link identifier</small>
                 </div>
                 <div class="col col-md-3">
@@ -80,17 +83,15 @@
                                 </a>
                             </div>
                             <input id="acsDate" type="text" class="form-control datetimepicker-input" data-target="#acsDatetimepicker" aria-describedby="acsDateHelp"/>
-
                         </div>
+                        <small id="acsDateHelp" class="form-text text-muted">Incident date</small>
                     </div>
-                    <small id="acsDateHelp" class="form-text text-muted">Incident date</small>
                 </div>
                 <div class="col col-md-3">
                     <input type="number" min="0" max="1" step="0.1" id="acsSeverity" class="form-control" placeholder="Incident severity" aria-describedby="acsSeverityHelp">
                     <small id="acsSeverityHelp" class="form-text text-muted">Incident severity</small>
                 </div>
             </div>
-            <br/>
             <div class="form-row">
                 <div class="col col-md-3">
                     <input type="text" min="0" max="1" id="acsReasonCode" class="form-control" placeholder="Reason code" aria-describedby="acsReasonCodeHelp">
@@ -114,6 +115,23 @@
         </div>
     </div>
     <div id="acsZone"></div>
+    <div class="modal fade" id="acsModal" tabindex="-1" role="dialog" aria-labelledby="acsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="acsModalLabel"><i class="fas fa-info-circle"></i>&nbsp;Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="acsModalBody" class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         $('#acsDatetimepicker').datetimepicker({
             format: 'YYYY-MM-DD HH:mm',
