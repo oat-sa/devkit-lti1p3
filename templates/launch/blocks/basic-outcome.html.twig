@@ -3,23 +3,26 @@
         <i class="fas fa-poll"></i>&nbsp;
         Basic outcome claim provided in message
     </div>
-    <div class="card bg-light">
-        <div class="card-header">
-            <i class="fas fa-info-circle"></i>&nbsp;Basic outcome service details
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <dl class="list-unstyled">
-                        <dt>Claim service url</dt>
-                        <dd><a href="{{ token.payload.basicOutcome.lisOutcomeServiceUrl }}" target="_blank">{{ token.payload.basicOutcome.lisOutcomeServiceUrl }}</a></dd>
-                    </dl>
-                </div>
-                <div class="col-md-6">
-                    <dl class="list-unstyled">
-                        <dt>Claim result sourced id</dt>
-                        <dd><code>{{ token.payload.basicOutcome.lisResultSourcedId }}</code></dd>
-                    </dl>
+    <div class="accordion md-accordion" id="accordionBoDetails" role="tablist" aria-multiselectable="true">
+        <div class="card bg-light">
+            <div class="card-header dropdown-toggle clickable collapsed" role="tab" id="accordionBoDetailsHeading" data-toggle="collapse" data-parent="#accordionBoDetails" href="#accordionBoDetailsBody"
+                 aria-expanded="false" aria-controls="accordionBoDetailsBody">
+                <i class="fas fa-info-circle"></i>&nbsp;Basic outcome claim details
+            </div>
+            <div id="accordionBoDetailsBody" class="collapse card-body" role="tabpanel" aria-labelledby="accordionBoDetailsHeading" data-parent="#accordionBoDetails">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Claim service url</dt>
+                            <dd><a href="{{ token.payload.basicOutcome.lisOutcomeServiceUrl }}" target="_blank">{{ token.payload.basicOutcome.lisOutcomeServiceUrl }}</a></dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Claim result sourced id</dt>
+                            <dd><code>{{ token.payload.basicOutcome.lisResultSourcedId }}</code></dd>
+                        </dl>
+                    </div>
                 </div>
             </div>
         </div>

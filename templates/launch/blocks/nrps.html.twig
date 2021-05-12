@@ -3,23 +3,26 @@
         <i class="fas fa-users"></i>&nbsp;
         NRPS claim provided in message
     </div>
-    <div class="card bg-light">
-        <div class="card-header">
-            <i class="fas fa-info-circle"></i>&nbsp;NRPS service details
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <dl class="list-unstyled">
-                        <dt>Claim service url</dt>
-                        <dd><a href="{{ token.payload.nrps.contextMembershipsUrl }}" target="_blank">{{ token.payload.nrps.contextMembershipsUrl }}</a></dd>
-                    </dl>
-                </div>
-                <div class="col-md-6">
-                    <dl class="list-unstyled">
-                        <dt>Claim service versions</dt>
-                        <dd><code>{{ token.payload.nrps.serviceVersions|join(', ') }}</code></dd>
-                    </dl>
+    <div class="accordion md-accordion" id="accordionNrpsDetails" role="tablist" aria-multiselectable="true">
+        <div class="card bg-light">
+            <div class="card-header dropdown-toggle clickable collapsed" role="tab" id="accordionNrpsDetailsHeading" data-toggle="collapse" data-parent="#accordionNrpsDetails" href="#accordionNrpsDetailsBody"
+                 aria-expanded="false" aria-controls="accordionNrpsDetailsBody">
+                <i class="fas fa-info-circle"></i>&nbsp;NRPS claim details
+            </div>
+            <div id="accordionNrpsDetailsBody" class="collapse card-body" role="tabpanel" aria-labelledby="accordionNrpsDetailsHeading" data-parent="#accordionNrpsDetails">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Claim service url</dt>
+                            <dd><a href="{{ token.payload.nrps.contextMembershipsUrl }}" target="_blank">{{ token.payload.nrps.contextMembershipsUrl }}</a></dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Claim service versions</dt>
+                            <dd><code>{{ token.payload.nrps.serviceVersions|join(', ') }}</code></dd>
+                        </dl>
+                    </div>
                 </div>
             </div>
         </div>
