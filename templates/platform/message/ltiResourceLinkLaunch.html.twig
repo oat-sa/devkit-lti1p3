@@ -96,7 +96,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <div class="btn-group" role="group" aria-label="Basic example">
+                <div class="btn-group float-right" role="group" aria-label="Basic example">
                     {{ form_widget(form.submit) }}
                     <a href="{{ path('platform_message_launch_lti_resource_link') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
                     {% if formSubmitted %}
@@ -162,7 +162,9 @@
                     </div>
                 </div>
             <div class="card-footer">
-                {{ ltiResourceLinkLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch LtiResourceLinkRequest',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                    {{ ltiResourceLinkLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch LtiResourceLinkRequest',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+                </div>
             </div>
         </div>
     </div>

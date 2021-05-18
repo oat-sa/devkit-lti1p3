@@ -22,13 +22,14 @@ declare(strict_types=1);
 
 namespace App\Action\Tool\Ajax\Ags;
 
+use OAT\Library\Lti1p3Ags\Model\LineItem\LineItem;
 use OAT\Library\Lti1p3Ags\Service\LineItem\Client\LineItemServiceClient;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-class ListLineItemsServiceClientAction
+class EditLineItemServiceClientAction
 {
     /** @var Environment */
     private $twig;
@@ -51,22 +52,17 @@ class ListLineItemsServiceClientAction
 
     public function __invoke(Request $request): Response
     {
-        $registration = $this->repository->find($request->get('registration'));
 
-        $lineItemsContainer = $this->client->listLineItems(
-            $registration,
-            $request->get('url'),
-            $request->get('resourceId'),
-            $request->get('resourceLinkId'),
-            $request->get('tag'),
-            (int)$request->get('limit')
+        $lineItemsContainer = $this->client->updateLineItem(
+            $this->repository->find($request->get('registration')),
+            $lineItem,
+            $request->get('url')
         );
 
         return new Response(
             $this->twig->render(
                 'tool/ajax/ags/listLineItems.html.twig',
                 [
-                    'registration' => $registration,
                     'lineItemsContainer' => $lineItemsContainer,
                 ]
             )

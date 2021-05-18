@@ -71,6 +71,11 @@ tool_ajax_service_ags_list_lineitems:
     controller: App\Action\Tool\Ajax\Ags\ListLineItemsServiceClientAction
     condition: "request.isXmlHttpRequest()"
 
+tool_ajax_service_ags_update_lineitem:
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/edit
+    controller: App\Action\Tool\Ajax\Ags\EditLineItemServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
 platform_service_nrps:
     methods: [GET]
     path: /platform/service/nrps/{contextIdentifier}/memberships/{membershipIdentifier}

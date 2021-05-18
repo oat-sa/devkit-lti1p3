@@ -51,9 +51,11 @@
             <input type="hidden" name="deep-linking-data" value="{{ token.payload.deepLinkingSettings.data }}"/>
         </div>
         <div class="card-footer text-muted">
-            <button type="submit" id="deepLinkingSend" class="btn-primary btn">
-                <i class="fas fa-sign-in-alt"></i>&nbsp;Return selected content item(s) to platform
-            </button>
+            <div class="btn-group float-right" role="group" aria-label="Basic example">
+                <button type="submit" id="deepLinkingSend" class="btn-primary btn">
+                    <i class="fas fa-sign-in-alt"></i>&nbsp;Return selected content item(s) to platform
+                </button>
+            </div>
         </div>
     </div>
 </form>

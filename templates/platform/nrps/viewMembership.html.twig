@@ -62,7 +62,7 @@
         </div>
     </div>
     <div class="card-footer">
-        <div class="btn-group" role="group" aria-label="Basic example">
+        <div class="btn-group float-right" role="group" aria-label="Basic example">
             {% if membership.identifier != 'default' %}
             <a class="btn btn-primary text-white" href="{{ path('platform_nrps_edit_membership', {'membershipIdentifier': membership.identifier}) }}">
                 <i class="fas fa-edit"></i>&nbsp;Edit

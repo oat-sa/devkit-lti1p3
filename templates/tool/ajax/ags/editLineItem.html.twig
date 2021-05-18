@@ -1,0 +1,96 @@
+<form id="lineItemEditForm">
+    <input type="hidden" id="lineItemRegistration" value="{{ registration.identifier }}">
+    <input type="hidden" id="lineItemIdentifier" value="{{ lineItem.identifier }}">
+    <input type="hidden" id="lineItemContextIdentifier" value="{{ lineItem.contextIdentifier }}">
+    <div class="form-group">
+        <label for="lineItemLabel">Label</label>
+        <input type="text" class="form-control" id="lineItemLabel" value="{{ lineItem.label }}" aria-describedby="lineItemLabelHelp">
+        <small id="lineItemLabelHelp" class="form-text text-muted">Line label</small>
+    </div>
+    <div class="form-group">
+        <label for="lineItemScoreMaximum">Score maximum</label>
+        <input type="number" class="form-control" id="lineItemScoreMaximum" value="{{ lineItem.scoreMaximum }}" aria-describedby="lineItemScoreMaximumHelp">
+        <small id="lineItemScoreMaximumHelp" class="form-text text-muted">Line item score maximum</small>
+    </div>
+    <div class="form-group">
+        <label for="lineItemResourceIdentifier">Resource identifier</label>
+        <input type="text" class="form-control" id="lineItemResourceIdentifier" value="{{ lineItem.resourceIdentifier }}" aria-describedby="lineItemResourceIdentifierHelp">
+        <small id="lineItemResourceIdentifierHelp" class="form-text text-muted">Line item resource identifier</small>
+    </div>
+    <div class="form-group">
+        <label for="lineItemResourceLinkIdentifier">Resource link identifier</label>
+        <input type="text" class="form-control" id="lineItemResourceLinkIdentifier" value="{{ lineItem.resourceLinkIdentifier }}" aria-describedby="lineItemResourceLinkIdentifierHelp">
+        <small id="lineItemResourceLinkIdentifierHelp" class="form-text text-muted">Line item resource link identifier</small>
+    </div>
+    <div class="form-group">
+        <label for="lineItemTag">Tag</label>
+        <input type="text" class="form-control" id="lineItemTag" value="{{ lineItem.tag }}" aria-describedby="lineItemTagHelp">
+        <small id="lineItemTagHelp" class="form-text text-muted">Line item tag</small>
+    </div>
+    <div class="form-group">
+        <label for="lineItemStartDateTime">Start date</label>
+        <div class="input-group" id="lineItemStartDateTimeDatetimepicker" data-target-input="nearest">
+            <div class="input-group-prepend">
+                <a class="btn btn-secondary text-white" data-target="#lineItemStartDateTimeDatetimepicker" data-toggle="datetimepicker">
+                    <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                </a>
+            </div>
+            <input id="lineItemStartDateTime" value="{{ lineItem.startDateTime|format('Y-m-d H:i') }}" type="text" class="form-control datetimepicker-input" data-target="#lineItemStartDateTimeDatetimepicker" aria-describedby="lineItemStartDateTimeHelp"/>
+        </div>
+        <small id="lineItemStartDateTimeHelp" class="form-text text-muted">Line item start date</small>
+    </div>
+    <div class="form-group">
+        <label for="lineItemEndDateTime">End date</label>
+        <div class="input-group" id="lineItemEndDateTimeDatetimepicker" data-target-input="nearest">
+            <div class="input-group-prepend">
+                <a class="btn btn-secondary text-white" data-target="#lineItemEndDateTimeDatetimepicker" data-toggle="datetimepicker">
+                    <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                </a>
+            </div>
+            <input id="lineItemEndDateTime" value="{{ lineItem.endDateTime|format('Y-m-d H:i') }}" type="text" class="form-control datetimepicker-input" data-target="#lineItemEndDateTimeDatetimepicker" aria-describedby="lineItemEndDateTimeHelp"/>
+        </div>
+        <small id="lineItemEndDateTimeHelp" class="form-text text-muted">Line item end date</small>
+    </div>
+</form>
+<script>
+    $("#lineItemStartDateTimeDatetimepicker").datetimepicker({
+        format: "YYYY-MM-DD HH:mm",
+        allowInputToggle: true,
+        buttons: {
+            showToday: true,
+            showClear: true,
+            showClose: true
+        }
+    });
+    $("#lineItemEndDateTimeDatetimepicker").datetimepicker({
+        format: "YYYY-MM-DD HH:mm",
+        allowInputToggle: true,
+        buttons: {
+            showToday: true,
+            showClear: true,
+            showClose: true
+        }
+    });
+    $("#agsModalActionSave").click(function(){
+        console.log($("#lineItemEditForm").serialize());
+        $.ajax({
+            url: "{{ path('tool_ajax_service_ags_update_lineitem', {'lineItemIdentifier': lineItem.identifier}) }}",
+            method: "GET",
+            data: {
+              registration: $("#registration")
+            },
+            beforeSend: function(result){
+                $("#agsModalActionSave").removeClass("fa-sign-in-alt");
+                $("#agsModalActionSave").addClass("fa-spinner fa-spin");
+            },
+            success: function(result){
+                $("#agsModalActionSave").removeClass("fa-spinner fa-spin");
+                $("#agsModalActionSave").addClass("fa-sign-in-alt");
+            },
+            error: function(result){
+                $("#agsModalActionSave").removeClass("fa-spinner fa-spin");
+                $("#agsModalActionSave").addClass("fa-sign-in-alt");
+            }
+        });
+    });
+</script>

@@ -3,17 +3,26 @@
     <div class="card-header">
         <i class="fas fa-graduation-cap"></i>&nbsp;AGS line items container service response
     </div>
-    <div class="list-group list-group-flush">
+    <ul class="list-group list-group-flush">
         {% for lineItem in lineItemsContainer.lineItems.all %}
-            <a class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#acsModal" data-line-item="{{ lineItem|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
+            <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                 <code>{{ lineItem.identifier }}</code>
-            </a>
+                <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-toggle="modal"
+                        data-target="#agsModal"
+                        data-modal-body='{{ include('tool/ajax/ags/viewLineItem.html.twig', {'registration': registration, 'lineItem': lineItem}) }}'
+                >
+                    <i class="fas fa-cogs"></i>&nbsp;Manage
+                </button>
+            </li>
         {% else %}
             <a class="list-group-item list-group-item-dark">
                 <i class="fas fa-ban"></i>&nbsp;No line items found
             </a>
         {% endfor %}
-    </div>
+    </ul>
     <div class="card-footer text-muted">
         <small>AGS line items container service response: {{ lineItemsContainer.lineItems.all|length }} line items(s) found</small>
     </div>

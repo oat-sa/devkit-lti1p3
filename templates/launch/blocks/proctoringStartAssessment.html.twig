@@ -18,9 +18,11 @@
             <input type="hidden" name="session-data" value="{{ token.payload.proctoringSessionData }}"/>
             <input type="hidden" name="attempt-number" value="{{ token.payload.proctoringAttemptNumber }}"/>
             <input type="hidden" name="verified-user-name" value="{{ token.payload.token.claims.get('name') }}"/>
-            <button type="submit" class="btn-primary btn">
-                <i class="fas fa-sign-in-alt"></i>&nbsp;Launch LtiStartAssessment
-            </button>
+            <div class="btn-group float-right" role="group" aria-label="Basic example">
+                <button type="submit" class="btn-primary btn">
+                    <i class="fas fa-sign-in-alt"></i>&nbsp;Launch LtiStartAssessment
+                </button>
+            </div>
         </form>
     </div>
 </div>
