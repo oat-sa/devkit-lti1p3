@@ -100,7 +100,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-muted">
-                            <div class="btn-group" role="group" aria-label="Basic example">
+                            <div class="btn-group float-right" role="group" aria-label="Basic example">
                                 <button id="agsLoad" class="btn-primary btn">
                                     <i id="agsCall" class="fas fa-sign-in-alt"></i>&nbsp;Call AGS line items container service
                                 </button>
@@ -116,13 +116,19 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">
-                                        <i class="fas fa-cogs"></i>&nbsp;Manage AGS line item
+                                        <i id="agsModalLogo" class="fas fa-square"></i>&nbsp;<span id="agsModalTitle"></span>
                                     </h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div id="agsModalBody" class="modal-body">
+                                <div  class="modal-body bg-light">
+                                    <div id="agsModalFlashes"></div>
+                                    <div id="agsModalBody"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div id="agsModalActions" class="btn-group float-right" role="group" aria-label="Basic example"></div>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
                                 </div>
                             </div>
                         </div>
@@ -189,12 +195,6 @@
             $("#agsResourceId").val("");
             $("#agsTag").val("");
             $("#agsLimit").val("");
-        });
-
-        $('#agsModal').on("show.bs.modal", function (event) {
-            $("#agsModalTitle").html($(event.relatedTarget).attr("data-modal-title"));
-            $("#agsModalBody").html($(event.relatedTarget).attr("data-modal-body"));
-            hljs.highlightBlock(document.getElementById("nrpsMemberDetailsZone"));
         });
     </script>
 {% else %}

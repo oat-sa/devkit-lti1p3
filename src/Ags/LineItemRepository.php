@@ -28,6 +28,7 @@ use OAT\Library\Lti1p3Ags\Model\LineItem\LineItemInterface;
 use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
 use OAT\Library\Lti1p3Core\Util\Generator\IdGeneratorInterface;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class LineItemRepository implements LineItemRepositoryInterface
 {
@@ -36,12 +37,19 @@ class LineItemRepository implements LineItemRepositoryInterface
     /** @var CacheItemPoolInterface */
     private $cache;
 
+    /** @var RequestStack */
+    private $requestStack;
+
     /** @var IdGeneratorInterface */
     private $generator;
 
-    public function __construct(CacheItemPoolInterface $cache, IdGeneratorInterface $generator)
-    {
+    public function __construct(
+        CacheItemPoolInterface $cache,
+        RequestStack $requestStack,
+        IdGeneratorInterface $generator
+    ) {
         $this->cache = $cache;
+        $this->requestStack = $requestStack;
         $this->generator = $generator;
     }
 
@@ -111,7 +119,13 @@ class LineItemRepository implements LineItemRepositoryInterface
         $lineItems = $cache->get();
 
         if (null === $lineItem->getIdentifier()) {
-            $lineItem->setIdentifier($this->generator->generate());
+            $identifier = sprintf(
+                '%s/%s',
+                rtrim($this->requestStack->getCurrentRequest()->getUri(), '/'),
+                $this->generator->generate()
+            );
+
+            $lineItem->setIdentifier($identifier);
         }
 
         $lineItems[$lineItem->getIdentifier()] = $lineItem;

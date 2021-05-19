@@ -20,14 +20,12 @@
         </div>
     </div>
     <div class="card-body">
-        Identifier: <code>{{ defaultMembership.identifier }}</code>
+        <strong>Identifier</strong>: <code>{{ defaultMembership.identifier }}</code>
         &nbsp;-&nbsp;
-        Context: <code>{{ defaultMembership.context.identifier }}</code>
-        &nbsp;-&nbsp;
-        <small class="text-muted">{{ defaultMembership.members.count }} member(s)</small>
+        <strong>Context</strong>: <code>{{ defaultMembership.context.identifier }}</code>
     </div>
     <div class="card-footer text-muted">
-        <small>From <code>config/demo/users.yaml</code></small>
+        <small>{{ defaultMembership.members.count }} member(s) from <code>config/demo/users.yaml</code></small>
     </div>
 </div>
 <br/>

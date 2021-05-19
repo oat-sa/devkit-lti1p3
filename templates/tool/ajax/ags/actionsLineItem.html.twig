@@ -1,0 +1,108 @@
+{% for action in actions  %}
+    {% if action == 'create' %}
+        <a
+                id="ags-line-item-create-btn"
+                class="btn btn-primary text-white ags-line-item-action"
+                data-action="{{ action }}"
+                data-registration="{{ registration.identifier }}"
+                data-line-item-url="{{ path('tool_ajax_service_ags_create_lineitem') }}"
+        >
+            <i class="fas fa-save"></i>&nbsp;Create
+        </a>
+    {% endif %}
+    {% if action == 'edit' %}
+        <a
+                id="ags-line-item-edit-btn"
+                class="btn btn-primary text-white ags-line-item-action"
+                data-action="{{ action }}"
+                data-registration="{{ registration.identifier }}"
+                data-line-item-identifier="{{ lineItem.identifier }}"
+                data-line-item-url="{{ path('tool_ajax_service_ags_prepare_update_lineitem', {'lineItemIdentifier': lineItem.identifier|url_encode}) }}"
+        >
+            <i class="fas fa-edit"></i>&nbsp;Edit
+        </a>
+    {% endif %}
+    {% if action == 'delete' %}
+        <a
+                id="ags-line-item-delete-btn"
+                class="btn btn-danger text-white ags-line-item-action"
+                data-action="{{ action }}"
+                data-registration="{{ registration.identifier }}"
+                data-line-item-identifier="{{ lineItem.identifier }}"
+                data-line-item-url="{{ path('tool_ajax_service_ags_delete_lineitem', {'lineItemIdentifier': lineItem.identifier|url_encode}) }}"
+        >
+            <i class="fas fa-trash"></i>&nbsp;Delete
+        </a>
+    {% endif %}
+    {% if action == 'update' %}
+        <a
+                id="ags-line-item-update-btn"
+                class="btn btn-primary text-white ags-line-item-action"
+                data-action="{{ action }}"
+                data-registration="{{ registration.identifier }}"
+                data-line-item-identifier="{{ lineItem.identifier }}"
+                data-line-item-url="{{ path('tool_ajax_service_ags_update_lineitem', {'lineItemIdentifier': lineItem.identifier|url_encode}) }}"
+        >
+            <i class="fas fa-save"></i>&nbsp;Update
+        </a>
+    {% endif %}
+    {% if action == 'cancel' %}
+        <a
+                id="ags-line-item-cancel-btn"
+                class="btn btn-secondary text-white ags-line-item-action"
+                data-action="{{ action }}"
+                data-registration="{{ registration.identifier }}"
+                data-line-item-identifier="{{ lineItem.identifier }}"
+                data-line-item-url="{{ path('tool_ajax_service_ags_view_lineitem', {'lineItemIdentifier': lineItem.identifier|url_encode}) }}"
+        >
+            <i class="fas fa-undo-alt"></i>&nbsp;Cancel
+        </a>
+    {% endif %}
+{% endfor %}
+<script>
+    $(".ags-line-item-action").click(function (event) {
+        let run = true;
+        let form = false;
+        let btn = $(this);
+
+        if ($(this).data("action") === "delete") {
+            run = confirm("Are you sure ?");
+        }
+
+        if ($(this).data("action") === "create" || $(this).data("action") === "update") {
+            form = $('#lineItemEditForm').serialize();
+        }
+
+        if (run) {
+            $.ajax({
+                url: btn.data("line-item-url"),
+                method: "GET",
+                data: {
+                    registration: btn.data("registration"),
+                    form: form
+                },
+                dataType: "json",
+                beforeSend: function(result){
+                    $("#agsModalLogo").removeClass("fa-square");
+                    $("#agsModalLogo").addClass("fa-spinner fa-spin");
+                    $("#agsModal").modal('show');
+                    $("#agsModalTitle").html("Processing");
+                    $("#agsModalFlashes").html("");
+                    $("#agsModalBody").html("processing ...");
+                    $("#agsModalActions").html("");
+                },
+                success: function(result){
+                    $("#agsModalLogo").removeClass("fa-spinner fa-spin");
+                    $("#agsModalLogo").addClass("fa-square");
+                    $("#agsModalTitle").html(result.title);
+                    $("#agsModalFlashes").html(result.flashes);
+                    $("#agsModalBody").html(result.body);
+                    $("#agsModalActions").html(result.actions);
+                    if (btn.data("action") === "create" || btn.data("action") === "delete") {
+                        $("#agsLoad").click();
+                    }
+                }
+            });
+        }
+    });
+</script>

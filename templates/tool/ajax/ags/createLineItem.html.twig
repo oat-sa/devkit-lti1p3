@@ -1,33 +1,29 @@
 <form id="lineItemEditForm">
-    <input type="hidden" id="lineItemIdentifier" name="lineItemIdentifier" value="{{ lineItem.identifier }}">
     <input type="hidden" id="lineItemRegistration" name="lineItemRegistration" value="{{ registration.identifier }}">
-    <div class="form-group">
-        <label for="lineItemLabel">Identifier</label><br/>
-        <code>{{ lineItem.identifier }}</code>
-    </div>
+    <input type="hidden" id="lineItemContainerUrl" name="lineItemContainerUrl" value="{{ containerUrl }}">
     <div class="form-group">
         <label for="lineItemLabel">Label</label>
-        <input type="text" class="form-control" id="lineItemLabel" name="lineItemLabel"  value="{{ lineItem.label }}" aria-describedby="lineItemLabelHelp">
+        <input type="text" class="form-control" id="lineItemLabel" name="lineItemLabel"  aria-describedby="lineItemLabelHelp">
         <small id="lineItemLabelHelp" class="form-text text-muted">Line item label</small>
     </div>
     <div class="form-group">
         <label for="lineItemScoreMaximum">Score maximum</label>
-        <input type="number" class="form-control" id="lineItemScoreMaximum" name="lineItemScoreMaximum" value="{{ lineItem.scoreMaximum }}" aria-describedby="lineItemScoreMaximumHelp">
+        <input type="number" class="form-control" id="lineItemScoreMaximum" name="lineItemScoreMaximum" aria-describedby="lineItemScoreMaximumHelp">
         <small id="lineItemScoreMaximumHelp" class="form-text text-muted">Line item score maximum</small>
     </div>
     <div class="form-group">
         <label for="lineItemResourceIdentifier">Resource identifier</label>
-        <input type="text" class="form-control" id="lineItemResourceIdentifier" name="lineItemResourceIdentifier" value="{{ lineItem.resourceIdentifier }}" aria-describedby="lineItemResourceIdentifierHelp">
+        <input type="text" class="form-control" id="lineItemResourceIdentifier" name="lineItemResourceIdentifier" aria-describedby="lineItemResourceIdentifierHelp">
         <small id="lineItemResourceIdentifierHelp" class="form-text text-muted">Line item resource identifier</small>
     </div>
     <div class="form-group">
         <label for="lineItemResourceLinkIdentifier">Resource link identifier</label>
-        <input type="text" class="form-control" id="lineItemResourceLinkIdentifier" name="lineItemResourceLinkIdentifier" value="{{ lineItem.resourceLinkIdentifier }}" aria-describedby="lineItemResourceLinkIdentifierHelp">
+        <input type="text" class="form-control" id="lineItemResourceLinkIdentifier" name="lineItemResourceLinkIdentifier" aria-describedby="lineItemResourceLinkIdentifierHelp">
         <small id="lineItemResourceLinkIdentifierHelp" class="form-text text-muted">Line item resource link identifier</small>
     </div>
     <div class="form-group">
         <label for="lineItemTag">Tag</label>
-        <input type="text" class="form-control" id="lineItemTag" name="lineItemTag" value="{{ lineItem.tag }}" aria-describedby="lineItemTagHelp">
+        <input type="text" class="form-control" id="lineItemTag" name="lineItemTag" aria-describedby="lineItemTagHelp">
         <small id="lineItemTagHelp" class="form-text text-muted">Line item tag</small>
     </div>
     <div class="row">
@@ -40,7 +36,7 @@
                             <i class="fas fa-calendar-day" aria-hidden="true"></i>
                         </a>
                     </div>
-                    <input id="lineItemStartDateTime" name="lineItemStartDateTime" value="{{ lineItem.startDateTime|format('Y-m-d H:i') }}" type="text" class="form-control datetimepicker-input" data-target="#lineItemStartDateTimeDatetimepicker" aria-describedby="lineItemStartDateTimeHelp"/>
+                    <input id="lineItemStartDateTime" name="lineItemStartDateTime" type="text" class="form-control datetimepicker-input" data-target="#lineItemStartDateTimeDatetimepicker" aria-describedby="lineItemStartDateTimeHelp"/>
                 </div>
                 <small id="lineItemStartDateTimeHelp" class="form-text text-muted">Line item start date</small>
             </div>
@@ -54,7 +50,7 @@
                             <i class="fas fa-calendar-day" aria-hidden="true"></i>
                         </a>
                     </div>
-                    <input id="lineItemEndDateTime" name="lineItemEndDateTime" value="{{ lineItem.endDateTime|format('Y-m-d H:i') }}" type="text" class="form-control datetimepicker-input" data-target="#lineItemEndDateTimeDatetimepicker" aria-describedby="lineItemEndDateTimeHelp"/>
+                    <input id="lineItemEndDateTime" name="lineItemEndDateTime" type="text" class="form-control datetimepicker-input" data-target="#lineItemEndDateTimeDatetimepicker" aria-describedby="lineItemEndDateTimeHelp"/>
                 </div>
                 <small id="lineItemEndDateTimeHelp" class="form-text text-muted">Line item end date</small>
             </div>

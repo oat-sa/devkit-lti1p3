@@ -57,7 +57,7 @@
                 &nbsp;<a class="navbar-brand" href="#">{% block nav_title %}{% endblock %}</a>
             </nav>
             <div class="container-fluid lti1p3-demo-app-content">
-                {% include 'notification/flashes.html.twig' %}
+                {% include 'notification/flashes.html.twig' with {'flashes': app.flashes} %}
                 {% block body %}{% endblock %}
             </div>
         </div>

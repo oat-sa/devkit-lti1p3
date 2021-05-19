@@ -68,6 +68,7 @@ class ListLineItemsServiceClientAction
                 [
                     'registration' => $registration,
                     'lineItemsContainer' => $lineItemsContainer,
+                    'lineItemsContainerUrl' => $request->get('url')
                 ]
             )
         );

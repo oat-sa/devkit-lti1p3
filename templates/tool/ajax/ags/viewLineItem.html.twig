@@ -1,34 +1,19 @@
-<div class="card bg-light">
-    <div class="card-header">
-        <i class="fas fa-square"></i>&nbsp;Line item <code>{{ lineItem.identifier }}</code> details
-    </div>
-    <div class="card-body">
-        <dl class="list-unstyled">
-            <dt>Identifier</dt>
-            <dd><code>{{ lineItem.identifier }}</code></dd>
-            <dt>Context identifier</dt>
-            <dd><code>{{ lineItem.contextIdentifier }}</code></dd>
-            <dt>Label</dt>
-            <dd>{{ lineItem.label }}</dd>
-            <dt>Score maximum</dt>
-            <dd>{{ lineItem.scoreMaximum }}</dd>
-            <dt>Resource identifier</dt>
-            <dd>{{ lineItem.resourceIdentifier }}</dd>
-            <dt>Resource link identifier</dt>
-            <dd>{{ lineItem.resourceLinkIdentifier }}</dd>
-            <dt>Tag</dt>
-            <dd>{{ lineItem.tag }}</dd>
-            <dt>Start date</dt>
-            <dd>{{ lineItem.startDateTime|format('Y-m-d H:i') }}</dd>
-            <dt>End date</dt>
-            <dd>{{ lineItem.endDateTime|format('Y-m-d H:i') }}</dd>
-        </dl>
-    </div>
-    <div class="card-footer text-muted">
-        <div class="btn-group float-right" role="group" aria-label="Basic example">
-            <a class="btn btn-primary text-white"><i class="fas fa-edit"></i>&nbsp;Edit</a>
-            <a class="btn btn-danger text-white"><i class="fas fa-trash"></i>&nbsp;Delete</a>
-            <a class="btn btn-secondary text-white" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</a>
-        </div>
-    </div>
-</div>
+
+<dl class="list-unstyled">
+    <dt>Identifier</dt>
+    <dd><code>{{ lineItem.identifier }}</code></dd>
+    <dt>Label</dt>
+    <dd>{{ lineItem.label }}</dd>
+    <dt>Score maximum</dt>
+    <dd>{{ lineItem.scoreMaximum }}</dd>
+    <dt>Resource identifier</dt>
+    <dd>{{ lineItem.resourceIdentifier|default('n/a') }}</dd>
+    <dt>Resource link identifier</dt>
+    <dd>{{ lineItem.resourceLinkIdentifier|default('n/a') }}</dd>
+    <dt>Tag</dt>
+    <dd>{{ lineItem.tag|default('n/a') }}</dd>
+    <dt>Start date</dt>
+    <dd>{{ lineItem.startDateTime|format('Y-m-d H:i')|default('n/a') }}</dd>
+    <dt>End date</dt>
+    <dd>{{ lineItem.endDateTime|format('Y-m-d H:i')|default('n/a') }}</dd>
+</dl>

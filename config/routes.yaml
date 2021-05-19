@@ -71,9 +71,34 @@ tool_ajax_service_ags_list_lineitems:
     controller: App\Action\Tool\Ajax\Ags\ListLineItemsServiceClientAction
     condition: "request.isXmlHttpRequest()"
 
+tool_ajax_service_ags_prepare_create_lineitem:
+    path: /tool/ajax/ags/line-items-prepare-create
+    controller: App\Action\Tool\Ajax\Ags\PrepareCreateLineItemServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_create_lineitem:
+    path: /tool/ajax/ags/line-items-create
+    controller: App\Action\Tool\Ajax\Ags\CreateLineItemServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_view_lineitem:
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/view
+    controller: App\Action\Tool\Ajax\Ags\ViewLineItemServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_prepare_update_lineitem:
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/prepare-update
+    controller: App\Action\Tool\Ajax\Ags\PrepareUpdateLineItemServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
 tool_ajax_service_ags_update_lineitem:
-    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/edit
-    controller: App\Action\Tool\Ajax\Ags\EditLineItemServiceClientAction
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/update
+    controller: App\Action\Tool\Ajax\Ags\UpdateLineItemServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_delete_lineitem:
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/delete
+    controller: App\Action\Tool\Ajax\Ags\DeleteLineItemServiceClientAction
     condition: "request.isXmlHttpRequest()"
 
 platform_service_nrps:

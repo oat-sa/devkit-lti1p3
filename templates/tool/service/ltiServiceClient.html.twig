@@ -13,18 +13,18 @@
                 {{ form_start(form) }}
                 {{ form_errors(form) }}
                 <div class="form-row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         {{ form_row(form.registration) }}
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         {{ form_row(form.scope) }}
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         {{ form_row(form.method) }}
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         {{ form_row(form.service_url) }}
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                                     </div>
                                     <div class="card-body">
                                         <dl class="list-unstyled">
-                                            <dt>Response status code</dt>
+                                            <dt>Call status code</dt>
                                             <dd>
                                                 {% if serviceData.code >= 200 and serviceData.code < 300 %}
                                                     <span class="badge badge-pill badge-success">

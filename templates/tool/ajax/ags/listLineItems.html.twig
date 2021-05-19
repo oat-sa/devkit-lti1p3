@@ -1,21 +1,22 @@
 <br/>
 <div class="card bg-light">
-    <div class="card-header">
-        <i class="fas fa-graduation-cap"></i>&nbsp;AGS line items container service response
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+            <i class="fas fa-graduation-cap"></i>&nbsp;AGS line items container service response
+        </div>
+        <a id="ags-container-line-item-create-btn" class="btn btn-primary text-white">
+            <i class="fas fa-plus-circle"></i>&nbsp;Create
+        </a>
     </div>
     <ul class="list-group list-group-flush">
         {% for lineItem in lineItemsContainer.lineItems.all %}
-            <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+            <li
+                    class="ags-container-line-item list-group-item list-group-item-action clickable"
+                    data-registration="{{ registration.identifier }}"
+                    data-line-item-identifier="{{ lineItem.identifier }}"
+                    data-line-item-url="{{ path('tool_ajax_service_ags_view_lineitem', {'lineItemIdentifier': lineItem.identifier|url_encode}) }}"
+            >
                 <code>{{ lineItem.identifier }}</code>
-                <button
-                        type="button"
-                        class="btn btn-primary"
-                        data-toggle="modal"
-                        data-target="#agsModal"
-                        data-modal-body='{{ include('tool/ajax/ags/viewLineItem.html.twig', {'registration': registration, 'lineItem': lineItem}) }}'
-                >
-                    <i class="fas fa-cogs"></i>&nbsp;Manage
-                </button>
             </li>
         {% else %}
             <a class="list-group-item list-group-item-dark">
@@ -28,5 +29,58 @@
     </div>
 </div>
 <script>
-    hljs.initHighlightingOnLoad();
+    $("#ags-container-line-item-create-btn").click(function (event) {
+        $.ajax({
+            url: "{{ path('tool_ajax_service_ags_prepare_create_lineitem') }}",
+            method: "GET",
+            data: {
+                registration: "{{ registration.identifier }}",
+                containerUrl: "{{ lineItemsContainerUrl }}"
+            },
+            dataType: "json",
+            beforeSend: function(result){
+                $("#agsModalLogo").removeClass("fa-square");
+                $("#agsModalLogo").addClass("fa-spinner fa-spin");
+                $("#agsModal").modal('show');
+                $("#agsModalTitle").html("Processing");
+                $("#agsModalFlashes").html("");
+                $("#agsModalBody").html("processing ...");
+                $("#agsModalActions").html("");
+            },
+            success: function(result){
+                $("#agsModalLogo").removeClass("fa-spinner fa-spin");
+                $("#agsModalLogo").addClass("fa-square");
+                $("#agsModalTitle").html(result.title);
+                $("#agsModalBody").html(result.body);
+                $("#agsModalActions").html(result.actions);
+            }
+        });
+    });
+    $(".ags-container-line-item").click(function (event) {
+        $.ajax({
+            url: $(this).data("line-item-url"),
+            method: "GET",
+            data: {
+                registration: $(this).data("registration")
+            },
+            dataType: "json",
+            beforeSend: function(result){
+                $("#agsModalLogo").removeClass("fa-square");
+                $("#agsModalLogo").addClass("fa-spinner fa-spin");
+                $("#agsModal").modal('show');
+                $("#agsModalTitle").html("Processing");
+                $("#agsModalFlashes").html("");
+                $("#agsModalBody").html("processing ...");
+                $("#agsModalActions").html("");
+            },
+            success: function(result){
+                $("#agsModalLogo").removeClass("fa-spinner fa-spin");
+                $("#agsModalLogo").addClass("fa-square");
+                $("#agsModalTitle").html(result.title);
+                $("#agsModalFlashes").html(result.flashes);
+                $("#agsModalBody").html(result.body);
+                $("#agsModalActions").html(result.actions);
+            }
+        });
+    });
 </script>
