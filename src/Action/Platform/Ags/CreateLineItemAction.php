@@ -74,19 +74,28 @@ class CreateLineItemAction
 
             $formData = $form->getData();
 
+            $lineItemIdentifierPath = $this->router->generate(
+                'platform_service_ags_get_line_item',
+                [
+                    'contextIdentifier' => $formData['line_item_context_id'],
+                    'lineItemIdentifier' => $formData['line_item_id'],
+                ]
+            );
+
+            $lineItemIdentifier = sprintf('%s%s', rtrim($request->getSchemeAndHttpHost(), '/'), $lineItemIdentifierPath);
+
             $lineItem = new LineItem(
                  $formData['line_item_score_maximum'],
                  $formData['line_item_label'],
-                 $formData['line_item_id'],
-                 $formData['line_item_context_id']
+                $lineItemIdentifier
             );
 
             $this->repository->save($lineItem);
 
-            $this->flashBag->add('success', sprintf('Line item %s creation success', $formData['line_item_id']));
+            $this->flashBag->add('success', sprintf('Line item %s creation success', $lineItemIdentifier));
 
             return new RedirectResponse(
-                $this->router->generate('platform_ags_view_line_item', ['lineItemIdentifier' => $formData['line_item_id']])
+                $this->router->generate('platform_ags_view_line_item', ['lineItemIdentifier' => urlencode($lineItemIdentifier)])
             );
         }
 

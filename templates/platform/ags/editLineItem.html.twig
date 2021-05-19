@@ -11,16 +11,13 @@
         {{ form_start(form) }}
         {{ form_errors(form) }}
         <div class="form-row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 {{ form_row(form.line_item_id) }}
             </div>
-            <div class="col-md-3">
-                {{ form_row(form.line_item_context_id) }}
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 {{ form_row(form.line_item_label) }}
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 {{ form_row(form.line_item_score_maximum) }}
             </div>
         </div>
@@ -28,7 +25,7 @@
     <div class="card-footer">
         <div class="btn-group float-right" role="group" aria-label="Basic example">
             {{ form_widget(form.submit) }}
-            <a href="{{ path('platform_ags_view_line_item', {'lineItemIdentifier': lineItem.identifier}) }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Cancel</a>
+            <a href="{{ path('platform_ags_view_line_item', {'lineItemIdentifier': lineItem.identifier|url_encode}) }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Cancel</a>
         </div>
     </div>
     {{ form_end(form) }}

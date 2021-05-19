@@ -78,7 +78,6 @@ class EditLineItemAction
             LineItemType::class,
             [
                 'line_item_id' => $lineItem->getIdentifier(),
-                'line_item_context_id' => $lineItem->getContextIdentifier(),
                 'line_item_label' => $lineItem->getLabel(),
                 'line_item_score_maximum' => $lineItem->getScoreMaximum(),
             ],
@@ -95,15 +94,14 @@ class EditLineItemAction
 
             $lineItem
                 ->setLabel($formData['line_item_label'])
-                ->setScoreMaximum($formData['line_item_score_maximum'])
-                ->setContextIdentifier($formData['line_item_context_id'] ?? null);
+                ->setScoreMaximum($formData['line_item_score_maximum']);
 
             $this->repository->save($lineItem);
 
             $this->flashBag->add('success', sprintf('Line item %s edition success', $formData['line_item_id']));
 
             return new RedirectResponse(
-                $this->router->generate('platform_ags_view_line_item', ['lineItemIdentifier' => $formData['line_item_id']])
+                $this->router->generate('platform_ags_view_line_item', ['lineItemIdentifier' => urlencode($formData['line_item_id'])])
             );
         }
 

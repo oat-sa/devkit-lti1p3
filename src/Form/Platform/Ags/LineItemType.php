@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace App\Form\Platform\Ags;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -42,26 +43,38 @@ class LineItemType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (!($options['edit'] ?? false)) {
+            $builder
+                ->add(
+                    'line_item_id',
+                    TextType::class,
+                    [
+                        'label' => 'Identifier',
+                        'required' => true,
+                        'help' => 'Line item identifier'
+                    ]
+                )
+                ->add(
+                    'line_item_context_id',
+                    TextType::class,
+                    [
+                        'label' => 'Context identifier',
+                        'required' => true,
+                        'help' => 'Line item context identifier'
+                    ]
+                );
+        } else {
+            $builder
+                ->add(
+                    'line_item_id',
+                    HiddenType::class,
+                    [
+                        'required' => true
+                    ]
+                );
+        }
+
         $builder
-            ->add(
-                'line_item_id',
-                TextType::class,
-                [
-                    'label' => 'Identifier',
-                    'required' => true,
-                    'help' => 'Line item identifier',
-                    'disabled' => $options['edit'] ?? false
-                ]
-            )
-            ->add(
-                'line_item_context_id',
-                TextType::class,
-                [
-                    'label' => 'Context identifier',
-                    'required' => true,
-                    'help' => 'Line item context identifier'
-                ]
-            )
             ->add(
                 'line_item_label',
                 TextType::class,
