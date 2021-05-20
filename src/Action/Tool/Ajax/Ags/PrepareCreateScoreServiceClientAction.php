@@ -27,9 +27,10 @@ use OAT\Library\Lti1p3Ags\Service\LineItem\Client\LineItemServiceClient;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-class ViewLineItemServiceClientAction
+class PrepareCreateScoreServiceClientAction
 {
     /** @var Environment */
     private $twig;
@@ -50,7 +51,7 @@ class ViewLineItemServiceClientAction
         $this->repository = $repository;
     }
 
-    public function __invoke(Request $request, string $lineItemIdentifier): JsonResponse
+    public function __invoke(Request $request, string $lineItemIdentifier): Response
     {
         try {
             $registration = $this->repository->find($request->get('registration'));
@@ -59,12 +60,12 @@ class ViewLineItemServiceClientAction
 
             return new JsonResponse(
                 [
-                    'title' => 'Line item details',
+                    'title' => 'Score creation',
                     'body' => $this->twig->render(
-                        'tool/ajax/ags/viewLineItem.html.twig',
+                        'tool/ajax/ags/createScore.html.twig',
                         [
                             'registration' => $registration,
-                            'lineItem' => $lineItem,
+                            'lineItem' => $lineItem
                         ]
                     ),
                     'actions' => $this->twig->render(
@@ -73,9 +74,8 @@ class ViewLineItemServiceClientAction
                             'registration' => $registration,
                             'lineItem' => $lineItem,
                             'actions' => [
-                                'create-score',
-                                'edit',
-                                'delete'
+                                'score',
+                                'cancel'
                             ]
                         ]
                     ),
@@ -84,13 +84,13 @@ class ViewLineItemServiceClientAction
         } catch (Exception $exception) {
             return new JsonResponse(
                 [
-                    'title' => 'Line item details',
+                    'title' => 'Score creation',
                     'flashes' => $this->twig->render(
                         'notification/flashes.html.twig',
                         [
                             'flashes' => [
                                 'error' => [
-                                    sprintf('Line item %s details error: %s', $lineItemIdentifier, $exception->getMessage())
+                                    sprintf('Score creation error: %s', $exception->getMessage())
                                 ]
                             ]
                         ]

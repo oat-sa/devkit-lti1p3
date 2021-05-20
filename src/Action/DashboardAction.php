@@ -27,7 +27,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-class HomeAction
+class DashboardAction
 {
     /** @var ParameterBagInterface */
     private $parameterBag;
@@ -45,7 +45,7 @@ class HomeAction
     {
         return new Response(
             $this->twig->render(
-                'home/home.html.twig',
+                'dashboard/dashboard.html.twig',
                 [
                     'configuration' => $this->parameterBag->get('lti1p3_resolved_configuration')
                 ]

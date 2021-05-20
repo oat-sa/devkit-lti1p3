@@ -1,4 +1,16 @@
 {% for action in actions  %}
+    {% if action == 'create-score' %}
+        <a
+                id="ags-line-item-score-btn"
+                class="btn btn-info text-white ags-line-item-action"
+                data-action="{{ action }}"
+                data-registration="{{ registration.identifier }}"
+                data-line-item-identifier="{{ lineItem.identifier }}"
+                data-line-item-url="{{ path('tool_ajax_service_ags_prepare_score', {'lineItemIdentifier': lineItem.identifier|url_encode}) }}"
+        >
+            <i class="fas fa-poll"></i>&nbsp;Create score
+        </a>
+    {% endif %}
     {% if action == 'create' %}
         <a
                 id="ags-line-item-create-btn"

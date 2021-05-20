@@ -1,0 +1,87 @@
+<form id="scoreCreateForm">
+    <input type="hidden" id="scoreRegistration" name="scoreRegistration" value="{{ registration.identifier }}">
+    <input type="hidden" id="scoreLineItemUrl" name="scoreLineItemUrl" value="{{ lineItem.identifier }}">
+    <div class="form-group">
+        <label for="scoreLineItemLabel">Line item identifier</label><br/>
+        <code>{{ lineItem.identifier }}</code>
+    </div>
+    <div class="form-group">
+        <label for="scoreUserIdentifier">User identifier</label>
+        <input type="text" class="form-control" id="scoreUserIdentifier" name="scoreUserIdentifier" aria-describedby="scoreUserIdentifierHelp">
+        <small id="scoreUserIdentifierHelp" class="form-text text-muted">Score user identifier</small>
+    </div>
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="form-group">
+                <label for="scoreActivityProgress">Activity progress</label>
+                <select id="scoreActivityProgress" name="scoreActivityProgress" aria-describedby="scoreActivityProgressHelp" class="form-control">
+                    {% for activity in constant('OAT\\Library\\Lti1p3Ags\\Model\\Score\\ScoreInterface::SUPPORTED_ACTIVITY_PROGRESS_STATUSES') %}
+                        <option value="{{ activity }}">{{ activity }}</option>
+                    {% endfor %}
+                </select>
+                <small id="scoreActivityProgressHelp" class="form-text text-muted">Score activity progress</small>
+            </div>
+        </div>
+        <div class="col col-md-6">
+            <div class="form-group">
+                <label for="scoreGradingProgress">Grading progress</label>
+                <select id="scoreGradingProgress" name="scoreGradingProgress" aria-describedby="scoreGradingProgressHelp" class="form-control">
+                    {% for grading in constant('OAT\\Library\\Lti1p3Ags\\Model\\Score\\ScoreInterface::SUPPORTED_GRADING_PROGRESS_STATUSES') %}
+                        <option value="{{ grading }}">{{ grading }}</option>
+                    {% endfor %}
+                </select>
+                <small id="scoreGradingProgressHelp" class="form-text text-muted">Score grading progress</small>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="form-group">
+                <label for="scoreGiven">Score given</label>
+                <input type="number" class="form-control" id="scoreGiven" name="scoreGiven" aria-describedby="scoreGivenHelp">
+                <small id="scoreGivenHelp" class="form-text text-muted">Score given</small>
+            </div>
+        </div>
+        <div class="col col-md-6">
+            <div class="form-group">
+                <label for="scoreMaximum">Score maximum</label>
+                <input type="number" class="form-control" id="scoreMaximum" name="scoreMaximum" aria-describedby="scoreMaximumHelp">
+                <small id="scoreMaximumHelp" class="form-text text-muted">Score maximum</small>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="form-group">
+                <label for="scoreComment">Comment</label>
+                <input type="number" class="form-control" id="scoreComment" name="scoreComment" aria-describedby="scoreCommentHelp">
+                <small id="scoreCommentHelp" class="form-text text-muted">Score comment</small>
+            </div>
+        </div>
+        <div class="col col-md-6">
+            <div class="form-group">
+                <label for="scoreTimestamp">Timestamp</label>
+                <div class="input-group" id="scoreTimestampDatetimepicker" data-target-input="nearest">
+                    <div class="input-group-prepend">
+                        <a class="btn btn-secondary text-white" data-target="#scoreTimestampDatetimepicker" data-toggle="datetimepicker">
+                            <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <input id="scoreTimestamp" name="scoreTimestamp" type="text" class="form-control datetimepicker-input" data-target="#scoreTimestampDatetimepicker" aria-describedby="scoreTimestampHelp"/>
+                </div>
+                <small id="scoreTimestampHelp" class="form-text text-muted">Score timestamp</small>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $("#scoreTimestampDatetimepicker").datetimepicker({
+        format: "YYYY-MM-DD HH:mm",
+        allowInputToggle: true,
+        buttons: {
+            showToday: true,
+            showClear: true,
+            showClose: true
+        }
+    });
+</script>

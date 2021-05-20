@@ -1,6 +1,6 @@
-home:
+dashboard:
     path: /
-    controller: App\Action\HomeAction
+    controller: App\Action\DashboardAction
 
 platform_message_launch_lti_resource_link:
     path: /platform/message/launch/lti-resource-link
@@ -99,6 +99,11 @@ tool_ajax_service_ags_update_lineitem:
 tool_ajax_service_ags_delete_lineitem:
     path: /tool/ajax/ags/line-items/{lineItemIdentifier}/delete
     controller: App\Action\Tool\Ajax\Ags\DeleteLineItemServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_prepare_score:
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/score/prepare-create
+    controller: App\Action\Tool\Ajax\Ags\PrepareCreateScoreServiceClientAction
     condition: "request.isXmlHttpRequest()"
 
 platform_service_nrps:

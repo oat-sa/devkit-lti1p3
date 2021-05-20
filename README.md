@@ -1,11 +1,11 @@
-# LTI 1.3 Demo Application
+# LTI 1.3 DevKit
 
 [![Latest Version](https://img.shields.io/github/tag/oat-sa/demo-lti1p3.svg?style=flat&label=release)](https://github.com/oat-sa/demo-lti1p3/tags)
 [![License GPL2](http://img.shields.io/badge/licence-GPL%202.0-blue.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
 
-> [Symfony](https://symfony.com/) demo application for LTI 1.3, to act as a [LTI platform and / or tool](http://www.imsglobal.org/spec/lti/v1p3/#platforms-and-tools-0).
+> [Symfony](https://symfony.com/) based development kit application for LTI 1.3, to act as a [LTI platform and / or tool](http://www.imsglobal.org/spec/lti/v1p3/#platforms-and-tools-0).
 
-This demo application based on the following packages:
+This development kit application based on the following packages:
 - [LTI 1.3 symfony bundle](https://github.com/oat-sa/bundle-lti1p3)
 - [LTI 1.3 NRPS library](https://github.com/oat-sa/lib-lti1p3-nrps)
 - [LTI 1.3 deep linking library](https://github.com/oat-sa/lib-lti1p3-deep-linking)
@@ -16,20 +16,20 @@ This demo application based on the following packages:
 
 ## Table of Contents
 
-- [Live demo](#live-demo)
+- [Try it live](#try-it-live)
 - [Specifications](#specifications)
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
 - [Tests](#tests)
 
-## Live demo
+## Try it live
  
-To try it live: [https://lti.showcase.gcp.taocloud.org](https://lti.showcase.gcp.taocloud.org)
+We host a public version of this development kit application, to try it live: [https://lti.showcase.gcp.taocloud.org](https://lti.showcase.gcp.taocloud.org)
 
 ## Specifications
  
-This demo application respect the following LTI 1.3 [IMS](http://www.imsglobal.org) specifications:
+This development kit application implements the following LTI 1.3 [IMS](http://www.imsglobal.org) specifications:
 - [IMS Security](https://www.imsglobal.org/spec/security/v1p0)
 - [IMS LTI 1.3 NRPS](https://www.imsglobal.org/spec/lti-nrps/v2p0)
 - [IMS LTI 1.3 Deep Linking](https://www.imsglobal.org/spec/lti-dl/v2p0/)
@@ -63,11 +63,11 @@ For Windows users:
 
 ### Platforms, tools and registrations
 
-Since this demo application relies on [LTI 1.3 symfony bundle](https://github.com/oat-sa/bundle-lti1p3), you can find [here](https://github.com/oat-sa/bundle-lti1p3/blob/master/doc/quickstart/configuration.md) instructions to configure it.
+Since this development kit application relies on [LTI 1.3 symfony bundle](https://github.com/oat-sa/bundle-lti1p3), you can find [here](https://github.com/oat-sa/bundle-lti1p3/blob/master/doc/quickstart/configuration.md) instructions to configure it.
 
 ### Customization
 
-You can find in the [config/demo](config/demo) folder configuration files to customize the LTI 1.3 demo application:
+You can find in the [config/demo](config/demo) folder configuration files to customize the development kit application:
 - [claims.yaml](config/demo/claims.yaml): configurable editor claims list
 - [deep_linking.yaml](config/demo/deep_linking.yaml): configurable deep linking resources list
 - [users.yaml](config/demo/users.yaml): configurable users list
@@ -76,25 +76,25 @@ You can find in the [config/demo](config/demo) folder configuration files to cus
 
 ### Application
 
-After installation, the LTI 1.3 demo application is available on [http://localhost:8888](http://localhost:8888)
+After installation, the development kit application is available on [http://localhost:8888](http://localhost:8888)
 
 ### Services
 
 After installation, the following services are available:
 
-| Name                                 | Description                      |
-|--------------------------------------|----------------------------------|
-| demo_lti1p3_nginx                    | application nginx web server     |
-| demo_lti1p3_phpfpm                   | application php-fpm              |
-| demo_lti1p3_redis                    | application cache                |
-| demo_lti1p3_redis_commander          | application cache administration |
+| Name                                   | Description            |
+|----------------------------------------|------------------------|
+| devkit_lti1p3_nginx                    | nginx web server       |
+| devkit_lti1p3_phpfpm                   | php-fpm                |
+| devkit_lti1p3_redis                    | cache                  |
+| devkit_lti1p3_redis_commander          | cache administration   |
 
 You can access:
 
-| Name                                 | URL                                            |
-|--------------------------------------|------------------------------------------------|
-| demo_lti1p3_nginx                    | [http://localhost:8888](http://localhost:8888) |
-| demo_lti1p3_redis_commander          | [http://localhost:8081](http://localhost:8081) |
+| Name                                   | URL                                            |
+|----------------------------------------|------------------------------------------------|
+| devkit_lti1p3_nginx                    | [http://localhost:8888](http://localhost:8888) |
+| devkit_lti1p3_redis_commander          | [http://localhost:8081](http://localhost:8081) |
 
 ## Tests
 
