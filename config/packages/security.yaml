@@ -16,7 +16,8 @@ security:
             lti1p3_service: {
                 scopes: [
                     'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem',
-                    'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly'
+                    'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly',
+                    'https://purl.imsglobal.org/spec/lti-ags/scope/score'
                 ]
             }
         platform_service_nrps_area:

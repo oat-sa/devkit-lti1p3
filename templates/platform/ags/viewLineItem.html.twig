@@ -57,20 +57,28 @@
                             <dd>{{ lineItem.tag|default('n/a') }}</dd>
                             <dt>End date</dt>
                             <dd>{{ lineItem.endDateTime|format('Y-m-d H:i')|default('n/a') }}</dd>
+                            <dt>Scores</dt>
+                            <dd>{{ scores|length }}</dd>
                         </dl>
                     </div>
                 </div>
             </div>
             <div class="tab-pane fade" id="pills-scores" role="tabpanel" aria-labelledby="pills-scores-tab">
-                <div class="input-group mb-3">
-                    <input type="text" id="agsScoreSearch" class="form-control" placeholder="Search">
-                    <div class="input-group-append">
-                        <button id="agsScoreSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                {% if scores|length != 0 %}
+                    <div class="input-group mb-3">
+                        <input type="text" id="agsScoreSearch" class="form-control" placeholder="Search">
+                        <div class="input-group-append">
+                            <button id="agsScoreSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                        </div>
                     </div>
-                </div>
-                <pre>
-                    <code id="agsScoreZone" class="language-json">{}</code>
-                </pre>
+                    <pre>
+                        <code id="agsScoreZone" class="language-json">{{ scores|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                    </pre>
+                {% else %}
+                    <div class="alert alert-dark" role="alert">
+                        <i class="fas fa-ban"></i>&nbsp;No scores found
+                    </div>
+                {% endif %}
             </div>
             <div class="tab-pane fade" id="pills-result" role="tabpanel" aria-labelledby="pills-result-tab">
                 todo

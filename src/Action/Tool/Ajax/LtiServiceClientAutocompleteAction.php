@@ -22,7 +22,9 @@ declare(strict_types=1);
 
 namespace App\Action\Tool\Ajax;
 
+use OAT\Library\Lti1p3Ags\Serializer\Score\ScoreSerializerInterface;
 use OAT\Library\Lti1p3Ags\Service\LineItem\LineItemServiceInterface;
+use OAT\Library\Lti1p3Ags\Service\Score\ScoreServiceInterface;
 use OAT\Library\Lti1p3BasicOutcome\Service\BasicOutcomeServiceInterface;
 use OAT\Library\Lti1p3Nrps\Service\MembershipServiceInterface;
 use OAT\Library\Lti1p3Proctoring\Service\AcsServiceInterface;
@@ -58,6 +60,7 @@ class LtiServiceClientAutocompleteAction
             AcsServiceInterface::AUTHORIZATION_SCOPE_CONTROL,
             LineItemServiceInterface::AUTHORIZATION_SCOPE_LINE_ITEM,
             LineItemServiceInterface::AUTHORIZATION_SCOPE_LINE_ITEM_READ_ONLY,
+            ScoreServiceInterface::AUTHORIZATION_SCOPE_SCORE,
         ];
 
         $filteredScopes = !empty($query)
@@ -75,6 +78,7 @@ class LtiServiceClientAutocompleteAction
             AcsServiceInterface::CONTENT_TYPE_CONTROL,
             LineItemServiceInterface::CONTENT_TYPE_LINE_ITEM,
             LineItemServiceInterface::CONTENT_TYPE_LINE_ITEM_CONTAINER,
+            ScoreServiceInterface::CONTENT_TYPE_SCORE,
         ];
 
         $filteredMedias = !empty($query)

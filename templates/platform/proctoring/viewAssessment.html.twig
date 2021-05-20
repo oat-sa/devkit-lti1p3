@@ -13,7 +13,7 @@
             </li>
             <li class="nav-item">
                 <a a class="nav-link" id="pills-controls-tab" data-toggle="pill" href="#pills-controls" role="tab" aria-controls="pills-controls" aria-selected="false">
-                    <i class="fas fa-file-signature"></i>&nbsp;ACS Controls
+                    <i class="fas fa-file-signature"></i>&nbsp;Controls
                 </a>
             </li>
         </ul>
@@ -26,7 +26,7 @@
                         <dl class="list-unstyled">
                             <dt>Identifier</dt>
                             <dd><code>{{ assessment.identifier }}</code></dd>
-                            <dt>ACS controls</dt>
+                            <dt>Controls</dt>
                             <dd>{{ assessment.controls|length }}</dd>
                             <dt>ACS service url</dt>
                             {% set acsUrl = absolute_app_url('platform_service_acs', {'assessmentIdentifier': assessment.identifier}) %}
@@ -48,17 +48,22 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="pills-controls" role="tabpanel" aria-labelledby="pills-controls-tab">
-                <div class="input-group mb-3">
-                    <input type="text" id="acsControlSearch" class="form-control" placeholder="Search">
-                    <div class="input-group-append">
-                        <button id="acsControlSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                {% if assessment.controls|length != 0 %}
+                    <div class="input-group mb-3">
+                        <input type="text" id="acsControlSearch" class="form-control" placeholder="Search">
+                        <div class="input-group-append">
+                            <button id="acsControlSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                        </div>
                     </div>
-                </div>
-                <pre>
-                    <code id="acsControlZone" class="language-json">{{ assessment.controls|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
-                </pre>
+                    <pre>
+                        <code id="acsControlZone" class="language-json">{{ assessment.controls|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                    </pre>
+                {% else %}
+                    <div class="alert alert-dark" role="alert">
+                        <i class="fas fa-ban"></i>&nbsp;No controls found
+                    </div>
+                {% endif %}
             </div>
-
         </div>
     </div>
     <div class="card-footer">
