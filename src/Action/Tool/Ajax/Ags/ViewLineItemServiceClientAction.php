@@ -100,6 +100,5 @@ class ViewLineItemServiceClientAction
                 ]
             );
         }
-
     }
 }

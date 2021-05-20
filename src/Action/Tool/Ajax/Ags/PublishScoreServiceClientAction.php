@@ -141,6 +141,5 @@ class PublishScoreServiceClientAction
                 ]
             );
         }
-
     }
 }
