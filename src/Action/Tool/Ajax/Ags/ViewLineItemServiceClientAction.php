@@ -73,7 +73,7 @@ class ViewLineItemServiceClientAction
                             'registration' => $registration,
                             'lineItem' => $lineItem,
                             'actions' => [
-                                'create-score',
+                                'prepare-score',
                                 'edit',
                                 'delete'
                             ]

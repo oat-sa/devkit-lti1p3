@@ -1,14 +1,26 @@
 {% for action in actions  %}
-    {% if action == 'create-score' %}
+    {% if action == 'prepare-score' %}
         <a
-                id="ags-line-item-score-btn"
+                id="ags-line-item-prepare-score-btn"
                 class="btn btn-info text-white ags-line-item-action"
                 data-action="{{ action }}"
                 data-registration="{{ registration.identifier }}"
                 data-line-item-identifier="{{ lineItem.identifier }}"
                 data-line-item-url="{{ path('tool_ajax_service_ags_prepare_score', {'lineItemIdentifier': lineItem.identifier|url_encode}) }}"
         >
-            <i class="fas fa-poll"></i>&nbsp;Create score
+            <i class="fas fa-poll"></i>&nbsp;Score
+        </a>
+    {% endif %}
+    {% if action == 'publish-score' %}
+        <a
+                id="ags-line-item-send-score-btn"
+                class="btn btn-info text-white ags-line-item-action"
+                data-action="{{ action }}"
+                data-registration="{{ registration.identifier }}"
+                data-line-item-identifier="{{ lineItem.identifier }}"
+                data-line-item-url="{{ path('tool_ajax_service_ags_publish_score', {'lineItemIdentifier': lineItem.identifier|url_encode}) }}"
+        >
+            <i class="fas fa-sign-in-alt"></i>&nbsp;Publish score
         </a>
     {% endif %}
     {% if action == 'create' %}
@@ -83,6 +95,10 @@
 
         if ($(this).data("action") === "create" || $(this).data("action") === "update") {
             form = $('#lineItemEditForm').serialize();
+        }
+
+        if ($(this).data("action") === "publish-score") {
+            form = $('#scoreSendForm').serialize();
         }
 
         if (run) {

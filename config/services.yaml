@@ -33,6 +33,8 @@ services:
     # LTI AGS dependencies
     OAT\Library\Lti1p3Ags\Service\LineItem\Client\LineItemServiceClient: ~
 
+    OAT\Library\Lti1p3Ags\Service\Score\Client\ScoreServiceClient: ~
+
     OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface:
         class: App\Ags\LineItemRepository
 
@@ -61,6 +63,7 @@ services:
 
     OAT\Library\Lti1p3Ags\Service\Score\Server\Handler\ScoreServiceServerRequestHandler:
         arguments:
+            - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
             - '@OAT\Library\Lti1p3Ags\Repository\ScoreRepositoryInterface'
 
     app.service.ags_list_line_items_controller:

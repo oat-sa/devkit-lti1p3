@@ -1,4 +1,4 @@
-<form id="scoreCreateForm">
+<form id="scoreSendForm">
     <input type="hidden" id="scoreRegistration" name="scoreRegistration" value="{{ registration.identifier }}">
     <input type="hidden" id="scoreLineItemUrl" name="scoreLineItemUrl" value="{{ lineItem.identifier }}">
     <div class="form-group">
@@ -54,7 +54,7 @@
         <div class="col col-md-6">
             <div class="form-group">
                 <label for="scoreComment">Comment</label>
-                <input type="number" class="form-control" id="scoreComment" name="scoreComment" aria-describedby="scoreCommentHelp">
+                <input type="text" class="form-control" id="scoreComment" name="scoreComment" aria-describedby="scoreCommentHelp">
                 <small id="scoreCommentHelp" class="form-text text-muted">Score comment</small>
             </div>
         </div>

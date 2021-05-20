@@ -22,32 +22,41 @@ declare(strict_types=1);
 
 namespace App\Action\Tool\Ajax\Ags;
 
+use Carbon\Carbon;
 use Exception;
+use InvalidArgumentException;
+use OAT\Library\Lti1p3Ags\Model\Score\Score;
 use OAT\Library\Lti1p3Ags\Service\LineItem\Client\LineItemServiceClient;
+use OAT\Library\Lti1p3Ags\Service\Score\Client\ScoreServiceClient;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-class PrepareCreateScoreServiceClientAction
+class PublishScoreServiceClientAction
 {
     /** @var Environment */
     private $twig;
 
     /** @var LineItemServiceClient */
-    private $client;
+    private $lineItemServiceClient;
+
+    /** @var ScoreServiceClient */
+    private $scoreServiceClient;
 
     /** @var RegistrationRepositoryInterface */
     private $repository;
 
     public function __construct(
         Environment $twig,
-        LineItemServiceClient $client,
+        LineItemServiceClient $lineItemServiceClient,
+        ScoreServiceClient $scoreServiceClient,
         RegistrationRepositoryInterface $repository
     ) {
         $this->twig = $twig;
-        $this->client = $client;
+        $this->lineItemServiceClient = $lineItemServiceClient;
+        $this->scoreServiceClient = $scoreServiceClient;
         $this->repository = $repository;
     }
 
@@ -56,16 +65,47 @@ class PrepareCreateScoreServiceClientAction
         try {
             $registration = $this->repository->find($request->get('registration'));
 
-            $lineItem = $this->client->getLineItem($registration, $lineItemIdentifier);
+            $lineItem = $this->lineItemServiceClient->getLineItem($registration, $lineItemIdentifier);
+
+            parse_str($request->get('form'), $formParameters);
+
+            if (empty($formParameters['scoreUserIdentifier'])) {
+                throw new InvalidArgumentException('Missing required user identifier');
+            }
+
+            $score = new Score(
+                $formParameters['scoreUserIdentifier'],
+                $formParameters['scoreActivityProgress'],
+                $formParameters['scoreGradingProgress'],
+                $lineItem->getIdentifier(),
+                (float)$formParameters['scoreGiven'] ?? null,
+                (float)$formParameters['scoreMaximum'] ?? null,
+                $formParameters['scoreComment'] ?? null,
+                !empty($formParameters['scoreTimestamp'])
+                    ? Carbon::createFromFormat('Y-m-d H:i', $formParameters['scoreTimestamp'])
+                    : Carbon::now()
+            );
+
+            $this->scoreServiceClient->publish($registration, $score, $lineItemIdentifier);
 
             return new JsonResponse(
                 [
-                    'title' => 'Score creation',
+                    'title' => 'Line item details',
+                    'flashes' => $this->twig->render(
+                        'notification/flashes.html.twig',
+                        [
+                            'flashes' => [
+                                'success' => [
+                                    sprintf('Score publication on line item %s success', $lineItemIdentifier)
+                                ]
+                            ]
+                        ]
+                    ),
                     'body' => $this->twig->render(
-                        'tool/ajax/ags/createScore.html.twig',
+                        'tool/ajax/ags/viewLineItem.html.twig',
                         [
                             'registration' => $registration,
-                            'lineItem' => $lineItem
+                            'lineItem' => $lineItem,
                         ]
                     ),
                     'actions' => $this->twig->render(
@@ -74,8 +114,9 @@ class PrepareCreateScoreServiceClientAction
                             'registration' => $registration,
                             'lineItem' => $lineItem,
                             'actions' => [
-                                'score',
-                                'cancel'
+                                'prepare-score',
+                                'edit',
+                                'delete'
                             ]
                         ]
                     ),
@@ -84,13 +125,13 @@ class PrepareCreateScoreServiceClientAction
         } catch (Exception $exception) {
             return new JsonResponse(
                 [
-                    'title' => 'Score creation',
+                    'title' => 'Score publication',
                     'flashes' => $this->twig->render(
                         'notification/flashes.html.twig',
                         [
                             'flashes' => [
                                 'error' => [
-                                    sprintf('Score creation error: %s', $exception->getMessage())
+                                    sprintf('Score publication error: %s', $exception->getMessage())
                                 ]
                             ]
                         ]

@@ -22,9 +22,7 @@ declare(strict_types=1);
 
 namespace App\Action\Tool\Ajax\Ags;
 
-use Carbon\Carbon;
 use Exception;
-use OAT\Library\Lti1p3Ags\Model\LineItem\LineItem;
 use OAT\Library\Lti1p3Ags\Service\LineItem\Client\LineItemServiceClient;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,7 +30,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-class UpdateLineItemServiceClientAction
+class PrepareScoreServiceClientAction
 {
     /** @var Environment */
     private $twig;
@@ -58,43 +56,16 @@ class UpdateLineItemServiceClientAction
         try {
             $registration = $this->repository->find($request->get('registration'));
 
-            parse_str($request->get('form'), $formParameters);
-
-            $lineItem = new LineItem(
-                (float)$formParameters['lineItemScoreMaximum'],
-                $formParameters['lineItemLabel'],
-                $formParameters['lineItemIdentifier'],
-                $formParameters['lineItemResourceIdentifier'] ?? null,
-                $formParameters['lineItemResourceLinkIdentifier'] ?? null,
-                $formParameters['lineItemTag'] ?? null,
-                !empty($formParameters['lineItemStartDateTime'])
-                    ? Carbon::createFromFormat('Y-m-d H:i', $formParameters['lineItemStartDateTime'])
-                    : null,
-                !empty($formParameters['lineItemEndDateTime'])
-                    ? Carbon::createFromFormat('Y-m-d H:i', $formParameters['lineItemEndDateTime'])
-                    : null
-            );
-
-            $this->client->updateLineItem($registration, $lineItem);
+            $lineItem = $this->client->getLineItem($registration, $lineItemIdentifier);
 
             return new JsonResponse(
                 [
-                    'title' => 'Line item details',
-                    'flashes' => $this->twig->render(
-                        'notification/flashes.html.twig',
-                        [
-                            'flashes' => [
-                                'success' => [
-                                    sprintf('Line item %s edition success', $lineItemIdentifier)
-                                ]
-                            ]
-                        ]
-                    ),
+                    'title' => 'Score creation',
                     'body' => $this->twig->render(
-                        'tool/ajax/ags/viewLineItem.html.twig',
+                        'tool/ajax/ags/prepareScore.html.twig',
                         [
                             'registration' => $registration,
-                            'lineItem' => $lineItem,
+                            'lineItem' => $lineItem
                         ]
                     ),
                     'actions' => $this->twig->render(
@@ -103,9 +74,8 @@ class UpdateLineItemServiceClientAction
                             'registration' => $registration,
                             'lineItem' => $lineItem,
                             'actions' => [
-                                'prepare-score',
-                                'edit',
-                                'delete'
+                                'publish-score',
+                                'cancel'
                             ]
                         ]
                     ),
@@ -114,13 +84,13 @@ class UpdateLineItemServiceClientAction
         } catch (Exception $exception) {
             return new JsonResponse(
                 [
-                    'title' => 'Line item edition',
+                    'title' => 'Score creation',
                     'flashes' => $this->twig->render(
                         'notification/flashes.html.twig',
                         [
                             'flashes' => [
                                 'error' => [
-                                    sprintf('Line item %s edition error: %s', $lineItemIdentifier, $exception->getMessage())
+                                    sprintf('Score creation error: %s', $exception->getMessage())
                                 ]
                             ]
                         ]
