@@ -31,8 +31,16 @@
                         <dl class="list-unstyled">
                             <dt>Identifier</dt>
                             <dd><code>{{ lineItem.identifier }}</code></dd>
-                            <dt>Label</dt>
-                            <dd>{{ lineItem.label }}</dd>
+                            <dt>Resource identifier</dt>
+                            <dd>{{ lineItem.resourceIdentifier|default('n/a') }}</dd>
+                            <dt>Score maximum</dt>
+                            <dd>
+                                <span class="badge badge-pill badge-info">
+                                    {{ lineItem.scoreMaximum }}
+                                </span>
+                            </dd>
+                            <dt>Start date</dt>
+                            <dd>{{ lineItem.startDateTime|format('Y-m-d H:i')|default('n/a') }}</dd>
                             <dt>AGS service url</dt>
                             <dd>
                                 <a href="{{ lineItem.url }}" target="_blank">{{ lineItem.url }}</a>
@@ -41,12 +49,14 @@
                     </div>
                     <div class="col-md-6">
                         <dl class="list-unstyled">
-                            <dt>Score maximum</dt>
-                            <dd>
-                                <span class="badge badge-pill badge-primary">
-                                    {{ lineItem.scoreMaximum }}
-                                </span>
-                            </dd>
+                            <dt>Label</dt>
+                            <dd>{{ lineItem.label }}</dd>
+                            <dt>Resource link identifier</dt>
+                            <dd>{{ lineItem.resourceLinkIdentifier|default('n/a') }}</dd>
+                            <dt>Tag</dt>
+                            <dd>{{ lineItem.tag|default('n/a') }}</dd>
+                            <dt>End date</dt>
+                            <dd>{{ lineItem.endDateTime|format('Y-m-d H:i')|default('n/a') }}</dd>
                         </dl>
                     </div>
                 </div>

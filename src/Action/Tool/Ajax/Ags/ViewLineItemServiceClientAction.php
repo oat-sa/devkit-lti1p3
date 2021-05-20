@@ -27,7 +27,6 @@ use OAT\Library\Lti1p3Ags\Service\LineItem\Client\LineItemServiceClient;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
 class ViewLineItemServiceClientAction

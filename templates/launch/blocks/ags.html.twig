@@ -152,8 +152,8 @@
                     registration: "{{ token.registration.identifier }}",
                     url: $("#agsUrl").val(),
                     scope: $("#agsScope").val(),
-                    resourceLinkId: $("#agsResourceLinkId").val(),
                     resourceId: $("#agsResourceId").val(),
+                    resourceLinkId: $("#agsResourceLinkId").val(),
                     tag: $("#agsTag").val(),
                     limit: $("#agsLimit").val(),
                 },
@@ -191,8 +191,8 @@
         $("#agsReset").click(function(){
             $("#agsZone").html("");
             $('#agsScope :nth-child(1)').prop('selected', true);
-            $("#agsResourceLinkId").val("");
             $("#agsResourceId").val("");
+            $("#agsResourceLinkId").val("");
             $("#agsTag").val("");
             $("#agsLimit").val("");
         });

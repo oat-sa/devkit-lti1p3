@@ -64,14 +64,18 @@ class UpdateLineItemServiceClientAction
                 (float)$formParameters['lineItemScoreMaximum'],
                 $formParameters['lineItemLabel'],
                 $formParameters['lineItemIdentifier'],
-                $formParameters['lineItemResourceIdentifier'],
-                $formParameters['lineItemResourceLinkIdentifier'],
-                $formParameters['lineItemTag'],
-                Carbon::createFromFormat('Y-m-d H:i', $formParameters['lineItemStartDateTime']),
-                Carbon::createFromFormat('Y-m-d H:i', $formParameters['lineItemEndDateTime'])
+                $formParameters['lineItemResourceIdentifier'] ?? null,
+                $formParameters['lineItemResourceLinkIdentifier'] ?? null,
+                $formParameters['lineItemTag'] ?? null,
+                !empty($formParameters['lineItemStartDateTime'])
+                    ? Carbon::createFromFormat('Y-m-d H:i', $formParameters['lineItemStartDateTime'])
+                    : null,
+                !empty($formParameters['lineItemEndDateTime'])
+                    ? Carbon::createFromFormat('Y-m-d H:i', $formParameters['lineItemEndDateTime'])
+                    : null
             );
 
-            $this->client->updateLineItem($registration, $lineItem, $lineItemIdentifier);
+            $this->client->updateLineItem($registration, $lineItem);
 
             return new JsonResponse(
                 [
