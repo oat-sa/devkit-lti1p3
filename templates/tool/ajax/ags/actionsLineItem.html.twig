@@ -31,7 +31,7 @@
                 data-registration="{{ registration.identifier }}"
                 data-line-item-url="{{ path('tool_ajax_service_ags_create_lineitem') }}"
         >
-            <i class="fas fa-save"></i>&nbsp;Create
+            <i class="fas fa-save"></i>&nbsp;Save
         </a>
     {% endif %}
     {% if action == 'edit' %}
@@ -67,7 +67,7 @@
                 data-line-item-identifier="{{ lineItem.identifier }}"
                 data-line-item-url="{{ path('tool_ajax_service_ags_update_lineitem', {'lineItemIdentifier': lineItem.identifier|url_encode}) }}"
         >
-            <i class="fas fa-save"></i>&nbsp;Update
+            <i class="fas fa-save"></i>&nbsp;Save
         </a>
     {% endif %}
     {% if action == 'cancel' %}
