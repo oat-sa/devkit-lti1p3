@@ -156,6 +156,11 @@ platform_service_ags_score:
     path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}/scores
     controller: app.service.ags_score_controller
 
+platform_service_ags_result:
+    methods: [GET]
+    path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}/results
+    controller: app.service.ags_result_controller
+
 platform_ags_list_scores:
     methods: [GET]
     path: /platform/service/ags-list-scores

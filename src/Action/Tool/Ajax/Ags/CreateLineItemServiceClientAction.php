@@ -112,6 +112,7 @@ class CreateLineItemServiceClientAction
                             'registration' => $registration,
                             'lineItem' => $lineItem,
                             'actions' => [
+                                'prepare-score',
                                 'edit',
                                 'delete'
                             ]

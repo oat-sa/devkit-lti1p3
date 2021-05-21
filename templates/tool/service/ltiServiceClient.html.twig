@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}<i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Tool - Call LTI service{% endblock %}
+{% block nav_title %}<i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;<span class="text-danger">Tool</span> - Call LTI service{% endblock %}
 
 {% block body %}
     <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
@@ -51,9 +51,16 @@
                 <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="pills-item-tab" data-toggle="pill" href="#pills-item" role="tab" aria-controls="pills-item" aria-selected="true">
-                            <i class="fas fa-envelope-open"></i>&nbsp;Response body
+                            <i class="fas fa-code"></i>&nbsp;Response payload
                         </a>
                     </li>
+                    {% if serviceData.format != 'json' and serviceData.format != 'xml' and serviceData.body is not empty %}
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-preview-tab" data-toggle="pill" href="#pills-preview" role="tab" aria-controls="pills-preview" aria-selected="false">
+                            <i class="fas fa-eye"></i>&nbsp;Response preview
+                        </a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" id="pills-message-tab" data-toggle="pill" href="#pills-message" role="tab" aria-controls="pills-message" aria-selected="false">
                             <i class="fas fa-info-circle"></i>&nbsp;Response details
@@ -65,70 +72,40 @@
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-item" role="tabpanel" aria-labelledby="pills-item-tab">
                         {% if serviceData.body is not empty %}
+                            <div class="input-group mb-3">
+                                <input type="text" id="responseSearch" class="form-control" placeholder="Search">
+                                <div class="input-group-append">
+                                    <button id="responseSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                                </div>
+                            </div>
                             {% if serviceData.format == 'json' %}
-                                <div class="input-group mb-3">
-                                    <input type="text" id="responseSearch" class="form-control" placeholder="Search">
-                                    <div class="input-group-append">
-                                        <button id="responseSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
-                                    </div>
-                                </div>
                                 <pre>
-                                <code id="responseZone" class="language-json">{{ serviceData.body|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
-                            </pre>
+                                    <code id="responseZone" class="language-json">{{ serviceData.body|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                                </pre>
                             {% elseif serviceData.format == 'xml' %}
-                                <div class="input-group mb-3">
-                                    <input type="text" id="responseSearch" class="form-control" placeholder="Search">
-                                    <div class="input-group-append">
-                                        <button id="responseSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
-                                    </div>
-                                </div>
                                 <pre>
-                                <code id="responseZone" class="language-xml">{{ serviceData.body }}</code>
-                            </pre>
+                                    <code id="responseZone" class="language-xml">{{ serviceData.body }}</code>
+                                </pre>
                             {% else %}
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#htmlResponseModal">
-                                            <i class="fas fa-eye"></i>&nbsp;Preview
-                                        </button>
-                                    </div>
-                                    <input type="text" id="responseSearch" class="form-control" placeholder="Search">
-                                    <div class="input-group-append">
-                                        <button id="responseSearchReset" class="btn-secondary btn">
-                                            <i class="fas fa-undo-alt"></i>&nbsp;Reset
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="modal fade" id="htmlResponseModal" tabindex="-1" role="dialog" aria-labelledby="htmlResponseModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-eye"></i>&nbsp;Response preview</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="container">
-                                                    {{ serviceData.body|scrap_app_dom|raw }}
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <pre>
-                                <code id="responseZone" class="language-html">{{ serviceData.body }}</code>
-                            </pre>
+                                    <code id="responseZone" class="language-html">{{ serviceData.body }}</code>
+                                </pre>
                             {% endif %}
                         {% else %}
                             <div class="alert alert-dark" role="alert">
-                                <i class="fas fa-ban"></i>&nbsp;Empty response body
+                                <i class="fas fa-ban"></i>&nbsp;Empty response payload
                             </div>
                         {% endif %}
                     </div>
+
+                    {% if serviceData.format != 'json' and serviceData.format != 'xml' and serviceData.body is not empty %}
+                    <div class="tab-pane fade" id="pills-preview" role="tabpanel" aria-labelledby="pills-preview-tab">
+                        <div class="container-fluid">
+                            {{ serviceData.body|scrap_app_dom|raw }}
+                        </div>
+                    </div>
+                    {% endif %}
+
                     <div class="tab-pane fade" id="pills-message" role="tabpanel" aria-labelledby="pills-message-tab">
                         <div class="row">
                             <div class="col-md-6">

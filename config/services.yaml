@@ -41,6 +41,9 @@ services:
     OAT\Library\Lti1p3Ags\Repository\ScoreRepositoryInterface:
         class: App\Ags\ScoreRepository
 
+    OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface:
+        class: App\Ags\ResultRepository
+
     OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\ListLineItemServiceServerRequestHandler:
         arguments:
             - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
@@ -65,6 +68,11 @@ services:
         arguments:
             - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
             - '@OAT\Library\Lti1p3Ags\Repository\ScoreRepositoryInterface'
+
+    OAT\Library\Lti1p3Ags\Service\Result\Server\Handler\ResultServiceServerRequestHandler:
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
+            - '@OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface'
 
     app.service.ags_list_line_items_controller:
         class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
@@ -106,6 +114,13 @@ services:
         factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
         arguments:
             - '@OAT\Library\Lti1p3Ags\Service\Score\Server\Handler\ScoreServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
+
+    app.service.ags_result_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Service\Result\Server\Handler\ResultServiceServerRequestHandler'
         tags: [ 'controller.service_arguments' ]
 
     # LTI deep linking dependencies

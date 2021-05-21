@@ -126,7 +126,7 @@
                     $("#agsModalFlashes").html(result.flashes);
                     $("#agsModalBody").html(result.body);
                     $("#agsModalActions").html(result.actions);
-                    if (btn.data("action") === "create" || btn.data("action") === "delete") {
+                    if (btn.data("action") === "create" || btn.data("action") === "delete" || btn.data("action") === "update") {
                         $("#agsLoad").click();
                     }
                 }

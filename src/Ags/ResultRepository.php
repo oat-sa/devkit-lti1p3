@@ -22,54 +22,51 @@ declare(strict_types=1);
 
 namespace App\Ags;
 
-use OAT\Library\Lti1p3Ags\Model\Result\Result;
-use OAT\Library\Lti1p3Ags\Model\Score\ScoreInterface;
+use OAT\Library\Lti1p3Ags\Model\Result\ResultCollectionInterface;
+use OAT\Library\Lti1p3Ags\Model\Result\ResultInterface;
 use OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface;
-use OAT\Library\Lti1p3Ags\Repository\ScoreRepositoryInterface;
+use OAT\Library\Lti1p3Core\Util\Generator\IdGeneratorInterface;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-class ScoreRepository implements ScoreRepositoryInterface
+class ResultRepository implements ResultRepositoryInterface
 {
-    private const CACHE_KEY = 'lti1p3-ags-scores';
+    private const CACHE_KEY = 'lti1p3-ags-results';
 
     /** @var CacheItemPoolInterface */
     private $cache;
 
-    /** @var ResultRepositoryInterface */
-    private $repository;
-
-    public function __construct(CacheItemPoolInterface $cache, ResultRepositoryInterface $repository)
-    {
+    public function __construct(
+        CacheItemPoolInterface $cache,
+        RequestStack $requestStack,
+        IdGeneratorInterface $generator
+    ) {
         $this->cache = $cache;
-        $this->repository = $repository;
+        $this->requestStack = $requestStack;
+        $this->generator = $generator;
     }
 
-    public function save(ScoreInterface $score): ScoreInterface
+    public function save(ResultInterface $result): ResultInterface
     {
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
-        $scores = $cache->get();
+        $results = $cache->get();
 
-        $scores[$score->getLineItemIdentifier()][] = $score;
+        $results[$result->getLineItemIdentifier()][] = $result;
 
-        $cache->set($scores);
+        $cache->set($results);
 
         $this->cache->save($cache);
 
-/*        $result = new Result(
-            $score->getUserIdentifier(),
-            $score->getLineItemIdentifier(),
-        )*/
-
-        return $score;
+        return $result;
     }
 
-    public function findByLineItemIdentifier(string $lineItemIdentifier): array
-    {
-        $cache = $this->cache->getItem(self::CACHE_KEY);
+    public function findBy(
+        string $lineItemIdentifier,
+        ?string $userIdentifier = null,
+        ?int $limit = null,
+        ?int $offset = null
+    ): ?ResultCollectionInterface {
 
-        $scores = $cache->get();
-
-        return $scores[$lineItemIdentifier] ?? [];
     }
 }
