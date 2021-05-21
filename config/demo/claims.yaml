@@ -3,7 +3,7 @@ parameters:
         AGS:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_AGS
             value:
-                scopes: []
+                scope: []
                 lineitems: "{url|required}"
                 lineitem: "{url|optional}"
         ACS:
