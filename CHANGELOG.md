@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.9.2
+-----
+
+* Fixed AGS claim scope parameter
+
 1.9.1
 -----
 
