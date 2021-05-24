@@ -7,12 +7,12 @@
             <strong><a href="{{ path('dashboard') }}">LTI 1.3 <small><code class="text-danger">DevKit</code></small></a></strong>
         </h4>
     </div>
-    <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
-        <div class="card text-white bg-dark">
-            <a class="card-header" href="{{ path('dashboard') }}">
-                    <h6><i class="fas fa-house-user"></i>&nbsp;&nbsp;Dashboard</h6>
-            </a>
-        </div>
+    <div id="sidebar-dashboard-menu-header" class="card text-white bg-dark">
+        <a class="card-header sidebar-menu-header" href="{{ path('dashboard') }}">
+            <h6><i class="fas fa-house-user"></i>&nbsp;&nbsp;Dashboard</h6>
+        </a>
+    </div>
+    <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="false">
         <div class="card text-white bg-dark">
             <div class="card-header dropdown-toggle" role="tab" id="headingPlatform" data-toggle="collapse" data-parent="#accordionEx" href="#collapsePlatform"
                  aria-expanded="{{ activeMenu == 'platform' ? 'true' : 'false' }}" aria-controls="collapsePlatform">

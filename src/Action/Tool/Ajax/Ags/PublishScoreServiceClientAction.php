@@ -126,7 +126,7 @@ class PublishScoreServiceClientAction
         } catch (Exception $exception) {
             return new JsonResponse(
                 [
-                    'title' => 'Score publication',
+                    'title' => 'Line item score publication',
                     'flashes' => $this->twig->render(
                         'notification/flashes.html.twig',
                         [

@@ -60,7 +60,7 @@ class PrepareScoreServiceClientAction
 
             return new JsonResponse(
                 [
-                    'title' => 'Line item score creation',
+                    'title' => 'Line item score publication',
                     'body' => $this->twig->render(
                         'tool/ajax/ags/prepareScore.html.twig',
                         [
@@ -84,7 +84,7 @@ class PrepareScoreServiceClientAction
         } catch (Exception $exception) {
             return new JsonResponse(
                 [
-                    'title' => 'Line item score creation',
+                    'title' => 'Line item score publication',
                     'flashes' => $this->twig->render(
                         'notification/flashes.html.twig',
                         [

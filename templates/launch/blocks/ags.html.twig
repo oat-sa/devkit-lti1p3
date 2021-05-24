@@ -14,7 +14,12 @@
                     <div class="col-md-6">
                         <dl class="list-unstyled">
                             <dt>Claim line item container service url</dt>
-                            <dd><a href="{{ token.payload.ags.lineItemsContainerUrl }}" target="_blank">{{ token.payload.ags.lineItemsContainerUrl }}</a></dd>
+                            <dd>
+                                {% if token.payload.ags.lineItemsContainerUrl  %}
+                                    <a href="{{ token.payload.ags.lineItemsContainerUrl }}" target="_blank">{{ token.payload.ags.lineItemsContainerUrl }}</a>
+                                {% else %}
+                                    n/a
+                                {% endif %}
                             <dt>Claim line item service url</dt>
                             <dd>
                                 {% if token.payload.ags.lineItemUrl  %}
@@ -59,85 +64,98 @@
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-ags-container" role="tabpanel" aria-labelledby="pills-ags-container-tab">
                 <div class="card-body">
-                    <div class="card bg-light">
-                        <div class="card-header">
-                            <i class="fas fa-sign-in-alt"></i>&nbsp;AGS line items container service request
-                        </div>
-                        <div class="card-body">
-                            <div class="form-row">
-                                <div class="col col-md-8">
-                                    <input type="text" id="agsUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.ags.lineItemsContainerUrl }}" aria-describedby="agsUrlHelp" readonly>
-                                    <small id="agsUrlHelp" class="form-text text-muted">Service url</small>
+                    {% if token.payload.ags.lineItemsContainerUrl  %}
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <i class="fas fa-sign-in-alt"></i>&nbsp;AGS line items container service request
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="col col-md-8">
+                                        <input type="text" id="agsUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.ags.lineItemsContainerUrl }}" aria-describedby="agsUrlHelp" readonly>
+                                        <small id="agsUrlHelp" class="form-text text-muted">Service url</small>
+                                    </div>
+                                    <div class="col col-md-4">
+                                        <div class="form-group">
+                                            <select id="agsScope" aria-describedby="agsScopeHelp" class="form-control">
+                                                {% for scope in token.payload.ags.scopes %}
+                                                    <option value="{{ scope }}">{{ scope }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <small id="agsScopeHelp" class="form-text text-muted">Scope</small>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col col-md-4">
-                                    <div class="form-group">
-                                        <select id="agsScope" aria-describedby="agsScopeHelp" class="form-control">
-                                            {% for scope in token.payload.ags.scopes %}
-                                                <option value="{{ scope }}">{{ scope }}</option>
-                                            {% endfor %}
-                                        </select>
-                                        <small id="agsScopeHelp" class="form-text text-muted">Scope</small>
+                                <div class="form-row">
+                                    <div class="col col-md-3">
+                                        <input type="text" min="0" max="1" id="agsResourceId" class="form-control" placeholder="Resource" aria-describedby="agsResourceIdHelp">
+                                        <small id="agsResourceIdHelp" class="form-text text-muted">Resource identifier</small>
+                                    </div>
+                                    <div class="col col-md-3">
+                                        <input type="text" min="0" max="1" id="agsResourceLinkId" class="form-control" placeholder="Resource link" aria-describedby="agsResourceLinkIdHelp">
+                                        <small id="agsResourceLinkIdHelp" class="form-text text-muted">Resource link identifier</small>
+                                    </div>
+                                    <div class="col col-md-3">
+                                        <input type="text" min="0" max="1" id="agsTag" class="form-control" placeholder="Tag" aria-describedby="agsTagHelp">
+                                        <small id="agsTagHelp" class="form-text text-muted">Tag</small>
+                                    </div>
+                                    <div class="col col-md-3">
+                                        <input type="number" min="0" max="1" id="agsLimit" class="form-control" placeholder="Limit" aria-describedby="agsLimitHelp">
+                                        <small id="agsLimitHelp" class="form-text text-muted">Limit</small>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="col col-md-3">
-                                    <input type="text" min="0" max="1" id="agsResourceId" class="form-control" placeholder="Resource" aria-describedby="agsResourceIdHelp">
-                                    <small id="agsResourceIdHelp" class="form-text text-muted">Resource identifier</small>
-                                </div>
-                                <div class="col col-md-3">
-                                    <input type="text" min="0" max="1" id="agsResourceLinkId" class="form-control" placeholder="Resource link" aria-describedby="agsResourceLinkIdHelp">
-                                    <small id="agsResourceLinkIdHelp" class="form-text text-muted">Resource link identifier</small>
-                                </div>
-                                <div class="col col-md-3">
-                                    <input type="text" min="0" max="1" id="agsTag" class="form-control" placeholder="Tag" aria-describedby="agsTagHelp">
-                                    <small id="agsTagHelp" class="form-text text-muted">Tag</small>
-                                </div>
-                                <div class="col col-md-3">
-                                    <input type="number" min="0" max="1" id="agsLimit" class="form-control" placeholder="Limit" aria-describedby="agsLimitHelp">
-                                    <small id="agsLimitHelp" class="form-text text-muted">Limit</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer text-muted">
-                            <div class="btn-group float-right" role="group" aria-label="Basic example">
-                                <button id="agsLoad" class="btn-primary btn">
-                                    <i id="agsCall" class="fas fa-sign-in-alt"></i>&nbsp;Call AGS line items container service
-                                </button>
-                                <button id="agsReset" class="btn-secondary btn">
-                                    <i class="fas fa-undo"></i>&nbsp;Reset
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="agsZone"></div>
-                    <div class="modal fade" id="agsModal" tabindex="-1" role="dialog" aria-labelledby="agsModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">
-                                        <i id="agsModalLogo" class="fas fa-square"></i>&nbsp;<span id="agsModalTitle"></span>
-                                    </h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                            <div class="card-footer text-muted">
+                                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                                    <button id="agsLoad" class="btn-primary btn">
+                                        <i id="agsCall" class="fas fa-sign-in-alt"></i>&nbsp;Call AGS line items container service
+                                    </button>
+                                    <button id="agsReset" class="btn-secondary btn">
+                                        <i class="fas fa-undo"></i>&nbsp;Reset
                                     </button>
                                 </div>
-                                <div  class="modal-body bg-light">
-                                    <div id="agsModalFlashes"></div>
-                                    <div id="agsModalBody"></div>
-                                </div>
-                                <div class="modal-footer">
-                                    <div id="agsModalActions"></div>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                            </div>
+                        </div>
+                        <div id="agsZone"></div>
+                        <div class="modal fade" id="agsModal" tabindex="-1" role="dialog" aria-labelledby="agsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">
+                                            <i id="agsModalLogo" class="fas fa-square"></i>&nbsp;<span id="agsModalTitle"></span>
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div  class="modal-body bg-light">
+                                        <div id="agsModalFlashes"></div>
+                                        <div id="agsModalBody"></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div id="agsModalActions"></div>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {% else %}
+                        <div class="alert alert-dark" role="alert">
+                            <i class="fas fa-ban"></i>&nbsp;No line item container service url provided in AGS claim
+                        </div>
+                    {% endif %}
+
                 </div>
             </div>
             <div class="tab-pane fade" id="pills-ags-line-item" role="tabpanel" aria-labelledby="pills-ags-line-item-tab">
                 <div class="card-body">
-                    todo
+                    {% if token.payload.ags.lineItemUrl  %}
+                        todo
+                    {% else %}
+                        <div class="alert alert-dark" role="alert">
+                            <i class="fas fa-ban"></i>&nbsp;No line item service url provided in AGS claim
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
