@@ -116,7 +116,8 @@ class PublishScoreServiceClientAction
                             'actions' => [
                                 'prepare-score',
                                 'edit',
-                                'delete'
+                                'delete',
+                                'list-results',
                             ]
                         ]
                     ),

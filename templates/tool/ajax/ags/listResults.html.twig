@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col col-md-12">
+        {% if results|length != 0 %}
+            <div class="input-group mb-3">
+                <input type="text" id="agsModalResultSearch" class="form-control" placeholder="Search">
+                <div class="input-group-append">
+                    <button id="agsModalResultSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                </div>
+            </div>
+            <pre>
+            <code id="agsModalResultZone" class="language-json">{{ results|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+        </pre>
+        {% else %}
+            <div class="alert alert-dark" role="alert">
+                <i class="fas fa-ban"></i>&nbsp;No results found
+            </div>
+        {% endif %}
+    </div>
+</div>
+<script>
+    $("#agsModalResultSearch").on("input", function(){
+        $("#agsModalResultZone").unmark({
+            done: function() {
+                $("#agsModalResultZone").mark($("#agsModalResultSearch").val());
+            }
+        });
+    });
+
+    $("#agsModalResultSearchReset").click(function(){
+        $("#agsModalResultSearch").val("");
+        $("#agsModalResultZone").unmark();
+    });
+
+    hljs.initHighlightingOnLoad();
+</script>

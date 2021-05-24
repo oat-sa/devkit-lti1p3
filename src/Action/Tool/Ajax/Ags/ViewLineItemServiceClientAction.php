@@ -75,7 +75,8 @@ class ViewLineItemServiceClientAction
                             'actions' => [
                                 'prepare-score',
                                 'edit',
-                                'delete'
+                                'delete',
+                                'list-results',
                             ]
                         ]
                     ),

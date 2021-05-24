@@ -111,6 +111,11 @@ tool_ajax_service_ags_publish_score:
     controller: App\Action\Tool\Ajax\Ags\PublishScoreServiceClientAction
     condition: "request.isXmlHttpRequest()"
 
+tool_ajax_service_ags_list_results:
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/results
+    controller: App\Action\Tool\Ajax\Ags\ListResultsServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
 platform_service_nrps:
     methods: [GET]
     path: /platform/service/nrps/{contextIdentifier}/memberships/{membershipIdentifier}

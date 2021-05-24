@@ -35,6 +35,8 @@ services:
 
     OAT\Library\Lti1p3Ags\Service\Score\Client\ScoreServiceClient: ~
 
+    OAT\Library\Lti1p3Ags\Service\Result\Client\ResultServiceClient: ~
+
     OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface:
         class: App\Ags\LineItemRepository
 

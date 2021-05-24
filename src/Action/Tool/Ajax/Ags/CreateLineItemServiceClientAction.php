@@ -114,7 +114,8 @@ class CreateLineItemServiceClientAction
                             'actions' => [
                                 'prepare-score',
                                 'edit',
-                                'delete'
+                                'delete',
+                                'list-results',
                             ]
                         ]
                     ),

@@ -105,7 +105,8 @@ class UpdateLineItemServiceClientAction
                             'actions' => [
                                 'prepare-score',
                                 'edit',
-                                'delete'
+                                'delete',
+                                'list-results',
                             ]
                         ]
                     ),

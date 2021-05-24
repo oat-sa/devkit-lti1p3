@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace App\Ags;
 
 use OAT\Library\Lti1p3Ags\Model\Result\Result;
-use OAT\Library\Lti1p3Ags\Model\Result\ResultInterface;
 use OAT\Library\Lti1p3Ags\Model\Score\ScoreInterface;
 use OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface;
 use OAT\Library\Lti1p3Ags\Repository\ScoreRepositoryInterface;
@@ -36,7 +35,7 @@ class ScoreRepository implements ScoreRepositoryInterface
     /** @var CacheItemPoolInterface */
     private $cache;
 
-    /** @var ResultRepositoryInterface */
+    /** @var ResultRepositoryInterface|ResultRepository */
     private $repository;
 
     public function __construct(CacheItemPoolInterface $cache, ResultRepositoryInterface $repository)
@@ -57,10 +56,16 @@ class ScoreRepository implements ScoreRepositoryInterface
 
         $this->cache->save($cache);
 
-/*        $result = new Result(
+        $result = new Result(
             $score->getUserIdentifier(),
             $score->getLineItemIdentifier(),
-        )*/
+            null,
+            $score->getScoreGiven(),
+            $score->getScoreMaximum(),
+            'Auto generated result by LTI DevKit'
+        );
+
+        $this->repository->save($result);
 
         return $score;
     }

@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace App\Ags;
 
+use OAT\Library\Lti1p3Ags\Model\Result\ResultCollection;
 use OAT\Library\Lti1p3Ags\Model\Result\ResultCollectionInterface;
 use OAT\Library\Lti1p3Ags\Model\Result\ResultInterface;
 use OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface;
@@ -35,6 +36,12 @@ class ResultRepository implements ResultRepositoryInterface
 
     /** @var CacheItemPoolInterface */
     private $cache;
+
+    /** @var RequestStack */
+    private $requestStack;
+
+    /** @var IdGeneratorInterface */
+    private $generator;
 
     public function __construct(
         CacheItemPoolInterface $cache,
@@ -52,6 +59,16 @@ class ResultRepository implements ResultRepositoryInterface
 
         $results = $cache->get();
 
+        if (null === $result->getIdentifier()) {
+            $identifier = sprintf(
+                '%s/%s',
+                rtrim($this->requestStack->getCurrentRequest()->getUri(), '/'),
+                $this->generator->generate()
+            );
+
+            $result->setIdentifier($identifier);
+        }
+
         $results[$result->getLineItemIdentifier()][] = $result;
 
         $cache->set($results);
@@ -67,6 +84,10 @@ class ResultRepository implements ResultRepositoryInterface
         ?int $limit = null,
         ?int $offset = null
     ): ?ResultCollectionInterface {
+        $cache = $this->cache->getItem(self::CACHE_KEY);
 
+        $results = $cache->get();
+
+        return new ResultCollection($results[$lineItemIdentifier] ?? []);
     }
 }

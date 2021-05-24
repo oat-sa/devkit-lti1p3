@@ -24,30 +24,36 @@ namespace App\Action\Tool\Ajax\Ags;
 
 use Exception;
 use OAT\Library\Lti1p3Ags\Service\LineItem\Client\LineItemServiceClient;
+use OAT\Library\Lti1p3Ags\Service\Result\Client\ResultServiceClient;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-class PrepareScoreServiceClientAction
+class ListResultsServiceClientAction
 {
     /** @var Environment */
     private $twig;
 
     /** @var LineItemServiceClient */
-    private $client;
+    private $lineItemClient;
+
+    /** @var ResultServiceClient */
+    private $resultClient;
 
     /** @var RegistrationRepositoryInterface */
     private $repository;
 
     public function __construct(
         Environment $twig,
-        LineItemServiceClient $client,
+        LineItemServiceClient $lineItemClient,
+        ResultServiceClient $resultClient,
         RegistrationRepositoryInterface $repository
     ) {
         $this->twig = $twig;
-        $this->client = $client;
+        $this->lineItemClient = $lineItemClient;
+        $this->resultClient = $resultClient;
         $this->repository = $repository;
     }
 
@@ -56,16 +62,19 @@ class PrepareScoreServiceClientAction
         try {
             $registration = $this->repository->find($request->get('registration'));
 
-            $lineItem = $this->client->getLineItem($registration, $lineItemIdentifier);
+            $lineItem = $this->lineItemClient->getLineItem($registration, $lineItemIdentifier);
+
+            $results = $this->resultClient->listResults($registration, $lineItemIdentifier);
 
             return new JsonResponse(
                 [
-                    'title' => 'Line item score creation',
+                    'title' => 'Line item results',
                     'body' => $this->twig->render(
-                        'tool/ajax/ags/prepareScore.html.twig',
+                        'tool/ajax/ags/listResults.html.twig',
                         [
                             'registration' => $registration,
-                            'lineItem' => $lineItem
+                            'lineItem' => $lineItem,
+                            'results' => array_values($results->getResults()->all())
                         ]
                     ),
                     'actions' => $this->twig->render(
@@ -74,8 +83,7 @@ class PrepareScoreServiceClientAction
                             'registration' => $registration,
                             'lineItem' => $lineItem,
                             'actions' => [
-                                'publish-score',
-                                'cancel'
+                                'go-back'
                             ]
                         ]
                     ),
@@ -84,13 +92,13 @@ class PrepareScoreServiceClientAction
         } catch (Exception $exception) {
             return new JsonResponse(
                 [
-                    'title' => 'Line item score creation',
+                    'title' => 'Line item results',
                     'flashes' => $this->twig->render(
                         'notification/flashes.html.twig',
                         [
                             'flashes' => [
                                 'error' => [
-                                    sprintf('Score creation error: %s', $exception->getMessage())
+                                    sprintf('Line item %s list results error: %s', $lineItemIdentifier, $exception->getMessage())
                                 ]
                             ]
                         ]

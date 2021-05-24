@@ -22,7 +22,9 @@ declare(strict_types=1);
 
 namespace App\Action\Platform\Ags;
 
+use App\Ags\ResultRepository;
 use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
+use OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface;
 use OAT\Library\Lti1p3Ags\Repository\ScoreRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,16 +39,21 @@ class ViewLineItemAction
     /** @var ScoreRepositoryInterface */
     private $scoreRepository;
 
+    /** @var ResultRepositoryInterface */
+    private $resultRepository;
+
     /** @var Environment */
     private $twig;
 
     public function __construct(
         LineItemRepositoryInterface $lineItemRepository,
         ScoreRepositoryInterface $scoreRepository,
+        ResultRepositoryInterface $resultRepository,
         Environment $twig
     ) {
         $this->lineItemRepository = $lineItemRepository;
         $this->scoreRepository = $scoreRepository;
+        $this->resultRepository = $resultRepository;
         $this->twig = $twig;
     }
 
@@ -61,13 +68,15 @@ class ViewLineItemAction
         }
 
         $scores = $this->scoreRepository->findByLineItemIdentifier($lineItemIdentifier);
+        $results = $this->resultRepository->findBy($lineItemIdentifier);
 
         return new Response(
             $this->twig->render(
                 'platform/ags/viewLineItem.html.twig',
                 [
                     'lineItem' => $lineItem,
-                    'scores' => $scores
+                    'scores' => $scores,
+                    'results' => array_values($results->all())
                 ]
             )
         );

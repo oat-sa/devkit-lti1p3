@@ -81,7 +81,21 @@
                 {% endif %}
             </div>
             <div class="tab-pane fade" id="pills-result" role="tabpanel" aria-labelledby="pills-result-tab">
-                todo
+                {% if results|length != 0 %}
+                    <div class="input-group mb-3">
+                        <input type="text" id="agsResultSearch" class="form-control" placeholder="Search">
+                        <div class="input-group-append">
+                            <button id="agsResultSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                        </div>
+                    </div>
+                    <pre>
+                        <code id="agsResultZone" class="language-json">{{ results|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                    </pre>
+                {% else %}
+                    <div class="alert alert-dark" role="alert">
+                        <i class="fas fa-ban"></i>&nbsp;No results found
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -114,6 +128,19 @@
         $("#agsScoreSearchReset").click(function(){
             $("#agsScoreSearch").val("");
             $("#agsScoreZone").unmark();
+        });
+
+        $("#agsResultSearch").on("input", function(){
+            $("#agsResultZone").unmark({
+                done: function() {
+                    $("#agsResultZone").mark($("#agsResultSearch").val());
+                }
+            });
+        });
+
+        $("#agsResultSearchReset").click(function(){
+            $("#agsResultSearch").val("");
+            $("#agsResultZone").unmark();
         });
 
         hljs.initHighlightingOnLoad();
