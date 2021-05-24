@@ -8,8 +8,8 @@
                 </div>
             </div>
             <pre>
-            <code id="agsModalResultZone" class="language-json">{{ results|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
-        </pre>
+                <code id="agsModalResultZone" class="language-json hljs">{{ results|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+            </pre>
         {% else %}
             <div class="alert alert-dark" role="alert">
                 <i class="fas fa-ban"></i>&nbsp;No results found
@@ -18,6 +18,8 @@
     </div>
 </div>
 <script>
+    hljs.initHighlightingOnLoad();
+
     $("#agsModalResultSearch").on("input", function(){
         $("#agsModalResultZone").unmark({
             done: function() {
@@ -30,6 +32,4 @@
         $("#agsModalResultSearch").val("");
         $("#agsModalResultZone").unmark();
     });
-
-    hljs.initHighlightingOnLoad();
 </script>

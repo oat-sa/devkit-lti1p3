@@ -11,14 +11,57 @@
         {{ form_start(form) }}
         {{ form_errors(form) }}
         <div class="form-row">
-            <div class="col-md-4">
+            <div class="col-md-8">
                 {{ form_row(form.line_item_id) }}
             </div>
             <div class="col-md-4">
                 {{ form_row(form.line_item_label) }}
             </div>
+        </div>
+        <div class="form-row">
             <div class="col-md-4">
                 {{ form_row(form.line_item_score_maximum) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.line_item_resource_id) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.line_item_resource_link_id) }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4">
+                {{ form_row(form.line_item_tag) }}
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ form_label(form.line_item_start_date) }}
+                    <div class="input-group" id="lineItemStartDateTimeDatetimepicker" data-target-input="nearest">
+                        <div class="input-group-prepend">
+                            <a class="btn btn-secondary text-white" data-target="#lineItemStartDateTimeDatetimepicker" data-toggle="datetimepicker">
+                                <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        {{ form_widget(form.line_item_start_date) }}
+                    </div>
+                    {{ form_help(form.line_item_start_date) }}
+                    {{ form_errors(form.line_item_start_date) }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ form_label(form.line_item_end_date) }}
+                    <div class="input-group" id="lineItemEndDateTimeDatetimepicker" data-target-input="nearest">
+                        <div class="input-group-prepend">
+                            <a class="btn btn-secondary text-white" data-target="#lineItemEndDateTimeDatetimepicker" data-toggle="datetimepicker">
+                                <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        {{ form_widget(form.line_item_end_date) }}
+                    </div>
+                    {{ form_help(form.line_item_end_date) }}
+                    {{ form_errors(form.line_item_end_date) }}
+                </div>
             </div>
         </div>
     </div>
@@ -30,4 +73,24 @@
     </div>
     {{ form_end(form) }}
 </div>
+<script>
+    $("#lineItemStartDateTimeDatetimepicker").datetimepicker({
+        format: "YYYY-MM-DD HH:mm",
+        allowInputToggle: true,
+        buttons: {
+            showToday: true,
+            showClear: true,
+            showClose: true
+        }
+    });
+    $("#lineItemEndDateTimeDatetimepicker").datetimepicker({
+        format: "YYYY-MM-DD HH:mm",
+        allowInputToggle: true,
+        buttons: {
+            showToday: true,
+            showClear: true,
+            showClose: true
+        }
+    });
+</script>
 {% endblock body %}

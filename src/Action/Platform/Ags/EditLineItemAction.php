@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace App\Action\Platform\Ags;
 
 use App\Form\Platform\Ags\LineItemType;
+use Carbon\Carbon;
 use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -74,12 +75,25 @@ class EditLineItemAction
             );
         }
 
+        $lineItemStartDate = null !== $lineItem->getStartDateTime()
+            ? $lineItem->getStartDateTime()->format('Y-m-d H:i')
+            : null;
+
+        $lineItemEndDate = null !== $lineItem->getEndDateTime()
+            ? $lineItem->getEndDateTime()->format('Y-m-d H:i')
+            : null;
+
         $form = $this->factory->create(
             LineItemType::class,
             [
                 'line_item_id' => $lineItem->getIdentifier(),
                 'line_item_label' => $lineItem->getLabel(),
                 'line_item_score_maximum' => $lineItem->getScoreMaximum(),
+                'line_item_resource_id' => $lineItem->getResourceIdentifier(),
+                'line_item_resource_link_id' => $lineItem->getResourceLinkIdentifier(),
+                'line_item_tag' => $lineItem->getTag(),
+                'line_item_start_date' => $lineItemStartDate,
+                'line_item_end_date' => $lineItemEndDate,
             ],
             [
                 'edit' => true
@@ -92,9 +106,22 @@ class EditLineItemAction
 
             $formData = $form->getData();
 
+            $formStartDate = !empty($formData['line_item_start_date'])
+                ? Carbon::createFromFormat('Y-m-d H:i', $formData['line_item_start_date'])
+                : null;
+
+            $formEndDate = !empty($formData['line_item_end_date'])
+                ? Carbon::createFromFormat('Y-m-d H:i', $formData['line_item_end_date'])
+                : null;
+
             $lineItem
                 ->setLabel($formData['line_item_label'])
-                ->setScoreMaximum($formData['line_item_score_maximum']);
+                ->setScoreMaximum($formData['line_item_score_maximum'])
+                ->setResourceIdentifier($formData['line_item_resource_id'] ?? null)
+                ->setResourceLinkIdentifier($formData['line_item_resource_link_id'] ?? null)
+                ->setTag($formData['line_item_tag'] ?? null)
+                ->setStartDateTime($formStartDate)
+                ->setEndDateTime($formEndDate);
 
             $this->repository->save($lineItem);
 

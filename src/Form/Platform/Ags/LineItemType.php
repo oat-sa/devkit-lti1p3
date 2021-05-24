@@ -51,7 +51,7 @@ class LineItemType extends AbstractType
                     [
                         'label' => 'Identifier',
                         'required' => true,
-                        'help' => 'Line item identifier'
+                        'help' => 'Line item identifier (url part)'
                     ]
                 )
                 ->add(
@@ -60,16 +60,19 @@ class LineItemType extends AbstractType
                     [
                         'label' => 'Context identifier',
                         'required' => true,
-                        'help' => 'Line item context identifier'
+                        'help' => 'Line item context identifier (url part)'
                     ]
                 );
         } else {
             $builder
                 ->add(
                     'line_item_id',
-                    HiddenType::class,
+                    TextType::class,
                     [
-                        'required' => true
+                        'label' => 'Identifier',
+                        'required' => true,
+                        'help' => 'Line item identifier (full url)',
+                        'disabled' => true
                     ]
                 );
         }
@@ -91,6 +94,59 @@ class LineItemType extends AbstractType
                     'label' => 'Score maximum',
                     'required' => true,
                     'help' => 'Line item score maximum'
+                ]
+            )
+            ->add(
+                'line_item_resource_id',
+                TextType::class,
+                [
+                    'label' => 'Resource identifier',
+                    'required' => false,
+                    'help' => 'Line item resource identifier'
+                ]
+            )
+            ->add(
+                'line_item_resource_link_id',
+                TextType::class,
+                [
+                    'label' => 'Resource link identifier',
+                    'required' => false,
+                    'help' => 'Line item resource link identifier'
+                ]
+            )
+            ->add(
+                'line_item_tag',
+                TextType::class,
+                [
+                    'label' => 'Tag',
+                    'required' => false,
+                    'help' => 'Line item tag'
+                ]
+            )
+            ->add(
+                'line_item_start_date',
+                TextType::class,
+                [
+                    'label' => 'Start date',
+                    'required' => false,
+                    'help' => 'Line item start date',
+                    'attr' => [
+                        'class' => 'form-control datetimepicker-input',
+                        'data-target' => '#lineItemStartDateTimeDatetimepicker'
+                    ]
+                ]
+            )
+            ->add(
+                'line_item_end_date',
+                TextType::class,
+                [
+                    'label' => 'End date',
+                    'required' => false,
+                    'help' => 'Line item end date',
+                    'attr' => [
+                        'class' => 'form-control datetimepicker-input',
+                        'data-target' => '#lineItemEndDateTimeDatetimepicker'
+                    ]
                 ]
             )
             ->add(

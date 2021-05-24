@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace App\Action\Platform\Ags;
 
 use App\Form\Platform\Ags\LineItemType;
+use Carbon\Carbon;
 use OAT\Library\Lti1p3Ags\Model\LineItem\LineItem;
 use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -85,9 +86,18 @@ class CreateLineItemAction
             $lineItemIdentifier = sprintf('%s%s', rtrim($request->getSchemeAndHttpHost(), '/'), $lineItemIdentifierPath);
 
             $lineItem = new LineItem(
-                 $formData['line_item_score_maximum'],
-                 $formData['line_item_label'],
-                $lineItemIdentifier
+                $formData['line_item_score_maximum'],
+                $formData['line_item_label'],
+                $lineItemIdentifier,
+                $formData['line_item_resource_id'],
+                $formData['line_item_resource_link_id'],
+                $formData['line_item_tag'],
+                !empty($formData['line_item_start_date'])
+                    ? Carbon::createFromFormat('Y-m-d H:i', $formData['line_item_start_date'])
+                    : null,
+                !empty($formData['line_item_end_date'])
+                    ? Carbon::createFromFormat('Y-m-d H:i', $formData['line_item_end_date'])
+                    : null
             );
 
             $this->repository->save($lineItem);
