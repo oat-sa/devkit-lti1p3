@@ -1,3 +1,4 @@
+<div id="agsModalActions" class="btn-group" role="group" aria-label="Basic example">
 {% for action in actions  %}
     {% if action == 'prepare-score' %}
         <a
@@ -83,6 +84,7 @@
         </a>
     {% endif %}
 {% endfor %}
+</div>
 <script>
     $(".ags-line-item-action").click(function (event) {
         let run = true;

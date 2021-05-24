@@ -24,7 +24,7 @@
         </div>
         <hr/>
         <div class="alert alert-info" role="alert">
-            <i class="fa fa-info-circle"></i>&nbsp;<strong><a href="https://github.com/oat-sa/demo-lti1p3#readme" target="_blank">Development kit application</a></strong> acting as <strong><a href="http://www.imsglobal.org/spec/lti/v1p3" target="_blank">LTI 1.3</a> platform</strong> and / or <strong>tool</strong>.
+            <i class="fa fa-info-circle"></i>&nbsp;<strong><a href="https://github.com/oat-sa/demo-lti1p3#readme" target="_blank">Development kit</a></strong> acting as <strong><a href="http://www.imsglobal.org/spec/lti/v1p3" target="_blank">LTI 1.3</a> platform</strong> and / or <strong>tool</strong>.
         </div>
     </div>
     <div class="card bg-light">
@@ -51,8 +51,8 @@
             <div class="tab-pane fade show active" id="pills-platforms" role="tabpanel" aria-labelledby="pills-platforms-tab">
                 <div class="list-group list-group-flush">
                     {% for platformIdentifier, platform in configuration.platforms %}
-                        <li class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#configModal" data-type="Platform" data-title="#{{ platformIdentifier }}" data-config="{{ platform|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
-                            <i class="fas fa-cubes"></i>&nbsp;<code>#{{ platformIdentifier }}</code>&nbsp;<small class="text-muted">({{ platform.name }})</small>
+                        <li class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#configModal" data-type="Platform" data-title="{{ platformIdentifier }}" data-config="{{ platform|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
+                            <i class="fas fa-cubes"></i>&nbsp;<code>{{ platformIdentifier }}</code>&nbsp;<small class="text-muted">({{ platform.name }})</small>
                         </li>
                     {% endfor %}
                 </div>
@@ -60,8 +60,8 @@
             <div class="tab-pane fade" id="pills-registrations" role="tabpanel" aria-labelledby="pills-registrations-tab">
                 <div class="list-group list-group-flush">
                     {% for regitstrationIdentifier, registration in configuration.registrations %}
-                        <li class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#configModal" data-type="Registration" data-title="#{{ regitstrationIdentifier }}" data-config="{{ registration|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
-                            <i class="fas fa-share-alt"></i>&nbsp;<code>#{{ regitstrationIdentifier }}</code>
+                        <li class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#configModal" data-type="Registration" data-title="{{ regitstrationIdentifier }}" data-config="{{ registration|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
+                            <i class="fas fa-share-alt"></i>&nbsp;<code>{{ regitstrationIdentifier }}</code>
                         </li>
                     {% endfor %}
                 </div>
@@ -69,8 +69,8 @@
             <div class="tab-pane fade" id="pills-tools" role="tabpanel" aria-labelledby="pills-tools-tab">
                 <div class="list-group list-group-flush">
                     {% for toolIdentifier, tool in configuration.tools %}
-                        <li class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#configModal" data-type="Tool" data-title="#{{ toolIdentifier }}" data-config="{{ tool|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
-                            <i class="fas fa-cube"></i>&nbsp;<code>#{{ toolIdentifier }}</code>&nbsp;<small class="text-muted">({{ tool.name }})</small>
+                        <li class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#configModal" data-type="Tool" data-title="{{ toolIdentifier }}" data-config="{{ tool|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
+                            <i class="fas fa-cube"></i>&nbsp;<code>{{ toolIdentifier }}</code>&nbsp;<small class="text-muted">({{ tool.name }})</small>
                         </li>
                     {% endfor %}
                 </div>

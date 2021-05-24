@@ -7,7 +7,7 @@ parameters:
                         'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem',
                         'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly',
                         'https://purl.imsglobal.org/spec/lti-ags/scope/score']
-                lineitems: '{url|optional}'
+                lineitems: 'ttp://demo_lti1p3_nginx/platform/service/ags/default/lineitems'
                 lineitem: '{url|optional}'
         ACS:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_ACS
