@@ -1,5 +1,4 @@
 {% set activeMenu = get_active_menu() %}
-{{ activeMenu }}
 <nav id="sidebar">
     <div class="sidebar-header">
         <img src="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png" width="55" height=55" class="d-inline-block" alt="">&nbsp;&nbsp;|&nbsp;
@@ -7,7 +6,7 @@
             <strong><a href="{{ path('dashboard') }}">LTI 1.3 <small><code class="text-danger">DevKit</code></small></a></strong>
         </h4>
     </div>
-    <div id="sidebar-dashboard-menu-header" class="card text-white bg-dark">
+    <div class="card text-white bg-dark" style="border-bottom: none !important;">
         <a class="card-header sidebar-menu-header" href="{{ path('dashboard') }}">
             <h6><i class="fas fa-house-user"></i>&nbsp;&nbsp;Dashboard</h6>
         </a>
