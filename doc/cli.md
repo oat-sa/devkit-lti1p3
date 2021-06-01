@@ -23,7 +23,7 @@ Command details:
 |----------------|-------------|----------|--------------------------------------------------------------|
 | --type         | -t          | yes      | type of LTI message launch to generate                       |
 | --parameters   | -p          | yes      | parameters (JSON encoded) for the message launch generation  |
-| --verbose      | v           | yes      | to output message launch details                             |
+| --verbose      | -v          | no       | to output message launch details (default = no)              |
 
 
 Launch parameters (`--parameters`, JSON encoded) details:
