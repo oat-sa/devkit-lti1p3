@@ -15,7 +15,7 @@ You can find below the available commands offered by the demo application.
 Can be used if you need to programmatically generate a `ltiResourceLinkRequest` message launch via a command line (only message type supported for now).
 
 Command details:
-- command: `php bin/console devkit:create:message:launch`
+- command: `php bin/console create:message:launch`
 - command options: 
 
 | Name           | Short name  | Required | Description                                                  |
@@ -58,7 +58,7 @@ Launch parameters `--parameters` (JSON encoded) details:
 
 Command execution example:
 ```shell
-php bin/console devkit:create:message:launch -v -t LtiResourceLinkRequest -p '{
+php bin/console create:message:launch -v -t LtiResourceLinkRequest -p '{
   "registration": "demo",
   "user": {
     "id": "userIdentifier"
