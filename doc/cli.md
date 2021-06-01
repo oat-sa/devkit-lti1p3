@@ -16,6 +16,7 @@ Can be used if you need to programmatically generate a `ltiResourceLinkRequest` 
 
 Command details:
 - command: `php bin/console create:message:launch`
+- command help: `php bin/console create:message:launch --help`
 - command options: 
 
 | Name           | Short name  | Required | Description                                                  |
@@ -25,7 +26,7 @@ Command details:
 | --verbose      | v           | yes      | to output message launch details                             |
 
 
-Launch parameters `--parameters` (JSON encoded) details:
+Launch parameters (`--parameters`, JSON encoded) details:
 
 | Name                                 | Required |Description                                                                                          |
 |--------------------------------------|----------|-----------------------------------------------------------------------------------------------------|
