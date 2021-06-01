@@ -2,6 +2,10 @@ security:
     providers:
         users_in_memory: { memory: null }
     firewalls:
+        api_area:
+            pattern: ^/api/
+            stateless: true
+            api_key: true
         tool_message_area:
             pattern: ^/tool/launch
             stateless: true
