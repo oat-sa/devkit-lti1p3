@@ -1,4 +1,4 @@
-# API documentation
+# HTTP API documentation
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@ You can find below the available API HTTP endpoints offered by the demo applicat
 
 ### ltiResourceLinkRequest launch generation endpoint
 
-If you need to programmatically generate a `ltiResourceLinkRequest` message launch
+Can be used if you need to programmatically generate a `ltiResourceLinkRequest` message launch via HTTP call.
 
 Endpoint details:
 - method: `POST`
@@ -30,29 +30,29 @@ Endpoint parameters (JSON encoded):
 
 | Name                                 | Required |Description                                                                                          |
 |--------------------------------------|----------|-----------------------------------------------------------------------------------------------------|
-| registration                         | true     | registration identifier to use for the launch                                                       |
-| user                                 | false    | user details to use for the launch                                                                  |
-| target_link_uri                      | false    | target_link_uri to use for the launch, if not provided, will use default tool launch url            |
-| deployment_id                        | false    | deployment_id to use for the launch, if not provided, will use default registration deployment id   |
-| claims                               | false    | claims to use for the launch                                                                        |
+| registration                         | yes      | registration identifier to use for the launch                                                       |
+| user                                 | no       | user details to use for the launch                                                                  |
+| target_link_uri                      | no       | target_link_uri to use for the launch, if not provided, will use default tool launch url            |
+| deployment_id                        | no       | deployment_id to use for the launch, if not provided, will use default registration deployment id   |
+| claims                               | no       | claims to use for the launch                                                                        |
 
 **Note**:
 - for the `user` parameter, you can provide this structure:
 ```json
 "user": {
-  "id": "userIdentifier",     // [optional] will generate a uuidv4 if not provided
-  "name": "user name",        // [optional]
-  "email": "user@mail.com",   // [optional]
-  "locale": "en"              // [optional]
+  "id": "userIdentifier",     [optional, will generate uuidv4 if not provided]
+  "name": "user name",        [optional]
+  "email": "user@mail.com",   [optional]
+  "locale": "en"              [optional]
 }
 ```
 - for the `claims` parameter, you can provide any claim form the [IMS specifications](http://www.imsglobal.org/spec/lti/v1p3/#required-message-claims), for example:
 ```json
 "claims": {
-    "a": "b",
-    "https://purl.imsglobal.org/spec/lti/claim/roles": [
-      "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
-    ]
+  "a": "b",
+  "https://purl.imsglobal.org/spec/lti/claim/roles": [
+    "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
+  ]
 }
 ```
 
@@ -60,19 +60,19 @@ Endpoint parameters (JSON encoded):
 Endpoint request example:
 ```shell
 curl --location --request POST 'http://localhost:8888/api/platform/messages/ltiResourceLinkRequest/launch?verbose=true' \
---header 'Authorization: Bearer dcf8cb90ac4db043f33e29d2419d93f0' \
+--header 'Authorization: Bearer xxxxx' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "registration": "demo",
-    "user": {
-        "id": "userIdentifier"
-    },
-    "claims": {
-        "a": "b",
-        "https://purl.imsglobal.org/spec/lti/claim/roles": [
-          "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
-      ]
-    }
+  "registration": "demo",
+  "user": {
+    "id": "userIdentifier"
+  },
+  "claims": {
+    "a": "b",
+    "https://purl.imsglobal.org/spec/lti/claim/roles": [
+      "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
+    ]
+  }
 }'
 ```
 
@@ -99,4 +99,4 @@ Endpoint response example:
 
 **Notes**:
 - `link`: message launch link to use to perform later on the launch
-- `details`: message launch details
+- `details`: message launch details, returned if `verbose=true`

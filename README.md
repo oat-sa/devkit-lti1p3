@@ -36,4 +36,11 @@ This demo application respect the following LTI 1.3 [IMS](http://www.imsglobal.o
 
 ## Documentation
 
-- [installation and configuration instructions](doc/installation.md)
+### Installation and configuration 
+
+- how to [install and configure](doc/installation.md) the demo application
+  
+### API and CLI
+
+- how to [use the HTTP API](doc/api.md) of the demo application
+- how to [use the CLI](doc/cli.md) of the demo application
