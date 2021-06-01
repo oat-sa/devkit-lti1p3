@@ -1,4 +1,4 @@
-# Installation documentation
+# Installation and configuration documentation
 
 ## Table of Contents
 
