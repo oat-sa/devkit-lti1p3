@@ -154,3 +154,8 @@ platform_proctoring_delete_assessment:
     methods: [GET]
     path: /platform/proctoring/assessments/{assessmentIdentifier}/delete
     controller: App\Action\Platform\Proctoring\DeleteAssessmentAction
+
+api_platform_create_message:
+    methods: [POST]
+    path: /api/platform/messages/{messageType}/launch
+    controller: App\Action\Api\Platform\Message\CreateMessageLaunchAction
