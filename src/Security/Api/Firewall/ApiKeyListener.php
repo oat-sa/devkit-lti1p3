@@ -22,6 +22,8 @@ namespace App\Security\Api\Firewall;
 
 use App\Security\Api\Token\ApiKeyToken;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -69,9 +71,16 @@ class ApiKeyListener
 
             return;
         } catch (AuthenticationException $exception) {
-            $this->logger->error(sprintf('Api key authentication failed: %s', $exception->getMessage()));
+            $this->logger->error($exception->getMessage());
 
-            throw $exception;
+            $response = new JsonResponse(
+                [
+                    'error' => $exception->getMessage()
+                ],
+                Response::HTTP_UNAUTHORIZED
+            );
+
+            $event->setResponse($response);
         }
     }
 }

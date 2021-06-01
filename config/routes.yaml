@@ -157,5 +157,5 @@ platform_proctoring_delete_assessment:
 
 api_platform_create_message:
     methods: [POST]
-    path: /api/platform/messages
-    controller: App\Action\Api\Platform\Message\CreateMessageAction
+    path: /api/platform/messages/{messageType}/launch
+    controller: App\Action\Api\Platform\Message\CreateMessageLaunchAction

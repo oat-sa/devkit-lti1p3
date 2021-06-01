@@ -6,12 +6,8 @@ CHANGELOG
 
 * Added LTI messages generation API (HTTP and CLI)
 * Added LTI messages generation API documentation
-* Fixed faulty jQuery assets CDN
-
-1.9.2
------
-
-* Fixed AGS claim scope parameter
+* Fixed jQuery assets CDN
+* Fixed AGS claim scope parameter for claim editor
 
 1.9.1
 -----
