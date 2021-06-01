@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+1.10.0
+-----
+
+* Added LTI messages generation API (HTTP and CLI)
+* Added LTI messages generation API documentation
+* Fixed faulty jQuery assets CDN
+
 1.9.2
 -----
 
