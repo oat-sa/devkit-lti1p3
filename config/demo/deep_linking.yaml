@@ -3,8 +3,8 @@ parameters:
         ltiResourceLinkExample:
             type: ltiResourceLink
             url: http://localhost:8888/tool/launch
-            title: Launch demo tool
-            text: LTI resource Link to launch demo tool
+            title: Launch LTI DevKit
+            text: LTI resource Link to launch LTI DevKit
             icon:
                 url: https://cdn2.iconfinder.com/data/icons/user-interface-ui-1-set/64/link-chain-hyperlink-linked-internet-20.png
             thumbnail:

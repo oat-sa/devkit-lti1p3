@@ -1,7 +1,5 @@
-
-
 #{{{ fpm
-FROM php:7.4-fpm-alpine as fpm
+FROM php:8-fpm-alpine as fpm
 
 RUN set -eux; \
         apk add --no-cache --virtual .build-deps \

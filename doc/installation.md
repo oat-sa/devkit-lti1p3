@@ -1,4 +1,4 @@
-# Installation and configuration documentation
+# Installation and configuration
 
 ## Table of Contents
 
@@ -12,7 +12,7 @@ You need to ensure first you have the following installed:
 - [docker](https://docs.docker.com/get-docker/)
 - [docker-compose](https://docs.docker.com/compose/install/)
 
-After cloning this repository, you can build the [provided docker stack](docker-compose.yml):
+After cloning this repository, you can build the [provided docker stack](../docker-compose.yml):
 ```console
 $ docker-compose up -d
 ```
@@ -32,36 +32,36 @@ For Windows users:
 
 ### Platforms, tools and registrations
 
-Since this demo application relies on [LTI 1.3 symfony bundle](https://github.com/oat-sa/bundle-lti1p3), you can find [here](https://github.com/oat-sa/bundle-lti1p3/blob/master/doc/quickstart/configuration.md) instructions to configure it.
+Since this development kit application relies on [LTI 1.3 symfony bundle](https://github.com/oat-sa/bundle-lti1p3), you can find [here](https://github.com/oat-sa/bundle-lti1p3/blob/master/doc/quickstart/configuration.md) instructions to configure it.
 
 ### Customization
 
-You can find in the [config/demo](config/demo) folder configuration files to customize the LTI 1.3 demo application:
-- [claims.yaml](config/demo/claims.yaml): configurable editor claims list
-- [deep_linking.yaml](config/demo/deep_linking.yaml): configurable deep linking resources list
-- [users.yaml](config/demo/users.yaml): configurable users list
+You can find in the [config/demo](../config/demo) folder configuration files to customize the development kit application:
+- [claims.yaml](../config/demo/claims.yaml): configurable editor claims list
+- [deep_linking.yaml](../config/demo/deep_linking.yaml): configurable deep linking resources list
+- [users.yaml](../config/demo/users.yaml): configurable users list
 
 ## Usage
 
 ### Application
 
-After installation, the LTI 1.3 demo application is available on [http://localhost:8888](http://localhost:8888)
+After installation, the development kit application is available on [http://localhost:8888](http://localhost:8888)
 
 ### Services
 
 After installation, the following services are available:
 
-| Name                                 | Description                      |
-|--------------------------------------|----------------------------------|
-| demo_lti1p3_nginx                    | application nginx web server     |
-| demo_lti1p3_phpfpm                   | application php-fpm              |
-| demo_lti1p3_redis                    | application cache                |
-| demo_lti1p3_redis_commander          | application cache administration |
+| Name                                   | Description                      |
+|----------------------------------------|----------------------------------|
+| devkit_lti1p3_nginx                    | application nginx web server     |
+| devkit_lti1p3_phpfpm                   | application php-fpm              |
+| devkit_lti1p3_redis                    | application cache                |
+| devkit_lti1p3_redis_commander          | application cache administration |
 
 You can access:
 
-| Name                                 | URL                                            |
-|--------------------------------------|------------------------------------------------|
-| demo_lti1p3_nginx                    | [http://localhost:8888](http://localhost:8888) |
-| demo_lti1p3_redis_commander          | [http://localhost:8081](http://localhost:8081) |
+| Name                                   | URL                                            |
+|-------  -------------------------------|------------------------------------------------|
+| devkit_lti1p3_nginx                    | [http://localhost:8888](http://localhost:8888) |
+| devkit_lti1p3_redis_commander          | [http://localhost:8081](http://localhost:8081) |
 

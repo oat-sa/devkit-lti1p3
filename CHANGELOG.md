@@ -10,6 +10,8 @@ CHANGELOG
 * Added AGS services handling
 * Added optional uri parameter for proctoring start assessment endpoint
 * Updated LTI service client
+* Updated php version to 8.x
+* Updated documentation
 
 1.10.0
 -----

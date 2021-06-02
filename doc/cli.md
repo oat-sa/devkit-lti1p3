@@ -8,7 +8,7 @@
 
 ## Commands
 
-You can find below the available commands offered by the demo application.
+You can find below the available commands offered by the development kit application.
 
 ### Message launch generation command
 
@@ -55,7 +55,6 @@ Launch parameters (`--parameters`, JSON encoded) details:
   ]
 }
 ```
-
 
 Command execution example:
 ```shell
