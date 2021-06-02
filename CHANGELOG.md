@@ -4,13 +4,15 @@ CHANGELOG
 2.0.0
 -----
 
-* Renamed into LTI DevKit
+* Renamed into TAO LTI DevKit
+* Renamed create:message:launch command into devkit:create:message:launch
 * Added incident time datepicker field for ACS tab
 * Added platform CRUD for AGS line items, result and scores
 * Added AGS services handling
 * Added optional uri parameter for proctoring start assessment endpoint
+* Added traefik as container proxy (docker)
 * Updated LTI service client
-* Updated php version to 8.x
+* Updated PHP version to 8.x (docker)
 * Updated documentation
 
 1.10.0
