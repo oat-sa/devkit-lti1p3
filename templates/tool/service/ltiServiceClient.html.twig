@@ -39,9 +39,13 @@
                             <div class="input-group">
                                 <div class="input-group-prepend" role="group" aria-label="Manage body">
                                     <div class="btn-group-vertical" role="group">
-                                        <button id="bodyFormat" type="button" class="btn btn-secondary btn-block" title="Format body (JSON)">
+                                        <button id="bodyFormat" type="button" class="btn btn-secondary btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Format body">
                                             <i class="fas fa-align-left"></i>
                                         </button>
+                                        <div class="dropdown-menu dropdown-multicol" aria-labelledby="bodyFormat">
+                                            <a id="bodyFormatJson" class="editorClaim dropdown-item" data-value="json">JSON</a>
+                                            <a id="bodyFormatXml" class="editorClaim dropdown-item" data-value="xml">XML</a>
+                                        </div>
                                     </div>
                                 </div>
                                 {{ form_widget(form.body) }}
@@ -243,7 +247,7 @@
             }
         });
 
-        function checkBody() {
+        function formatBodyJson() {
             try {
                 if ($("#lti_service_client_body").val() != '') {
                     $("#lti_service_client_body").val(
@@ -253,17 +257,54 @@
             } catch(e) {}
         }
 
-        $("#bodyFormat").click(function(){
-            checkBody();
+        function formatBodyXml() {
+            try {
+                if ($("#lti_service_client_body").val() != '') {
+
+                    $("#lti_service_client_body").val(
+                        html_beautify(
+                            $("#lti_service_client_body").val(),
+                            {
+                                "indent_size": "4",
+                                "indent_char": " ",
+                                "max_preserve_newlines": "5",
+                                "preserve_newlines": true,
+                                "keep_array_indentation": false,
+                                "break_chained_methods": false,
+                                "indent_scripts": "normal",
+                                "brace_style": "collapse",
+                                "space_before_conditional": true,
+                                "unescape_strings": false,
+                                "jslint_happy": false,
+                                "end_with_newline": false,
+                                "wrap_line_length": "0",
+                                "indent_inner_html": false,
+                                "comma_first": false,
+                                "e4x": false,
+                                "indent_empty_lines": false
+                            }
+                        )
+                    );
+                }
+            } catch(e) {}
+        }
+
+        $("#bodyFormatJson").click(function(){
+            formatBodyJson();
         });
 
-        $('form[name=lti_service_client]').submit(function () {
-            checkBody();
-            return;
+        $("#bodyFormatXml").click(function(){
+            formatBodyXml();
+        });
+
+        $('form[name=lti_service_client]').submit(function (evt) {
+            formatBodyXml();
+            formatBodyJson();
         });
 
         $( document ).ready(function() {
-            checkBody();
+            formatBodyXml();
+            formatBodyJson();
         });
 
         hljs.initHighlightingOnLoad();
