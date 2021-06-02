@@ -1,14 +1,23 @@
 CHANGELOG
 =========
 
-1.10.0
+2.0.0
 -----
 
+* Renamed into LTI DevKit
 * Added incident time datepicker field for ACS tab
 * Added platform CRUD for AGS line items, result and scores
 * Added AGS services handling
-* Added optional uri parameter for proctoring start assessment endpoint  
+* Added optional uri parameter for proctoring start assessment endpoint
 * Updated LTI service client
+
+1.10.0
+-----
+
+* Added LTI messages generation API (HTTP and CLI)
+* Added LTI messages generation API documentation
+* Fixed jQuery assets CDN
+* Fixed AGS claim scope parameter for claim editor
 
 1.9.1
 -----

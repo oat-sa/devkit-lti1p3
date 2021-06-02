@@ -18,10 +18,7 @@ This development kit application based on the following packages:
 
 - [Try it live](#try-it-live)
 - [Specifications](#specifications)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Tests](#tests)
+- [Documentation](#documentation)
 
 ## Try it live
  
@@ -37,70 +34,13 @@ This development kit application implements the following LTI 1.3 [IMS](http://w
 - [IMS LTI 1.3 Proctoring](https://www.imsglobal.org/spec/proctoring/v1p0)
 - [IMS LTI 1.3 Core](http://www.imsglobal.org/spec/lti/v1p3)
 
-## Installation
+## Documentation
 
-You need to ensure first you have the following installed:
-- [docker](https://docs.docker.com/get-docker/)
-- [docker-compose](https://docs.docker.com/compose/install/)
+### Installation and configuration 
 
-After cloning this repository, you can build the [provided docker stack](docker-compose.yml):
-```console
-$ docker-compose up -d
-```
+- how to [install and configure](doc/installation.md) the demo application
+  
+### API and CLI
 
-Then, install required dependencies with [composer](https://hub.docker.com/_/composer):
-```console
-$ docker run --rm --interactive --tty \
-  --volume $PWD:/app \
-  composer install
-```
-
-For Windows users:
-- you may have to do `--volume %cd%:/app` instead
-- with powershell, you may have to do `--volume ${PWD}:/app` instead
-
-## Configuration
-
-### Platforms, tools and registrations
-
-Since this development kit application relies on [LTI 1.3 symfony bundle](https://github.com/oat-sa/bundle-lti1p3), you can find [here](https://github.com/oat-sa/bundle-lti1p3/blob/master/doc/quickstart/configuration.md) instructions to configure it.
-
-### Customization
-
-You can find in the [config/demo](config/demo) folder configuration files to customize the development kit application:
-- [claims.yaml](config/demo/claims.yaml): configurable editor claims list
-- [deep_linking.yaml](config/demo/deep_linking.yaml): configurable deep linking resources list
-- [users.yaml](config/demo/users.yaml): configurable users list
-
-## Usage
-
-### Application
-
-After installation, the development kit application is available on [http://localhost:8888](http://localhost:8888)
-
-### Services
-
-After installation, the following services are available:
-
-| Name                                   | Description            |
-|----------------------------------------|------------------------|
-| devkit_lti1p3_nginx                    | nginx web server       |
-| devkit_lti1p3_phpfpm                   | php-fpm                |
-| devkit_lti1p3_redis                    | cache                  |
-| devkit_lti1p3_redis_commander          | cache administration   |
-
-You can access:
-
-| Name                                   | URL                                            |
-|----------------------------------------|------------------------------------------------|
-| devkit_lti1p3_nginx                    | [http://localhost:8888](http://localhost:8888) |
-| devkit_lti1p3_redis_commander          | [http://localhost:8081](http://localhost:8081) |
-
-## Tests
-
-To run tests:
-
-```console
-$ bin/phpunit
-```
-**Note**: see [phpunit.xml.dist](phpunit.xml.dist) for available test suites.
+- how to [use the HTTP API](doc/api.md) of the demo application
+- how to [use the CLI](doc/cli.md) of the demo application

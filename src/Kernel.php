@@ -1,8 +1,27 @@
 <?php
 
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ */
+
 namespace App;
 
 use App\DependencyInjection\Compiler\ConfigurationPass;
+use App\DependencyInjection\Security\Factory\ApiKeyFactory;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -29,6 +48,12 @@ class Kernel extends BaseKernel
     public function getProjectDir(): string
     {
         return \dirname(__DIR__);
+    }
+
+    public function build(ContainerBuilder $container): void
+    {
+        $extension = $container->getExtension('security');
+        $extension->addSecurityListenerFactory(new ApiKeyFactory());
     }
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void

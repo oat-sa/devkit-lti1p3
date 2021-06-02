@@ -265,3 +265,8 @@ platform_ags_delete_line_item:
     methods: [GET]
     path: /platform/ags/line-items/{lineItemIdentifier}/delete
     controller: App\Action\Platform\Ags\DeleteLineItemAction
+
+api_platform_create_message:
+    methods: [POST]
+    path: /api/platform/messages/{messageType}/launch
+    controller: App\Action\Api\Platform\Message\CreateMessageLaunchAction

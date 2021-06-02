@@ -78,7 +78,6 @@ class LtiResourceLinkLaunchAction
 
         $form->handleRequest($request);
 
-        $user = null;
         $claims = [];
         $ltiResourceLinkLaunchRequest = null;
 
