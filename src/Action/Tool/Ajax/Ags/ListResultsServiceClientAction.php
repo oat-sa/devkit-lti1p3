@@ -74,7 +74,8 @@ class ListResultsServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
-                            'results' => array_values($results->getResults()->all())
+                            'results' => array_values($results->getResults()->all()),
+                            'mode' => $request->get('mode'),
                         ]
                     ),
                     'actions' => $this->twig->render(

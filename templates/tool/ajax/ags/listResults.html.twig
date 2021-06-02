@@ -1,35 +1,36 @@
-<div class="row">
-    <div class="col col-md-12">
-        {% if results|length != 0 %}
-            <div class="input-group mb-3">
-                <input type="text" id="agsModalResultSearch" class="form-control" placeholder="Search">
-                <div class="input-group-append">
-                    <button id="agsModalResultSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
-                </div>
-            </div>
-            <pre>
-                <code id="agsModalResultZone" class="language-json hljs">{{ results|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
-            </pre>
-        {% else %}
-            <div class="alert alert-dark" role="alert">
-                <i class="fas fa-ban"></i>&nbsp;No results found
-            </div>
-        {% endif %}
+{% if results|length != 0 %}
+    <div class="input-group mb-3">
+        <input type="text" id="agsModalResultSearch-{{ mode|default('line-item-container') }}" class="form-control" placeholder="Search">
+        <div class="input-group-append">
+            <button id="agsModalResultSearchReset-{{ mode|default('line-item-container') }}" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+        </div>
     </div>
-</div>
+    <pre>
+        <code id="agsModalResultZone-{{ mode|default('line-item-container') }}" class="language-json hljs">{{ results|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+    </pre>
+{% else %}
+    <div class="alert alert-dark" role="alert">
+        <i class="fas fa-ban"></i>&nbsp;No results found
+    </div>
+{% endif %}
+
 <script>
     hljs.initHighlightingOnLoad();
 
-    $("#agsModalResultSearch").on("input", function(){
-        $("#agsModalResultZone").unmark({
+    $("#agsModalResultSearch-{{ mode|default('line-item-container') }}").on("input", function(){
+        $("#agsModalResultZone-{{ mode|default('line-item-container') }}").unmark({
             done: function() {
-                $("#agsModalResultZone").mark($("#agsModalResultSearch").val());
+                $("#agsModalResultZone-{{ mode|default('line-item-container') }}").mark(
+                    $("#agsModalResultSearch-{{ mode|default('line-item-container') }}").val()
+                );
             }
         });
     });
 
-    $("#agsModalResultSearchReset").click(function(){
-        $("#agsModalResultSearch").val("");
-        $("#agsModalResultZone").unmark();
+    $("#agsModalResultSearchReset-{{ mode|default('line-item-container') }}").click(function(){
+        $("#agsModalResultSearch-{{ mode|default('line-item-container') }}").val("");
+        $("#agsModalResultZone-{{ mode|default('line-item-container') }}").unmark();
     });
+
+
 </script>
