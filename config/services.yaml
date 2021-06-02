@@ -5,6 +5,7 @@ imports:
 
 parameters:
     application_host: '%env(resolve:APP_HOST)%'
+    application_api_key: '%env(resolve:APP_API_KEY)%'
     application_version: '2.0.0'
 
 services:

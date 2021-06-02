@@ -62,7 +62,7 @@ curl --location --request POST 'http://localhost:8888/api/platform/messages/ltiR
 --header 'Authorization: Bearer xxxxx' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-  "registration": "demo",
+  "registration": "devkit",
   "user": {
     "id": "userIdentifier"
   },
@@ -81,18 +81,18 @@ Endpoint response example:
 
 ```json
 {
-    "link": "http://localhost:8888/lti1p3/oidc/initiation?iss=http%3A%2F%2Flocalhost%3A8888%2Fplatform&login_hint=%7B%22type%22%3A%22anonymous%22%7D&target_link_uri=http%3A%2F%2Flocalhost%3A8888%2Ftool%2Flaunch&lti_message_hint=eyJ0eXAiO...&lti_deployment_id=deploymentId1&client_id=client_id",
-    "details": {
-        "url": "http://localhost:8888/lti1p3/oidc/initiation",
-        "parameters": {
-            "iss": "http://localhost:8888/platform",
-            "login_hint": "{\"type\":\"anonymous\"}",
-            "target_link_uri": "http://localhost:8888/tool/launch",
-            "lti_message_hint": "eyJ0eXAiO...",
-            "lti_deployment_id": "deploymentId1",
-            "client_id": "client_id"
-        }
+  "link": "http://devkit-lti1p3.localhost/lti1p3/oidc/initiation?iss=http%3A%2F%2Fdevkit-lti1p3.localhost%2Fplatform&login_hint=%7B%22type%22%3A%22custom%22%2C%22user_id%22%3A%22userIdentifier%22%2C%22user_name%22%3Anull%2C%22user_email%22%3Anull%2C%22user_locale%22%3Anull%7D&target_link_uri=http%3A%2F%2Fdevkit-lti1p3.localhost%2Ftool%2Flaunch&lti_message_hint=eyJ0e...&lti_deployment_id=deploymentId1&client_id=client_id",
+  "details": {
+    "url": "http://devkit-lti1p3.localhost/lti1p3/oidc/initiation",
+    "parameters": {
+      "iss": "http://devkit-lti1p3.localhost/platform",
+      "login_hint": "{\"type\":\"custom\",\"user_id\":\"userIdentifier\",\"user_name\":null,\"user_email\":null,\"user_locale\":null}",
+      "target_link_uri": "http://devkit-lti1p3.localhost/tool/launch",
+      "lti_message_hint": "eyJ0e...",
+      "lti_deployment_id": "deploymentId1",
+      "client_id": "client_id"
     }
+  }
 }
 ```
 

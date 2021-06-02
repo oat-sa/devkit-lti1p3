@@ -4,8 +4,7 @@
 
 - [Commands](#commands)
     - [Message launch generation command](#message-launch-generation-command)
-
-
+  
 ## Commands
 
 You can find below the available commands offered by the development kit application.
@@ -15,8 +14,8 @@ You can find below the available commands offered by the development kit applica
 Can be used if you need to programmatically generate a `ltiResourceLinkRequest` message launch via a command line (only message type supported for now).
 
 Command details:
-- command: `php bin/console create:message:launch`
-- command help: `php bin/console create:message:launch --help`
+- command: `php bin/console devkit:create:message:launch`
+- command help: `php bin/console devkit:create:message:launch --help`
 - command options: 
 
 | Name           | Short name  | Required | Description                                                  |
@@ -58,8 +57,8 @@ Launch parameters (`--parameters`, JSON encoded) details:
 
 Command execution example:
 ```shell
-php bin/console create:message:launch -v -t LtiResourceLinkRequest -p '{
-  "registration": "demo",
+php bin/console devkit:create:message:launch -v -t LtiResourceLinkRequest -p '{
+  "registration": "devkit",
   "user": {
     "id": "userIdentifier"
   },
@@ -80,25 +79,25 @@ Command execution output example:
 LTI message launch link
 -----------------------
 
- http://localhost:8888/lti1p3/oidc/initiation?iss=http%3A%2F%2Flocalhost%3A8888%2Fplatform&login_hint=%7B%22type%22%3A%22custom%22%2C%22user_id%22%3A%22jonathan%22%2C%22user_name%22%3Anull%2C%22user_email%22%3Anull%2C%22user_locale%22%3Anull%7D&target_link_uri=http%3A%2F%2Flocalhost%3A8888%2Ftool%2Flaunch&lti_message_hint=eyJ0eXAiOiJKV1Q...&lti_deployment_id=deploymentId1&client_id=client_id
+ http://devkit-lti1p3.localhost/lti1p3/oidc/initiation?iss=http%3A%2F%2Fdevkit-lti1p3.localhost%2Fplatform&login_hint=%7B%22type%22%3A%22custom%22%2C%22user_id%22%3A%22userIdentifier%22%2C%22user_name%22%3Anull%2C%22user_email%22%3Anull%2C%22user_locale%22%3Anull%7D&target_link_uri=http%3A%2F%2Fdevkit-lti1p3.localhost%2Ftool%2Flaunch&lti_message_hint=eyJ0e...&lti_deployment_id=deploymentId1&client_id=client_id
 
 LTI message launch details
 --------------------------
 
 Url
 ---
-http://localhost:8888/lti1p3/oidc/initiation
+http://devkit-lti1p3.localhost/lti1p3/oidc/initiation
 
 Parameters
 ----------
 iss
-http://localhost:8888/platform
+http://devkit-lti1p3.localhost/platform
 login_hint
-{"type":"custom","user_id":"jonathan","user_name":null,"user_email":null,"user_locale":null}
+{"type":"custom","user_id":"userIdentifier","user_name":null,"user_email":null,"user_locale":null}
 target_link_uri
-http://localhost:8888/tool/launch
+http://devkit-lti1p3.localhost/tool/launch
 lti_message_hint
-eyJ0eXAiOiJKV1Q...
+eyJ0e...
 lti_deployment_id
 deploymentId1
 client_id
