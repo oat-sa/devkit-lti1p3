@@ -38,9 +38,9 @@ This development kit application implements the following LTI 1.3 [IMS](http://w
 
 ### Installation and configuration 
 
-- how to [install and configure](doc/installation.md) the demo application
+- how to [install and configure](doc/installation.md) the development kit application
   
 ### API and CLI
 
-- how to [use the HTTP API](doc/api.md) of the demo application
-- how to [use the CLI](doc/cli.md) of the demo application
+- how to [use the HTTP API](doc/api.md) of the development kit application
+- how to [use the CLI](doc/cli.md) of the development kit application
