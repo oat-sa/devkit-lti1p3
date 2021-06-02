@@ -155,7 +155,7 @@
                         $("#agsModalTitle").html("Processing");
                         $("#agsModalFlashes").html("");
                         $("#agsModalBody").html("processing ...");
-                        //$("#agsModalActions-{{ mode|default('line-item-container') }}").html("");
+                        $("#agsModalActions-{{ mode|default('line-item-container') }}").html("");
                     {% endif %}
                 },
                 success: function(result){
@@ -166,7 +166,7 @@
                         $("#agsLineItemFlashes").html(result.flashes);
                         $("#agsLineItemBody").html(result.body);
                         $("#agsLineItemActions").html(result.actions);
-                        $('html, body').animate({scrollTop:$(document).height()}, 'slow');
+                        //$('html, body').animate({scrollTop:$(document).height()}, 'slow');
                     {% else %}
                         $("#agsModalLogo").removeClass("fa-spinner fa-spin");
                         $("#agsModalLogo").addClass("fa-square");

@@ -8,7 +8,6 @@ parameters:
                         'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly',
                         'https://purl.imsglobal.org/spec/lti-ags/scope/score']
                 lineitems: 'http://devkit-lti1p3.localhost/platform/service/ags/default/lineitems'
-                lineitem: '{url|optional}'
         ACS:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_ACS
             value:
