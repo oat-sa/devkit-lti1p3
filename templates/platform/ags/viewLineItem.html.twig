@@ -41,7 +41,11 @@
                             </dd>
                             <dt>Start date</dt>
                             <dd>{{ lineItem.startDateTime|format('Y-m-d H:i')|default('n/a') }}</dd>
-                            <dt>AGS service url</dt>
+                            <dt>AGS line item service url</dt>
+                            <dd>
+                                <a href="{{ lineItem.url }}" target="_blank">{{ lineItem.url }}</a>
+                            </dd>
+                            <dt>AGS line item container service url</dt>
                             <dd>
                                 <a href="{{ lineItem.url }}" target="_blank">{{ lineItem.url }}</a>
                             </dd>
@@ -61,6 +65,22 @@
                             <dd>{{ scores|length }}</dd>
                             <dt>Results</dt>
                             <dd>{{ results|length }}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <dl class="list-unstyled">
+                            <dt>Additional properties</dt>
+                            <dd>
+                            {% if lineItem.additionalProperties.all|length != 0 %}
+                                <pre>
+                                    <code id="agsAdditionalPropertiesZone" class="language-json">{{ lineItem.additionalProperties.all|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                                </pre>
+                            {% else %}
+                                n/a
+                            {% endif %}
+                            </dd>
                         </dl>
                     </div>
                 </div>

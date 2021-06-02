@@ -25,6 +25,7 @@ namespace App\Action\Platform\Ags;
 use App\Form\Platform\Ags\LineItemType;
 use Carbon\Carbon;
 use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
+use OAT\Library\Lti1p3Core\Util\Collection\Collection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,6 +84,12 @@ class EditLineItemAction
             ? $lineItem->getEndDateTime()->format('Y-m-d H:i')
             : null;
 
+        if ($lineItem->getAdditionalProperties()->count() !== 0) {
+            $lineItemAdditionalProperties = json_encode($lineItem->getAdditionalProperties());
+        } else {
+            $lineItemAdditionalProperties = '';
+        }
+
         $form = $this->factory->create(
             LineItemType::class,
             [
@@ -94,6 +101,7 @@ class EditLineItemAction
                 'line_item_tag' => $lineItem->getTag(),
                 'line_item_start_date' => $lineItemStartDate,
                 'line_item_end_date' => $lineItemEndDate,
+                'line_item_additional_properties' => $lineItemAdditionalProperties,
             ],
             [
                 'edit' => true
@@ -114,6 +122,8 @@ class EditLineItemAction
                 ? Carbon::createFromFormat('Y-m-d H:i', $formData['line_item_end_date'])
                 : null;
 
+            $additionalProperties = json_decode($formData['line_item_additional_properties'] ?? '[]', true);
+
             $lineItem
                 ->setLabel($formData['line_item_label'])
                 ->setScoreMaximum($formData['line_item_score_maximum'])
@@ -121,7 +131,8 @@ class EditLineItemAction
                 ->setResourceLinkIdentifier($formData['line_item_resource_link_id'] ?? null)
                 ->setTag($formData['line_item_tag'] ?? null)
                 ->setStartDateTime($formStartDate)
-                ->setEndDateTime($formEndDate);
+                ->setEndDateTime($formEndDate)
+                ->setAdditionalProperties((new Collection)->add($additionalProperties));
 
             $this->repository->save($lineItem);
 

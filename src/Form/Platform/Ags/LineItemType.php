@@ -25,6 +25,7 @@ namespace App\Form\Platform\Ags;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -146,6 +147,15 @@ class LineItemType extends AbstractType
                         'class' => 'form-control datetimepicker-input',
                         'data-target' => '#lineItemEndDateTimeDatetimepicker'
                     ]
+                ]
+            )
+            ->add(
+                'line_item_additional_properties',
+                TextareaType::class,
+                [
+                    'required' => false,
+                    'attr' => ['rows' => 10],
+                    'help' => 'Line item additional properties'
                 ]
             )
             ->add(

@@ -85,6 +85,8 @@ class CreateLineItemAction
 
             $lineItemIdentifier = sprintf('%s%s', rtrim($request->getSchemeAndHttpHost(), '/'), $lineItemIdentifierPath);
 
+            $additionalProperties = json_decode($formData['line_item_additional_properties'] ?? '[]', true);
+
             $lineItem = new LineItem(
                 $formData['line_item_score_maximum'],
                 $formData['line_item_label'],
@@ -97,7 +99,8 @@ class CreateLineItemAction
                     : null,
                 !empty($formData['line_item_end_date'])
                     ? Carbon::createFromFormat('Y-m-d H:i', $formData['line_item_end_date'])
-                    : null
+                    : null,
+                $additionalProperties
             );
 
             $this->repository->save($lineItem);
