@@ -118,19 +118,9 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-row">
-                                    <div class="col col-md-8">
+                                    <div class="col col-md-12">
                                         <input type="text" id="agsUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.ags.lineItemsContainerUrl }}" aria-describedby="agsUrlHelp" readonly>
                                         <small id="agsUrlHelp" class="form-text text-muted">Service url</small>
-                                    </div>
-                                    <div class="col col-md-4">
-                                        <div class="form-group">
-                                            <select id="agsScope" aria-describedby="agsScopeHelp" class="form-control">
-                                                {% for scope in token.payload.ags.scopes %}
-                                                    <option value="{{ scope }}">{{ scope }}</option>
-                                                {% endfor %}
-                                            </select>
-                                            <small id="agsScopeHelp" class="form-text text-muted">Scope</small>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -210,6 +200,7 @@
                     resourceLinkId: $("#agsResourceLinkId").val(),
                     tag: $("#agsTag").val(),
                     limit: $("#agsLimit").val(),
+                    scopes: "{{ token.payload.ags.scopes|join(',') }}"
                 },
                 beforeSend: function(result){
                     $("#agsCall").removeClass("fa-sign-in-alt");
@@ -257,7 +248,8 @@
                 method: "GET",
                 data: {
                     registration: "{{ token.registration.identifier }}",
-                    mode: "line-item"
+                    mode: "line-item",
+                    scopes: "{{ token.payload.ags.scopes|join(',') }}"
                 },
                 dataType: "json",
                 beforeSend: function(result){

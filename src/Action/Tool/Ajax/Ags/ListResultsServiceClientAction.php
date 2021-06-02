@@ -86,7 +86,8 @@ class ListResultsServiceClientAction
                             'mode' => $request->get('mode'),
                             'actions' => [
                                 'go-back'
-                            ]
+                            ],
+                            'scopes' => $request->get('scopes')
                         ]
                     ),
                 ]

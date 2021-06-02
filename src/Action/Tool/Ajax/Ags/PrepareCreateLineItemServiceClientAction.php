@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace App\Action\Tool\Ajax\Ags;
 
 use Exception;
+use OAT\Library\Lti1p3Ags\Voter\ScopePermissionVoter;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,6 +51,14 @@ class PrepareCreateLineItemServiceClientAction
         try {
             $registration = $this->repository->find($request->get('registration'));
 
+            $permissions = ScopePermissionVoter::getPermissions(explode(',', $request->get('scopes')));
+
+            $actions = [];
+
+            if ($permissions['canWriteLineItem'] ?? false) {
+                $actions[] = 'create';
+            }
+
             return new JsonResponse(
                 [
                     'title' => 'Line item creation',
@@ -65,9 +74,8 @@ class PrepareCreateLineItemServiceClientAction
                         [
                             'registration' => $registration,
                             'mode' => $request->get('mode'),
-                            'actions' => [
-                                'create',
-                            ]
+                            'actions' => $actions,
+                            'scopes' => $request->get('scopes')
                         ]
                     ),
                 ]

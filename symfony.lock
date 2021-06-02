@@ -251,10 +251,10 @@
         "version": "v2.4.0"
     },
     "symfony/http-foundation": {
-        "version": "v5.3.0"
+        "version": "v5.3.1"
     },
     "symfony/http-kernel": {
-        "version": "v5.3.0"
+        "version": "v5.3.1"
     },
     "symfony/monolog-bridge": {
         "version": "v5.3.0"
@@ -320,7 +320,7 @@
         "version": "v5.3.0"
     },
     "symfony/property-info": {
-        "version": "v5.3.0"
+        "version": "v5.3.1"
     },
     "symfony/psr-http-message-bridge": {
         "version": "v2.1.0"
@@ -352,7 +352,7 @@
         ]
     },
     "symfony/security-core": {
-        "version": "v5.3.0"
+        "version": "v5.3.1"
     },
     "symfony/security-csrf": {
         "version": "v5.3.0"
@@ -361,7 +361,7 @@
         "version": "v5.3.0"
     },
     "symfony/security-http": {
-        "version": "v5.3.0"
+        "version": "v5.3.1"
     },
     "symfony/service-contracts": {
         "version": "v2.4.0"

@@ -4,9 +4,11 @@
         <div>
             <i class="fas fa-graduation-cap"></i>&nbsp;AGS line items container service response
         </div>
-        <a id="ags-container-line-item-create-btn" class="btn btn-primary text-white">
-            <i class="fas fa-plus-circle"></i>&nbsp;Create
-        </a>
+        {% if canWriteLineItem %}
+            <a id="ags-container-line-item-create-btn" class="btn btn-primary text-white">
+                <i class="fas fa-plus-circle"></i>&nbsp;Create
+            </a>
+        {% endif %}
     </div>
     <ul class="list-group list-group-flush">
         {% for lineItem in lineItemsContainer.lineItems.all %}
@@ -35,7 +37,8 @@
             method: "GET",
             data: {
                 registration: "{{ registration.identifier }}",
-                containerUrl: "{{ lineItemsContainerUrl }}"
+                containerUrl: "{{ lineItemsContainerUrl }}",
+                scopes: "{{ scopes }}"
             },
             dataType: "json",
             beforeSend: function(result){
@@ -61,7 +64,8 @@
             url: $(this).data("line-item-url"),
             method: "GET",
             data: {
-                registration: $(this).data("registration")
+                registration: $(this).data("registration"),
+                scopes: "{{ scopes }}"
             },
             dataType: "json",
             beforeSend: function(result){

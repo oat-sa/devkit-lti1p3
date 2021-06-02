@@ -28,6 +28,7 @@ use InvalidArgumentException;
 use OAT\Library\Lti1p3Ags\Model\Score\Score;
 use OAT\Library\Lti1p3Ags\Service\LineItem\Client\LineItemServiceClient;
 use OAT\Library\Lti1p3Ags\Service\Score\Client\ScoreServiceClient;
+use OAT\Library\Lti1p3Ags\Voter\ScopePermissionVoter;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,6 +89,23 @@ class PublishScoreServiceClientAction
 
             $this->scoreServiceClient->publish($registration, $score, $lineItemIdentifier);
 
+            $permissions = ScopePermissionVoter::getPermissions(explode(',', $request->get('scopes')));
+
+            $actions = [];
+
+            if ($permissions['canWriteScore'] ?? false) {
+                $actions[] = 'prepare-score';
+            }
+
+            if ($permissions['canWriteLineItem'] ?? false) {
+                $actions[] = 'edit';
+                $actions[] = 'delete';
+            }
+
+            if ($permissions['canReadResult'] ?? false) {
+                $actions[] = 'list-results';
+            }
+
             return new JsonResponse(
                 [
                     'title' => 'Line item details',
@@ -114,12 +132,8 @@ class PublishScoreServiceClientAction
                             'registration' => $registration,
                             'lineItem' => $lineItem,
                             'mode' => $request->get('mode'),
-                            'actions' => [
-                                'prepare-score',
-                                'edit',
-                                'delete',
-                                'list-results',
-                            ]
+                            'actions' => $actions,
+                            'scopes' => $request->get('scopes')
                         ]
                     ),
                 ]

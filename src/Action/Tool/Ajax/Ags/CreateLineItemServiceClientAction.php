@@ -27,6 +27,7 @@ use Exception;
 use InvalidArgumentException;
 use OAT\Library\Lti1p3Ags\Model\LineItem\LineItem;
 use OAT\Library\Lti1p3Ags\Service\LineItem\Client\LineItemServiceClient;
+use OAT\Library\Lti1p3Ags\Voter\ScopePermissionVoter;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,6 +87,23 @@ class CreateLineItemServiceClientAction
 
             $lineItem = $this->client->createLineItem($registration, $lineItem, $formParameters['lineItemContainerUrl']);
 
+            $permissions = ScopePermissionVoter::getPermissions(explode(',', $request->get('scopes')));
+
+            $actions = [];
+
+            if ($permissions['canWriteScore'] ?? false) {
+                $actions[] = 'prepare-score';
+            }
+
+            if ($permissions['canWriteLineItem'] ?? false) {
+                $actions[] = 'edit';
+                $actions[] = 'delete';
+            }
+
+            if ($permissions['canReadResult'] ?? false) {
+                $actions[] = 'list-results';
+            }
+
             return new JsonResponse(
                 [
                     'title' => 'Line item details',
@@ -112,12 +130,8 @@ class CreateLineItemServiceClientAction
                             'registration' => $registration,
                             'lineItem' => $lineItem,
                             'mode' => $request->get('mode'),
-                            'actions' => [
-                                'prepare-score',
-                                'edit',
-                                'delete',
-                                'list-results',
-                            ]
+                            'actions' => $actions,
+                            'scopes' => $request->get('scopes')
                         ]
                     ),
                 ]

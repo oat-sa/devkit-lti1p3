@@ -47,7 +47,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('absolute_app_url', [$this, 'getAbsoluteAppUrl']),
-            new TwigFunction('get_active_menu', [$this, 'getActiveMenu']),
+            new TwigFunction('get_active_menu', [$this, 'getActiveMenu'])
         ];
     }
 

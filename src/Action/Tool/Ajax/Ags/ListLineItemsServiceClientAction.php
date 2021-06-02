@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace App\Action\Tool\Ajax\Ags;
 
 use OAT\Library\Lti1p3Ags\Service\LineItem\Client\LineItemServiceClient;
+use OAT\Library\Lti1p3Ags\Voter\ScopePermissionVoter;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,7 +69,9 @@ class ListLineItemsServiceClientAction
                 [
                     'registration' => $registration,
                     'lineItemsContainer' => $lineItemsContainer,
-                    'lineItemsContainerUrl' => $request->get('url')
+                    'lineItemsContainerUrl' => $request->get('url'),
+                    'canWriteLineItem' => ScopePermissionVoter::canWriteLineItem(explode(',', $request->get('scopes'))),
+                    'scopes' => $request->get('scopes')
                 ]
             )
         );

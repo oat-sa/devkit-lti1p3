@@ -77,7 +77,8 @@ class PrepareUpdateLineItemServiceClientAction
                             'actions' => [
                                 'update',
                                 'cancel'
-                            ]
+                            ],
+                            'scopes' => $request->get('scopes')
                         ]
                     ),
                 ]

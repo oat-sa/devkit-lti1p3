@@ -24,6 +24,7 @@ namespace App\Action\Tool\Ajax\Ags;
 
 use Exception;
 use OAT\Library\Lti1p3Ags\Service\LineItem\Client\LineItemServiceClient;
+use OAT\Library\Lti1p3Ags\Voter\ScopePermissionVoter;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,9 +54,28 @@ class ViewLineItemServiceClientAction
     public function __invoke(Request $request, string $lineItemIdentifier): JsonResponse
     {
         try {
+            $mode = $request->get('mode');
+
             $registration = $this->repository->find($request->get('registration'));
 
             $lineItem = $this->client->getLineItem($registration, $lineItemIdentifier);
+
+            $permissions = ScopePermissionVoter::getPermissions(explode(',', $request->get('scopes')));
+
+            $actions = [];
+
+            if ($permissions['canWriteScore'] ?? false) {
+                $actions[] = 'prepare-score';
+            }
+
+            if ($permissions['canWriteLineItem'] ?? false) {
+                $actions[] = 'edit';
+                $actions[] = 'delete';
+            }
+
+            if ($permissions['canReadResult'] ?? false) {
+                $actions[] = 'list-results';
+            }
 
             return new JsonResponse(
                 [
@@ -72,13 +92,9 @@ class ViewLineItemServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
-                            'mode' => $request->get('mode'),
-                            'actions' => [
-                                'prepare-score',
-                                'edit',
-                                'delete',
-                                'list-results',
-                            ]
+                            'mode' => $mode,
+                            'actions' => $actions,
+                            'scopes' => $request->get('scopes')
                         ]
                     ),
                 ]

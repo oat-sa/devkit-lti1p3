@@ -77,7 +77,8 @@ class PrepareScoreServiceClientAction
                             'actions' => [
                                 'publish-score',
                                 'cancel'
-                            ]
+                            ],
+                            'scopes' => $request->get('scopes')
                         ]
                     ),
                 ]
