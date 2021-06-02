@@ -62,7 +62,7 @@ class ScoreRepository implements ScoreRepositoryInterface
             null,
             $score->getScoreGiven(),
             $score->getScoreMaximum(),
-            'Auto generated result by LTI DevKit'
+            'Auto generated result by LTI 1.3 DevKit'
         );
 
         $this->repository->save($result);

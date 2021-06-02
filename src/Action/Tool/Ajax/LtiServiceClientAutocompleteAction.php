@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace App\Action\Tool\Ajax;
 
-use OAT\Library\Lti1p3Ags\Serializer\Score\ScoreSerializerInterface;
 use OAT\Library\Lti1p3Ags\Service\LineItem\LineItemServiceInterface;
 use OAT\Library\Lti1p3Ags\Service\Result\ResultServiceInterface;
 use OAT\Library\Lti1p3Ags\Service\Score\ScoreServiceInterface;

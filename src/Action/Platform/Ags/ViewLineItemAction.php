@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace App\Action\Platform\Ags;
 
-use App\Ags\ResultRepository;
 use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
 use OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface;
 use OAT\Library\Lti1p3Ags\Repository\ScoreRepositoryInterface;
