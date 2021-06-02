@@ -73,6 +73,7 @@ class PrepareUpdateLineItemServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
+                            'mode' => $request->get('mode'),
                             'actions' => [
                                 'update',
                                 'cancel'

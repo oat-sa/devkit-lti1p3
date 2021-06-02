@@ -1,21 +1,21 @@
-<div id="agsModalActions" class="btn-group" role="group" aria-label="Basic example">
+<div id="agsModalActions-{{ mode|default('line-item-container') }}" class="btn-group" role="group" aria-label="Basic example">
 {% for action in actions  %}
     {% if action == 'prepare-score' %}
-        <a
-                id="ags-line-item-prepare-score-btn"
-                class="btn btn-info text-white ags-line-item-action"
+        <button
+                id="ags-line-item-prepare-score-btn-{{ mode|default('line-item-container') }}"
+                class="btn btn-info text-white ags-line-item-action-{{ mode|default('line-item-container') }}"
                 data-action="{{ action }}"
                 data-registration="{{ registration.identifier }}"
                 data-line-item-identifier="{{ lineItem.identifier }}"
                 data-line-item-url="{{ path('tool_ajax_service_ags_prepare_score', {'lineItemIdentifier': lineItem.identifier|base64_encode}) }}"
         >
             <i class="fas fa-poll"></i>&nbsp;Publish score
-        </a>
+        </button>
     {% endif %}
     {% if action == 'publish-score' %}
         <a
-                id="ags-line-item-send-score-btn"
-                class="btn btn-info text-white ags-line-item-action"
+                id="ags-line-item-send-score-btn-{{ mode|default('line-item-container') }}"
+                class="btn btn-info text-white ags-line-item-action-{{ mode|default('line-item-container') }}"
                 data-action="{{ action }}"
                 data-registration="{{ registration.identifier }}"
                 data-line-item-identifier="{{ lineItem.identifier }}"
@@ -26,8 +26,8 @@
     {% endif %}
     {% if action == 'list-results' %}
         <a
-                id="ags-line-item-list-results-btn"
-                class="btn btn-info text-white ags-line-item-action"
+                id="ags-line-item-list-results-btn-{{ mode|default('line-item-container') }}"
+                class="btn btn-info text-white ags-line-item-action-{{ mode|default('line-item-container') }}"
                 data-action="{{ action }}"
                 data-registration="{{ registration.identifier }}"
                 data-line-item-identifier="{{ lineItem.identifier }}"
@@ -38,8 +38,8 @@
     {% endif %}
     {% if action == 'create' %}
         <a
-                id="ags-line-item-create-btn"
-                class="btn btn-primary text-white ags-line-item-action"
+                id="ags-line-item-create-btn-{{ mode|default('line-item-container') }}"
+                class="btn btn-primary text-white ags-line-item-action-{{ mode|default('line-item-container') }}"
                 data-action="{{ action }}"
                 data-registration="{{ registration.identifier }}"
                 data-line-item-url="{{ path('tool_ajax_service_ags_create_lineitem') }}"
@@ -49,8 +49,8 @@
     {% endif %}
     {% if action == 'edit' %}
         <a
-                id="ags-line-item-edit-btn"
-                class="btn btn-primary text-white ags-line-item-action"
+                id="ags-line-item-edit-btn-{{ mode|default('line-item-container') }}"
+                class="btn btn-primary text-white ags-line-item-action-{{ mode|default('line-item-container') }}"
                 data-action="{{ action }}"
                 data-registration="{{ registration.identifier }}"
                 data-line-item-identifier="{{ lineItem.identifier }}"
@@ -61,8 +61,8 @@
     {% endif %}
     {% if action == 'delete' %}
         <a
-                id="ags-line-item-delete-btn"
-                class="btn btn-danger text-white ags-line-item-action"
+                id="ags-line-item-delete-btn-{{ mode|default('line-item-container') }}"
+                class="btn btn-danger text-white ags-line-item-action-{{ mode|default('line-item-container') }}"
                 data-action="{{ action }}"
                 data-registration="{{ registration.identifier }}"
                 data-line-item-identifier="{{ lineItem.identifier }}"
@@ -73,8 +73,8 @@
     {% endif %}
     {% if action == 'update' %}
         <a
-                id="ags-line-item-update-btn"
-                class="btn btn-primary text-white ags-line-item-action"
+                id="ags-line-item-update-btn-{{ mode|default('line-item-container') }}"
+                class="btn btn-primary text-white ags-line-item-action-{{ mode|default('line-item-container') }}"
                 data-action="{{ action }}"
                 data-registration="{{ registration.identifier }}"
                 data-line-item-identifier="{{ lineItem.identifier }}"
@@ -85,8 +85,8 @@
     {% endif %}
     {% if action == 'cancel' %}
         <a
-                id="ags-line-item-cancel-btn"
-                class="btn btn-secondary text-white ags-line-item-action"
+                id="ags-line-item-cancel-btn-{{ mode|default('line-item-container') }}"
+                class="btn btn-secondary text-white ags-line-item-action-{{ mode|default('line-item-container') }}"
                 data-action="{{ action }}"
                 data-registration="{{ registration.identifier }}"
                 data-line-item-identifier="{{ lineItem.identifier }}"
@@ -97,8 +97,8 @@
     {% endif %}
     {% if action == 'go-back' %}
         <a
-                id="ags-line-item-back-btn"
-                class="btn btn-secondary text-white ags-line-item-action"
+                id="ags-line-item-back-btn-{{ mode|default('line-item-container') }}"
+                class="btn btn-secondary text-white ags-line-item-action-{{ mode|default('line-item-container') }}"
                 data-action="{{ action }}"
                 data-registration="{{ registration.identifier }}"
                 data-line-item-identifier="{{ lineItem.identifier }}"
@@ -110,7 +110,10 @@
 {% endfor %}
 </div>
 <script>
-    $(".ags-line-item-action").click(function (event) {
+    $(".ags-line-item-action-{{ mode|default('line-item-container') }}").click(function (event) {
+
+        event.preventDefault();
+
         let run = true;
         let form = false;
         let btn = $(this);
@@ -133,28 +136,48 @@
                 method: "GET",
                 data: {
                     registration: btn.data("registration"),
-                    form: form
+                    form: form,
+                    mode: "{{ mode }}"
                 },
                 dataType: "json",
                 beforeSend: function(result){
-                    $("#agsModalLogo").removeClass("fa-square");
-                    $("#agsModalLogo").addClass("fa-spinner fa-spin");
-                    $("#agsModal").modal('show');
-                    $("#agsModalTitle").html("Processing");
-                    $("#agsModalFlashes").html("");
-                    $("#agsModalBody").html("processing ...");
-                    $("#agsModalActions").html("");
+                    {% if mode == 'line-item' %}
+                        $("#agsLineItemLogo").removeClass("fa-square");
+                        $("#agsLineItemLogo").addClass("fa-spinner fa-spin");
+                        $("#agsLineItemTitle").html("Processing");
+                        $("#agsLineItemFlashes").html("");
+                        $("#agsLineItemBody").html("processing ...");
+                        $("#agsLineItemActions").html("");
+                    {% else %}
+                        $("#agsModalLogo").removeClass("fa-square");
+                        $("#agsModalLogo").addClass("fa-spinner fa-spin");
+                        $("#agsModal").modal('show');
+                        $("#agsModalTitle").html("Processing");
+                        $("#agsModalFlashes").html("");
+                        $("#agsModalBody").html("processing ...");
+                        $("#agsModalActions-{{ mode|default('line-item-container') }}").html("");
+                    {% endif %}
                 },
                 success: function(result){
-                    $("#agsModalLogo").removeClass("fa-spinner fa-spin");
-                    $("#agsModalLogo").addClass("fa-square");
-                    $("#agsModalTitle").html(result.title);
-                    $("#agsModalFlashes").html(result.flashes);
-                    $("#agsModalBody").html(result.body);
-                    $("#agsModalActions").html(result.actions);
-                    if (btn.data("action") === "create" || btn.data("action") === "delete" || btn.data("action") === "update") {
-                        $("#agsLoad").click();
-                    }
+                    {% if mode == 'line-item' %}
+                        $("#agsLineItemLogo").removeClass("fa-spinner fa-spin");
+                        $("#agsLineItemLogo").addClass("fa-square");
+                        $("#agsLineItemTitle").html(result.title);
+                        $("#agsLineItemFlashes").html(result.flashes);
+                        $("#agsLineItemBody").html(result.body);
+                        $("#agsLineItemActions").html(result.actions);
+                        //$('html, body').animate({scrollTop:$(document).height()}, 'fast');
+                    {% else %}
+                        $("#agsModalLogo").removeClass("fa-spinner fa-spin");
+                        $("#agsModalLogo").addClass("fa-square");
+                        $("#agsModalTitle").html(result.title);
+                        $("#agsModalFlashes").html(result.flashes);
+                        $("#agsModalBody").html(result.body);
+                        $("#agsModalActions-{{ mode|default('line-item-container') }}").html(result.actions);
+                        if (btn.data("action") === "create" || btn.data("action") === "delete" || btn.data("action") === "update") {
+                            $("#agsLoad").click();
+                        }
+                    {% endif %}
                 }
             });
         }

@@ -82,6 +82,7 @@ class ListResultsServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
+                            'mode' => $request->get('mode'),
                             'actions' => [
                                 'go-back'
                             ]

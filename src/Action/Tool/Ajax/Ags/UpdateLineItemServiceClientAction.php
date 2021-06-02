@@ -102,6 +102,7 @@ class UpdateLineItemServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
+                            'mode' => $request->get('mode'),
                             'actions' => [
                                 'prepare-score',
                                 'edit',

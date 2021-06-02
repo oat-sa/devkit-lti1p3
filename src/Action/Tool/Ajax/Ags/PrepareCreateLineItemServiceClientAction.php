@@ -64,6 +64,7 @@ class PrepareCreateLineItemServiceClientAction
                         'tool/ajax/ags/actionsLineItem.html.twig',
                         [
                             'registration' => $registration,
+                            'mode' => $request->get('mode'),
                             'actions' => [
                                 'create',
                             ]

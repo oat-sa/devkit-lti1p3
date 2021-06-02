@@ -13,17 +13,18 @@
                 <div class="row">
                     <div class="col-md-6">
                         <dl class="list-unstyled">
-                            <dt>Claim line item container service url</dt>
-                            <dd>
-                                {% if token.payload.ags.lineItemsContainerUrl  %}
-                                    <a href="{{ token.payload.ags.lineItemsContainerUrl }}" target="_blank">{{ token.payload.ags.lineItemsContainerUrl }}</a>
-                                {% else %}
-                                    n/a
-                                {% endif %}
                             <dt>Claim line item service url</dt>
                             <dd>
                                 {% if token.payload.ags.lineItemUrl  %}
                                     <a href="{{ token.payload.ags.lineItemUrl }}" target="_blank">{{ token.payload.ags.lineItemUrl }}</a>
+                                {% else %}
+                                    n/a
+                                {% endif %}
+                            </dd>
+                            <dt>Claim line item container service url</dt>
+                            <dd>
+                                {% if token.payload.ags.lineItemsContainerUrl  %}
+                                    <a href="{{ token.payload.ags.lineItemsContainerUrl }}" target="_blank">{{ token.payload.ags.lineItemsContainerUrl }}</a>
                                 {% else %}
                                     n/a
                                 {% endif %}
@@ -50,19 +51,65 @@
         <div class="card-header">
             <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="pills-ags-container-tab" data-toggle="pill" href="#pills-ags-container" role="tab" aria-controls="pills-ags-container" aria-selected="true">
-                        <i class="fas fa-th"></i>&nbsp;AGS line items container service
+                    <a class="nav-link active" id="pills-ags-line-item-tab" data-toggle="pill" href="#pills-ags-line-item" role="tab" aria-controls="pills-ags-line-items" aria-selected="false">
+                        <i class="fas fa-square"></i>&nbsp;AGS line item service
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="pills-ags-line-item-tab" data-toggle="pill" href="#pills-ags-line-item" role="tab" aria-controls="pills-ags-line-items" aria-selected="false">
-                        <i class="fas fa-square"></i>&nbsp;AGS line item service
+                    <a class="nav-link" id="pills-ags-container-tab" data-toggle="pill" href="#pills-ags-container" role="tab" aria-controls="pills-ags-container" aria-selected="true">
+                        <i class="fas fa-th"></i>&nbsp;AGS line items container service
                     </a>
                 </li>
             </ul>
         </div>
         <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-ags-container" role="tabpanel" aria-labelledby="pills-ags-container-tab">
+            <div class="tab-pane fade show active" id="pills-ags-line-item" role="tabpanel" aria-labelledby="pills-ags-line-item-tab">
+                <div class="card-body">
+                    {% if token.payload.ags.lineItemUrl  %}
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <i class="fas fa-sign-in-alt"></i>&nbsp;AGS line items service request
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="col col-md-12">
+                                        <input type="text" id="agsLineItemUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.ags.lineItemUrl }}" aria-describedby="agsLineItemUrlHelp" readonly>
+                                        <small id="agsLineItemUrlHelp" class="form-text text-muted">Service url</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                                    <button id="agsLineItemLoad" class="btn-primary btn">
+                                        <i id="agsLineItemCall" class="fas fa-sign-in-alt"></i>&nbsp;Call AGS line item service
+                                    </button>
+                                    <button id="agsLineItemReset" class="btn-secondary btn">
+                                        <i class="fas fa-undo"></i>&nbsp;Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div id="agsLineItemZone" class="card bg-light d-none">
+                            <div class="card-header">
+                                <i id="agsLineItemLogo" class="fas fa-square"></i>&nbsp;<span id="agsLineItemTitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <div id="agsLineItemFlashes"></div>
+                                <div id="agsLineItemBody"></div>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <div id="agsLineItemActions" class="float-right"></div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-dark" role="alert">
+                            <i class="fas fa-ban"></i>&nbsp;No line item service url provided in AGS claim
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-ags-container" role="tabpanel" aria-labelledby="pills-ags-container-tab">
                 <div class="card-body">
                     {% if token.payload.ags.lineItemsContainerUrl  %}
                         <div class="card bg-light">
@@ -147,51 +194,6 @@
 
                 </div>
             </div>
-            <div class="tab-pane fade" id="pills-ags-line-item" role="tabpanel" aria-labelledby="pills-ags-line-item-tab">
-                <div class="card-body">
-                    {% if token.payload.ags.lineItemUrl  %}
-                        <div class="card bg-light">
-                            <div class="card-header">
-                                <i class="fas fa-sign-in-alt"></i>&nbsp;AGS line items service request
-                            </div>
-                            <div class="card-body">
-                                <div class="form-row">
-                                    <div class="col col-md-12">
-                                        <input type="text" id="agsLineItemUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.ags.lineItemUrl }}" aria-describedby="agsLineItemUrlHelp" readonly>
-                                        <small id="agsLineItemUrlHelp" class="form-text text-muted">Service url</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer text-muted">
-                                <div class="btn-group float-right" role="group" aria-label="Basic example">
-                                    <button id="agsLineItemLoad" class="btn-primary btn">
-                                        <i id="agsLineItemCall" class="fas fa-sign-in-alt"></i>&nbsp;Call AGS line item service
-                                    </button>
-                                    <button id="agsLineItemReset" class="btn-secondary btn">
-                                        <i class="fas fa-undo"></i>&nbsp;Reset
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card bg-light">
-                            <div class="card-header">
-                                <i id="agsLineItemLogo" class="fas fa-square"></i>&nbsp;<span id="agsLineItemTitle"></span>
-                            </div>
-                            <div class="card-body">
-                                <div id="agsLineItemFlashes"></div>
-                                <div id="agsLineItemBody"></div>
-                            </div>
-                            <div class="card-footer text-muted">
-                                <div id="agsLineItemActions"></div>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="alert alert-dark" role="alert">
-                            <i class="fas fa-ban"></i>&nbsp;No line item service url provided in AGS claim
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
         </div>
     </div>
     <script>
@@ -254,12 +256,18 @@
                 url: "{{ path('tool_ajax_service_ags_view_lineitem', {'lineItemIdentifier': token.payload.ags.lineItemUrl|base64_encode}) }}",
                 method: "GET",
                 data: {
-                    registration: "{{ token.registration.identifier }}"
+                    registration: "{{ token.registration.identifier }}",
+                    mode: "line-item"
                 },
                 dataType: "json",
                 beforeSend: function(result){
+                    $("#agsLineItemZone").removeClass("d-none");
                     $("#agsLineItemCall").removeClass("fa-sign-in-alt");
                     $("#agsLineItemCall").addClass("fa-spinner fa-spin");
+                    $("#agsLineItemTitle").html("Processing");
+                    $("#agsLineItemFlashes").html("");
+                    $("#agsLineItemBody").html("processing ...");
+                    $("#agsLineItemActions").html("");
                 },
                 success: function(result){
                     $("#agsLineItemCall").removeClass("fa-spinner fa-spin");
@@ -273,7 +281,7 @@
         });
 
         $("#agsLineItemReset").click(function(){
-            $("#agsLineItemZone").html("");
+            $("#agsLineItemZone").addClass("d-none");
         });
     {% endif %}
     </script>

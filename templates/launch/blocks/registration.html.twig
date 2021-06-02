@@ -27,7 +27,7 @@
                 <dt>Identifier</dt>
                 <dd><code>{{ token.registration.identifier }}</code></dd>
                 <dt>OAuth2 client id</dt>
-                <dd>{{ token.registration.clientId }}</dd>
+                <dd><code>{{ token.registration.clientId }}</code></dd>
                 <dt>Platform JWKS url</dt>
                 <dd>
                     {% if token.registration.platformJwksUrl %}
@@ -59,6 +59,14 @@
                 <dd>{{ token.registration.tool.name }}</dd>
                 <dt>Audience</dt>
                 <dd>{{ token.registration.tool.audience }}</dd>
+                <dt>OIDC initiation url</dt>
+                <dd>
+                    {% if token.registration.tool.oidcInitiationUrl %}
+                        <a target="_blank" href="{{ token.registration.tool.oidcInitiationUrl }}">{{ token.registration.tool.oidcInitiationUrl }}</a>
+                    {% else %}
+                        n/a
+                    {% endif %}
+                </dd>
                 <dt>Default launch url</dt>
                 <dd><a target="_blank" href="{{ token.registration.tool.launchUrl }}">{{ token.registration.tool.launchUrl }}</a></dd>
                 <dt>Deep linking url</dt>
@@ -69,13 +77,6 @@
                         n/a
                     {% endif %}
                 </dd>
-                <dt>OIDC initiation url</dt>
-                <dd>
-                    {% if token.registration.tool.oidcInitiationUrl %}
-                        <a target="_blank" href="{{ token.registration.tool.oidcInitiationUrl }}">{{ token.registration.tool.oidcInitiationUrl }}</a>
-                    {% else %}
-                        n/a
-                    {% endif %}
             </dl>
         </div>
     </div>

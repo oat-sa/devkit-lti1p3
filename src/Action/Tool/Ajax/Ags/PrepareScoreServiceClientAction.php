@@ -73,6 +73,7 @@ class PrepareScoreServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
+                            'mode' => $request->get('mode'),
                             'actions' => [
                                 'publish-score',
                                 'cancel'
