@@ -13,12 +13,12 @@
             </li>
             <li class="nav-item">
                 <a a class="nav-link" id="pills-scores-tab" data-toggle="pill" href="#pills-scores" role="tab" aria-controls="pills-scores" aria-selected="false">
-                    <i class="fas fa-poll"></i>&nbsp;Scores
+                    <i class="fas fa-poll"></i>&nbsp;Scores  <span class="badge badge-pill badge-secondary">{{ scores|length }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a a class="nav-link" id="pills-result-tab" data-toggle="pill" href="#pills-result" role="tab" aria-controls="pills-result" aria-selected="false">
-                    <i class="fas fa-poll-h"></i>&nbsp;Results
+                    <i class="fas fa-poll-h"></i>&nbsp;Results  <span class="badge badge-pill badge-secondary">{{ results|length }}</span>
                 </a>
             </li>
         </ul>
@@ -59,6 +59,8 @@
                             <dd>{{ lineItem.endDateTime|format('Y-m-d H:i')|default('n/a') }}</dd>
                             <dt>Scores</dt>
                             <dd>{{ scores|length }}</dd>
+                            <dt>Results</dt>
+                            <dd>{{ results|length }}</dd>
                         </dl>
                     </div>
                 </div>
