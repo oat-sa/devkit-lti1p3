@@ -54,3 +54,23 @@
         </dl>
     </div>
 </div>
+<div class="row">
+    <div class="col col-md-12">
+        <dl class="list-unstyled">
+            <dt>Additional properties</dt>
+            <dd>
+                {% if lineItem.additionalProperties.all|length != 0 %}
+                    <pre>
+                        <code id="agsAdditionalPropertiesZone" class="language-json hljs">{{ lineItem.additionalProperties.all|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                    </pre>
+                {% else %}
+                    n/a
+                {% endif %}
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
