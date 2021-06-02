@@ -28,8 +28,29 @@
                         {{ form_row(form.service_url) }}
                     </div>
                 </div>
-                {{ form_row(form.media) }}
-                {{ form_row(form.body) }}
+                <div class="form-row">
+                    <div class="col-md-12">
+                        {{ form_row(form.media) }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend" role="group" aria-label="Manage body">
+                                    <div class="btn-group-vertical" role="group">
+                                        <button id="bodyFormat" type="button" class="btn btn-secondary btn-block" title="Format body (JSON)">
+                                            <i class="fas fa-align-left"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                {{ form_widget(form.body) }}
+                            </div>
+                            {{ form_help(form.body) }}
+                            {{ form_errors(form.body) }}
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="card-footer">
                 <div class="btn-group float-right" role="group" aria-label="Basic example">
@@ -220,6 +241,29 @@
                 url: '{{ path('tool_ajax_service_client_autocomplete', {'type': 'media'}) }}',
                 requestThrottling: 100
             }
+        });
+
+        function checkBody() {
+            try {
+                if ($("#lti_service_client_body").val() != '') {
+                    $("#lti_service_client_body").val(
+                        JSON.stringify(JSON.parse($("#lti_service_client_body").val()), undefined, 4)
+                    );
+                }
+            } catch(e) {}
+        }
+
+        $("#bodyFormat").click(function(){
+            checkBody();
+        });
+
+        $('form[name=lti_service_client]').submit(function () {
+            checkBody();
+            return;
+        });
+
+        $( document ).ready(function() {
+            checkBody();
         });
 
         hljs.initHighlightingOnLoad();
