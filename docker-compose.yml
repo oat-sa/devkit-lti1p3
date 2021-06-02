@@ -1,9 +1,28 @@
 version: '3'
 
 services:
+    demo_lti1p3_traefik:
+        container_name: demo_lti1p3_traefik
+        image: traefik:v2.4
+        command:
+            - '--api.insecure=true'
+            - '--providers.docker=true'
+            - '--providers.docker.exposedbydefault=false'
+            - '--entrypoints.web.address=:80'
+        networks:
+            - demo_lti1p3_network
+        ports:
+            - 80:80
+            - 8080:8080
+        volumes:
+            - '/var/run/docker.sock:/var/run/docker.sock:ro'
     demo_lti1p3_nginx:
         container_name: demo_lti1p3_nginx
         image: nginx:stable
+        labels:
+            - 'traefik.enable=true'
+            - 'traefik.http.routers.nginx.rule=Host(`lti1p3.localhost`)'
+            - 'traefik.http.routers.nginx.entrypoints=web'
         networks:
             - demo_lti1p3_network
         ports:
