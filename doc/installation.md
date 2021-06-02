@@ -45,7 +45,7 @@ You can find in the [config/demo](../config/demo) folder configuration files to 
 
 ### Application
 
-After installation, the development kit application is available on [http://localhost:8888](http://localhost:8888)
+After installation, the development kit application is available on [http://devkit-lti1p3.localhost](http://devkit-lti1p3.localhost)
 
 ### Services
 
@@ -53,6 +53,7 @@ After installation, the following services are available:
 
 | Name                                   | Description                      |
 |----------------------------------------|----------------------------------|
+| devkit_lti1p3_traefik                  | application proxy                |
 | devkit_lti1p3_nginx                    | application nginx web server     |
 | devkit_lti1p3_phpfpm                   | application php-fpm              |
 | devkit_lti1p3_redis                    | application cache                |
@@ -60,8 +61,9 @@ After installation, the following services are available:
 
 You can access:
 
-| Name                                   | URL                                            |
-|-------  -------------------------------|------------------------------------------------|
-| devkit_lti1p3_nginx                    | [http://localhost:8888](http://localhost:8888) |
-| devkit_lti1p3_redis_commander          | [http://localhost:8081](http://localhost:8081) |
+| Name                                   | URL                                                              |
+|-------  -------------------------------|------------------------------------------------------------------|
+| devkit_lti1p3_nginx                    | [http://devkit-lti1p3.localhost](http://devkit-lti1p3.localhost) |
+| devkit_lti1p3_traefik                  | [http://localhost:8080](http://localhost:8080)                   |
+| devkit_lti1p3_redis_commander          | [http://localhost:8081](http://localhost:8081)                   |
 

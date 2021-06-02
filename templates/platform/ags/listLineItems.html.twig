@@ -36,10 +36,10 @@
                                 <a class="btn btn-info text-white" data-toggle="modal" data-target="#agsServiceUrlModal" data-ags-service-url="">
                                     <i class="fas fa-link"></i>&nbsp;AGS
                                 </a>
-                                <a class="btn btn-primary" href="{{ path('platform_ags_view_line_item', {'lineItemIdentifier': lineItem.identifier|url_encode}) }}">
+                                <a class="btn btn-primary" href="{{ path('platform_ags_view_line_item', {'lineItemIdentifier': lineItem.identifier|base64_encode}) }}">
                                     <i class="fas fa-info-circle"></i>&nbsp;Details
                                 </a>
-                                <a class="btn btn-danger text-white" href="{{ path('platform_ags_delete_line_item', {'lineItemIdentifier': lineItem.identifier|url_encode}) }}" onclick="return confirm('Are you sure?')">
+                                <a class="btn btn-danger text-white" href="{{ path('platform_ags_delete_line_item', {'lineItemIdentifier': lineItem.identifier|base64_encode}) }}" onclick="return confirm('Are you sure?')">
                                     <i class="fas fa-trash-alt"></i>&nbsp;Delete
                                 </a>
                             </div>

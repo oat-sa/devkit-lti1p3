@@ -1,13 +1,33 @@
 version: '3'
 
 services:
+    devkit_lti1p3_traefik:
+        container_name: devkit_lti1p3_traefik
+        image: traefik:v2.4
+        command:
+            - '--api.insecure=true'
+            - '--providers.docker=true'
+            - '--providers.docker.exposedbydefault=false'
+            - '--entrypoints.web.address=:80'
+        networks:
+            - devkit_lti1p3_network
+        ports:
+            - 80:80
+            - 8080:8080
+        volumes:
+            - '/var/run/docker.sock:/var/run/docker.sock:ro'
+
     devkit_lti1p3_nginx:
         container_name: devkit_lti1p3_nginx
         image: nginx:stable
         networks:
-            - devkit_lti1p3_network
-        ports:
-            - "8888:80"
+            devkit_lti1p3_network:
+                aliases:
+                    - devkit-lti1p3.localhost
+        labels:
+            - 'traefik.enable=true'
+            - 'traefik.http.routers.nginx.rule=Host(`devkit-lti1p3.localhost`)'
+            - 'traefik.http.routers.nginx.entrypoints=web'
         expose:
           - 443
         volumes:

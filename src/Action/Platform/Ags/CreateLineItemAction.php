@@ -105,7 +105,7 @@ class CreateLineItemAction
             $this->flashBag->add('success', sprintf('Line item %s creation success', $lineItemIdentifier));
 
             return new RedirectResponse(
-                $this->router->generate('platform_ags_view_line_item', ['lineItemIdentifier' => urlencode($lineItemIdentifier)])
+                $this->router->generate('platform_ags_view_line_item', ['lineItemIdentifier' => base64_encode($lineItemIdentifier)])
             );
         }
 
