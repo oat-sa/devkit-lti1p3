@@ -37,15 +37,11 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="input-group">
-                                <div class="input-group-prepend" role="group" aria-label="Format body">
+                                <div class="input-group-prepend" role="group" aria-label="Format request body (XML or JSON)">
                                     <div class="btn-group-vertical dropright" role="group">
-                                        <button id="bodyFormat" type="button" class="btn btn-secondary btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Format body">
+                                        <button id="bodyFormat" type="button" class="btn btn-secondary btn-block" title="Format request body (XML or JSON)">
                                             <i class="fas fa-align-left"></i>
                                         </button>
-                                        <div class="dropdown-menu dropdown-multicol" aria-labelledby="bodyFormat">
-                                            <a id="bodyFormatJson" class="editorClaim dropdown-item" data-value="json">JSON</a>
-                                            <a id="bodyFormatXml" class="editorClaim dropdown-item" data-value="xml">XML</a>
-                                        </div>
                                     </div>
                                 </div>
                                 {{ form_widget(form.body) }}
@@ -289,12 +285,9 @@
             } catch(e) {}
         }
 
-        $("#bodyFormatJson").click(function(){
-            formatBodyJson();
-        });
-
-        $("#bodyFormatXml").click(function(){
+        $("#bodyFormat").click(function(){
             formatBodyXml();
+            formatBodyJson();
         });
 
         $('form[name=lti_service_client]').submit(function (evt) {

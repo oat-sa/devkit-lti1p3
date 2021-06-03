@@ -166,21 +166,6 @@ platform_service_ags_result:
     path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}/results
     controller: app.service.ags_result_controller
 
-platform_ags_list_scores:
-    methods: [GET]
-    path: /platform/service/ags-list-scores
-    controller: App\Action\Platform\Service\Ags\HomeAction
-
-platform_ags_delete_scores:
-    methods: [GET]
-    path: /platform/service/ags-delete-scores
-    controller: App\Action\Platform\Service\Ags\DeleteScoresAction
-
-platform_ags_create_score:
-    methods: [POST]
-    path: /platform/service/ags/{contextId}/lineitems/{lineItemId}/scores
-    controller: App\Action\Platform\Service\Ags\CreateScoreAction
-
 platform_basic_outcome_list:
     methods: [GET]
     path: /platform/basic-outcomes

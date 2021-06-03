@@ -139,7 +139,7 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
                 ]
             );
 
-            return $relUrl . '?' . http_build_query($relUrlQuery) . '; rel="next"';
+            return '<' . $relUrl . '?' . http_build_query($relUrlQuery) . '>; rel="next"';
         }
 
         return null;
