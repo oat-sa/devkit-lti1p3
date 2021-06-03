@@ -33,7 +33,13 @@
                         </td>
                         <td style="width:1px;white-space:nowrap;">
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <a class="btn btn-info text-white" data-toggle="modal" data-target="#agsServiceUrlModal" data-ags-service-url="">
+                                <a
+                                        class="btn btn-info text-white"
+                                        data-toggle="modal"
+                                        data-target="#agsServiceUrlModal"
+                                        data-ags-service-url="{{ lineItem.identifier }}"
+                                        data-ags-container-service-url="{{ lineItem.identifier|split('/')|slice(0, -1)|join('/') }}"
+                                >
                                     <i class="fas fa-link"></i>&nbsp;AGS
                                 </a>
                                 <a class="btn btn-primary" href="{{ path('platform_ags_view_line_item', {'lineItemIdentifier': lineItem.identifier|base64_encode}) }}">
@@ -60,7 +66,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="agsServiceUrlModalLabel"><i class="fas fa-info-circle"></i>&nbsp;AGS Service URL</h5>
+                <h5 class="modal-title" id="agsServiceUrlModalLabel"><i class="fas fa-info-circle"></i>&nbsp;AGS line item service url</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -68,7 +74,7 @@
             <div class="modal-body bg-light">
                 <form>
                     <div class="form-group">
-                        <textarea class="form-control" id="agsServiceUrlField" rows="15"></textarea>
+                        <textarea class="form-control" id="agsServiceUrlField" rows="5"></textarea>
                     </div>
                 </form>
             </div>
@@ -77,6 +83,25 @@
                     <button id="agsServiceUrlCopy" type="button" class="btn btn-info">
                         <i id="agsServiceUrlCopyLogo" class="fas fa-copy"></i>&nbsp;
                         <span id="agsServiceUrlCopyText">Copy to clipboard</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                </div>
+            </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="agsServiceUrlModalLabel"><i class="fas fa-info-circle"></i>&nbsp;AGS line item container service url</h5>
+            </div>
+            <div class="modal-body bg-light">
+                <form>
+                    <div class="form-group">
+                        <textarea class="form-control" id="agsContainerServiceUrlField" rows="5"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button id="agsContainerServiceUrlCopy" type="button" class="btn btn-info">
+                        <i id="agsContainerServiceUrlCopyLogo" class="fas fa-copy"></i>&nbsp;
+                        <span id="agsContainerServiceUrlCopyText">Copy to clipboard</span>
                     </button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
                 </div>
@@ -90,6 +115,7 @@
     <script>
         $('#agsServiceUrlModal').on("show.bs.modal", function (event) {
             $("#agsServiceUrlField").val($(event.relatedTarget).attr("data-ags-service-url"));
+            $("#agsContainerServiceUrlField").val($(event.relatedTarget).attr("data-ags-container-service-url"));
         });
 
         function copyUrlToClipboard() {
@@ -115,8 +141,35 @@
             );
         }
 
-        $("#agsServiceUrlCopy").click(function(event){
+        function copyContainerUrlToClipboard() {
+
+            $('#agsContainerServiceUrlField').select();
+            document.execCommand("copy");
+
+            $('#agsContainerServiceUrlCopy').removeClass('btn-info');
+            $('#agsContainerServiceUrlCopy').addClass('btn-success');
+            $('#agsContainerServiceUrlCopyLogo').removeClass('fa-copy');
+            $('#agsContainerServiceUrlCopyLogo').addClass('fa-check');
+            $('#agsContainerServiceUrlCopyText').html('Copied !');
+            setTimeout(
+                function() {
+                    $('#agsContainerServiceUrlCopy').removeClass('btn-success');
+                    $('#agsContainerServiceUrlCopy').addClass('btn-info');
+                    $('#agsContainerServiceUrlCopyLogo').removeClass('fa-check');
+                    $('#agsContainerServiceUrlCopyLogo').addClass('fa-copy');
+                    $('#agsContainerServiceUrlCopyText').html('Copy to clipboard');
+
+                },
+                1500
+            );
+        }
+
+        $("#agsServiceUrlCopy").click(function(){
             copyUrlToClipboard();
+        });
+
+        $("#agsContainerServiceUrlCopy").click(function(){
+            copyContainerUrlToClipboard();
         });
 
         {% if lineItems|length > 0 %}

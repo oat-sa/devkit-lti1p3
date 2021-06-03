@@ -37,12 +37,12 @@ class ScoreRepository implements ScoreRepositoryInterface
     private $cache;
 
     /** @var ResultRepositoryInterface|ResultRepository */
-    private $repository;
+    private $resultRepository;
 
-    public function __construct(CacheItemPoolInterface $cache, ResultRepositoryInterface $repository)
+    public function __construct(CacheItemPoolInterface $cache, ResultRepositoryInterface $resultRepository)
     {
         $this->cache = $cache;
-        $this->repository = $repository;
+        $this->resultRepository = $resultRepository;
     }
 
     public function save(ScoreInterface $score): ScoreInterface
@@ -67,7 +67,7 @@ class ScoreRepository implements ScoreRepositoryInterface
             $score->getAdditionalProperties()->all()
         );
 
-        $this->repository->save($result);
+        $this->resultRepository->save($result);
 
         return $score;
     }
@@ -79,5 +79,18 @@ class ScoreRepository implements ScoreRepositoryInterface
         $scores = $cache->get();
 
         return (new Collection)->add($scores[$lineItemIdentifier] ?? []);
+    }
+
+    public function deleteCollectionByLineItemIdentifier(string $lineItemIdentifier): void
+    {
+        $cache = $this->cache->getItem(self::CACHE_KEY);
+
+        $scores = $cache->get();
+
+        unset($scores[$lineItemIdentifier]);
+
+        $cache->set($scores);
+
+        $this->cache->save($cache);
     }
 }

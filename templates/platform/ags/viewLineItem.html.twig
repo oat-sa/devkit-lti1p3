@@ -43,11 +43,11 @@
                             <dd>{{ lineItem.startDateTime|format('Y-m-d H:i')|default('n/a') }}</dd>
                             <dt>AGS line item service url</dt>
                             <dd>
-                                <a href="{{ lineItem.url }}" target="_blank">{{ lineItem.url }}</a>
+                                <a href="{{ lineItem.identifier }}" target="_blank">{{ lineItem.identifier }}</a>
                             </dd>
                             <dt>AGS line item container service url</dt>
                             <dd>
-                                <a href="{{ lineItem.url }}" target="_blank">{{ lineItem.url }}</a>
+                                <a href="{{ lineItem.identifier|split('/')|slice(0, -1)|join('/') }}" target="_blank">{{ lineItem.identifier|split('/')|slice(0, -1)|join('/') }}</a>
                             </dd>
                         </dl>
                     </div>

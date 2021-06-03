@@ -122,4 +122,17 @@ class ResultRepository implements ResultRepositoryInterface
 
         return null;
     }
+
+    public function deleteCollectionByLineItemIdentifier(string $lineItemIdentifier): void
+    {
+        $cache = $this->cache->getItem(self::CACHE_KEY);
+
+        $results = $cache->get();
+
+        unset($results[$lineItemIdentifier]);
+
+        $cache->set($results);
+
+        $this->cache->save($cache);
+    }
 }

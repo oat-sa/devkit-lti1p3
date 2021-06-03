@@ -26,6 +26,8 @@ use OAT\Library\Lti1p3Ags\Model\LineItem\LineItemCollection;
 use OAT\Library\Lti1p3Ags\Model\LineItem\LineItemCollectionInterface;
 use OAT\Library\Lti1p3Ags\Model\LineItem\LineItemInterface;
 use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
+use OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface;
+use OAT\Library\Lti1p3Ags\Repository\ScoreRepositoryInterface;
 use OAT\Library\Lti1p3Core\Util\Generator\IdGeneratorInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -43,14 +45,24 @@ class LineItemRepository implements LineItemRepositoryInterface
     /** @var IdGeneratorInterface */
     private $generator;
 
+    /** @var ScoreRepositoryInterface|ScoreRepository */
+    private $scoreRepository;
+
+    /** @var ResultRepositoryInterface|ResultRepository */
+    private $resultRepository;
+
     public function __construct(
         CacheItemPoolInterface $cache,
         RequestStack $requestStack,
-        IdGeneratorInterface $generator
+        IdGeneratorInterface $generator,
+        ScoreRepositoryInterface $scoreRepository,
+        ResultRepositoryInterface $resultRepository
     ) {
         $this->cache = $cache;
         $this->requestStack = $requestStack;
         $this->generator = $generator;
+        $this->scoreRepository = $scoreRepository;
+        $this->resultRepository = $resultRepository;
     }
 
     public function find(string $lineItemIdentifier): ?LineItemInterface
@@ -101,8 +113,6 @@ class LineItemRepository implements LineItemRepositoryInterface
                     $foundLineItems[] = $lineItem;
                 }
             }
-
-            $hasNext = ($limit ?: 0) >= sizeof($lineItems);
         }
 
         return new LineItemCollection(
@@ -150,6 +160,9 @@ class LineItemRepository implements LineItemRepositoryInterface
             $cache->set($lineItems);
 
             $this->cache->save($cache);
+
+            $this->scoreRepository->deleteCollectionByLineItemIdentifier($lineItemIdentifier);
+            $this->resultRepository->deleteCollectionByLineItemIdentifier($lineItemIdentifier);
         }
     }
 }

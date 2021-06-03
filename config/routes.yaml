@@ -1,170 +1,7 @@
+# Application
 dashboard:
     path: /
     controller: App\Action\DashboardAction
-
-platform_message_launch_lti_resource_link:
-    path: /platform/message/launch/lti-resource-link
-    controller: App\Action\Platform\Message\LtiResourceLinkLaunchAction
-
-platform_message_launch_deep_linking:
-    path: /platform/message/launch/deep-linking
-    controller: App\Action\Platform\Message\DeepLinkingLaunchAction
-
-platform_message_deep_linking_return:
-    path: /platform/message/return/deep-linking
-    controller: App\Action\Platform\Message\DeepLinkingReturnAction
-
-platform_message_launch_proctoring:
-    path: /platform/message/launch/proctoring
-    controller: App\Action\Platform\Message\ProctoringLaunchAction
-
-platform_message_proctoring_return:
-    path: /platform/message/return/proctoring/{identifier}
-    controller: App\Action\Platform\Message\ProctoringReturnAction
-    defaults: { identifier: '' }
-
-tool_message_launch:
-    path: /tool/launch
-    controller: App\Action\Tool\Message\MessageLaunchAction
-
-tool_message_deep_linking_response:
-    methods: [POST]
-    path: /tool/deep-linking-response
-    controller: App\Action\Tool\Message\DeepLinkingResponseAction
-
-tool_message_proctoring_response:
-    methods: [POST]
-    path: /tool/proctoring-response
-    controller: App\Action\Tool\Message\ProctoringResponseAction
-
-tool_service_client:
-    path: /tool/service/client
-    controller: App\Action\Tool\Service\LtiServiceClientAction
-
-platform_ajax_default_registration_url:
-    path: /platform/ajax/registration-url
-    controller: App\Action\Platform\Ajax\RegistrationDefaultLaunchUrlAction
-    condition: "request.isXmlHttpRequest()"
-
-tool_ajax_service_client_autocomplete:
-    path: /tool/ajax/service-client/autocomplete
-    controller: App\Action\Tool\Ajax\LtiServiceClientAutocompleteAction
-    condition: "request.isXmlHttpRequest()"
-
-tool_ajax_service_nrps:
-    path: /tool/ajax/nrps
-    controller: App\Action\Tool\Ajax\NrpsServiceClientAction
-    condition: "request.isXmlHttpRequest()"
-
-tool_ajax_service_basic_outcome:
-    path: /tool/ajax/basic-outcome
-    controller: App\Action\Tool\Ajax\BasicOutcomeServiceClientAction
-    condition: "request.isXmlHttpRequest()"
-
-tool_ajax_service_acs:
-    path: /tool/ajax/acs
-    controller: App\Action\Tool\Ajax\AcsServiceClientAction
-    condition: "request.isXmlHttpRequest()"
-
-tool_ajax_service_ags_list_lineitems:
-    path: /tool/ajax/ags/line-items
-    controller: App\Action\Tool\Ajax\Ags\ListLineItemsServiceClientAction
-    condition: "request.isXmlHttpRequest()"
-
-tool_ajax_service_ags_prepare_create_lineitem:
-    path: /tool/ajax/ags/line-items-prepare-create
-    controller: App\Action\Tool\Ajax\Ags\PrepareCreateLineItemServiceClientAction
-    condition: "request.isXmlHttpRequest()"
-
-tool_ajax_service_ags_create_lineitem:
-    path: /tool/ajax/ags/line-items-create
-    controller: App\Action\Tool\Ajax\Ags\CreateLineItemServiceClientAction
-    condition: "request.isXmlHttpRequest()"
-
-tool_ajax_service_ags_view_lineitem:
-    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/view
-    controller: App\Action\Tool\Ajax\Ags\ViewLineItemServiceClientAction
-    condition: "request.isXmlHttpRequest()"
-
-tool_ajax_service_ags_prepare_update_lineitem:
-    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/prepare-update
-    controller: App\Action\Tool\Ajax\Ags\PrepareUpdateLineItemServiceClientAction
-    condition: "request.isXmlHttpRequest()"
-
-tool_ajax_service_ags_update_lineitem:
-    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/update
-    controller: App\Action\Tool\Ajax\Ags\UpdateLineItemServiceClientAction
-    condition: "request.isXmlHttpRequest()"
-
-tool_ajax_service_ags_delete_lineitem:
-    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/delete
-    controller: App\Action\Tool\Ajax\Ags\DeleteLineItemServiceClientAction
-    condition: "request.isXmlHttpRequest()"
-
-tool_ajax_service_ags_prepare_score:
-    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/score/prepare-score
-    controller: App\Action\Tool\Ajax\Ags\PrepareScoreServiceClientAction
-    condition: "request.isXmlHttpRequest()"
-
-tool_ajax_service_ags_publish_score:
-    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/score/publish-score
-    controller: App\Action\Tool\Ajax\Ags\PublishScoreServiceClientAction
-    condition: "request.isXmlHttpRequest()"
-
-tool_ajax_service_ags_list_results:
-    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/results
-    controller: App\Action\Tool\Ajax\Ags\ListResultsServiceClientAction
-    condition: "request.isXmlHttpRequest()"
-
-platform_service_nrps:
-    methods: [GET]
-    path: /platform/service/nrps/{contextIdentifier}/memberships/{membershipIdentifier}
-    controller: app.service.nrps_membership_controller
-
-platform_service_acs:
-    methods: [POST]
-    path: /platform/service/acs/{assessmentIdentifier}
-    controller: app.service.proctoring_acs_controller
-
-platform_service_basic_outcome:
-    methods: [POST]
-    path: /platform/service/basic-outcome
-    controller: app.service.basic_outcome_controller
-
-platform_service_ags_list_line_items:
-    methods: [GET]
-    path: /platform/service/ags/{contextIdentifier}/lineitems
-    controller: app.service.ags_list_line_items_controller
-
-platform_service_ags_get_line_item:
-    methods: [GET]
-    path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}
-    controller: app.service.ags_get_line_item_controller
-
-platform_service_ags_delete_line_item:
-    methods: [DELETE]
-    path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}
-    controller: app.service.ags_delete_line_item_controller
-
-platform_service_ags_create_line_item:
-    methods: [POST]
-    path: /platform/service/ags/{contextIdentifier}/lineitems
-    controller: app.service.ags_create_line_item_controller
-
-platform_service_ags_update_line_item:
-    methods: [PUT]
-    path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}
-    controller: app.service.ags_update_line_item_controller
-
-platform_service_ags_score:
-    methods: [POST]
-    path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}/scores
-    controller: app.service.ags_score_controller
-
-platform_service_ags_result:
-    methods: [GET]
-    path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}/results
-    controller: app.service.ags_result_controller
 
 platform_basic_outcome_list:
     methods: [GET]
@@ -251,7 +88,174 @@ platform_ags_delete_line_item:
     path: /platform/ags/line-items/{lineItemIdentifier}/delete
     controller: App\Action\Platform\Ags\DeleteLineItemAction
 
+platform_ajax_default_registration_url:
+    path: /platform/ajax/registration-url
+    controller: App\Action\Platform\Ajax\RegistrationDefaultLaunchUrlAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_client_autocomplete:
+    path: /tool/ajax/service-client/autocomplete
+    controller: App\Action\Tool\Ajax\LtiServiceClientAutocompleteAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_nrps:
+    path: /tool/ajax/nrps
+    controller: App\Action\Tool\Ajax\NrpsServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_basic_outcome:
+    path: /tool/ajax/basic-outcome
+    controller: App\Action\Tool\Ajax\BasicOutcomeServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_acs:
+    path: /tool/ajax/acs
+    controller: App\Action\Tool\Ajax\AcsServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_list_lineitems:
+    path: /tool/ajax/ags/line-items
+    controller: App\Action\Tool\Ajax\Ags\ListLineItemsServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_prepare_create_lineitem:
+    path: /tool/ajax/ags/line-items-prepare-create
+    controller: App\Action\Tool\Ajax\Ags\PrepareCreateLineItemServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_create_lineitem:
+    path: /tool/ajax/ags/line-items-create
+    controller: App\Action\Tool\Ajax\Ags\CreateLineItemServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_view_lineitem:
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/view
+    controller: App\Action\Tool\Ajax\Ags\ViewLineItemServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_prepare_update_lineitem:
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/prepare-update
+    controller: App\Action\Tool\Ajax\Ags\PrepareUpdateLineItemServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_update_lineitem:
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/update
+    controller: App\Action\Tool\Ajax\Ags\UpdateLineItemServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_delete_lineitem:
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/delete
+    controller: App\Action\Tool\Ajax\Ags\DeleteLineItemServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_prepare_score:
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/score/prepare-score
+    controller: App\Action\Tool\Ajax\Ags\PrepareScoreServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_publish_score:
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/score/publish-score
+    controller: App\Action\Tool\Ajax\Ags\PublishScoreServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+tool_ajax_service_ags_list_results:
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/results
+    controller: App\Action\Tool\Ajax\Ags\ListResultsServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
+# API
 api_platform_create_message:
     methods: [POST]
     path: /api/platform/messages/{messageType}/launch
     controller: App\Action\Api\Platform\Message\CreateMessageLaunchAction
+
+# LTI messages
+platform_message_launch_lti_resource_link:
+    path: /platform/message/launch/lti-resource-link
+    controller: App\Action\Platform\Message\LtiResourceLinkLaunchAction
+
+platform_message_launch_deep_linking:
+    path: /platform/message/launch/deep-linking
+    controller: App\Action\Platform\Message\DeepLinkingLaunchAction
+
+platform_message_deep_linking_return:
+    path: /platform/message/return/deep-linking
+    controller: App\Action\Platform\Message\DeepLinkingReturnAction
+
+platform_message_launch_proctoring:
+    path: /platform/message/launch/proctoring
+    controller: App\Action\Platform\Message\ProctoringLaunchAction
+
+platform_message_proctoring_return:
+    path: /platform/message/return/proctoring/{identifier}
+    controller: App\Action\Platform\Message\ProctoringReturnAction
+    defaults: { identifier: '' }
+
+tool_message_launch:
+    path: /tool/launch
+    controller: App\Action\Tool\Message\MessageLaunchAction
+
+tool_message_deep_linking_response:
+    methods: [POST]
+    path: /tool/deep-linking-response
+    controller: App\Action\Tool\Message\DeepLinkingResponseAction
+
+tool_message_proctoring_response:
+    methods: [POST]
+    path: /tool/proctoring-response
+    controller: App\Action\Tool\Message\ProctoringResponseAction
+
+# LTI services
+platform_service_nrps:
+    methods: [GET]
+    path: /platform/service/nrps/{contextIdentifier}/memberships/{membershipIdentifier}
+    controller: app.service.nrps_membership_controller
+
+platform_service_acs:
+    methods: [POST]
+    path: /platform/service/acs/{assessmentIdentifier}
+    controller: app.service.proctoring_acs_controller
+
+platform_service_basic_outcome:
+    methods: [POST]
+    path: /platform/service/basic-outcome
+    controller: app.service.basic_outcome_controller
+
+platform_service_ags_list_line_items:
+    methods: [GET]
+    path: /platform/service/ags/{contextIdentifier}/lineitems
+    controller: app.service.ags_list_line_items_controller
+
+platform_service_ags_get_line_item:
+    methods: [GET]
+    path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}
+    controller: app.service.ags_get_line_item_controller
+
+platform_service_ags_delete_line_item:
+    methods: [DELETE]
+    path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}
+    controller: app.service.ags_delete_line_item_controller
+
+platform_service_ags_create_line_item:
+    methods: [POST]
+    path: /platform/service/ags/{contextIdentifier}/lineitems
+    controller: app.service.ags_create_line_item_controller
+
+platform_service_ags_update_line_item:
+    methods: [PUT]
+    path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}
+    controller: app.service.ags_update_line_item_controller
+
+platform_service_ags_score:
+    methods: [POST]
+    path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}/scores
+    controller: app.service.ags_score_controller
+
+platform_service_ags_result:
+    methods: [GET]
+    path: /platform/service/ags/{contextIdentifier}/lineitems/{lineItemIdentifier}/results
+    controller: app.service.ags_result_controller
+
+tool_service_client:
+    path: /tool/service/client
+    controller: App\Action\Tool\Service\LtiServiceClientAction
