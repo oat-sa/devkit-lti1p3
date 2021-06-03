@@ -61,6 +61,8 @@ class UpdateLineItemServiceClientAction
 
             parse_str($request->get('form'), $formParameters);
 
+            $additionalProperties = json_decode($formParameters['lineItemAdditionalProperties'] ?? '[]', true);
+
             $lineItem = new LineItem(
                 (float)$formParameters['lineItemScoreMaximum'],
                 $formParameters['lineItemLabel'],
@@ -73,7 +75,8 @@ class UpdateLineItemServiceClientAction
                     : null,
                 !empty($formParameters['lineItemEndDateTime'])
                     ? Carbon::createFromFormat('Y-m-d H:i', $formParameters['lineItemEndDateTime'])
-                    : null
+                    : null,
+                $additionalProperties ?? []
             );
 
             $this->client->updateLineItem($registration, $lineItem);

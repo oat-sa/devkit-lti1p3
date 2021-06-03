@@ -73,6 +73,27 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="scoreAdditionalProperties">Additional properties</label>
+                <div class="input-group">
+                    <div class="input-group-prepend" role="group" aria-label="Format additional properties">
+                        <div class="btn-group-vertical" role="group">
+                            <button id="scoreAdditionalPropertiesFormat" type="button" class="btn btn-secondary btn-block" title="Format additional properties">
+                                <i class="fas fa-align-left"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="scoreAdditionalProperties" name="scoreAdditionalProperties" rows="5" class="form-control"></textarea>
+                </div>
+                <div id="scoreAdditionalPropertiesError" class="invalid-feedback">
+                    Invalid additional properties, please provide a valid JSON representation
+                </div>
+                <small id="scoreAdditionalPropertiesHelp" class="form-text text-muted">Score additional properties</small>
+            </div>
+        </div>
+    </div>
 </form>
 <script>
     $("#scoreTimestampDatetimepicker").datetimepicker({
@@ -83,5 +104,33 @@
             showClear: true,
             showClose: true
         }
+    });
+
+    function checkAdditionalProperties() {
+        try {
+            if ($("#scoreAdditionalProperties").val() != '') {
+                $("#scoreAdditionalProperties").val(
+                    JSON.stringify(JSON.parse($("#scoreAdditionalProperties").val()), undefined, 4)
+                );
+                $("#scoreAdditionalProperties").removeClass('is-invalid');
+                $("#scoreAdditionalProperties").addClass('is-valid');
+            } else {
+                $("#scoreAdditionalProperties").removeClass('is-invalid');
+                $("#scoreAdditionalProperties").removeClass('is-valid');
+            }
+            $('#scoreAdditionalPropertiesError').hide();
+        } catch(e) {
+            $("#scoreAdditionalProperties").removeClass('is-valid');
+            $("#scoreAdditionalProperties").addClass('is-invalid');
+            $('#scoreAdditionalPropertiesError').show();
+        }
+    }
+
+    $("#scoreAdditionalPropertiesFormat").click(function(event){
+        checkAdditionalProperties();
+    });
+
+    $( document ).ready(function() {
+        checkAdditionalProperties();
     });
 </script>

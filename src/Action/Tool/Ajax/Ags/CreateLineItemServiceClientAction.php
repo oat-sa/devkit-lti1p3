@@ -70,6 +70,8 @@ class CreateLineItemServiceClientAction
                 throw new InvalidArgumentException('Missing required score maximum');
             }
 
+            $additionalProperties = json_decode($formParameters['lineItemAdditionalProperties'] ?? '[]', true);
+
             $lineItem = new LineItem(
                 (float)$formParameters['lineItemScoreMaximum'],
                 $formParameters['lineItemLabel'],
@@ -82,7 +84,8 @@ class CreateLineItemServiceClientAction
                     : null,
                 !empty($formParameters['lineItemEndDateTime'])
                     ? Carbon::createFromFormat('Y-m-d H:i', $formParameters['lineItemEndDateTime'])
-                    : null
+                    : null,
+                $additionalProperties ?? []
             );
 
             $lineItem = $this->client->createLineItem($registration, $lineItem, $formParameters['lineItemContainerUrl']);

@@ -72,6 +72,27 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="lineItemAdditionalProperties">Additional properties</label>
+                <div class="input-group">
+                    <div class="input-group-prepend" role="group" aria-label="Format additional properties">
+                        <div class="btn-group-vertical" role="group">
+                            <button id="lineItemAdditionalPropertiesFormat" type="button" class="btn btn-secondary btn-block" title="Format additional properties">
+                                <i class="fas fa-align-left"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="lineItemAdditionalProperties" name="lineItemAdditionalProperties" rows="5" class="form-control">{% if lineItem.additionalProperties.count != 0 %}{{ lineItem.additionalProperties.all|json_encode }}{% endif %}</textarea>
+                </div>
+                <div id="lineItemAdditionalPropertiesError" class="invalid-feedback">
+                    Invalid additional properties, please provide a valid JSON representation
+                </div>
+                <small id="lineItemAdditionalPropertiesHelp" class="form-text text-muted">Line item additional properties</small>
+            </div>
+        </div>
+    </div>
 </form>
 <script>
     $("#lineItemStartDateTimeDatetimepicker").datetimepicker({
@@ -91,5 +112,33 @@
             showClear: true,
             showClose: true
         }
+    });
+
+    function checkAdditionalProperties() {
+        try {
+            if ($("#lineItemAdditionalProperties").val() != '') {
+                $("#lineItemAdditionalProperties").val(
+                    JSON.stringify(JSON.parse($("#lineItemAdditionalProperties").val()), undefined, 4)
+                );
+                $("#lineItemAdditionalProperties").removeClass('is-invalid');
+                $("#lineItemAdditionalProperties").addClass('is-valid');
+            } else {
+                $("#lineItemAdditionalProperties").removeClass('is-invalid');
+                $("#lineItemAdditionalProperties").removeClass('is-valid');
+            }
+            $('#lineItemAdditionalPropertiesError').hide();
+        } catch(e) {
+            $("#lineItemAdditionalProperties").removeClass('is-valid');
+            $("#lineItemAdditionalProperties").addClass('is-invalid');
+            $('#lineItemAdditionalPropertiesError').show();
+        }
+    }
+
+    $("#lineItemAdditionalPropertiesFormat").click(function(event){
+        checkAdditionalProperties();
+    });
+
+    $( document ).ready(function() {
+        checkAdditionalProperties();
     });
 </script>

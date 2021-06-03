@@ -74,6 +74,8 @@ class PublishScoreServiceClientAction
                 throw new InvalidArgumentException('Missing required user identifier');
             }
 
+            $additionalProperties = json_decode($formParameters['scoreAdditionalProperties'] ?? '[]', true);
+
             $score = new Score(
                 $formParameters['scoreUserIdentifier'],
                 $formParameters['scoreActivityProgress'],
@@ -84,7 +86,8 @@ class PublishScoreServiceClientAction
                 $formParameters['scoreComment'] ?? null,
                 !empty($formParameters['scoreTimestamp'])
                     ? Carbon::createFromFormat('Y-m-d H:i', $formParameters['scoreTimestamp'])
-                    : Carbon::now()
+                    : Carbon::now(),
+                $additionalProperties ?? []
             );
 
             $this->scoreServiceClient->publish($registration, $score, $lineItemIdentifier);
