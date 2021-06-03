@@ -1,4 +1,9 @@
+<br/>
+<hr/>
 {% if results|length != 0 %}
+    <div class="alert alert-info" role="alert">
+        <i class="fas fa-poll-h"></i>&nbsp;{{ results|length}} result(s) found
+    </div>
     <div class="input-group mb-3">
         <input type="text" id="agsModalResultSearch-{{ mode|default('line-item-container') }}" class="form-control" placeholder="Search">
         <div class="input-group-append">
@@ -31,6 +36,4 @@
         $("#agsModalResultSearch-{{ mode|default('line-item-container') }}").val("");
         $("#agsModalResultZone-{{ mode|default('line-item-container') }}").unmark();
     });
-
-
 </script>

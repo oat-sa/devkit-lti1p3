@@ -21,7 +21,19 @@
                 data-line-item-identifier="{{ lineItem.identifier }}"
                 data-line-item-url="{{ path('tool_ajax_service_ags_publish_score', {'lineItemIdentifier': lineItem.identifier|base64_encode}) }}"
         >
-            <i class="fas fa-sign-in-alt"></i>&nbsp;Publish score
+            <i class="fas fa-poll"></i>&nbsp;Publish score
+        </a>
+    {% endif %}
+    {% if action == 'prepare-results' %}
+        <a
+                id="ags-line-item-prepare-results-btn-{{ mode|default('line-item-container') }}"
+                class="btn btn-info text-white ags-line-item-action-{{ mode|default('line-item-container') }}"
+                data-action="{{ action }}"
+                data-registration="{{ registration.identifier }}"
+                data-line-item-identifier="{{ lineItem.identifier }}"
+                data-line-item-url="{{ path('tool_ajax_service_ags_prepare_results', {'lineItemIdentifier': lineItem.identifier|base64_encode}) }}"
+        >
+            <i class="fas fa-poll-h"></i>&nbsp;Get Results
         </a>
     {% endif %}
     {% if action == 'list-results' %}

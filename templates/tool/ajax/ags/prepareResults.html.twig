@@ -1,0 +1,69 @@
+<div class="form-row">
+    <div class="col col col-md-10">
+        <input type="text" id="agsResultUser-{{ mode|default('line-item-container') }}" class="form-control" placeholder="User" aria-describedby="agsResultUserHelp">
+        <small id="agsResultUserHelp" class="form-text text-muted">User identifier filter</small>
+    </div>
+    <div class="col col col-md-2">
+        <input type="number" id="agsResultLimit-{{ mode|default('line-item-container') }}" class="form-control" placeholder="Limit" aria-describedby="agsResultLimitHelp">
+        <small id="agsResultLimitHelp" class="form-text text-muted">Limit to return</small>
+    </div>
+</div>
+<br/>
+<div class="form-row float-right">
+    <div class="col col col-md-12">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button id="agsResultLoad-{{ mode|default('line-item-container') }}" class="btn-info btn">
+                <i id="agsResultCall-{{ mode|default('line-item-container') }}" class="fas fa-poll-h"></i>&nbsp;Get results
+            </button>
+            <button id="agsResultReset-{{ mode|default('line-item-container') }}" class="btn-secondary btn">
+                <i class="fas fa-undo"></i>&nbsp;Reset
+            </button>
+        </div>
+    </div>
+</div>
+<br/>
+<div id="agsLineItemResultZone-{{ mode|default('line-item-container') }}"></div>
+<script>
+    $("#agsResultLoad-{{ mode|default('line-item-container') }}").click(function (event) {
+        $.ajax({
+            url: "{{ path('tool_ajax_service_ags_list_results', {'lineItemIdentifier': lineItem.identifier|base64_encode}) }}",
+            method: "GET",
+            data: {
+                registration: "{{ registration.identifier }}",
+                user: $("#agsResultUser-{{ mode|default('line-item-container') }}").val(),
+                limit: $("#agsResultLimit-{{ mode|default('line-item-container') }}").val(),
+                mode: "{{ mode }}",
+                scopes: "{{ scopes }}"
+            },
+            beforeSend: function(result){
+                $("#agsResultCall-{{ mode|default('line-item-container') }}").removeClass("fa-poll-h");
+                $("#agsResultCall-{{ mode|default('line-item-container') }}").addClass("fa-spinner fa-spin");
+            },
+            success: function(result){
+                $("#agsResultCall-{{ mode|default('line-item-container') }}").removeClass("fa-spinner fa-spin");
+                $("#agsResultCall-{{ mode|default('line-item-container') }}").addClass("fa-poll-h");
+                $("#agsLineItemResultZone-{{ mode|default('line-item-container') }}").html(result);
+            },
+            error: function(result){
+                $("#agsResultCall-{{ mode|default('line-item-container') }}").removeClass("fa-spinner fa-spin");
+                $("#agsResultCall-{{ mode|default('line-item-container') }}").addClass("fa-sign-in-alt");
+                $("#agsLineItemResultZone-{{ mode|default('line-item-container') }}").html(
+                    '<br/>' +
+                    '<hr/>' +
+                    '<div class="alert alert-danger" role="alert">'+
+                    '<i class="fas fa-exclamation-circle"></i>&nbsp;Error ' +
+                    result.responseJSON.code +
+                    ': ' +
+                    result.responseJSON.message +
+                    '</div>'
+                );
+            }
+        });
+    });
+
+    $("#agsResultReset-{{ mode|default('line-item-container') }}").click(function(){
+        $("#agsLineItemResultZone-{{ mode|default('line-item-container') }}").html("");
+        $("#agsResultUser-{{ mode|default('line-item-container') }}").val("");
+        $("#agsResultLimit-{{ mode|default('line-item-container') }}").val("");
+    });
+</script>

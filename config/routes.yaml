@@ -158,8 +158,13 @@ tool_ajax_service_ags_publish_score:
     controller: App\Action\Tool\Ajax\Ags\PublishScoreServiceClientAction
     condition: "request.isXmlHttpRequest()"
 
+tool_ajax_service_ags_prepare_results:
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/prepare-results
+    controller: App\Action\Tool\Ajax\Ags\PrepareResultsServiceClientAction
+    condition: "request.isXmlHttpRequest()"
+
 tool_ajax_service_ags_list_results:
-    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/results
+    path: /tool/ajax/ags/line-items/{lineItemIdentifier}/list-results
     controller: App\Action\Tool\Ajax\Ags\ListResultsServiceClientAction
     condition: "request.isXmlHttpRequest()"
 

@@ -106,7 +106,7 @@ class PublishScoreServiceClientAction
             }
 
             if ($permissions['canReadResult'] ?? false) {
-                $actions[] = 'list-results';
+                $actions[] = 'prepare-results';
             }
 
             return new JsonResponse(

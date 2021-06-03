@@ -22,11 +22,9 @@ declare(strict_types=1);
 
 namespace App\Action\Tool\Ajax\Ags;
 
-use Exception;
 use OAT\Library\Lti1p3Ags\Service\LineItem\Client\LineItemServiceClient;
 use OAT\Library\Lti1p3Ags\Service\Result\Client\ResultServiceClient;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
@@ -59,57 +57,27 @@ class ListResultsServiceClientAction
 
     public function __invoke(Request $request, string $lineItemIdentifier): Response
     {
-        try {
-            $registration = $this->repository->find($request->get('registration'));
+        $registration = $this->repository->find($request->get('registration'));
 
-            $lineItem = $this->lineItemClient->getLineItem($registration, $lineItemIdentifier);
+        $lineItem = $this->lineItemClient->getLineItem($registration, $lineItemIdentifier);
 
-            $results = $this->resultClient->listResults($registration, $lineItemIdentifier);
+        $results = $this->resultClient->listResults(
+            $registration,
+            $lineItemIdentifier,
+            $request->get('user'),
+            (int)$request->get('limit')
+        );
 
-            return new JsonResponse(
+        return new Response(
+            $this->twig->render(
+                'tool/ajax/ags/listResults.html.twig',
                 [
-                    'title' => 'Line item results',
-                    'body' => $this->twig->render(
-                        'tool/ajax/ags/listResults.html.twig',
-                        [
-                            'registration' => $registration,
-                            'lineItem' => $lineItem,
-                            'results' => array_values($results->getResults()->all()),
-                            'mode' => $request->get('mode'),
-                        ]
-                    ),
-                    'actions' => $this->twig->render(
-                        'tool/ajax/ags/actionsLineItem.html.twig',
-                        [
-                            'registration' => $registration,
-                            'lineItem' => $lineItem,
-                            'mode' => $request->get('mode'),
-                            'actions' => [
-                                'go-back'
-                            ],
-                            'scopes' => $request->get('scopes')
-                        ]
-                    ),
+                    'registration' => $registration,
+                    'lineItem' => $lineItem,
+                    'results' => array_values($results->getResults()->all()),
+                    'mode' => $request->get('mode'),
                 ]
-            );
-        } catch (Exception $exception) {
-            return new JsonResponse(
-                [
-                    'title' => 'Line item results',
-                    'flashes' => $this->twig->render(
-                        'notification/flashes.html.twig',
-                        [
-                            'flashes' => [
-                                'error' => [
-                                    sprintf('Line item %s list results error: %s', $lineItemIdentifier, $exception->getMessage())
-                                ]
-                            ]
-                        ]
-                    ),
-                    'body' => '',
-                    'actions' => ''
-                ]
-            );
-        }
+            )
+        );
     }
 }
