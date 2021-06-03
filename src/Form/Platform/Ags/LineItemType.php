@@ -155,7 +155,7 @@ class LineItemType extends AbstractType
                 [
                     'required' => false,
                     'attr' => ['rows' => 10],
-                    'help' => 'Line item additional properties'
+                    'help' => 'JSON formatted line item additional properties'
                 ]
             )
             ->add(
