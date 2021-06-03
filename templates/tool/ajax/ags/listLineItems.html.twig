@@ -53,7 +53,7 @@
                         {% if lineItemsContainer.relationLink %}
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <a class="btn btn-secondary" href="#" id="nrpsLinkUpdate" data-link="{{ lineItemsContainer.relationLinkUrl }}" title="Use url">
+                                    <a class="btn btn-secondary" href="#" id="agsLinkUpdate" data-link="{{ lineItemsContainer.relationLinkUrl }}" title="Use url">
                                         <i class="fas fa-external-link-alt"></i>
                                     </a>
                                 </div>
@@ -62,7 +62,7 @@
                         {% else %}
                             <input type="text" class="form-control" placeholder="token" value="n/a" readonly>
                         {% endif %}
-                        <small id="nrpsLinkUpdate_user_help" class="form-text text-muted">
+                        <small id="agsLinkUpdate_user_help" class="form-text text-muted">
                             Has next: <span class="badge badge-{{ lineItemsContainer.hasNext ? 'success' : 'secondary' }}">{{ lineItemsContainer.hasNext ? 'yes' : 'no' }}</span>
                         </small>
                     </dd>
@@ -103,6 +103,7 @@
             }
         });
     });
+
     $(".ags-container-line-item").click(function (event) {
         $.ajax({
             url: $(this).data("line-item-url"),
@@ -130,5 +131,10 @@
                 $("#agsModalActions").html(result.actions);
             }
         });
+    });
+
+    $("#agsLinkUpdate").click(function(){
+        $("#agsUrl").val($("#agsLinkUpdate").data("link"));
+        $('#agsResponseDetailsModal').modal('hide')
     });
 </script>

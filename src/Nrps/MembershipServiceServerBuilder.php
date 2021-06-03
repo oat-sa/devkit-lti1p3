@@ -114,7 +114,7 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
         int $limit = null,
         int $offset = null
     ): ?string {
-        if ((($limit ?? 0) + ($offset ?? 0)) < $totalCount) {
+        if ($limit && (($limit ?? 0) + ($offset ?? 0)) < $totalCount) {
             $parsedUrl = parse_url(urldecode($request->getUri()));
             parse_str($parsedUrl['query'] ?? '', $parsedQuery);
 

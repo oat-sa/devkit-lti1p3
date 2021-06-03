@@ -123,6 +123,7 @@
                                         <small id="agsUrlHelp" class="form-text text-muted">Service url</small>
                                     </div>
                                 </div>
+                                <br/>
                                 <div class="form-row">
                                     <div class="col col-md-3">
                                         <input type="text" min="0" max="1" id="agsResourceId" class="form-control" placeholder="Resource" aria-describedby="agsResourceIdHelp">
@@ -232,6 +233,7 @@
             });
         });
         $("#agsReset").click(function(){
+            $("#agsUrl").val("{{ token.payload.ags.lineItemsContainerUrl }}");
             $("#agsZone").html("");
             $('#agsScope :nth-child(1)').prop('selected', true);
             $("#agsResourceId").val("");

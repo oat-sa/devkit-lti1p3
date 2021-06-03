@@ -58,6 +58,10 @@
     text-decoration: none;
 }
 
+#sidebar .sidebar-menu-header-no-border-bottom {
+    border-bottom-width: 0px !important;
+}
+
 .dropdown-toggle::after {
     position: absolute;
     right: 20px;
