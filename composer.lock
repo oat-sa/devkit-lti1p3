@@ -1252,13 +1252,13 @@
             "version": "dev-feature/full-ags",
             "source": {
                 "type": "git",
-                "url": "git@github.com:oat-sa/lib-lti1p3-ags.git",
-                "reference": "5067011623e847d9f52a489289e36316eb94eba4"
+                "url": "https://github.com/oat-sa/lib-lti1p3-ags.git",
+                "reference": "9f0da06d94a38243168b5cae926afc4822c37c1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-ags/zipball/5067011623e847d9f52a489289e36316eb94eba4",
-                "reference": "5067011623e847d9f52a489289e36316eb94eba4",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-ags/zipball/9f0da06d94a38243168b5cae926afc4822c37c1b",
+                "reference": "9f0da06d94a38243168b5cae926afc4822c37c1b",
                 "shasum": ""
             },
             "require": {
@@ -1292,7 +1292,7 @@
                 "source": "https://github.com/oat-sa/lib-lti1p3-ags/tree/feature/full-ags",
                 "issues": "https://github.com/oat-sa/lib-lti1p3-ags/issues"
             },
-            "time": "2021-06-02T18:16:56+00:00"
+            "time": "2021-06-03T05:52:49+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-basic-outcome",

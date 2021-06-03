@@ -66,15 +66,15 @@ class ViewLineItemAction
             );
         }
 
-        $scores = $this->scoreRepository->findByLineItemIdentifier($lineItemIdentifier);
-        $results = $this->resultRepository->findBy($lineItemIdentifier);
+        $scores = $this->scoreRepository->findCollectionByLineItemIdentifier($lineItemIdentifier);
+        $results = $this->resultRepository->findCollectionByLineItemIdentifier($lineItemIdentifier);
 
         return new Response(
             $this->twig->render(
                 'platform/ags/viewLineItem.html.twig',
                 [
                     'lineItem' => $lineItem,
-                    'scores' => $scores,
+                    'scores' => array_values($scores->all()),
                     'results' => array_values($results->all())
                 ]
             )

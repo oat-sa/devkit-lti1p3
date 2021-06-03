@@ -78,16 +78,48 @@ class ResultRepository implements ResultRepositoryInterface
         return $result;
     }
 
-    public function findBy(
+    public function findCollectionByLineItemIdentifier(
         string $lineItemIdentifier,
-        ?string $userIdentifier = null,
         ?int $limit = null,
         ?int $offset = null
     ): ?ResultCollectionInterface {
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
-        $results = $cache->get();
+        $lineItemResults = [];
 
-        return new ResultCollection($results[$lineItemIdentifier] ?? []);
+        if ($cache->isHit()) {
+            $results = $cache->get();
+
+            $lineItemResults = $results[$lineItemIdentifier] ?? [];
+        }
+
+        return new ResultCollection(
+            array_slice($lineItemResults, $offset ?: 0, $limit),
+            ($limit + $offset) < sizeof($lineItemResults)
+        );
+    }
+
+    public function findByLineItemIdentifierAndUserIdentifier(
+        string $lineItemIdentifier,
+        string $userIdentifier
+    ): ?ResultInterface {
+        $cache = $this->cache->getItem(self::CACHE_KEY);
+
+        if ($cache->isHit()) {
+            $results = $cache->get();
+
+            $foundResults = [];
+
+            foreach ($results[$lineItemIdentifier] ?? [] as $result) {
+                if ($result->getUserIdentifier() === $userIdentifier) {
+                    $foundResults[] = $result;
+                }
+            }
+
+            return !empty($foundResults) ? end($foundResults) : null;
+
+        }
+
+        return null;
     }
 }

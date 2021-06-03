@@ -47,7 +47,7 @@ class ListLineItemsAction
             $this->twig->render(
                 'platform/ags/listLineItems.html.twig',
                 [
-                    'lineItems' => $this->repository->findBy()->all()
+                    'lineItems' => $this->repository->findCollection()->all()
                 ]
             )
         );

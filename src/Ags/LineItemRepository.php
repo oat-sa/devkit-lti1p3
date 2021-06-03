@@ -66,7 +66,7 @@ class LineItemRepository implements LineItemRepositoryInterface
         return null;
     }
 
-    public function findBy(
+    public function findCollection(
         ?string $resourceIdentifier = null,
         ?string $resourceLinkIdentifier = null,
         ?string $tag = null,
@@ -76,7 +76,6 @@ class LineItemRepository implements LineItemRepositoryInterface
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
         $foundLineItems = [];
-        $hasNext = false;
 
         if ($cache->isHit()) {
 
@@ -108,7 +107,7 @@ class LineItemRepository implements LineItemRepositoryInterface
 
         return new LineItemCollection(
             array_slice($foundLineItems, $offset ?: 0, $limit),
-            $hasNext
+            ($limit + $offset) < sizeof($foundLineItems)
         );
     }
 

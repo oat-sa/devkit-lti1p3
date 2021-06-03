@@ -5,23 +5,14 @@
 
 > [Symfony](https://symfony.com/) based development kit application for LTI 1.3, to act as a [LTI platform and / or tool](http://www.imsglobal.org/spec/lti/v1p3/#platforms-and-tools-0).
 
-This development kit application based on the following open sourced libraries:
-- [LTI 1.3 symfony bundle](https://github.com/oat-sa/bundle-lti1p3)
-- [LTI 1.3 core library](https://github.com/oat-sa/lib-lti1p3-core)
-- [LTI 1.3 basic outcome library](https://github.com/oat-sa/lib-lti1p3-basic-outcome)
-- [LTI 1.3 AGS library](https://github.com/oat-sa/lib-lti1p3-ags)
-- [LTI 1.3 deep linking library](https://github.com/oat-sa/lib-lti1p3-deep-linking)
-- [LTI 1.3 NRPS library](https://github.com/oat-sa/lib-lti1p3-nrps)
-- [LTI 1.3 proctoring library](https://github.com/oat-sa/lib-lti1p3-proctoring)
-
-
 ## Table of Contents
 
 - [Try it live](#try-it-live)
 - [Documentation](#documentation)
     - [Installation and configuration](#installation-and-configuration)
-    - [Available API](#available-api)
+    - [Available APIs](#available-apis)
     - [IMS specifications](#ims-specifications)
+    - [LTI libraries](#lti-libraries)
 
 ## Try it live
  
@@ -33,7 +24,7 @@ We host a public version of this development kit application, you can try it liv
 
 - how to [install and configure](doc/installation.md) the development kit application
 
-### Available API
+### Available APIs
 
 - how to [use the HTTP API](doc/api.md) of the development kit application
 - how to [use the CLI](doc/cli.md) of the development kit application
@@ -48,3 +39,14 @@ This development kit application implements the following LTI 1.3 [IMS](http://w
 - [IMS LTI 1.3 Deep Linking](https://www.imsglobal.org/spec/lti-dl/v2p0)
 - [IMS LTI 1.3 NRPS](https://www.imsglobal.org/spec/lti-nrps/v2p0)
 - [IMS LTI 1.3 Proctoring](https://www.imsglobal.org/spec/proctoring/v1p0)
+
+### LTI libraries
+
+This development kit application based on the following open sourced libraries:
+- [LTI 1.3 symfony bundle](https://github.com/oat-sa/bundle-lti1p3)
+- [LTI 1.3 core library](https://github.com/oat-sa/lib-lti1p3-core)
+- [LTI 1.3 basic outcome library](https://github.com/oat-sa/lib-lti1p3-basic-outcome)
+- [LTI 1.3 AGS library](https://github.com/oat-sa/lib-lti1p3-ags)
+- [LTI 1.3 deep linking library](https://github.com/oat-sa/lib-lti1p3-deep-linking)
+- [LTI 1.3 NRPS library](https://github.com/oat-sa/lib-lti1p3-nrps)
+- [LTI 1.3 proctoring library](https://github.com/oat-sa/lib-lti1p3-proctoring)

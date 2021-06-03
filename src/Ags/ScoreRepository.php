@@ -26,6 +26,7 @@ use OAT\Library\Lti1p3Ags\Model\Result\Result;
 use OAT\Library\Lti1p3Ags\Model\Score\ScoreInterface;
 use OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface;
 use OAT\Library\Lti1p3Ags\Repository\ScoreRepositoryInterface;
+use OAT\Library\Lti1p3Core\Util\Collection\Collection;
 use Psr\Cache\CacheItemPoolInterface;
 
 class ScoreRepository implements ScoreRepositoryInterface
@@ -71,12 +72,12 @@ class ScoreRepository implements ScoreRepositoryInterface
         return $score;
     }
 
-    public function findByLineItemIdentifier(string $lineItemIdentifier): array
+    public function findCollectionByLineItemIdentifier(string $lineItemIdentifier): Collection
     {
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
         $scores = $cache->get();
 
-        return $scores[$lineItemIdentifier] ?? [];
+        return (new Collection)->add($scores[$lineItemIdentifier] ?? []);
     }
 }
