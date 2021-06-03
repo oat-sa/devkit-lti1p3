@@ -117,7 +117,7 @@ class LineItemRepository implements LineItemRepositoryInterface
 
         return new LineItemCollection(
             array_slice($foundLineItems, $offset ?: 0, $limit),
-            ($limit + $offset) < sizeof($foundLineItems)
+            $limit && (($limit + $offset) < sizeof($foundLineItems))
         );
     }
 

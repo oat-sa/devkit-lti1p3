@@ -4,11 +4,16 @@
         <div>
             <i class="fas fa-graduation-cap"></i>&nbsp;AGS line items container service response
         </div>
-        {% if canWriteLineItem %}
-            <a id="ags-container-line-item-create-btn" class="btn btn-primary text-white">
-                <i class="fas fa-plus-circle"></i>&nbsp;Create
-            </a>
-        {% endif %}
+        <div class="btn-group float-right" role="group" aria-label="Basic example">
+            <button class="btn btn-info text-white" data-toggle="modal" data-target="#agsResponseDetailsModal">
+                <i class="fas fa-info-circle"></i>&nbsp;Details
+            </button>
+            {% if canWriteLineItem %}
+                <button id="ags-container-line-item-create-btn" class="btn btn-primary text-white">
+                    <i class="fas fa-plus-circle"></i>&nbsp;Create
+                </button>
+            {% endif %}
+        </div>
     </div>
     <ul class="list-group list-group-flush">
         {% for lineItem in lineItemsContainer.lineItems.all %}
@@ -28,6 +33,45 @@
     </ul>
     <div class="card-footer text-muted">
         <small>AGS line items container service response: {{ lineItemsContainer.lineItems.all|length }} line items(s) found</small>
+    </div>
+</div>
+<div class="modal fade" id="agsResponseDetailsModal" tabindex="-1" role="dialog" aria-labelledby="agsResponseDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agsResponseDetailsModalLabel">
+                    <i class="fas fa-info-circle"></i>&nbsp;AGS line items container service response details
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-light">
+                <dl class="list-unstyled">
+                    <dt>Relation Link</dt>
+                    <dd>
+                        {% if lineItemsContainer.relationLink %}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <a class="btn btn-secondary" href="#" id="nrpsLinkUpdate" data-link="{{ lineItemsContainer.relationLinkUrl }}" title="Use url">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                                <input type="text" class="form-control" placeholder="token" value="{{ lineItemsContainer.relationLink }}" readonly>
+                            </div>
+                        {% else %}
+                            <input type="text" class="form-control" placeholder="token" value="n/a" readonly>
+                        {% endif %}
+                        <small id="nrpsLinkUpdate_user_help" class="form-text text-muted">
+                            Has next: <span class="badge badge-{{ lineItemsContainer.hasNext ? 'success' : 'secondary' }}">{{ lineItemsContainer.hasNext ? 'yes' : 'no' }}</span>
+                        </small>
+                    </dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 <script>

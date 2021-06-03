@@ -115,13 +115,18 @@ mark {
     cursor: pointer;
 }
 
-div.dropdown-multicol{
+div.dropdown-multicol {
     width: 30em;
 }
-div.dropdown-row>a.dropdown-item{
+div.dropdown-row>a.dropdown-item {
     display:inline-block;
     width: 49%;
 }
+
+.alert-no-margin-bottom {
+    margin-bottom: 0px !important;
+}
+
 
 /* ---------------------------------------------------
     DATATABLES

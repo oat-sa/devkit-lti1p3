@@ -58,6 +58,10 @@
                         <li class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#configModal" data-type="Platform" data-title="{{ platformIdentifier }}" data-config="{{ platform|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
                             <i class="fas fa-cubes"></i>&nbsp;<code>{{ platformIdentifier }}</code> - <small class="text-muted">{{ platform.name }} - {{ platform.audience }}</small>
                         </li>
+                    {% else %}
+                        <li class="list-group-item list-group-item-dark">
+                            <i class="fas fa-ban"></i>&nbsp;No platforms found
+                        </li>
                     {% endfor %}
                 </div>
             </div>
@@ -67,6 +71,10 @@
                         <li class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#configModal" data-type="Registration" data-title="{{ regitstrationIdentifier }}" data-config="{{ registration|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
                             <i class="fas fa-share-alt"></i>&nbsp;<code>{{ regitstrationIdentifier }}</code> - <small class="text-muted">{{ registration.client_id }}</small>
                         </li>
+                    {% else %}
+                        <li class="list-group-item list-group-item-dark">
+                            <i class="fas fa-ban"></i>&nbsp;No registrations found
+                        </li>
                     {% endfor %}
                 </div>
             </div>
@@ -75,6 +83,10 @@
                     {% for toolIdentifier, tool in configuration.tools %}
                         <li class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#configModal" data-type="Tool" data-title="{{ toolIdentifier }}" data-config="{{ tool|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
                             <i class="fas fa-cube"></i>&nbsp;<code>{{ toolIdentifier }}</code> - <small class="text-muted">{{ tool.name }} - {{ tool.audience }}</small>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item list-group-item-dark">
+                            <i class="fas fa-ban"></i>&nbsp;No tools found
                         </li>
                     {% endfor %}
                 </div>
