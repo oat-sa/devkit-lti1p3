@@ -139,7 +139,7 @@ class EditLineItemAction
             $this->flashBag->add('success', sprintf('Line item %s edition success', $formData['line_item_id']));
 
             return new RedirectResponse(
-                $this->router->generate('platform_ags_view_line_item', ['lineItemIdentifier' => base64_encode($formData['line_item_id'])])
+                $this->router->generate('platform_ags_view_line_item', ['lineItemIdentifier' => urlencode(base64_encode($formData['line_item_id']))])
             );
         }
 

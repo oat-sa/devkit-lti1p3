@@ -246,7 +246,7 @@
     {% if token.payload.ags.lineItemUrl %}
         $("#agsLineItemLoad").click(function(){
             $.ajax({
-                url: "{{ path('tool_ajax_service_ags_view_lineitem', {'lineItemIdentifier': token.payload.ags.lineItemUrl|base64_encode}) }}",
+                url: "{{ path('tool_ajax_service_ags_view_lineitem', {'lineItemIdentifier': token.payload.ags.lineItemUrl|url_base64_encode}) }}",
                 method: "GET",
                 data: {
                     registration: "{{ token.registration.identifier }}",

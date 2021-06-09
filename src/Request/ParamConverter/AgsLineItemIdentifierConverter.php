@@ -37,7 +37,7 @@ class AgsLineItemIdentifierConverter implements ParamConverterInterface
         }
 
         $value = $request->attributes->get($param);
-        $request->attributes->set($param, base64_decode($value));
+        $request->attributes->set($param, base64_decode(urldecode($value)));
 
         return true;
     }
