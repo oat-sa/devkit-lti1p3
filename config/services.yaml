@@ -7,7 +7,7 @@ parameters:
     application_host: '%env(resolve:APP_HOST)%'
     application_api_key: '%env(resolve:APP_API_KEY)%'
     application_vendors: '%kernel.project_dir%/vendor/composer/installed.php'
-    application_version: '2.0.0-beta-8'
+    application_version: '2.0.0-beta-9'
 
 services:
     _defaults:

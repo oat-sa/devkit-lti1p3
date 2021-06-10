@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace App\Action\Platform\Ags;
 
 use App\Form\Platform\Ags\LineItemType;
+use App\Request\Encoder\Base64UrlEncoder;
 use Carbon\Carbon;
 use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
 use OAT\Library\Lti1p3Core\Util\Collection\Collection;
@@ -139,7 +140,7 @@ class EditLineItemAction
             $this->flashBag->add('success', sprintf('Line item %s edition success', $formData['line_item_id']));
 
             return new RedirectResponse(
-                $this->router->generate('platform_ags_view_line_item', ['lineItemIdentifier' => urlencode(base64_encode($formData['line_item_id']))])
+                $this->router->generate('platform_ags_view_line_item', ['lineItemIdentifier' => Base64UrlEncoder::encode($formData['line_item_id'])])
             );
         }
 

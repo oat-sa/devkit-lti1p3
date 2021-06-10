@@ -24,6 +24,7 @@ namespace App\Twig;
 
 use App\Generator\UrlGenerator;
 use App\Kernel;
+use App\Request\Encoder\Base64UrlEncoder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -64,7 +65,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFilter('scrap_app_dom', [$this, 'scrapAppDom']),
-            new TwigFilter('url_base64_encode', [$this, 'urlBase64Encode']),
+            new TwigFilter('base64_url_encode', [$this, 'base64UrlEncode']),
         ];
     }
 
@@ -162,8 +163,8 @@ class AppExtension extends AbstractExtension
         return $dom;
     }
 
-    public function urlBase64Encode(string $value): string
+    public function base64UrlEncode(string $value): string
     {
-        return urlencode(base64_encode($value));
+        return Base64UrlEncoder::encode($value);
     }
 }

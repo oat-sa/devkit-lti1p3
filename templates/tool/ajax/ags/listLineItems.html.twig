@@ -21,7 +21,7 @@
                     class="ags-container-line-item list-group-item list-group-item-action clickable"
                     data-registration="{{ registration.identifier }}"
                     data-line-item-identifier="{{ lineItem.identifier }}"
-                    data-line-item-url="{{ path('tool_ajax_service_ags_view_lineitem', {'lineItemIdentifier': lineItem.identifier|url_base64_encode}) }}"
+                    data-line-item-url="{{ path('tool_ajax_service_ags_view_lineitem', {'lineItemIdentifier': lineItem.identifier|base64_url_encode}) }}"
             >
                 <i class="fas fa-square"></i>&nbsp;{{ lineItem.label }} <small>(<code>{{ lineItem.identifier }}</code>)</small>
             </li>

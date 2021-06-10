@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace App\Request\ParamConverter;
 
+use App\Request\Encoder\Base64UrlEncoder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +38,7 @@ class AgsLineItemIdentifierConverter implements ParamConverterInterface
         }
 
         $value = $request->attributes->get($param);
-        $request->attributes->set($param, base64_decode(urldecode($value)));
+        $request->attributes->set($param, Base64UrlEncoder::decode($value));
 
         return true;
     }

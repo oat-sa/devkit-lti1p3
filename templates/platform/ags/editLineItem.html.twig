@@ -90,7 +90,7 @@
     <div class="card-footer">
         <div class="btn-group float-right" role="group" aria-label="Basic example">
             {{ form_widget(form.submit) }}
-            <a href="{{ path('platform_ags_view_line_item', {'lineItemIdentifier': lineItem.identifier|url_base64_encode}) }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Cancel</a>
+            <a href="{{ path('platform_ags_view_line_item', {'lineItemIdentifier': lineItem.identifier|base64_url_encode}) }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Cancel</a>
         </div>
     </div>
     {{ form_end(form) }}

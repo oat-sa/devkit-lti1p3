@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace App\Action\Platform\Ags;
 
 use App\Form\Platform\Ags\LineItemType;
+use App\Request\Encoder\Base64UrlEncoder;
 use Carbon\Carbon;
 use OAT\Library\Lti1p3Ags\Model\LineItem\LineItem;
 use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
@@ -108,7 +109,7 @@ class CreateLineItemAction
             $this->flashBag->add('success', sprintf('Line item %s creation success', $lineItemIdentifier));
 
             return new RedirectResponse(
-                $this->router->generate('platform_ags_view_line_item', ['lineItemIdentifier' => urlencode(base64_encode($lineItemIdentifier))])
+                $this->router->generate('platform_ags_view_line_item', ['lineItemIdentifier' => Base64UrlEncoder::encode($lineItemIdentifier)])
             );
         }
 
