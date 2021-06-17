@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25b331c141a0c2aacb0ae1e9e8138fac",
+    "content-hash": "c48e03565449f88b92d24ff94d70f88e",
     "packages": [
         {
             "name": "brick/math",
@@ -1249,16 +1249,16 @@
         },
         {
             "name": "oat-sa/lib-lti1p3-ags",
-            "version": "dev-feature/full-ags",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-ags.git",
-                "reference": "fb0b3043d22dd7273139be18891c4d629641d848"
+                "reference": "58cbafdd1566b4322643190d57cb9506d0c9e640"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-ags/zipball/fb0b3043d22dd7273139be18891c4d629641d848",
-                "reference": "fb0b3043d22dd7273139be18891c4d629641d848",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-ags/zipball/58cbafdd1566b4322643190d57cb9506d0c9e640",
+                "reference": "58cbafdd1566b4322643190d57cb9506d0c9e640",
                 "shasum": ""
             },
             "require": {
@@ -1285,9 +1285,9 @@
             "description": "OAT LTI 1.3 Advantage AGS Library",
             "support": {
                 "issues": "https://github.com/oat-sa/lib-lti1p3-ags/issues",
-                "source": "https://github.com/oat-sa/lib-lti1p3-ags/tree/feature/full-ags"
+                "source": "https://github.com/oat-sa/lib-lti1p3-ags/tree/1.0.0"
             },
-            "time": "2021-06-03T13:56:30+00:00"
+            "time": "2021-06-17T11:56:18+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-basic-outcome",
@@ -1572,16 +1572,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.31",
+            "version": "2.0.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "233a920cb38636a43b18d428f9a8db1f0a1a08f4"
+                "reference": "f5c4c19880d45d0be3e7d24ae8ac434844a898cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/233a920cb38636a43b18d428f9a8db1f0a1a08f4",
-                "reference": "233a920cb38636a43b18d428f9a8db1f0a1a08f4",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/f5c4c19880d45d0be3e7d24ae8ac434844a898cd",
+                "reference": "f5c4c19880d45d0be3e7d24ae8ac434844a898cd",
                 "shasum": ""
             },
             "require": {
@@ -1661,7 +1661,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/2.0.31"
+                "source": "https://github.com/phpseclib/phpseclib/tree/2.0.32"
             },
             "funding": [
                 {
@@ -1677,7 +1677,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-06T13:56:45+00:00"
+            "time": "2021-06-12T12:12:59+00:00"
         },
         {
             "name": "psr/cache",
@@ -6976,9 +6976,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "oat-sa/lib-lti1p3-ags": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

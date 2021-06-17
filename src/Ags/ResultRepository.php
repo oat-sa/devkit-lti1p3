@@ -82,7 +82,7 @@ class ResultRepository implements ResultRepositoryInterface
         string $lineItemIdentifier,
         ?int $limit = null,
         ?int $offset = null
-    ): ?ResultCollectionInterface {
+    ): ResultCollectionInterface {
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
         $lineItemResults = [];
@@ -95,7 +95,7 @@ class ResultRepository implements ResultRepositoryInterface
 
         return new ResultCollection(
             array_slice($lineItemResults, $offset ?: 0, $limit),
-            ($limit + $offset) < sizeof($lineItemResults)
+            $limit && ($limit + $offset) < sizeof($lineItemResults)
         );
     }
 

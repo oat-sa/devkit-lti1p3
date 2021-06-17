@@ -6,9 +6,9 @@ parameters:
             title: Launch LTI DevKit
             text: LTI resource Link to launch LTI DevKit
             icon:
-                url: https://cdn2.iconfinder.com/data/icons/user-interface-ui-1-set/64/link-chain-hyperlink-linked-internet-20.png
+                url: https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png
             thumbnail:
-                url: https://cdn2.iconfinder.com/data/icons/user-interface-ui-1-set/64/link-chain-hyperlink-linked-internet-20.png
+                url: https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png
         imageExample:
             type: image
             url: https://www.disneyphile.fr/wp-content/uploads/2020/10/fresque-star-wars.png

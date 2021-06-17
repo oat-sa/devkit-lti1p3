@@ -7,7 +7,7 @@ parameters:
     application_host: '%env(resolve:APP_HOST)%'
     application_api_key: '%env(resolve:APP_API_KEY)%'
     application_vendors: '%kernel.project_dir%/vendor/composer/installed.php'
-    application_version: '2.0.0-beta-9'
+    application_version: '2.0.0'
 
 services:
     _defaults:
@@ -59,7 +59,7 @@ services:
     OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface:
         class: App\Ags\ResultRepository
 
-    OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\ListLineItemServiceServerRequestHandler:
+    OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\ListLineItemsServiceServerRequestHandler:
         arguments:
             - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
 
@@ -93,7 +93,7 @@ services:
         class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
         factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
         arguments:
-            - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\ListLineItemServiceServerRequestHandler'
+            - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\ListLineItemsServiceServerRequestHandler'
         tags: [ 'controller.service_arguments' ]
 
     app.service.ags_get_line_item_controller:
