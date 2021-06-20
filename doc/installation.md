@@ -49,7 +49,7 @@ After installation, the following docker services are available:
 You can access:
 
 | Name                                   | URL                                                              |
-|-------  -------------------------------|------------------------------------------------------------------|
+|----------------------------------------|------------------------------------------------------------------|
 | devkit_lti1p3_nginx                    | [http://devkit-lti1p3.localhost](http://devkit-lti1p3.localhost) |
 | devkit_lti1p3_traefik                  | [http://localhost:8080](http://localhost:8080)                   |
 | devkit_lti1p3_redis_commander          | [http://localhost:8081](http://localhost:8081)                   |

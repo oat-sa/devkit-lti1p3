@@ -7,7 +7,7 @@
   
 ## Commands
 
-You can find below the available commands offered by the development kit application.
+You can find below the available commands offered by the development kit.
 
 ### Message launch generation command
 
@@ -71,7 +71,7 @@ php bin/console devkit:create:message:launch -v -t LtiResourceLinkRequest -p '{
 }'
 ```
 
-**Note**: setting up the option `-v` will mot only return back the generated launch, but also the message launch details.
+**Note**: setting up the option `-v` will not only return back the generated launch, but also the message launch details.
 
 Command execution output example:
 

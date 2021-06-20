@@ -8,7 +8,7 @@
 
 ## Security
 
-Since this development kit application can be registered with real LMS production instances, the API HTTP endpoints are **protected by an API key**.
+Since this development kit can be registered with real LMS production instances, the API HTTP endpoints are **protected by an API key**.
 
 This API key is configurable on the [.env](../.env) file, in the `APP_API_KEY` environment variable.
 
@@ -16,7 +16,7 @@ Every API HTTP endpoint request must provide this key as a token bearer via the 
 
 ## HTTP endpoints
 
-You can find below the available API HTTP endpoints offered by the development kit application.
+You can find below the available API HTTP endpoints offered by the development kit.
 
 ### ltiResourceLinkRequest launch generation endpoint
 
@@ -75,7 +75,7 @@ curl --location --request POST 'http://localhost:8888/api/platform/messages/ltiR
 }'
 ```
 
-**Note**: setting up the optional query parameter `verbose=true` will mot only return back the generated launch, but also the message launch details.
+**Note**: setting up the optional query parameter `verbose=true` will not only return back the generated launch, but also the message launch details.
 
 Endpoint response example:
 
