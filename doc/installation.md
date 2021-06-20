@@ -32,7 +32,7 @@ For Windows users:
 
 ### Application
 
-After installation, the development kit application is available on [http://devkit-lti1p3.localhost](http://devkit-lti1p3.localhost)
+After installation, the development kit is available on [http://devkit-lti1p3.localhost](http://devkit-lti1p3.localhost)
 
 ### Services
 
