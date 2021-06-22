@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}<i class="fas fa-users"></i>&nbsp;&nbsp;Platform - NRPS membership edition{% endblock %}
+{% block nav_title %}<i class="fas fa-users"></i>&nbsp;&nbsp;<span class="text-danger">Platform</span> - NRPS membership edition{% endblock %}
 
 {% block body %}
 <div class="card bg-light">
@@ -32,10 +32,10 @@
                 <div class="input-group-prepend" role="group" aria-label="Manage members">
                     <div class="btn-group-vertical" role="group">
                         <button id="membersAdd" type="button" class="btn btn-primary btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Add member">
-                            <i class="fas fa-plus-circle"></i>
+                            <i class="fas fa-user-plus"></i>
                         </button>
                         <div class="dropdown-menu d-none" aria-labelledby="membersAdd"></div>
-                        <button id="membersFormat" type="button" class="btn btn-secondary btn-block" title="Format members">
+                        <button id="membersFormat" type="button" class="btn btn-secondary btn-block" title="Format members (JSON)">
                             <i class="fas fa-align-left"></i>
                         </button>
                     </div>
@@ -50,8 +50,10 @@
         </div>
     </div>
     <div class="card-footer">
-        {{ form_widget(form.submit) }}
-        <a href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': membership.identifier}) }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Cancel</a>
+        <div class="btn-group float-right" role="group" aria-label="Basic example">
+            {{ form_widget(form.submit) }}
+            <a href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': membership.identifier}) }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Cancel</a>
+        </div>
     </div>
     {{ form_end(form) }}
 </div>

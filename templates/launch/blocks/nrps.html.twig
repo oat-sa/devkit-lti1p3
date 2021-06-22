@@ -3,17 +3,35 @@
         <i class="fas fa-users"></i>&nbsp;
         NRPS claim provided in message
     </div>
-    <dl class="list-unstyled">
-        <dt>Claim Service Url</dt>
-        <dd><a href="{{ token.payload.nrps.contextMembershipsUrl }}" target="_blank">{{ token.payload.nrps.contextMembershipsUrl }}</a></dd>
-        <dt>Claim Service Versions</dt>
-        <dd><code>{{ token.payload.nrps.serviceVersions|join(', ') }}</code></dd>
-    </dl>
-    <h6 class="card-title">
-        <i class="fas fa-sign-in-alt"></i>&nbsp;NRPS Service
-    </h6>
-    <hr/>
+    <div class="accordion md-accordion" id="accordionNrpsDetails" role="tablist" aria-multiselectable="true">
+        <div class="card bg-light">
+            <div class="card-header dropdown-toggle clickable collapsed" role="tab" id="accordionNrpsDetailsHeading" data-toggle="collapse" data-parent="#accordionNrpsDetails" href="#accordionNrpsDetailsBody"
+                 aria-expanded="false" aria-controls="accordionNrpsDetailsBody">
+                <i class="fas fa-info-circle"></i>&nbsp;NRPS claim details
+            </div>
+            <div id="accordionNrpsDetailsBody" class="collapse card-body" role="tabpanel" aria-labelledby="accordionNrpsDetailsHeading" data-parent="#accordionNrpsDetails">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Claim service url</dt>
+                            <dd><a href="{{ token.payload.nrps.contextMembershipsUrl }}" target="_blank">{{ token.payload.nrps.contextMembershipsUrl }}</a></dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Claim service versions</dt>
+                            <dd><code>{{ token.payload.nrps.serviceVersions|join(', ') }}</code></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
     <div class="card bg-light">
+        <div class="card-header">
+            <i class="fas fa-sign-in-alt"></i>&nbsp;NRPS service request
+        </div>
         <div class="card-body">
             <div class="form-row">
                 <div class="col col col-md-12">
@@ -23,24 +41,24 @@
             </div>
             <br/>
             <div class="form-row">
-                <div class="col col col-md-5">
+                <div class="col col col-md-10">
                     <input type="text" id="nrpsRole" class="form-control" placeholder="Role filter" aria-describedby="nrpsRoleHelp">
                     <small id="nrpsRoleHelp" class="form-text text-muted">Role filter</small>
                 </div>
-                <div class="col col col-md-5">
-                    <input type="text" id="nrpsLimit"class="form-control" placeholder="Limit" aria-describedby="nrpsLimitHelp">
+                <div class="col col col-md-2">
+                    <input type="number" id="nrpsLimit"class="form-control" placeholder="Limit" aria-describedby="nrpsLimitHelp">
                     <small id="nrpsLimitHelp" class="form-text text-muted">Limit to return</small>
                 </div>
-                <div class="col col col-md-2">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button id="nrpsLoad" class="btn-primary btn">
-                            <i id="nrpsCall" class="fas fa-sign-in-alt"></i>&nbsp;Call
-                        </button>
-                        <button id="nrpsReset" class="btn-secondary btn">
-                            <i class="fas fa-undo"></i>&nbsp;Reset
-                        </button>
-                    </div>
-                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <div class="btn-group float-right" role="group" aria-label="Basic example">
+                <button id="nrpsLoad" class="btn-primary btn">
+                    <i id="nrpsCall" class="fas fa-sign-in-alt"></i>&nbsp;Call NRPS service
+                </button>
+                <button id="nrpsReset" class="btn-secondary btn">
+                    <i class="fas fa-undo"></i>&nbsp;Reset
+                </button>
             </div>
         </div>
     </div>
@@ -48,18 +66,18 @@
     <div class="modal fade" id="nrpsMemberModal" tabindex="-1" role="dialog" aria-labelledby="nrpsMemberModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="nrpsMemberModalLabel"><i class="fas fa-info-circle"></i>&nbsp;Member Properties</h5>
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title" id="nrpsMemberModalLabel"><i class="fas fa-info-circle"></i>&nbsp;Member properties</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body bg-light">
                     <pre>
                         <code id="nrpsMemberDetailsZone" class="language-json"></code>
                     </pre>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer bg-light">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
                 </div>
             </div>
@@ -89,8 +107,17 @@
                     $("#nrpsCall").removeClass("fa-spinner fa-spin");
                     $("#nrpsCall").addClass("fa-sign-in-alt");
                     $("#nrpsZone").html(
-                        '<br/><div class="alert alert-danger" role="alert">' +
-                        '<i class="fas fa-exclamation-circle"></i>&nbsp;' + result.responseJSON.message +
+                        '<br/><div class="card bg-light">' +
+                        '<div class="card-header"><i class="fas fa-users"></i>&nbsp;NRPS service response</div>' +
+                        '<div class="card-body">' +
+                        '<h5 class="card-title"></h5>' +
+                        '<div class="alert alert-danger" role="alert">'+
+                        '<i class="fas fa-exclamation-circle"></i>&nbsp;Error ' +
+                        result.responseJSON.code +
+                        ': ' +
+                        result.responseJSON.message +
+                        '</div>' +
+                        '</div>' +
                         '</div>'
                     );
                 }
@@ -110,7 +137,7 @@
         });
     </script>
 {% else %}
-    <div class="alert alert-dark" role="alert">
-        <i class="fas fa-exclamation-circle"></i>&nbsp;No NRPS claim provided in message
+    <div class="alert alert-dark alert-no-margin-bottom" role="alert">
+        <i class="fas fa-ban"></i>&nbsp;No NRPS claim provided in message
     </div>
 {% endif %}

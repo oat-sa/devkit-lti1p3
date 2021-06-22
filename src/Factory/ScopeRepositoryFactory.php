@@ -22,8 +22,8 @@ declare(strict_types=1);
 
 namespace App\Factory;
 
-use OAT\Library\Lti1p3Core\Service\Server\Entity\Scope;
-use OAT\Library\Lti1p3Core\Service\Server\Repository\ScopeRepository;
+use OAT\Library\Lti1p3Core\Security\OAuth2\Entity\Scope;
+use OAT\Library\Lti1p3Core\Security\OAuth2\Repository\ScopeRepository;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ScopeRepositoryFactory

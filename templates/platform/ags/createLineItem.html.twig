@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}<i class="fas fa-graduation-cap"></i>&nbsp;&nbsp;<span class="text-danger">Platform</span> - AGS line item creation{% endblock %}
+
+{% block body %}
+<div class="card bg-light">
+    <div class="card-header">
+        <i class="fas fa-graduation-cap"></i>&nbsp;Create line item
+    </div>
+    <div class="card-body">
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <div class="form-row">
+            <div class="col-md-4">
+                {{ form_row(form.line_item_id) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.line_item_context_id) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.line_item_label) }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4">
+                {{ form_row(form.line_item_score_maximum) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.line_item_resource_id) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.line_item_resource_link_id) }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4">
+                {{ form_row(form.line_item_tag) }}
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ form_label(form.line_item_start_date) }}
+                    <div class="input-group" id="lineItemStartDateTimeDatetimepicker" data-target-input="nearest">
+                        <div class="input-group-prepend">
+                            <a class="btn btn-secondary text-white" data-target="#lineItemStartDateTimeDatetimepicker" data-toggle="datetimepicker">
+                                <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        {{ form_widget(form.line_item_start_date) }}
+                    </div>
+                    {{ form_help(form.line_item_start_date) }}
+                    {{ form_errors(form.line_item_start_date) }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ form_label(form.line_item_end_date) }}
+                    <div class="input-group" id="lineItemEndDateTimeDatetimepicker" data-target-input="nearest">
+                        <div class="input-group-prepend">
+                            <a class="btn btn-secondary text-white" data-target="#lineItemEndDateTimeDatetimepicker" data-toggle="datetimepicker">
+                                <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        {{ form_widget(form.line_item_end_date) }}
+                    </div>
+                    {{ form_help(form.line_item_end_date) }}
+                    {{ form_errors(form.line_item_end_date) }}
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    {{ form_label(form.line_item_additional_properties) }}<br/>
+                    <div class="input-group">
+                        <div class="input-group-prepend" role="group" aria-label="Format additional properties">
+                            <div class="btn-group-vertical" role="group">
+                                <button id="additionalPropertiesFormat" type="button" class="btn btn-secondary btn-block" title="Format additional properties (JSON)">
+                                    <i class="fas fa-align-left"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {{ form_widget(form.line_item_additional_properties) }}
+                    </div>
+                    <div id="additionalPropertiesError" class="invalid-feedback">
+                        Invalid additional properties, please provide a valid JSON representation
+                    </div>
+                    {{ form_help(form.line_item_additional_properties) }}
+                    {{ form_errors(form.line_item_additional_properties) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="btn-group float-right" role="group" aria-label="Basic example">
+            {{ form_widget(form.submit) }}
+            <a href="{{ path('platform_ags_list_line_items') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Cancel</a>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
+<script>
+    $("#lineItemStartDateTimeDatetimepicker").datetimepicker({
+        format: "YYYY-MM-DD HH:mm",
+        allowInputToggle: true,
+        buttons: {
+            showToday: true,
+            showClear: true,
+            showClose: true
+        }
+    });
+    $("#lineItemEndDateTimeDatetimepicker").datetimepicker({
+        format: "YYYY-MM-DD HH:mm",
+        allowInputToggle: true,
+        buttons: {
+            showToday: true,
+            showClear: true,
+            showClose: true
+        }
+    });
+
+    function checkAdditionalProperties() {
+        try {
+            if ($("#line_item_line_item_additional_properties").val() != '') {
+                $("#line_item_line_item_additional_properties").val(
+                    JSON.stringify(JSON.parse($("#line_item_line_item_additional_properties").val()), undefined, 4)
+                );
+                $("#line_item_line_item_additional_properties").removeClass('is-invalid');
+                $("#line_item_line_item_additional_properties").addClass('is-valid');
+            } else {
+                $("#line_item_line_item_additional_properties").removeClass('is-invalid');
+                $("#line_item_line_item_additional_properties").removeClass('is-valid');
+            }
+            $('#additionalPropertiesError').hide();
+        } catch(e) {
+            $("#line_item_line_item_additional_properties").removeClass('is-valid');
+            $("#line_item_line_item_additional_properties").addClass('is-invalid');
+            $('#additionalPropertiesError').show();
+        }
+    }
+
+    $("#additionalPropertiesFormat").click(function(event){
+        checkAdditionalProperties();
+    });
+
+    $('form[name=line_item]').submit(function (evt) {
+        checkAdditionalProperties();
+        try {
+            JSON.parse($("#line_item_line_item_additional_properties").val() || "{}");
+            return;
+        } catch(e) {
+            evt.preventDefault();
+        }
+    });
+
+    $( document ).ready(function() {
+        checkAdditionalProperties();
+    });
+</script>
+{% endblock body %}

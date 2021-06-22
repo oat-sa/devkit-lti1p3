@@ -24,12 +24,15 @@ namespace App\Action\Tool\Service;
 
 use App\Form\Generator\FormShareUrlGenerator;
 use App\Form\Tool\Service\LtiServiceClientType;
+use GuzzleHttp\Exception\RequestException;
+use OAT\Library\Lti1p3Core\Exception\LtiExceptionInterface;
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3Core\Service\Client\LtiServiceClientInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Twig\Environment;
 
 class LtiServiceClientAction
@@ -101,7 +104,21 @@ class LtiServiceClientAction
                 $options['body'] = $body;
             }
 
-            $response = $this->client->request($registration, $method, $serviceUrl, $options, $scopes);
+            $stopwatch = new Stopwatch();
+
+            $stopwatch->start('serviceCall');
+
+            try {
+                $response = $this->client->request($registration, $method, $serviceUrl, $options, $scopes);
+            } catch (LtiExceptionInterface $exception) {
+                if ($exception->getPrevious() instanceof RequestException){
+                    $response = $exception->getPrevious()->getResponse();
+                } else {
+                    throw $exception;
+                }
+            }
+
+            $stopWatchEvent = $stopwatch->stop('serviceCall');
 
             $responseContentType = strtolower($response->getHeaderLine('Content-Type'));
 
@@ -116,14 +133,29 @@ class LtiServiceClientAction
                 $body = (string) $response->getBody();
             }
 
+            $serviceStatusCode = $response->getStatusCode();
+
             $serviceData = [
                 'headers' => $response->getHeaders(),
-                'code' => $response->getStatusCode(),
+                'code' => $serviceStatusCode,
+                'duration' => $stopWatchEvent->getDuration(),
+                'memory' => $stopWatchEvent->getMemory(),
                 'format' => $format,
                 'body' => $body
             ];
 
-            $this->flashBag->add('success', 'LTI service called with success');
+            if ($serviceStatusCode >= 200 && $serviceStatusCode < 300) {
+                $flashType = 'success';
+                $flashMessage = sprintf('LTI service success (%s)', $serviceStatusCode);
+            } elseif ($serviceStatusCode >= 500) {
+                $flashType = 'error';
+                $flashMessage = sprintf('LTI service server error (%s)', $serviceStatusCode);
+            } else {
+                $flashType = 'warning';
+                $flashMessage = sprintf('LTI service client error (%s)', $serviceStatusCode);
+            }
+
+            $this->flashBag->add($flashType, $flashMessage);
         } else {
             $form->setData($request->query->all());
         }

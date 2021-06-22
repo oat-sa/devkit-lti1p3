@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}<i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Tool - Call LTI service{% endblock %}
+{% block nav_title %}<i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;<span class="text-danger">Tool</span> - Call LTI service{% endblock %}
 
 {% block body %}
     <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
@@ -13,35 +13,58 @@
                 {{ form_start(form) }}
                 {{ form_errors(form) }}
                 <div class="form-row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         {{ form_row(form.registration) }}
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         {{ form_row(form.scope) }}
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         {{ form_row(form.method) }}
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         {{ form_row(form.service_url) }}
                     </div>
                 </div>
-                {{ form_row(form.media) }}
-                {{ form_row(form.body) }}
+                <div class="form-row">
+                    <div class="col-md-12">
+                        {{ form_row(form.media) }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend" role="group" aria-label="Format request body (XML or JSON)">
+                                    <div class="btn-group-vertical dropright" role="group">
+                                        <button id="bodyFormat" type="button" class="btn btn-secondary btn-block" title="Format request body (XML or JSON)">
+                                            <i class="fas fa-align-left"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                {{ form_widget(form.body) }}
+                            </div>
+                            {{ form_help(form.body) }}
+                            {{ form_errors(form.body) }}
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="card-footer">
-                {{ form_widget(form.submit) }}
-                <a href="{{ path('tool_service_client') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
-                {% if formSubmitted %}
-                    <a class="btn btn-secondary text-white" data-toggle="modal" data-target="#formShareModal"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
-                {% endif %}
+                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                    {{ form_widget(form.submit) }}
+                    <a href="{{ path('tool_service_client') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
+                    {% if formSubmitted %}
+                        <a class="btn btn-info text-white" data-toggle="modal" data-target="#formShareModal"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
+                    {% endif %}
+                </div>
             </div>
             {{ form_end(form) }}
         </div>
     </div>
-    {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl} %}
+    {% include 'launch/modal/generatorShareModal.html.twig' with {'url': formShareUrl, 'title': 'LTI service client share url'} %}
     {% if serviceData %}
         <br/>
         <div class="card bg-light">
@@ -49,9 +72,16 @@
                 <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="pills-item-tab" data-toggle="pill" href="#pills-item" role="tab" aria-controls="pills-item" aria-selected="true">
-                            <i class="fas fa-envelope-open"></i>&nbsp;Response body
+                            <i class="fas fa-code"></i>&nbsp;Response body
                         </a>
                     </li>
+                    {% if serviceData.format != 'json' and serviceData.format != 'xml' and serviceData.body is not empty %}
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-preview-tab" data-toggle="pill" href="#pills-preview" role="tab" aria-controls="pills-preview" aria-selected="false">
+                            <i class="fas fa-eye"></i>&nbsp;Response preview
+                        </a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" id="pills-message-tab" data-toggle="pill" href="#pills-message" role="tab" aria-controls="pills-message" aria-selected="false">
                             <i class="fas fa-info-circle"></i>&nbsp;Response details
@@ -62,60 +92,118 @@
             <div class="card-body">
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-item" role="tabpanel" aria-labelledby="pills-item-tab">
-                        {% if serviceData.format == 'json' %}
-                            <pre>
-                                <code class="language-json">{{ serviceData.body|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
-                            </pre>
-                        {% elseif serviceData.format == 'xml' %}
-                            <pre>
-                                <code class="language-xml">{{ serviceData.body }}</code>
-                            </pre>
+                        {% if serviceData.body is not empty %}
+                            <div class="input-group mb-3">
+                                <input type="text" id="responseSearch" class="form-control" placeholder="Search">
+                                <div class="input-group-append">
+                                    <button id="responseSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                                </div>
+                            </div>
+                            {% if serviceData.format == 'json' %}
+                                <pre>
+                                    <code id="responseZone" class="language-json">{{ serviceData.body|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                                </pre>
+                            {% elseif serviceData.format == 'xml' %}
+                                <pre>
+                                    <code id="responseZone" class="language-xml">{{ serviceData.body }}</code>
+                                </pre>
+                            {% else %}
+                                <pre>
+                                    <code id="responseZone" class="language-html">{{ serviceData.body }}</code>
+                                </pre>
+                            {% endif %}
                         {% else %}
-                            <pre>
-                                <code class="language-html">{{ serviceData.body }}</code>
-                            </pre>
+                            <div class="alert alert-dark alert-no-margin-bottom" role="alert">
+                                <i class="fas fa-ban"></i>&nbsp;Empty response body
+                            </div>
                         {% endif %}
                     </div>
+
+                    {% if serviceData.format != 'json' and serviceData.format != 'xml' and serviceData.body is not empty %}
+                    <div class="tab-pane fade" id="pills-preview" role="tabpanel" aria-labelledby="pills-preview-tab">
+                        <div class="container-fluid">
+                            {{ serviceData.body|scrap_app_dom|raw }}
+                        </div>
+                    </div>
+                    {% endif %}
+
                     <div class="tab-pane fade" id="pills-message" role="tabpanel" aria-labelledby="pills-message-tab">
-                        <h6 class="card-title">
-                            <i class="fas fa-info-circle"></i>&nbsp;Status code
-                        </h6>
-                        <hr/>
-                        <dl class="list-unstyled">
-                            <dt>Code</dt>
-                            <dd>
-                                {% if serviceData.code >= 200 and serviceData.code < 300 %}
-                                    <span class="badge badge-pill badge-success">
-                                        {{ serviceData.code}}
-                                    </span>
-                                {% elseif serviceData.code >= 500 %}
-                                    <span class="badge badge-pill badge-danger">
-                                        {{ serviceData.code}}
-                                    </span>
-                                {% else %}
-                                    <span class="badge badge-pill badge-warning">
-                                        {{ serviceData.code}}
-                                    </span>
-                                {% endif %}
-                            </dd>
-                        </dl>
-                        <h6 class="card-title">
-                            <i class="fas fa-info-circle"></i>&nbsp;Headers
-                        </h6>
-                        <hr/>
-                        <dl class="list-unstyled">
-                            {% for headerName, headerValue in serviceData.headers %}
-                                <dt>{{ headerName }}</dt>
-                                <dd>{{ headerValue|join(" ") }}</dd>
-                            {% else %}
-                                <dt>n/a</dt>
-                            {% endfor %}
-                        </dl>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-header">
+                                        <i class="fas fa-info-circle"></i>&nbsp;Status
+                                    </div>
+                                    <div class="card-body">
+                                        <dl class="list-unstyled">
+                                            <dt>Call status code</dt>
+                                            <dd>
+                                                {% if serviceData.code >= 200 and serviceData.code < 300 %}
+                                                    <span class="badge badge-pill badge-success">
+                                                    {{ serviceData.code}}
+                                                </span>
+                                                {% elseif serviceData.code >= 500 %}
+                                                    <span class="badge badge-pill badge-danger">
+                                                    {{ serviceData.code}}
+                                                </span>
+                                                {% else %}
+                                                    <span class="badge badge-pill badge-warning">
+                                                    {{ serviceData.code}}
+                                                </span>
+                                                {% endif %}
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="card bg-light">
+                                    <div class="card-header">
+                                        <i class="fas fa-stopwatch"></i>&nbsp;Duration
+                                    </div>
+                                    <div class="card-body">
+                                        <dl class="list-unstyled">
+                                            <dt>Call duration</dt>
+                                            <dd> {{ serviceData.duration }} ms</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="card bg-light">
+                                    <div class="card-header">
+                                        <i class="fas fa-microchip"></i>&nbsp;Memory
+                                    </div>
+                                    <div class="card-body">
+                                        <dl class="list-unstyled">
+                                            <dt>Call memory usage</dt>
+                                            <dd> {{ serviceData.memory }} bytes</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <br/>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-header">
+                                        <i class="fas fa-file-code"></i>&nbsp;Headers
+                                    </div>
+                                    <div class="card-body">
+                                        <dl class="list-unstyled">
+                                            {% for headerName, headerValue in serviceData.headers %}
+                                                <dt>{{ headerName }}</dt>
+                                                <dd>{{ headerValue|join(" ") }}</dd>
+                                            {% else %}
+                                                <dt>n/a</dt>
+                                            {% endfor %}
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card-footer text-muted">
-                <small>LTI service response</small>
+                <small>LTI service client response</small>
             </div>
         </div>
     {% endif %}
@@ -123,6 +211,21 @@
 
 {% block scripts %}
     <script>
+        $("#responseSearch").on("input", function(){
+            $("#responseZone").unmark({
+                done: function() {
+                    $("#responseZone").mark($("#responseSearch").val());
+                }
+            });
+        });
+
+        $("#responseSearchReset").click(function(){
+            $("#responseSearch").val("");
+            $("#responseZone").unmark();
+        });
+
+        hljs.initHighlightingOnLoad();
+
         $('#lti_service_client_scope').autoComplete({
             minLength: 0,
             preventEnter: true,
@@ -138,6 +241,63 @@
                 url: '{{ path('tool_ajax_service_client_autocomplete', {'type': 'media'}) }}',
                 requestThrottling: 100
             }
+        });
+
+        function formatBodyJson() {
+            try {
+                if ($("#lti_service_client_body").val() != '') {
+                    $("#lti_service_client_body").val(
+                        JSON.stringify(JSON.parse($("#lti_service_client_body").val()), undefined, 4)
+                    );
+                }
+            } catch(e) {}
+        }
+
+        function formatBodyXml() {
+            try {
+                if ($("#lti_service_client_body").val() != '') {
+
+                    $("#lti_service_client_body").val(
+                        html_beautify(
+                            $("#lti_service_client_body").val(),
+                            {
+                                "indent_size": "4",
+                                "indent_char": " ",
+                                "max_preserve_newlines": "5",
+                                "preserve_newlines": true,
+                                "keep_array_indentation": false,
+                                "break_chained_methods": false,
+                                "indent_scripts": "normal",
+                                "brace_style": "collapse",
+                                "space_before_conditional": true,
+                                "unescape_strings": false,
+                                "jslint_happy": false,
+                                "end_with_newline": false,
+                                "wrap_line_length": "0",
+                                "indent_inner_html": false,
+                                "comma_first": false,
+                                "e4x": false,
+                                "indent_empty_lines": false
+                            }
+                        )
+                    );
+                }
+            } catch(e) {}
+        }
+
+        $("#bodyFormat").click(function(){
+            formatBodyXml();
+            formatBodyJson();
+        });
+
+        $('form[name=lti_service_client]').submit(function (evt) {
+            formatBodyXml();
+            formatBodyJson();
+        });
+
+        $( document ).ready(function() {
+            formatBodyXml();
+            formatBodyJson();
         });
 
         hljs.initHighlightingOnLoad();

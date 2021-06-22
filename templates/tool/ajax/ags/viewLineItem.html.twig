@@ -1,0 +1,76 @@
+<div class="row">
+    <div class="col col-md-12">
+        <dl class="list-unstyled">
+            <dt>Identifier</dt>
+            <dd><code>{{ lineItem.identifier }}</code></dd>
+            <dt>Label</dt>
+            <dd>{{ lineItem.label }}</dd>
+        </dl>
+    </div>
+</div>
+<div class="row">
+    <div class="col col-md-6">
+        <dl class="list-unstyled">
+            <dt>Score maximum</dt>
+            <dd>
+                <span class="badge badge-pill badge-info">
+                    {{ lineItem.scoreMaximum }}
+                </span>
+            </dd>
+        </dl>
+    </div>
+    <div class="col col-md-6">
+        <dl class="list-unstyled">
+            <dt>Tag</dt>
+            <dd>{{ lineItem.tag|default('n/a') }}</dd>
+        </dl>
+    </div>
+</div>
+<div class="row">
+    <div class="col col-md-6">
+        <dl class="list-unstyled">
+            <dt>Resource identifier</dt>
+            <dd>{{ lineItem.resourceIdentifier|default('n/a') }}</dd>
+        </dl>
+    </div>
+    <div class="col col-md-6">
+        <dl class="list-unstyled">
+            <dt>Resource link identifier</dt>
+            <dd>{{ lineItem.resourceLinkIdentifier|default('n/a') }}</dd>
+        </dl>
+    </div>
+</div>
+<div class="row">
+    <div class="col col-md-6">
+        <dl class="list-unstyled">
+            <dt>Start date</dt>
+            <dd>{{ lineItem.startDateTime|format('Y-m-d H:i')|default('n/a') }}</dd>
+        </dl>
+    </div>
+    <div class="col col-md-6">
+        <dl class="list-unstyled">
+            <dt>End date</dt>
+            <dd>{{ lineItem.endDateTime|format('Y-m-d H:i')|default('n/a') }}</dd>
+        </dl>
+    </div>
+</div>
+<div class="row">
+    <div class="col col-md-12">
+        <dl class="list-unstyled">
+            <dt>Additional properties</dt>
+            <dd>
+                {% if lineItem.additionalProperties.all|length != 0 %}
+                    <pre>
+                        <code id="agsAdditionalPropertiesZone" class="language-json hljs">{{ lineItem.additionalProperties.all|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                    </pre>
+                {% else %}
+                    n/a
+                {% endif %}
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script>
+    hljs.initHighlightingOnLoad();
+</script>

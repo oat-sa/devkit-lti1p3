@@ -76,7 +76,6 @@ class AssessmentType extends AbstractType
                     'label_html' => true,
                     'attr' => ['class' => 'btn-primary']
                 ]
-            )
-            ;
+            );
     }
 }

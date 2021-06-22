@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}<i class="fas fa-graduation-cap"></i>&nbsp;&nbsp;<span class="text-danger">Platform</span> - AGS line items details{% endblock %}
+
+{% block body %}
+<div class="card bg-light">
+    <div class="card-header">
+        <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-details-tab" data-toggle="pill" href="#pills-details" role="tab" aria-controls="pills-details" aria-selected="true">
+                    <i class="fas fa-info-circle"></i>&nbsp;Details
+                </a>
+            </li>
+            <li class="nav-item">
+                <a a class="nav-link" id="pills-scores-tab" data-toggle="pill" href="#pills-scores" role="tab" aria-controls="pills-scores" aria-selected="false">
+                    <i class="fas fa-poll"></i>&nbsp;Scores  <span class="badge badge-pill badge-secondary">{{ scores|length }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a a class="nav-link" id="pills-result-tab" data-toggle="pill" href="#pills-result" role="tab" aria-controls="pills-result" aria-selected="false">
+                    <i class="fas fa-poll-h"></i>&nbsp;Results  <span class="badge badge-pill badge-secondary">{{ results|length }}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-details" role="tabpanel" aria-labelledby="pills-details-tab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Identifier</dt>
+                            <dd><code>{{ lineItem.identifier }}</code></dd>
+                            <dt>Resource identifier</dt>
+                            <dd>{{ lineItem.resourceIdentifier|default('n/a') }}</dd>
+                            <dt>Score maximum</dt>
+                            <dd>
+                                <span class="badge badge-pill badge-info">
+                                    {{ lineItem.scoreMaximum }}
+                                </span>
+                            </dd>
+                            <dt>Start date</dt>
+                            <dd>{{ lineItem.startDateTime|format('Y-m-d H:i')|default('n/a') }}</dd>
+                            <dt>AGS line item service url</dt>
+                            <dd>
+                                <a href="{{ lineItem.identifier }}" target="_blank">{{ lineItem.identifier }}</a>
+                            </dd>
+                            <dt>AGS line item container service url</dt>
+                            <dd>
+                                <a href="{{ lineItem.identifier|split('/')|slice(0, -1)|join('/') }}" target="_blank">{{ lineItem.identifier|split('/')|slice(0, -1)|join('/') }}</a>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Label</dt>
+                            <dd>{{ lineItem.label }}</dd>
+                            <dt>Resource link identifier</dt>
+                            <dd>{{ lineItem.resourceLinkIdentifier|default('n/a') }}</dd>
+                            <dt>Tag</dt>
+                            <dd>{{ lineItem.tag|default('n/a') }}</dd>
+                            <dt>End date</dt>
+                            <dd>{{ lineItem.endDateTime|format('Y-m-d H:i')|default('n/a') }}</dd>
+                            <dt>Scores</dt>
+                            <dd>{{ scores|length }}</dd>
+                            <dt>Results</dt>
+                            <dd>{{ results|length }}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <dl class="list-unstyled">
+                            <dt>Additional properties</dt>
+                            <dd>
+                            {% if lineItem.additionalProperties.all|length != 0 %}
+                                <pre>
+                                    <code id="agsAdditionalPropertiesZone" class="language-json">{{ lineItem.additionalProperties.all|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                                </pre>
+                            {% else %}
+                                n/a
+                            {% endif %}
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-scores" role="tabpanel" aria-labelledby="pills-scores-tab">
+                {% if scores|length != 0 %}
+                    <div class="input-group mb-3">
+                        <input type="text" id="agsScoreSearch" class="form-control" placeholder="Search">
+                        <div class="input-group-append">
+                            <button id="agsScoreSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                        </div>
+                    </div>
+                    <pre>
+                        <code id="agsScoreZone" class="language-json">{{ scores|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                    </pre>
+                {% else %}
+                    <div class="alert alert-dark alert-no-margin-bottom" role="alert">
+                        <i class="fas fa-ban"></i>&nbsp;No scores found
+                    </div>
+                {% endif %}
+            </div>
+            <div class="tab-pane fade" id="pills-result" role="tabpanel" aria-labelledby="pills-result-tab">
+                {% if results|length != 0 %}
+                    <div class="input-group mb-3">
+                        <input type="text" id="agsResultSearch" class="form-control" placeholder="Search">
+                        <div class="input-group-append">
+                            <button id="agsResultSearchReset" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+                        </div>
+                    </div>
+                    <pre>
+                        <code id="agsResultZone" class="language-json">{{ results|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+                    </pre>
+                {% else %}
+                    <div class="alert alert-dark alert-no-margin-bottom" role="alert">
+                        <i class="fas fa-ban"></i>&nbsp;No results found
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="btn-group float-right" role="group" aria-label="Basic example">
+            <a class="btn btn-primary text-white" href="{{ path('platform_ags_edit_line_item', {'lineItemIdentifier': lineItem.identifier|base64_url_encode}) }}">
+                <i class="fas fa-edit"></i>&nbsp;Edit
+            </a>
+            <a class="btn btn-danger text-white" href="{{ path('platform_ags_delete_line_item', {'lineItemIdentifier': lineItem.identifier|base64_url_encode}) }}" onclick="return confirm('Are you sure?')">
+                <i class="fas fa-trash-alt"></i>&nbsp;Delete
+            </a>
+            <a class="btn btn-secondary text-white" href="{{ path('platform_ags_list_line_items') }}">
+                <i class="fas fa-undo-alt"></i>&nbsp;Back to list
+            </a>
+       </div>
+    </div>
+</div>
+{% endblock body %}
+
+{% block scripts %}
+    <script>
+        $("#agsScoreSearch").on("input", function(){
+            $("#agsScoreZone").unmark({
+                done: function() {
+                    $("#agsScoreZone").mark($("#agsScoreSearch").val());
+                }
+            });
+        });
+
+        $("#agsScoreSearchReset").click(function(){
+            $("#agsScoreSearch").val("");
+            $("#agsScoreZone").unmark();
+        });
+
+        $("#agsResultSearch").on("input", function(){
+            $("#agsResultZone").unmark({
+                done: function() {
+                    $("#agsResultZone").mark($("#agsResultSearch").val());
+                }
+            });
+        });
+
+        $("#agsResultSearchReset").click(function(){
+            $("#agsResultSearch").val("");
+            $("#agsResultZone").unmark();
+        });
+
+        hljs.initHighlightingOnLoad();
+    </script>
+{% endblock %}

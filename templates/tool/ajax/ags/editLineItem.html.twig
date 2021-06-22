@@ -1,0 +1,144 @@
+<form id="lineItemEditForm-{{ mode|default('line-item-container') }}">
+    <input type="hidden" id="lineItemIdentifier" name="lineItemIdentifier" value="{{ lineItem.identifier }}">
+    <input type="hidden" id="lineItemRegistration" name="lineItemRegistration" value="{{ registration.identifier }}">
+    <div class="form-group">
+        <label for="lineItemLabel">Identifier</label><br/>
+        <code>{{ lineItem.identifier }}</code>
+    </div>
+    <div class="form-group">
+        <label for="lineItemLabel">Label</label>
+        <input type="text" class="form-control" id="lineItemLabel" name="lineItemLabel"  value="{{ lineItem.label }}" aria-describedby="lineItemLabelHelp">
+        <small id="lineItemLabelHelp" class="form-text text-muted">Line item label</small>
+    </div>
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="form-group">
+                <label for="lineItemScoreMaximum">Score maximum</label>
+                <input type="number" class="form-control" id="lineItemScoreMaximum" name="lineItemScoreMaximum" value="{{ lineItem.scoreMaximum }}" aria-describedby="lineItemScoreMaximumHelp">
+                <small id="lineItemScoreMaximumHelp" class="form-text text-muted">Line item score maximum</small>
+            </div>
+        </div>
+        <div class="col col-md-6">
+            <div class="form-group">
+                <label for="lineItemTag">Tag</label>
+                <input type="text" class="form-control" id="lineItemTag" name="lineItemTag" value="{{ lineItem.tag }}" aria-describedby="lineItemTagHelp">
+                <small id="lineItemTagHelp" class="form-text text-muted">Line item tag</small>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="form-group">
+                <label for="lineItemResourceIdentifier">Resource identifier</label>
+                <input type="text" class="form-control" id="lineItemResourceIdentifier" name="lineItemResourceIdentifier" value="{{ lineItem.resourceIdentifier }}" aria-describedby="lineItemResourceIdentifierHelp">
+                <small id="lineItemResourceIdentifierHelp" class="form-text text-muted">Line item resource identifier</small>
+            </div>
+        </div>
+        <div class="col col-md-6">
+            <div class="form-group">
+                <label for="lineItemResourceLinkIdentifier">Resource link identifier</label>
+                <input type="text" class="form-control" id="lineItemResourceLinkIdentifier" name="lineItemResourceLinkIdentifier" value="{{ lineItem.resourceLinkIdentifier }}" aria-describedby="lineItemResourceLinkIdentifierHelp">
+                <small id="lineItemResourceLinkIdentifierHelp" class="form-text text-muted">Line item resource link identifier</small>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="form-group">
+                <label for="lineItemStartDateTime">Start date</label>
+                <div class="input-group" id="lineItemStartDateTimeDatetimepicker" data-target-input="nearest">
+                    <div class="input-group-prepend">
+                        <a class="btn btn-secondary text-white" data-target="#lineItemStartDateTimeDatetimepicker" data-toggle="datetimepicker">
+                            <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <input id="lineItemStartDateTime" name="lineItemStartDateTime" value="{{ lineItem.startDateTime|format('Y-m-d H:i') }}" type="text" class="form-control datetimepicker-input" data-target="#lineItemStartDateTimeDatetimepicker" aria-describedby="lineItemStartDateTimeHelp"/>
+                </div>
+                <small id="lineItemStartDateTimeHelp" class="form-text text-muted">Line item start date</small>
+            </div>
+        </div>
+        <div class="col col-md-6">
+            <div class="form-group">
+                <label for="lineItemEndDateTime">End date</label>
+                <div class="input-group" id="lineItemEndDateTimeDatetimepicker" data-target-input="nearest">
+                    <div class="input-group-prepend">
+                        <a class="btn btn-secondary text-white" data-target="#lineItemEndDateTimeDatetimepicker" data-toggle="datetimepicker">
+                            <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <input id="lineItemEndDateTime" name="lineItemEndDateTime" value="{{ lineItem.endDateTime|format('Y-m-d H:i') }}" type="text" class="form-control datetimepicker-input" data-target="#lineItemEndDateTimeDatetimepicker" aria-describedby="lineItemEndDateTimeHelp"/>
+                </div>
+                <small id="lineItemEndDateTimeHelp" class="form-text text-muted">Line item end date</small>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="lineItemAdditionalProperties">Additional properties</label>
+                <div class="input-group">
+                    <div class="input-group-prepend" role="group" aria-label="Format additional properties">
+                        <div class="btn-group-vertical" role="group">
+                            <button id="lineItemAdditionalPropertiesFormat" type="button" class="btn btn-secondary btn-block" title="Format additional properties">
+                                <i class="fas fa-align-left"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="lineItemAdditionalProperties" name="lineItemAdditionalProperties" rows="5" class="form-control">{% if lineItem.additionalProperties.count != 0 %}{{ lineItem.additionalProperties.all|json_encode }}{% endif %}</textarea>
+                </div>
+                <div id="lineItemAdditionalPropertiesError" class="invalid-feedback">
+                    Invalid additional properties, please provide a valid JSON representation
+                </div>
+                <small id="lineItemAdditionalPropertiesHelp" class="form-text text-muted">JSON formatted line item additional properties</small>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $("#lineItemStartDateTimeDatetimepicker").datetimepicker({
+        format: "YYYY-MM-DD HH:mm",
+        allowInputToggle: true,
+        buttons: {
+            showToday: true,
+            showClear: true,
+            showClose: true
+        }
+    });
+    $("#lineItemEndDateTimeDatetimepicker").datetimepicker({
+        format: "YYYY-MM-DD HH:mm",
+        allowInputToggle: true,
+        buttons: {
+            showToday: true,
+            showClear: true,
+            showClose: true
+        }
+    });
+
+    function checkAdditionalProperties() {
+        try {
+            if ($("#lineItemAdditionalProperties").val() != '') {
+                $("#lineItemAdditionalProperties").val(
+                    JSON.stringify(JSON.parse($("#lineItemAdditionalProperties").val()), undefined, 4)
+                );
+                $("#lineItemAdditionalProperties").removeClass('is-invalid');
+                $("#lineItemAdditionalProperties").addClass('is-valid');
+            } else {
+                $("#lineItemAdditionalProperties").removeClass('is-invalid');
+                $("#lineItemAdditionalProperties").removeClass('is-valid');
+            }
+            $('#lineItemAdditionalPropertiesError').hide();
+        } catch(e) {
+            $("#lineItemAdditionalProperties").removeClass('is-valid');
+            $("#lineItemAdditionalProperties").addClass('is-invalid');
+            $('#lineItemAdditionalPropertiesError').show();
+        }
+    }
+
+    $("#lineItemAdditionalPropertiesFormat").click(function(event){
+        checkAdditionalProperties();
+    });
+
+    $( document ).ready(function() {
+        checkAdditionalProperties();
+    });
+</script>

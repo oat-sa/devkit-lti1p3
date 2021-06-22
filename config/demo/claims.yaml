@@ -3,9 +3,12 @@ parameters:
         AGS:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_AGS
             value:
-                scope: []
-                lineitems: "{url|required}"
-                lineitem: "{url|optional}"
+                scope: [
+                        'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem',
+                        'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly',
+                        'https://purl.imsglobal.org/spec/lti-ags/scope/score'
+                ]
+                lineitems: 'http://devkit-lti1p3.localhost/platform/service/ags/default/lineitems'
         ACS:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_ACS
             value:
@@ -16,56 +19,56 @@ parameters:
                     'update',
                     'flag'
                 ]
-                assessment_control_url: "{url|required}"
+                assessment_control_url: '{url|required}'
         Basic Outcome:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_BASIC_OUTCOME
             value:
-                lis_result_sourcedid: "default"
-                lis_outcome_service_url: "http://demo_lti1p3_nginx/platform/service/basic-outcome"
+                lis_result_sourcedid: 'default'
+                lis_outcome_service_url: 'http://devkit-lti1p3.localhost/platform/service/basic-outcome'
         Context:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_CONTEXT
             value:
-                id: "default"
+                id: 'default'
                 type: []
-                label: "{string|optional}"
-                title: "{string|optional}"
+                label: '{string|optional}'
+                title: '{string|optional}'
         Launch presentation:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_LAUNCH_PRESENTATION
             value:
-                document_target: "{string|optional}"
-                height: "{int|optional}"
-                width: "{int|optional}"
-                return_url: "{url|optional}"
-                locale: "{string|optional}"
+                document_target: '{string|optional}'
+                height: '{int|optional}'
+                width: '{int|optional}'
+                return_url: '{url|optional}'
+                locale: '{string|optional}'
         LIS:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_LIS
             value:
-                course_offering_sourcedid: "{string|optional}"
-                course_section_sourcedid: "{string|optional}"
-                outcome_service_url: "{url|optional}"
-                person_sourcedid: "{string|optional}"
-                result_sourcedid: "{string|optional}"
+                course_offering_sourcedid: '{string|optional}'
+                course_section_sourcedid: '{string|optional}'
+                outcome_service_url: '{url|optional}'
+                person_sourcedid: '{string|optional}'
+                result_sourcedid: '{string|optional}'
         NRPS:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_NRPS
             value:
-                context_memberships_url: "http://demo_lti1p3_nginx/platform/service/nrps/default/memberships/default"
-                service_versions: ["2.0"]
+                context_memberships_url: 'http://devkit-lti1p3.localhost/platform/service/nrps/default/memberships/default'
+                service_versions: ['2.0']
         Platform instance:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_TOOL_PLATFORM
             value:
-                guid: "{string|required}"
-                contact_email: "{string|optional}"
-                description: "{string|optional}"
-                name: "{string|optional}"
-                url: "{url|optional}"
-                product_family_code: "{string|optional}"
-                version: "{string|optional}"
+                guid: '{string|required}'
+                contact_email: '{string|optional}'
+                description: '{string|optional}'
+                name: '{string|optional}'
+                url: '{url|optional}'
+                product_family_code: '{string|optional}'
+                version: '{string|optional}'
         Resource link:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK
             value:
-                id: "{string|required}"
-                title: "{string|optional}"
-                description: "{string|optional}"
+                id: '{string|required}'
+                title: '{string|optional}'
+                description: '{string|optional}'
         Roles:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_ROLES
-            value: ["http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"]
+            value: ['http://purl.imsglobal.org/vocab/lis/v2/membership#Learner']

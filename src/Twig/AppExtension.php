@@ -23,8 +23,13 @@ declare(strict_types=1);
 namespace App\Twig;
 
 use App\Generator\UrlGenerator;
+use App\Kernel;
+use App\Request\Encoder\Base64UrlEncoder;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
@@ -35,23 +40,76 @@ class AppExtension extends AbstractExtension
     /** @var UrlGenerator */
     private $generator;
 
-    public function __construct(RequestStack $requestStack, UrlGenerator $generator)
+    /** @var ParameterBagInterface */
+    private $parameterBag;
+
+    public function __construct(RequestStack $requestStack, UrlGenerator $generator, ParameterBagInterface $parameterBag)
     {
         $this->requestStack = $requestStack;
         $this->generator = $generator;
+        $this->parameterBag = $parameterBag;
     }
 
     public function getFunctions(): array
     {
         return [
             new TwigFunction('absolute_app_url', [$this, 'getAbsoluteAppUrl']),
-            new TwigFunction('getActiveMenu', [$this, 'getActiveMenu']),
+            new TwigFunction('get_active_menu', [$this, 'getActiveMenu']),
+            new TwigFunction('get_php_version', [$this, 'getPhpVersion']),
+            new TwigFunction('get_symfony_version', [$this, 'getSymfonyVersion']),
+            new TwigFunction('get_vendor_versions', [$this, 'getVendorVersions']),
+        ];
+    }
+
+    public function getFilters()
+    {
+        return [
+            new TwigFilter('scrap_app_dom', [$this, 'scrapAppDom']),
+            new TwigFilter('base64_url_encode', [$this, 'base64UrlEncode']),
         ];
     }
 
     public function getAbsoluteAppUrl(string $name, array $parameters = []): string
     {
         return $this->generator->generate($name, $parameters);
+    }
+
+    public function getPhpVersion(): string
+    {
+        $phpVersion = PHP_VERSION;
+        $parts = explode('.', $phpVersion);
+        $phpMinorVersion = $parts[0].'.'.$parts[1];
+
+        return $phpMinorVersion.'.'.explode('-', $parts[2])[0] ?? '';
+    }
+
+    public function getSymfonyVersion(): string
+    {
+        return Kernel::VERSION;
+    }
+
+    public function getVendorVersions(): array
+    {
+        $installedVendors = require_once $this->parameterBag->get('application_vendors');
+        $installedVendorsVersions = $installedVendors['versions'] ?? [];
+
+        $vendors = [
+            'oat-sa/bundle-lti1p3',
+            'oat-sa/lib-lti1p3-core',
+            'oat-sa/lib-lti1p3-ags',
+            'oat-sa/lib-lti1p3-basic-outcome',
+            'oat-sa/lib-lti1p3-deep-linking',
+            'oat-sa/lib-lti1p3-nrps',
+            'oat-sa/lib-lti1p3-proctoring',
+        ];
+
+        $vendorVersions = [];
+
+        foreach ($vendors as $vendor) {
+            $vendorVersions[$vendor] = $installedVendorsVersions[$vendor]['pretty_version'] ?? 'n/a';
+        }
+
+        return $vendorVersions;
     }
 
     public function getActiveMenu(): ?string
@@ -81,9 +139,32 @@ class AppExtension extends AbstractExtension
             case 'platform_proctoring_view_assessment':
             case 'platform_proctoring_edit_assessment':
             case 'platform_proctoring_delete_assessment':
+            case 'platform_ags_list_line_items':
+            case 'platform_ags_create_line_item':
+            case 'platform_ags_view_line_item':
+            case 'platform_ags_edit_line_item':
+            case 'platform_ags_delete_line_item':
                 return 'platform';
             default:
                 return null;
         }
+    }
+
+    public function scrapAppDom(string $dom): string
+    {
+        $crawler = new Crawler($dom);
+
+        $filter = $crawler->filter('body.lti1p3-demo-app div.lti1p3-demo-app-content');
+
+        if ($filter->count() !== 0) {
+            return $filter->first()->html();
+        }
+
+        return $dom;
+    }
+
+    public function base64UrlEncode(string $value): string
+    {
+        return Base64UrlEncoder::encode($value);
     }
 }

@@ -1,13 +1,33 @@
 version: '3'
 
 services:
-    demo_lti1p3_nginx:
-        container_name: demo_lti1p3_nginx
+    devkit_lti1p3_traefik:
+        container_name: devkit_lti1p3_traefik
+        image: traefik:v2.4
+        command:
+            - '--api.insecure=true'
+            - '--providers.docker=true'
+            - '--providers.docker.exposedbydefault=false'
+            - '--entrypoints.web.address=:80'
+        networks:
+            - devkit_lti1p3_network
+        ports:
+            - 80:80
+            - 8080:8080
+        volumes:
+            - '/var/run/docker.sock:/var/run/docker.sock:ro'
+
+    devkit_lti1p3_nginx:
+        container_name: devkit_lti1p3_nginx
         image: nginx:stable
         networks:
-            - demo_lti1p3_network
-        ports:
-            - "8888:80"
+            devkit_lti1p3_network:
+                aliases:
+                    - devkit-lti1p3.localhost
+        labels:
+            - 'traefik.enable=true'
+            - 'traefik.http.routers.nginx.rule=Host(`devkit-lti1p3.localhost`)'
+            - 'traefik.http.routers.nginx.entrypoints=web'
         expose:
           - 443
         volumes:
@@ -15,47 +35,47 @@ services:
             - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:cached
         working_dir: /etc/nginx/conf.d
 
-    demo_lti1p3_phpfpm:
-        container_name: demo_lti1p3_phpfpm
+    devkit_lti1p3_phpfpm:
+        container_name: devkit_lti1p3_phpfpm
         build:
             context: ./docker/phpfpm
         expose:
             - 9000
         networks:
-            - demo_lti1p3_network
+            - devkit_lti1p3_network
         volumes:
             - .:/var/www/html:cached
         working_dir: /var/www/html
 
-    demo_lti1p3_redis:
-        container_name: demo_lti1p3_redis
+    devkit_lti1p3_redis:
+        container_name: devkit_lti1p3_redis
         image: redis:latest
         command: ["redis-server", "--appendonly", "yes"]
-        hostname: demo_lti1p3_redis
+        hostname: devkit_lti1p3_redis
         networks:
-            - demo_lti1p3_network
+            - devkit_lti1p3_network
         ports:
             - "6379:6379"
         volumes:
-            - demo_lti1p3_redis_volume:/data
+            - devkit_lti1p3_redis_volume:/data
 
-    demo_lti1p3_redis_commander:
-        container_name: demo_lti1p3_redis_commander
+    devkit_lti1p3_redis_commander:
+        container_name: devkit_lti1p3_redis_commander
         image: rediscommander/redis-commander:latest
-        hostname: demo_lti1p3_redis_commander
+        hostname: devkit_lti1p3_redis_commander
         networks:
-            - demo_lti1p3_network
+            - devkit_lti1p3_network
         ports:
             - "8081:8081"
         expose:
             - 8081
         environment:
-            - REDIS_HOSTS=local:demo_lti1p3_redis:6379
+            - REDIS_HOSTS=local:devkit_lti1p3_redis:6379
 
 volumes:
-    demo_lti1p3_redis_volume:
+    devkit_lti1p3_redis_volume:
         driver: local
 
 networks:
-    demo_lti1p3_network:
+    devkit_lti1p3_network:
         driver: bridge

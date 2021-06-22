@@ -34,7 +34,7 @@ use Throwable;
 
 class CreateMessageLaunchCommand extends Command
 {
-    protected static $defaultName = 'create:message:launch';
+    protected static $defaultName = 'devkit:create:message:launch';
 
     /** @var LtiMessageBuilder */
     private $builder;

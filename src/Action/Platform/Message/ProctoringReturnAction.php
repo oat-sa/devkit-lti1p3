@@ -50,9 +50,15 @@ class ProctoringReturnAction
         $this->security = $security;
     }
 
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request, string $identifier): Response
     {
-        $this->flashBag->add('success', 'Platform LtiStartAssessment launch success');
+        $this->flashBag->add(
+            'success',
+            sprintf(
+                'Platform LtiStartAssessment launch success%s',
+                !empty($identifier) ? sprintf(' (for %s)', $identifier) : ''
+            )
+        );
 
         return new Response(
             $this->twig->render(

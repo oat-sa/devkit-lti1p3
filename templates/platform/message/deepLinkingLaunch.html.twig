@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}<i class="fas fa-link"></i>&nbsp;&nbsp;Platform - LtiDeepLinkingRequest launch{% endblock %}
+{% block nav_title %}<i class="fas fa-link"></i>&nbsp;&nbsp;<span class="text-danger">Platform</span> - LtiDeepLinkingRequest launch{% endblock %}
 
 {% block body %}
     <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
@@ -75,7 +75,7 @@
                     {{ form_label(form.claims) }}<br/>
                     <div class="input-group">
                         <div class="input-group-prepend" role="group" aria-label="Manage claims">
-                            <div class="btn-group-vertical" role="group">
+                            <div class="btn-group-vertical dropright" role="group">
                                 <button id="claimsAdd" type="button" class="btn btn-primary btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Add claim">
                                     <i class="fas fa-plus-circle"></i>
                                 </button>
@@ -99,7 +99,7 @@
                                         {% endif %}
                                     {% endfor %}
                                 </div>
-                                <button id="claimsFormat" type="button" class="btn btn-secondary btn-block" title="Format claims">
+                                <button id="claimsFormat" type="button" class="btn btn-secondary btn-block" title="Format claims (JSON)">
                                     <i class="fas fa-align-left"></i>
                                 </button>
                             </div>
@@ -114,11 +114,13 @@
                 </div>
             </div>
             <div class="card-footer">
-                {{ form_widget(form.submit) }}
-                <a href="{{ path('platform_message_launch_deep_linking') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
-                {% if formSubmitted %}
-                    <a class="btn btn-secondary text-white" data-toggle="modal" data-target="#formShareModal"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
-                {% endif %}
+                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                    {{ form_widget(form.submit) }}
+                    <a href="{{ path('platform_message_launch_deep_linking') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
+                    {% if formSubmitted %}
+                        <a class="btn btn-info text-white" data-toggle="modal" data-target="#formShareModal"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
+                    {% endif %}
+                </div>
             </div>
             {{ form_end(form) }}
         </div>
@@ -138,23 +140,23 @@
                             <dl class="list-unstyled">
                                 <dt>Issuer</dt>
                                 <dd>{{ deepLinkingLaunchRequest.parameters.get('iss') }}</dd>
-                                <dt>Login Hint</dt>
-                                <dd><input type="text" class="form-control form-control-sm" placeholder="token" value="{{ deepLinkingLaunchRequest.parameters.get('login_hint') }}" readonly></dd>
+                                <dt>Login hint</dt>
+                                <dd><input type="text" class="form-control" placeholder="token" value="{{ deepLinkingLaunchRequest.parameters.get('login_hint') }}" readonly></dd>
                             </dl>
                         </div>
                         <div class="col-sm-4">
                             <dl class="list-unstyled">
                                 <dt>Url</dt>
                                 <dd>{{ deepLinkingLaunchRequest.url }}</dd>
-                                <dt>Target Link Uri</dt>
+                                <dt>Target link uri</dt>
                                 <dd>{{ deepLinkingLaunchRequest.parameters.get('target_link_uri') }}</dd>
                             </dl>
                         </div>
                         <div class="col-sm-4">
                             <dl class="list-unstyled">
-                                <dt>Client Id</dt>
+                                <dt>Client id</dt>
                                 <dd>{{ deepLinkingLaunchRequest.parameters.get('client_id') }}</dd>
-                                <dt>Deployment Id</dt>
+                                <dt>Deployment id</dt>
                                 <dd>{{ deepLinkingLaunchRequest.parameters.get('lti_deployment_id') }}</dd>
                             </dl>
                         </div>
@@ -162,7 +164,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <dl class="list-unstyled">
-                                <dt>LTI Message Hint</dt>
+                                <dt>LTI message hint</dt>
                                 <dd>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -178,7 +180,9 @@
                     </div>
                 </div>
             <div class="card-footer">
-                {{ deepLinkingLaunchRequest.toHtmlLink('<i class="fas fa-link"></i>&nbsp;Launch LtiDeepLinkingRequest', {'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                    {{ deepLinkingLaunchRequest.toHtmlLink('<i class="fas fa-link"></i>&nbsp;Launch LtiDeepLinkingRequest', {'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+                </div>
             </div>
         </div>
     </div>

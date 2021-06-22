@@ -1,7 +1,7 @@
 <br/>
 <div class="card bg-light">
     <div class="card-header">
-        <i class="fas fa-poll"></i>&nbsp;Basic outcome response
+        <i class="fas fa-poll"></i>&nbsp;Basic outcome service response
     </div>
     <div class="card-body">
         <div class="row">
@@ -17,11 +17,11 @@
             </div>
             <div class="col-md-6">
                 <dl class="list-unstyled">
-                    <dt>Is success</dt>
+                    <dt>Status</dt>
                     {% if response.success %}
-                        <dd><span class="badge badge-pill badge-success"><i class="fas fa-check"></i>&nbsp;Success</span></dd>
+                        <dd><span class="badge badge-pill badge-success"><i class="fas fa-check"></i>&nbsp;success</span></dd>
                     {% else %}
-                        <dd><span class="badge badge-pill badge-danger"><i class="fas fa-exclamation-circle"></i>&nbsp;Failure</span></dd>
+                        <dd><span class="badge badge-pill badge-danger"><i class="fas fa-exclamation-circle"></i>&nbsp;failure</span></dd>
                     {% endif %}
                     <dt>Ref. identifier</dt>
                     <dd>{{ response.referenceRequestIdentifier|default('n/a') }}</dd>

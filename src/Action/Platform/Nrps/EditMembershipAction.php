@@ -83,6 +83,12 @@ class EditMembershipAction
             );
         }
 
+        if ($membership->getMembers()->count() !== 0) {
+            $members = json_encode($membership->getMembers());
+        } else {
+            $members = '';
+        }
+
         $form = $this->factory->create(
             MembershipType::class,
             [
@@ -90,7 +96,7 @@ class EditMembershipAction
                 'context_id' => $membership->getContext()->getIdentifier(),
                 'context_label' => $membership->getContext()->getLabel(),
                 'context_title' => $membership->getContext()->getTitle(),
-                'members' => json_encode($membership->getMembers())
+                'members' => $members
             ],
             [
                 'edit' => true

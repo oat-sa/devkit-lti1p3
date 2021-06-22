@@ -154,8 +154,11 @@ class ProctoringLaunchType extends AbstractType
                 [
                     'required' => true,
                     'help_html' => true,
-                    'help' => 'Url where to receive back the <code>LtistartAssessment</code> message (for demo app, use: <a id="use-start-assessment-url" data-url="' . $demoStartAssessmentUrl . '" href="#">/platform/message/return/proctoring</a>)'
+                    'help' => 'Url where to receive back the <code>LtistartAssessment</code> message (for demo app, use: <code>/platform/message/return/proctoring</code>)',
 
+                    'attr' => [
+                        'data-demo-start-assessment-url' => $demoStartAssessmentUrl
+                    ]
                 ]
             )
             ->add(

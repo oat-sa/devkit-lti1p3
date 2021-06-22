@@ -98,7 +98,6 @@ class MembershipType extends AbstractType
                     'label_html' => true,
                     'attr' => ['class' => 'btn-primary']
                 ]
-            )
-            ;
+            );
     }
 }

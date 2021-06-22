@@ -20,30 +20,36 @@
 
 declare(strict_types=1);
 
-namespace App\Action\Platform\Service\Ags;
+namespace App\Action\Platform\Ags;
 
-use Psr\Cache\CacheItemPoolInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Routing\RouterInterface;
+use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
-class DeleteScoresAction
+class ListLineItemsAction
 {
-    /** @var RouterInterface */
-    private $router;
+    /** @var LineItemRepositoryInterface */
+    private $repository;
 
-    /** @var CacheItemPoolInterface */
-    private $cache;
+    /** @var Environment */
+    private $twig;
 
-    public function __construct(RouterInterface $router, CacheItemPoolInterface $cache)
+    public function __construct(LineItemRepositoryInterface $repository, Environment $twig)
     {
-        $this->router = $router;
-        $this->cache = $cache;
+        $this->repository = $repository;
+        $this->twig = $twig;
     }
 
-    public function __invoke(): RedirectResponse
+    public function __invoke(Request $request): Response
     {
-        $this->cache->deleteItem('lti1p3-ags-scores');
-
-        return new RedirectResponse($this->router->generate('platform_ags_list_scores'));
+        return new Response(
+            $this->twig->render(
+                'platform/ags/listLineItems.html.twig',
+                [
+                    'lineItems' => $this->repository->findCollection()->all()
+                ]
+            )
+        );
     }
 }
