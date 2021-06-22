@@ -54,11 +54,15 @@ class AcsServiceClientAction
 
     public function __invoke(Request $request): Response
     {
+        $date = !empty($request->get('acsDate'))
+            ? Carbon::createFromFormat('Y-m-d H:i', $request->get('acsDate'))
+            : Carbon::now();
+
         $acsControl = new AcsControl(
             new LtiResourceLink($request->get('acsResourceLink')),
             $request->get('acsSub'),
             $request->get('acsAction'),
-            Carbon::now(),
+            $date,
             (int)$request->get('acsAttemptNumber'),
             $request->get('acsIss'),
             (int)$request->get('acsExtraTime'),

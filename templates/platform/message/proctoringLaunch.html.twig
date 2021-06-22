@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}<i class="fas fa-file-signature"></i>&nbsp;&nbsp;Platform - LtiStartProctoring launch{% endblock %}
+{% block nav_title %}<i class="fas fa-file-signature"></i>&nbsp;&nbsp;<span class="text-danger">Platform</span> - LtiStartProctoring launch{% endblock %}
 
 {% block body %}
     <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
@@ -54,7 +54,17 @@
                 </div>
                 <div class="form-row">
                     <div class="col-md-9">
-                        {{ form_row(form.start_assessment_url) }}
+                        {{ form_label(form.start_assessment_url) }}<br/>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <a id="startAssessmentUrlLoad" class="btn btn-secondary text-white" role="button" title="Use and edit selected demo app default start assessment url">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </div>
+                            {{ form_widget(form.start_assessment_url) }}
+                        </div>
+                        {{ form_help(form.start_assessment_url) }}
+                        {{ form_errors(form.start_assessment_url) }}
                     </div>
                     <div class="col-md-3">
                         {{ form_row(form.attempt_number) }}
@@ -64,7 +74,7 @@
                     {{ form_label(form.claims) }}<br/>
                     <div class="input-group">
                         <div class="input-group-prepend" role="group" aria-label="Manage claims">
-                            <div class="btn-group-vertical" role="group">
+                            <div class="btn-group-vertical dropright" role="group">
                                 <button id="claimsAdd" type="button" class="btn btn-primary btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Add claim">
                                     <i class="fas fa-plus-circle"></i>
                                 </button>
@@ -88,7 +98,7 @@
                                         {% endif %}
                                     {% endfor %}
                                 </div>
-                                <button id="claimsFormat" type="button" class="btn btn-secondary btn-block" title="Format claims">
+                                <button id="claimsFormat" type="button" class="btn btn-secondary btn-block" title="Format claims (JSON)">
                                     <i class="fas fa-align-left"></i>
                                 </button>
 
@@ -104,11 +114,13 @@
                 </div>
             </div>
             <div class="card-footer">
+                <div class="btn-group float-right" role="group" aria-label="Basic example">
                     {{ form_widget(form.submit) }}
                     <a href="{{ path('platform_message_launch_proctoring') }}" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
                     {% if formSubmitted %}
-                        <a class="btn btn-secondary text-white" data-toggle="modal" data-target="#formShareModal"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
+                        <a class="btn btn-info text-white" data-toggle="modal" data-target="#formShareModal"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
                     {% endif %}
+                </div>
             </div>
             {{ form_end(form) }}
         </div>
@@ -128,23 +140,23 @@
                             <dl class="list-unstyled">
                                 <dt>Issuer</dt>
                                 <dd>{{ startProctoringLaunchRequest.parameters.get('iss') }}</dd>
-                                <dt>Login Hint</dt>
-                                <dd><input type="text" class="form-control form-control-sm" placeholder="token" value="{{ startProctoringLaunchRequest.parameters.get('login_hint') }}" readonly></dd>
+                                <dt>Login hint</dt>
+                                <dd><input type="text" class="form-control" placeholder="token" value="{{ startProctoringLaunchRequest.parameters.get('login_hint') }}" readonly></dd>
                             </dl>
                         </div>
                         <div class="col-sm-4">
                             <dl class="list-unstyled">
                                 <dt>Url</dt>
                                 <dd>{{ startProctoringLaunchRequest.url }}</dd>
-                                <dt>Target Link Uri</dt>
+                                <dt>Target link uri</dt>
                                 <dd>{{ startProctoringLaunchRequest.parameters.get('target_link_uri') }}</dd>
                             </dl>
                         </div>
                         <div class="col-sm-4">
                             <dl class="list-unstyled">
-                                <dt>Client Id</dt>
+                                <dt>Client id</dt>
                                 <dd>{{ startProctoringLaunchRequest.parameters.get('client_id') }}</dd>
-                                <dt>Deployment Id</dt>
+                                <dt>Deployment id</dt>
                                 <dd>{{ startProctoringLaunchRequest.parameters.get('lti_deployment_id') }}</dd>
                             </dl>
                         </div>
@@ -152,7 +164,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <dl class="list-unstyled">
-                                <dt>LTI Message Hint</dt>
+                                <dt>LTI message hint</dt>
                                 <dd>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -168,7 +180,9 @@
                     </div>
                 </div>
             <div class="card-footer">
-                {{ startProctoringLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch LtiStartProctoring',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                    {{ startProctoringLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch LtiStartProctoring',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+                </div>
             </div>
         </div>
     </div>
@@ -264,8 +278,10 @@
             }
         });
 
-        $("#use-start-assessment-url").click(function(event){
-            $("#proctoring_launch_start_assessment_url").val($(this).data('url'));
+        $("#startAssessmentUrlLoad").click(function(event){
+            $("#proctoring_launch_start_assessment_url").val(
+                $("#proctoring_launch_start_assessment_url").data('demo-start-assessment-url')
+            );
         });
 
         $( document ).ready(function() {

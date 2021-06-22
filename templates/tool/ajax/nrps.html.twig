@@ -1,86 +1,107 @@
 <br/>
 <div class="card bg-light">
-    <div class="card-header">
-        <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="pills-nrps-members-tab" data-toggle="pill" href="#pills-nrps-members" role="tab" aria-controls="pills-nrps-members" aria-selected="true">
-                    <i class="fas fa-users"></i>&nbsp;Members
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="pills-nrps-details-tab" data-toggle="pill" href="#pills-nrps-details" role="tab" aria-controls="pills-nrps-details" aria-selected="false">
-                    <i class="fas fa-info-circle"></i>&nbsp;Details
-                </a>
-            </li>
-        </ul>
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+            <i class="fas fa-users"></i>&nbsp;NRPS service response
+        </div>
+        <div class="btn-group float-right" role="group" aria-label="Basic example">
+            <button class="btn btn-info text-white" data-toggle="modal" data-target="#nrpsResponseDetailsModal">
+                <i class="fas fa-info-circle"></i>&nbsp;Details
+            </button>
+        </div>
     </div>
-    <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-nrps-members" role="tabpanel" aria-labelledby="pills-nrps-members-tab">
-            <div class="list-group list-group-flush">
-                {% for member in membership.members %}
-                    <a class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#nrpsMemberModal" data-nrps="{{ member.properties|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
-                        {% if member.status == "Active" %}
-                            <span class="badge badge-pill badge-success"><i class="fas fa-user-check"></i></span>
-                        {% else %}
-                            <span class="badge badge-pill badge-secondary"><i class="fas fa-user-times"></i></span>
-                        {% endif %}
-                        &nbsp{{ member.userIdentity.name }}
-                        <small class="text-muted">
-                            ( <strong><code>#{{ member.userIdentity.identifier }}</code></strong>
-                            / <strong>roles</strong> : {{ member.roles|join(', ')|default('no roles') }}
-                            / <strong>email</strong> : {{ member.userIdentity.email|default('no email') }} )
-                        </small>
-                    </a>
+    <div class="list-group list-group-flush">
+        {% for member in membership.members %}
+            <a class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#nrpsMemberModal" data-nrps="{{ member.properties|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
+                {% if member.status == "Active" %}
+                    <span class="badge badge-success"><i class="fas fa-user-check"></i></span>
                 {% else %}
-                    <a class="list-group-item list-group-item-dark">
-                        No members found
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="tab-pane fade" id="pills-nrps-details" role="tabpanel" aria-labelledby="pills-nrps-details-tab">
-            <div class="card-body">
-                <dl class="list-unstyled">
-                    <dt>Identifier</dt>
-                    <dd><code>{{ membership.identifier }}</code></dd>
-                    <dt>Context</dt>
-                    <dd>
-                        <ul>
-                            <li><strong>Identifier:</strong> <code>{{ membership.context.identifier }}</code></li>
-                            <li><strong>Label:</strong> {{ membership.context.label }}</li>
-                            <li><strong>Title:</strong> {{ membership.context.title }}</li>
-                        </ul>
-                    </dd>
-                    <dt>Relation Link</dt>
-                    <dd>
-                        {% if membership.relationLink %}
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <a class="btn btn-secondary" href="#" id="nrpsLinkUpdate" data-link="{{ membership.relationLinkUrl }}" title="Use url">
-                                        <i class="fas fa-external-link-alt"></i>
-                                    </a>
-                                </div>
-                                <input type="text" class="form-control" placeholder="token" value="{{ membership.relationLink }}" readonly>
-                            </div>
-                        {% else %}
-                            <input type="text" class="form-control" placeholder="token" value="n/a" readonly>
-                        {% endif %}
-                        <small id="nrpsLinkUpdate_user_help" class="form-text text-muted">
-                            Has next: <span class="badge badge-{{ membership.hasNext ? 'success' : 'secondary' }}">{{ membership.hasNext ? 'yes' : 'no' }}</span>,&nbsp;
-                            has differences: <span class="badge badge-{{ membership.hasDifferences ? 'success' : 'secondary' }}">{{ membership.hasDifferences ? 'yes' : 'no' }}</span>
-                        </small>
-                    </dd>
-                </dl>
-            </div>
-        </div>
+                    <span class="badge badge-secondary"><i class="fas fa-user-times"></i></span>
+                {% endif %}
+                &nbsp;{{ member.userIdentity.name }}
+                <small class="text-muted">
+                    (<code>{{ member.userIdentity.identifier }}</code> / {{ member.userIdentity.email|default('no email') }})
+                </small>
+            </a>
+        {% else %}
+            <a class="list-group-item list-group-item-dark">
+                <i class="fas fa-ban"></i>&nbsp;No members found
+            </a>
+        {% endfor %}
     </div>
     <div class="card-footer text-muted">
-        <small>{{ membership.members|length }} member(s) found</small>
+        <small>NRPS service response: {{ membership.members|length }} member(s) found</small>
     </div>
 </div>
+<div class="modal fade" id="nrpsResponseDetailsModal" tabindex="-1" role="dialog" aria-labelledby="nrpsResponseDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title" id="nrpsResponseDetailsModalLabel">
+                    <i class="fas fa-info-circle"></i>&nbsp;NRPS service response
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-light">
+                <div class="row">
+                    <div class="col col-md6">
+                        <dl class="list-unstyled">
+                            <dt>Membership identifier</dt>
+                            <dd><code>{{ membership.identifier }}</code></dd>
+                        </dl>
+                    </div>
+                    <div class="col col-md6">
+                        <dl class="list-unstyled">
+                            <dt>Membership context</dt>
+                            <dd>
+                                <ul>
+                                    <li>Identifier: <code>{{ membership.context.identifier }}</code></li>
+                                    <li>Label: {{ membership.context.label }}</li>
+                                    <li>Title: {{ membership.context.title }}</li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-md12">
+                        <dl class="list-unstyled">
+                            <dt>Relation Link</dt>
+                            <dd>
+                                {% if membership.relationLink %}
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <a class="btn btn-secondary" href="#" id="nrpsLinkUpdate" data-link="{{ membership.relationLinkUrl }}" title="Use url">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="token" value="{{ membership.relationLink }}" readonly>
+                                    </div>
+                                {% else %}
+                                    <input type="text" class="form-control" placeholder="token" value="n/a" readonly>
+                                {% endif %}
+                                <small id="nrpsLinkUpdate_user_help" class="form-text text-muted">
+                                    Has next: <span class="badge badge-{{ membership.hasNext ? 'success' : 'secondary' }}">{{ membership.hasNext ? 'yes' : 'no' }}</span>,&nbsp;
+                                    has differences: <span class="badge badge-{{ membership.hasDifferences ? 'success' : 'secondary' }}">{{ membership.hasDifferences ? 'yes' : 'no' }}</span>
+                                </small>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <dl class="list-unstyled">
 
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $("#nrpsLinkUpdate").click(function(){
         $("#nrpsUrl").val($("#nrpsLinkUpdate").data("link"));
+        $('#nrpsResponseDetailsModal').modal('hide')
     });
 </script>

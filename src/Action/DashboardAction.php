@@ -20,34 +20,36 @@
 
 declare(strict_types=1);
 
-namespace App\Action\Platform\Service\Ags;
+namespace App\Action;
 
-use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-class HomeAction
+class DashboardAction
 {
+    /** @var ParameterBagInterface */
+    private $parameterBag;
+
     /** @var Environment */
     private $twig;
 
-    /** @var CacheItemPoolInterface */
-    private $cache;
-
-    public function __construct(Environment $twig, CacheItemPoolInterface $cache)
+    public function __construct(ParameterBagInterface $parameterBag, Environment $twig)
     {
+        $this->parameterBag = $parameterBag;
         $this->twig = $twig;
-        $this->cache = $cache;
     }
 
-    public function __invoke(): Response
+    public function __invoke(Request $request): Response
     {
-        $item = $this->cache->getItem('lti1p3-ags-scores');
-
         return new Response(
-            $this->twig->render('platform/service/ags/home.html.twig', [
-                'scores' => $item->get()
-            ])
+            $this->twig->render(
+                'dashboard/dashboard.html.twig',
+                [
+                    'configuration' => $this->parameterBag->get('lti1p3_resolved_configuration')
+                ]
+            )
         );
     }
 }

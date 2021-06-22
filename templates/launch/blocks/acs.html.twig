@@ -3,73 +3,64 @@
         <i class="fas fa-file-signature"></i>&nbsp;
         ACS claim provided in message
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <dl class="list-unstyled">
-                <dt>Claim service url</dt>
-                <dd><a href="{{ token.payload.acs.assessmentControlUrl }}" target="_blank">{{ token.payload.acs.assessmentControlUrl }}</a></dd>
-            </dl>
-        </div>
-        <div class="col-md-6">
-            <dl class="list-unstyled">
-                <dt>Claim actions</dt>
-                <dd><code>{{ token.payload.acs.actions|join(', ') }}</code></dd>
-            </dl>
+    <div class="accordion md-accordion" id="accordionAcsDetails" role="tablist" aria-multiselectable="true">
+        <div class="card bg-light">
+            <div class="card-header dropdown-toggle clickable collapsed" role="tab" id="accordionAcsDetailsHeading" data-toggle="collapse" data-parent="#accordionAcsDetails" href="#accordionAcsDetailsBody"
+                 aria-expanded="false" aria-controls="accordionAcsDetailsBody">
+                <i class="fas fa-info-circle"></i>&nbsp;ACS claim details
+            </div>
+            <div id="accordionAcsDetailsBody" class="collapse card-body" role="tabpanel" aria-labelledby="accordionAcsDetailsHeading" data-parent="#accordionAcsDetails">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Claim service url</dt>
+                            <dd><a href="{{ token.payload.acs.assessmentControlUrl }}" target="_blank">{{ token.payload.acs.assessmentControlUrl }}</a></dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Claim actions</dt>
+                            <dd><code>{{ token.payload.acs.actions|join(', ') }}</code></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <h6 class="card-title">
-        <i class="fas fa-sign-in-alt"></i>&nbsp;ACS Service
-    </h6>
-    <hr/>
+    <br/>
     <div class="card bg-light">
+        <div class="card-header">
+            <i class="fas fa-sign-in-alt"></i>&nbsp;ACS service request
+        </div>
         <div class="card-body">
             <div class="form-row">
-                <div class="col col col-md-12">
+                <div class="col col-md-12">
                     <input type="text" id="acsUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.acs.assessmentControlUrl }}" aria-describedby="boUrlHelp" readonly>
                     <small id="acsUrlHelp" class="form-text text-muted">Service url</small>
                 </div>
             </div>
             <br/>
             <div class="form-row">
-                <div class="col col col-md-3">
-                    <input type="text" id="acsResourceLink" class="form-control" placeholder="Resource link identifier" value="{{ token.payload.resourceLink.identifier }}" aria-describedby="acsResourceLinkHelp">
+                <div class="col col-md-3">
+                    <input type="text" id="acsResourceLink" class="form-control" placeholder="Resource link" value="{{ token.payload.resourceLink.identifier }}" aria-describedby="acsResourceLinkHelp">
                     <small id="acsResourceLinkHelp" class="form-text text-muted">Resource link identifier</small>
                 </div>
-                <div class="col col col-md-3">
+                <div class="col col-md-3">
                     <input type="text" id="acsIss" class="form-control" placeholder="Issuer" value="{{ token.payload.token.claims.get('iss') }}" aria-describedby="acsIssHelp">
                     <small id="acsIssHelp" class="form-text text-muted">Issuer identifier</small>
                 </div>
-                <div class="col col col-md-3">
+                <div class="col col-md-3">
                     <input type="text" id="acsSub" class="form-control" placeholder="User" value="{{ token.payload.token.claims.get('sub') }}" aria-describedby="acsSubHelp">
                     <small id="acsSubHelp" class="form-text text-muted">User identifier</small>
                 </div>
-                <div class="col col col-md-3">
+                <div class="col col-md-3">
                     <input type="number" id="acsAttemptNumber" class="form-control" placeholder="Attempt number" value="{{ token.payload.proctoringAttemptNumber }}" aria-describedby="acsAttemptNumberHelp">
                     <small id="acsAttemptNumberHelp" class="form-text text-muted">Attempt number</small>
                 </div>
             </div>
             <br/>
             <div class="form-row">
-                <div class="col col col-md-3">
-                    <input type="number" id="acsExtraTime" class="form-control" placeholder="Extra time" aria-describedby="acsExtraTimeHelp">
-                    <small id="acsExtraTimeHelp" class="form-text text-muted">Extra time</small>
-                </div>
-                <div class="col col col-md-3">
-                    <input type="number" min="0" max="1" step="0.1" id="acsSeverity" class="form-control" placeholder="Incident severity" aria-describedby="acsSeverityHelp">
-                    <small id="acsSeverityHelp" class="form-text text-muted">Incident severity</small>
-                </div>
-                <div class="col col col-md-3">
-                    <input type="text" min="0" max="1" id="acsReasonCode" class="form-control" placeholder="Reason code" aria-describedby="acsReasonCodeHelp">
-                    <small id="acsReasonCodeHelp" class="form-text text-muted">Reason code</small>
-                </div>
-                <div class="col col col-md-3">
-                    <input type="text" min="0" max="1" id="acsReasonMessage" class="form-control" placeholder="Reason message" aria-describedby="acsReasonMessageHelp">
-                    <small id="acsReasonMessageHelp" class="form-text text-muted">Reason message</small>
-                </div>
-            </div>
-            <br/>
-            <div class="form-row">
-                <div class="col col col-md-10">
+                <div class="col col-md-3">
                     <div class="form-group">
                         <select id="acsAction" aria-describedby="acsActionHelp" class="form-control">
                             {% for action in token.payload.acs.actions %}
@@ -79,21 +70,62 @@
                         <small id="acsActionHelp" class="form-text text-muted">Action</small>
                     </div>
                 </div>
-                <div class="col col col-md-2">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button id="acsLoad" class="btn-primary btn">
-                            <i id="acsCall" class="fas fa-sign-in-alt"></i>&nbsp;Call
-                        </button>
-                        <button id="acsReset" class="btn-secondary btn">
-                            <i class="fas fa-undo"></i>&nbsp;Reset
-                        </button>
+                <div class="col col-md-3">
+                    <input type="number" id="acsExtraTime" class="form-control" placeholder="Extra time" aria-describedby="acsExtraTimeHelp">
+                    <small id="acsExtraTimeHelp" class="form-text text-muted">Extra time</small>
+                </div>
+                <div class="col col-md-3">
+                    <div class="form-group">
+                        <div class="input-group" id="acsDatetimepicker" data-target-input="nearest">
+                            <div class="input-group-prepend">
+                                <a id="launchUrlLoad" class="btn btn-secondary text-white" data-target="#acsDatetimepicker" data-toggle="datetimepicker">
+                                    <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <input id="acsDate" type="text" class="form-control datetimepicker-input" data-target="#acsDatetimepicker" aria-describedby="acsDateHelp"/>
+                        </div>
+                        <small id="acsDateHelp" class="form-text text-muted">Incident date</small>
                     </div>
                 </div>
+                <div class="col col-md-3">
+                    <input type="number" min="0" max="1" step="0.1" id="acsSeverity" class="form-control" placeholder="Incident severity" aria-describedby="acsSeverityHelp">
+                    <small id="acsSeverityHelp" class="form-text text-muted">Incident severity</small>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col col-md-3">
+                    <input type="text" min="0" max="1" id="acsReasonCode" class="form-control" placeholder="Reason code" aria-describedby="acsReasonCodeHelp">
+                    <small id="acsReasonCodeHelp" class="form-text text-muted">Reason code</small>
+                </div>
+                <div class="col col-md-9">
+                    <input type="text" min="0" max="1" id="acsReasonMessage" class="form-control" placeholder="Reason message" aria-describedby="acsReasonMessageHelp">
+                    <small id="acsReasonMessageHelp" class="form-text text-muted">Reason message</small>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <div class="btn-group float-right" role="group" aria-label="Basic example">
+                <button id="acsLoad" class="btn-primary btn">
+                    <i id="acsCall" class="fas fa-sign-in-alt"></i>&nbsp;Call ACS service
+                </button>
+                <button id="acsReset" class="btn-secondary btn">
+                    <i class="fas fa-undo"></i>&nbsp;Reset
+                </button>
             </div>
         </div>
     </div>
     <div id="acsZone"></div>
     <script>
+        $('#acsDatetimepicker').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm',
+            allowInputToggle: true,
+            buttons: {
+                showToday: true,
+                showClear: true,
+                showClose: true
+            }
+        });
+
         $("#acsLoad").click(function(){
             $.ajax({
                 url: "{{ path('tool_ajax_service_acs') }}",
@@ -107,6 +139,7 @@
                     acsSub: $("#acsSub").val(),
                     acsAttemptNumber: $("#acsAttemptNumber").val(),
                     acsExtraTime: $("#acsExtraTime").val(),
+                    acsDate: $("#acsDate").val(),
                     acsSeverity: $("#acsSeverity").val(),
                     acsReasonCode: $("#acsReasonCode").val(),
                     acsReasonMessage: $("#acsReasonMessage").val()
@@ -124,8 +157,17 @@
                     $("#acsCall").removeClass("fa-spinner fa-spin");
                     $("#acsCall").addClass("fa-sign-in-alt");
                     $("#acsZone").html(
-                        '<br/><div class="alert alert-danger" role="alert">' +
-                        '<i class="fas fa-exclamation-circle"></i>&nbsp;' + result.responseJSON.message +
+                        '<br/><div class="card bg-light">' +
+                        '<div class="card-header"><i class="fas fa-file-signature"></i>&nbsp;ACS service response</div>' +
+                        '<div class="card-body">' +
+                        '<h5 class="card-title"></h5>' +
+                        '<div class="alert alert-danger" role="alert">'+
+                        '<i class="fas fa-exclamation-circle"></i>&nbsp;Error ' +
+                        result.responseJSON.code +
+                        ': ' +
+                        result.responseJSON.message +
+                        '</div>' +
+                        '</div>' +
                         '</div>'
                     );
                 }
@@ -139,6 +181,7 @@
             $("#acsIss").val("{{ token.payload.token.claims.get('iss') }}");
             $("#acsSub").val("{{ token.payload.token.claims.get('sub') }}");
             $("#acsAttemptNumber").val("{{ token.payload.proctoringAttemptNumber }}");
+            $("#acsDate").val("");
             $("#acsExtraTime").val("");
             $("#acsSeverity").val("");
             $("#acsReasonCode").val("");
@@ -146,7 +189,7 @@
         });
     </script>
 {% else %}
-    <div class="alert alert-dark" role="alert">
-        <i class="fas fa-exclamation-circle"></i>&nbsp;No ACS claim provided in message
+    <div class="alert alert-dark alert-no-margin-bottom" role="alert">
+        <i class="fas fa-ban"></i>&nbsp;No ACS claim provided in message
     </div>
 {% endif %}

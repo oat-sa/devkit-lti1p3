@@ -1,0 +1,253 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}<i class="fas fa-house-user"></i>&nbsp;&nbsp;Dashboard{% endblock %}
+
+{% block body %}
+    <div id="home-jumbotron" class="jumbotron">
+        <div class="clearfix">
+            <div class="float-left">
+                <h2>
+                    <div class="d-none d-sm-block">
+                        <img src="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png" width="55" height=55" class="d-inline-block" alt="TAO"/>
+                        <a href="https://www.taotesting.com/" target="_blank" class="text-danger">TAO</a> / LTI 1.3 <code class="text-danger">DevKit</code>
+                    </div>
+                    <div class="d-block d-sm-none">
+                        LTI 1.3 <code class="text-danger">DevKit</code>
+                    </div>
+                </h2>
+            </div>
+            <div class="float-right">
+                <h5>
+                    <span class="badge badge-pill badge-dark">
+                        <i class="fas fa-tag"></i>&nbsp;
+                        <a class="text-white clickable" target="_blank" href="https://github.com/oat-sa/demo-lti1p3/releases/tag/{{ application_version }}">{{ application_version }}</a>
+                    </span>
+                </h5>
+            </div>
+        </div>
+        <hr/>
+        <div class="alert alert-info alert-no-margin-bottom" role="alert">
+            <i class="fa fa-info-circle"></i>&nbsp;<strong><a href="https://github.com/oat-sa/demo-lti1p3#readme" target="_blank">Development kit</a></strong> acting as <strong><a href="http://www.imsglobal.org/spec/lti/v1p3" target="_blank">LTI 1.3</a> platform</strong> and / or <strong>tool</strong>.
+        </div>
+    </div>
+    <div class="card bg-light">
+        <div class="card-header">
+            <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-platforms-tab" data-toggle="pill" href="#pills-platforms" role="tab" aria-controls="pills-home" aria-selected="true">
+                        <i class="fas fa-cubes"></i>&nbsp;Platforms&nbsp;&nbsp;<span class="badge badge-pill badge-secondary">{{ configuration.platforms|length }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-registrations-tab" data-toggle="pill" href="#pills-registrations" role="tab" aria-controls="pills-home" aria-selected="false">
+                        <i class="fas fa-share-alt"></i>&nbsp;Registrations&nbsp;&nbsp;<span class="badge badge-pill badge-secondary">{{ configuration.registrations|length }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-tools-tab" data-toggle="pill" href="#pills-tools" role="tab" aria-controls="pills-home" aria-selected="false">
+                        <i class="fas fa-cube"></i>&nbsp;Tools&nbsp;&nbsp;<span class="badge badge-pill badge-secondary">{{ configuration.tools|length }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-scopes-tab" data-toggle="pill" href="#pills-scopes" role="tab" aria-controls="pills-home" aria-selected="false">
+                        <i class="fas fa-key"></i>&nbsp;Scopes&nbsp;&nbsp;<span class="badge badge-pill badge-secondary">{{ configuration.scopes|length }}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-platforms" role="tabpanel" aria-labelledby="pills-platforms-tab">
+                <div class="list-group list-group-flush">
+                    {% for platformIdentifier, platform in configuration.platforms %}
+                        <li class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#configModal" data-type="Platform" data-title="{{ platformIdentifier }}" data-config="{{ platform|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
+                            <i class="fas fa-cubes"></i>&nbsp;<code>{{ platformIdentifier }}</code> - <small class="text-muted">{{ platform.name }}</small>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item list-group-item-dark">
+                            <i class="fas fa-ban"></i>&nbsp;No platforms found
+                        </li>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-registrations" role="tabpanel" aria-labelledby="pills-registrations-tab">
+                <div class="list-group list-group-flush">
+                    {% for regitstrationIdentifier, registration in configuration.registrations %}
+                        <li class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#configModal" data-type="Registration" data-title="{{ regitstrationIdentifier }}" data-config="{{ registration|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
+                            <i class="fas fa-share-alt"></i>&nbsp;<code>{{ regitstrationIdentifier }}</code> - <small class="text-muted">{{ registration.client_id }}</small>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item list-group-item-dark">
+                            <i class="fas fa-ban"></i>&nbsp;No registrations found
+                        </li>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-tools" role="tabpanel" aria-labelledby="pills-tools-tab">
+                <div class="list-group list-group-flush">
+                    {% for toolIdentifier, tool in configuration.tools %}
+                        <li class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#configModal" data-type="Tool" data-title="{{ toolIdentifier }}" data-config="{{ tool|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
+                            <i class="fas fa-cube"></i>&nbsp;<code>{{ toolIdentifier }}</code> - <small class="text-muted">{{ tool.name }}</small>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item list-group-item-dark">
+                            <i class="fas fa-ban"></i>&nbsp;No tools found
+                        </li>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-scopes" role="tabpanel" aria-labelledby="pills-tools-tab">
+                <div class="list-group list-group-flush">
+                    {% for scope in configuration.scopes %}
+                        <li class="list-group-item list-group-item-action">
+                            <i class="fas fa-key"></i>&nbsp;<code>{{ scope }}</code>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item list-group-item-dark">
+                            <i class="fas fa-ban"></i>&nbsp;No scopes found
+                        </li>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <small>From <code>config/packages/lti1p3.yaml</code></small>
+        </div>
+    </div>
+    <div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title" id="configModalLabel">
+                        <i class="fas fa-info-circle"></i>&nbsp;
+                        <span id="configModalType"></span>
+                        <code><span id="configModalTitle"></span></code>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body bg-light">
+                    <pre>
+                        <code id="configDetailsZone" class="language-json"></code>
+                    </pre>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col col-md-4">
+            <div class="accordion md-accordion" id="accordionSpecs" role="tablist" aria-multiselectable="true">
+                <div class="card bg-light">
+                    <div class="card-header dropdown-toggle clickable collapsed" role="tab" id="accordionSpecsHeading" data-toggle="collapse" data-parent="#accordionSpecs" href="#accordionSpecsBody"
+                         aria-expanded="false" aria-controls="accordionSpecsBody">
+                        <i class="fas fa-book"></i>&nbsp;IMS specifications
+                    </div>
+                    <div id="accordionSpecsBody" class="collapse list-group list-group-flush" role="tabpanel" aria-labelledby="accordionSpecsHeading" data-parent="#accordionSpecs">
+                        <a href="http://www.imsglobal.org/spec/lti/v1p3" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 core
+                        </a>
+                        <a href="https://www.imsglobal.org/spec/security/v1p0" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 security
+                        </a>
+                        <a href="https://www.imsglobal.org/spec/lti-ags/v2p0" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 AGS
+                        </a>
+                        <a href="http://www.imsglobal.org/spec/lti-bo/v1p1" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 basic outcome
+                        </a>
+                        <a href="http://www.imsglobal.org/spec/lti-dl/v2p0" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 deep linking
+                        </a>
+                        <a href="http://www.imsglobal.org/spec/lti-nrps/v2p0" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 NRPS
+                        </a>
+                        <a href="https://www.imsglobal.org/spec/proctoring/v1p0" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 proctoring
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-md-4">
+            <div class="accordion md-accordion" id="accordionDoc" role="tablist" aria-multiselectable="true">
+                <div class="card bg-light">
+                    <div class="card-header dropdown-toggle clickable collapsed" role="tab" id="accordionDocHeading" data-toggle="collapse" data-parent="#accordionDoc" href="#accordionDocBody"
+                         aria-expanded="false" aria-controls="accordionDocBody">
+                        <i class="fas fa-book-reader"></i>&nbsp;Documentation
+                    </div>
+                    <div id="accordionDocBody" class="collapse list-group list-group-flush" role="tabpanel" aria-labelledby="accordionDocHeading" data-parent="#accordionDoc">
+                        <a href="https://github.com/oat-sa/demo-lti1p3#readme" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fab fa-github"></i>&nbsp;TAO LTI 1.3 DevKit
+                        </a>
+                        <a href="https://github.com/oat-sa/bundle-lti1p3#readme" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fab fa-github"></i>&nbsp;LTI 1.3 symfony bundle
+                        </a>
+                        <a href="https://github.com/oat-sa/lib-lti1p3-core#readme" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fab fa-github"></i>&nbsp;LTI 1.3 core library
+                        </a>
+                        <a href="https://github.com/oat-sa/lib-lti1p3-ags#readme" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fab fa-github"></i>&nbsp;LTI 1.3 AGS library
+                        </a>
+                        <a href="https://github.com/oat-sa/lib-lti1p3-basic-outcome#readme" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fab fa-github"></i>&nbsp;LTI 1.3 basic outcome library
+                        </a>
+                        <a href="https://github.com/oat-sa/lib-lti1p3-deep-linking#readme" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fab fa-github"></i>&nbsp;LTI 1.3 deep linking library
+                        </a>
+                        <a href="https://github.com/oat-sa/lib-lti1p3-nrps#readme" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fab fa-github"></i>&nbsp;LTI 1.3 NRPS library
+                        </a>
+                        <a href="https://github.com/oat-sa/lib-lti1p3-proctoring#readme" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fab fa-github"></i>&nbsp;LTI 1.3 proctoring library
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-md-4">
+            <div class="accordion md-accordion" id="accordionDevkit" role="tablist" aria-multiselectable="true">
+                <div class="card bg-light">
+                    <div class="card-header dropdown-toggle clickable collapsed" role="tab" id="accordionDevkitHeading" data-toggle="collapse" data-parent="#accordionDevkit" href="#accordionDevkitBody"
+                         aria-expanded="false" aria-controls="accordionDevkitBody">
+                        <i class="fas fa-cog"></i>&nbsp;System configuration
+                    </div>
+                    <div id="accordionDevkitBody" class="collapse list-group list-group-flush" role="tabpanel" aria-labelledby="accordionSpecsHeading" data-parent="#accordionSpecs">
+                        <a href="https://github.com/oat-sa/demo-lti1p3" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" target="_blank">
+                            <div><i class="fas fa-cog"></i>&nbsp;TAO LTI 1.3 DevKit</div>
+                            <span class="badge badge-pill badge-dark"><i class="fas fa-tag"></i>&nbsp;{{ application_version }}</span>
+                        </a>
+                        <a href="https://www.php.net" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" target="_blank">
+                            <div><i class="fab fa-php"></i>&nbsp;PHP</div>
+                            <span class="badge badge-pill badge-dark"><i class="fas fa-tag"></i>&nbsp;{{ get_php_version() }}</span>
+                        </a>
+                        <a href="https://www.symfony.com" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" target="_blank">
+                            <div><i class="fab fa-symfony"></i>&nbsp;Symfony</div>
+                            <span class="badge badge-pill badge-dark"><i class="fas fa-tag"></i>&nbsp;{{ get_symfony_version() }}</span>
+                        </a>
+                        {% for vendor, version in get_vendor_versions() %}
+                            <a href="https://github.com/{{ vendor }}/releases/tag/{{ version }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" target="_blank">
+                                <div><i class="fab fa-github"></i>&nbsp;{{ vendor }}</div>
+                                <span class="badge badge-pill badge-dark"><i class="fas fa-tag"></i>&nbsp;{{ version }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block scripts %}
+    <script>
+        $('#configModal').on("show.bs.modal", function (event) {
+            $("#configModalType").html($(event.relatedTarget).attr("data-type"));
+            $("#configModalTitle").html($(event.relatedTarget).attr("data-title"));
+            $("#configDetailsZone").html($(event.relatedTarget).attr("data-config"));
+            hljs.highlightBlock(document.getElementById("configDetailsZone"));
+        });
+    </script>
+{% endblock %}

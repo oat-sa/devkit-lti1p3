@@ -17,19 +17,38 @@ security:
         platform_service_ags_area:
             pattern: ^/platform/service/ags/
             stateless: true
-            lti1p3_service: { scopes: ['https://purl.imsglobal.org/spec/lti-ags/scope/score'] }
+            lti1p3_service: {
+                scopes: [
+                    'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem',
+                    'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly',
+                    'https://purl.imsglobal.org/spec/lti-ags/scope/score',
+                    'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly'
+                ]
+            }
         platform_service_nrps_area:
             pattern: ^/platform/service/nrps
             stateless: true
-            lti1p3_service: { scopes: ['https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly'] }
+            lti1p3_service: {
+                scopes: [
+                    'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly'
+                ]
+            }
         platform_service_acs_area:
             pattern: ^/platform/service/acs
             stateless: true
-            lti1p3_service: { scopes: [ 'https://purl.imsglobal.org/spec/lti-ap/scope/control.all' ] }
+            lti1p3_service: {
+                scopes: [
+                    'https://purl.imsglobal.org/spec/lti-ap/scope/control.all'
+                ]
+            }
         platform_service_basic_outcome_area:
             pattern: ^/platform/service/basic-outcome
             stateless: true
-            lti1p3_service: { scopes: ['https://purl.imsglobal.org/spec/lti-bo/scope/basicoutcome'] }
+            lti1p3_service: {
+                scopes: [
+                    'https://purl.imsglobal.org/spec/lti-bo/scope/basicoutcome'
+                ]
+            }
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false

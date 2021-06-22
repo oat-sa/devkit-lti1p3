@@ -85,7 +85,7 @@ class LtiServiceClientType extends AbstractType
                 TextareaType::class,
                 [
                     'required' => false,
-                    'attr' => ['rows' => 10],
+                    'attr' => ['rows' => 12],
                     'help' => "Request body to perform the call with"
                 ]
             )

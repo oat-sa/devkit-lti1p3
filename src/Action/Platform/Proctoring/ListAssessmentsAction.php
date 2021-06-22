@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace App\Action\Platform\Proctoring;
 
-use App\Nrps\DefaultMembershipFactory;
 use App\Proctoring\AssessmentRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,16 +32,12 @@ class ListAssessmentsAction
     /** @var AssessmentRepository */
     private $repository;
 
-    /** @var DefaultMembershipFactory */
-    private $factory;
-
     /** @var Environment */
     private $twig;
 
-    public function __construct(AssessmentRepository $repository, DefaultMembershipFactory $factory, Environment $twig)
+    public function __construct(AssessmentRepository $repository, Environment $twig)
     {
         $this->repository = $repository;
-        $this->factory = $factory;
         $this->twig = $twig;
     }
 

@@ -1,28 +1,31 @@
 {% if token.payload %}
     <div class="alert alert-info" role="alert">
         <i class="fas fa-shield-alt"></i>&nbsp;
-        Valid tool originating message
+        Valid tool originating LTI message
     </div>
 {% else %}
     <div class="alert alert-danger" role="alert">
         <i class="fas fa-exclamation-circle"></i>&nbsp;
-        Invalid tool originating message
+        Invalid tool originating LTI message
     </div>
 {% endif %}
-<h6 class="card-title">
-    <i class="fas fa-lock"></i>&nbsp;Token
-</h6>
-<hr/>
-<dl class="list-unstyled">
-    <dt>JWT</dt>
-    <dd>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ token.payload.token.toString }}" role="button" title="See on jwt.io">
-                    <i class="fas fa-external-link-alt"></i>
-                </a>
-            </div>
-            <input type="text" class="form-control" placeholder="token" value="{{ token.payload.token.toString }}" readonly>
-        </div>
-    </dd>
-</dl>
+<div class="card bg-light">
+    <div class="card-header">
+        <i class="fas fa-lock"></i>&nbsp;Token
+    </div>
+    <div class="card-body">
+        <dl class="list-unstyled">
+            <dt>JWT</dt>
+            <dd>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token={{ token.payload.token.toString }}" role="button" title="See on jwt.io">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    <input type="text" class="form-control" placeholder="token" value="{{ token.payload.token.toString }}" readonly>
+                </div>
+            </dd>
+        </dl>
+    </div>
+</div>

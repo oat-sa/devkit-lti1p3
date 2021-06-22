@@ -58,6 +58,10 @@
     text-decoration: none;
 }
 
+#sidebar .sidebar-menu-header-no-border-bottom {
+    border-bottom-width: 0px !important;
+}
+
 .dropdown-toggle::after {
     position: absolute;
     right: 20px;
@@ -115,13 +119,18 @@ mark {
     cursor: pointer;
 }
 
-div.dropdown-multicol{
+div.dropdown-multicol {
     width: 30em;
 }
-div.dropdown-row>a.dropdown-item{
+div.dropdown-row>a.dropdown-item {
     display:inline-block;
     width: 49%;
 }
+
+.alert-no-margin-bottom {
+    margin-bottom: 0px !important;
+}
+
 
 /* ---------------------------------------------------
     DATATABLES
@@ -130,6 +139,10 @@ div.dropdown-row>a.dropdown-item{
 .dataTables_length, .dataTables_filter, .dataTables_info, .dataTables_paginate  {
     font-size: 90%;
     font-weight: 400;
+}
+
+.bootstrap-datetimepicker-widget table td, .bootstrap-datetimepicker-widget table th {
+    border-top: none !important;
 }
 
 /* ---------------------------------------------------
@@ -147,7 +160,7 @@ div.dropdown-row>a.dropdown-item{
         width: 100%;
     }
     .navbar-brand {
-        max-width: 280px;
+        max-width: 250px;
         overflow: hidden !important;
         text-overflow: ellipsis;
     }

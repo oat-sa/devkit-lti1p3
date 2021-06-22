@@ -1,0 +1,39 @@
+<br/>
+<hr/>
+{% if results|length != 0 %}
+    <div class="alert alert-info" role="alert">
+        <i class="fas fa-poll-h"></i>&nbsp;{{ results|length}} result(s) found
+    </div>
+    <div class="input-group mb-3">
+        <input type="text" id="agsModalResultSearch-{{ mode|default('line-item-container') }}" class="form-control" placeholder="Search">
+        <div class="input-group-append">
+            <button id="agsModalResultSearchReset-{{ mode|default('line-item-container') }}" class="btn-secondary btn"><i class="fas fa-undo-alt"></i>&nbsp;Reset</button>
+        </div>
+    </div>
+    <pre>
+        <code id="agsModalResultZone-{{ mode|default('line-item-container') }}" class="language-json hljs">{{ results|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}</code>
+    </pre>
+{% else %}
+    <div class="alert alert-dark alert-no-margin-bottom" role="alert">
+        <i class="fas fa-ban"></i>&nbsp;No results found
+    </div>
+{% endif %}
+
+<script>
+    hljs.initHighlightingOnLoad();
+
+    $("#agsModalResultSearch-{{ mode|default('line-item-container') }}").on("input", function(){
+        $("#agsModalResultZone-{{ mode|default('line-item-container') }}").unmark({
+            done: function() {
+                $("#agsModalResultZone-{{ mode|default('line-item-container') }}").mark(
+                    $("#agsModalResultSearch-{{ mode|default('line-item-container') }}").val()
+                );
+            }
+        });
+    });
+
+    $("#agsModalResultSearchReset-{{ mode|default('line-item-container') }}").click(function(){
+        $("#agsModalResultSearch-{{ mode|default('line-item-container') }}").val("");
+        $("#agsModalResultZone-{{ mode|default('line-item-container') }}").unmark();
+    });
+</script>

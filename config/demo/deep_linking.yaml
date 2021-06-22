@@ -2,18 +2,18 @@ parameters:
     deeplinking_resources:
         ltiResourceLinkExample:
             type: ltiResourceLink
-            url: http://localhost:8888/tool/launch
-            title: Launch demo tool
-            text: LTI resource Link to launch demo tool
+            url: http://devkit-lti1p3.localhost/tool/launch
+            title: Launch LTI 1.3 DevKit
+            text: LTI resource link to launch LTI 1.3 DevKit
             icon:
-                url: https://cdn2.iconfinder.com/data/icons/user-interface-ui-1-set/64/link-chain-hyperlink-linked-internet-20.png
+                url: https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png
             thumbnail:
-                url: https://cdn2.iconfinder.com/data/icons/user-interface-ui-1-set/64/link-chain-hyperlink-linked-internet-20.png
+                url: https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png
         imageExample:
             type: image
             url: https://www.disneyphile.fr/wp-content/uploads/2020/10/fresque-star-wars.png
             title: Star wars (image)
-            text: This is the demo app image
+            text: Star wars image
             icon:
                 url: https://cdn4.iconfinder.com/data/icons/evil-icons-user-interface/64/picture-20.png
             thumbnail:
@@ -40,4 +40,4 @@ parameters:
             type: html
             html: '<div>Hello world</div>'
             title: Hello world (HTML)
-            text: HTML frangment to say hello world
+            text: HTML fragment to say hello world

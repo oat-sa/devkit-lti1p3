@@ -6,7 +6,8 @@ imports:
 parameters:
     application_host: '%env(resolve:APP_HOST)%'
     application_api_key: '%env(resolve:APP_API_KEY)%'
-    application_version: '1.10.0'
+    application_vendors: '%kernel.project_dir%/vendor/composer/installed.php'
+    application_version: '2.0.0'
 
 services:
     _defaults:
@@ -33,11 +34,109 @@ services:
             - '@Psr\Log\LoggerInterface'
 
     # LTI core dependencies
+    OAT\Library\Lti1p3Core\Util\Generator\IdGeneratorInterface:
+        class: OAT\Library\Lti1p3Core\Util\Generator\IdGenerator
+
     OAT\Library\Lti1p3Core\Security\User\UserAuthenticatorInterface:
         class: App\Security\User\UserAuthenticator
 
     OAT\Library\Lti1p3Core\User\UserIdentityFactoryInterface:
         class: OAT\Library\Lti1p3Core\User\UserIdentityFactory
+
+    # LTI AGS dependencies
+    OAT\Library\Lti1p3Ags\Service\LineItem\Client\LineItemServiceClient: ~
+
+    OAT\Library\Lti1p3Ags\Service\Score\Client\ScoreServiceClient: ~
+
+    OAT\Library\Lti1p3Ags\Service\Result\Client\ResultServiceClient: ~
+
+    OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface:
+        class: App\Ags\LineItemRepository
+
+    OAT\Library\Lti1p3Ags\Repository\ScoreRepositoryInterface:
+        class: App\Ags\ScoreRepository
+
+    OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface:
+        class: App\Ags\ResultRepository
+
+    OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\ListLineItemsServiceServerRequestHandler:
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
+
+    OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\GetLineItemServiceServerRequestHandler:
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
+
+    OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\DeleteLineItemServiceServerRequestHandler:
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
+
+    OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\CreateLineItemServiceServerRequestHandler:
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
+
+    OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\UpdateLineItemServiceServerRequestHandler:
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
+
+    OAT\Library\Lti1p3Ags\Service\Score\Server\Handler\ScoreServiceServerRequestHandler:
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
+            - '@OAT\Library\Lti1p3Ags\Repository\ScoreRepositoryInterface'
+
+    OAT\Library\Lti1p3Ags\Service\Result\Server\Handler\ResultServiceServerRequestHandler:
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface'
+            - '@OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface'
+
+    app.service.ags_list_line_items_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\ListLineItemsServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
+
+    app.service.ags_get_line_item_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\GetLineItemServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
+
+    app.service.ags_delete_line_item_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\DeleteLineItemServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
+
+    app.service.ags_create_line_item_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\CreateLineItemServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
+
+    app.service.ags_update_line_item_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Service\LineItem\Server\Handler\UpdateLineItemServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
+
+    app.service.ags_score_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Service\Score\Server\Handler\ScoreServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
+
+    app.service.ags_result_controller:
+        class: OAT\Bundle\Lti1p3Bundle\Service\Server\Handler\LtiServiceServerHttpFoundationRequestHandler
+        factory: [ '@OAT\Bundle\Lti1p3Bundle\Service\Server\Factory\LtiServiceServerHttpFoundationRequestHandlerFactoryInterface', 'create' ]
+        arguments:
+            - '@OAT\Library\Lti1p3Ags\Service\Result\Server\Handler\ResultServiceServerRequestHandler'
+        tags: [ 'controller.service_arguments' ]
 
     # LTI deep linking dependencies
     OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchRequestBuilder: ~

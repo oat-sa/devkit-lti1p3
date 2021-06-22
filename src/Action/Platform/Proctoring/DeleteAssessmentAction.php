@@ -30,7 +30,6 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Throwable;
-use Twig\Environment;
 
 class DeleteAssessmentAction
 {
@@ -40,21 +39,16 @@ class DeleteAssessmentAction
     /** @var AssessmentRepository */
     private $repository;
 
-    /** @var Environment */
-    private $twig;
-
     /** @var RouterInterface */
     private $router;
 
     public function __construct(
         FlashBagInterface $flashBag,
         AssessmentRepository $repository,
-        Environment $twig,
         RouterInterface $router
     ) {
         $this->flashBag = $flashBag;
         $this->repository = $repository;
-        $this->twig = $twig;
         $this->router = $router;
     }
 

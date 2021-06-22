@@ -1,0 +1,286 @@
+{% if token.payload.ags %}
+    <div class="alert alert-info" role="alert">
+        <i class="fas fa-graduation-cap"></i>&nbsp;
+        AGS claim provided in message
+    </div>
+    <div class="accordion md-accordion" id="accordionAgsDetails" role="tablist" aria-multiselectable="true">
+        <div class="card bg-light">
+            <div class="card-header dropdown-toggle clickable collapsed" role="tab" id="accordionAgsDetailsHeading" data-toggle="collapse" data-parent="#accordionAgsDetails" href="#accordionAgsDetailsBody"
+                 aria-expanded="false" aria-controls="accordionAgsDetailsBody">
+                <i class="fas fa-info-circle"></i>&nbsp;AGS claim details
+            </div>
+            <div id="accordionAgsDetailsBody" class="collapse card-body" role="tabpanel" aria-labelledby="accordionAgsDetailsHeading" data-parent="#accordionAgsDetails">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Claim line item service url</dt>
+                            <dd>
+                                {% if token.payload.ags.lineItemUrl  %}
+                                    <a href="{{ token.payload.ags.lineItemUrl }}" target="_blank">{{ token.payload.ags.lineItemUrl }}</a>
+                                {% else %}
+                                    n/a
+                                {% endif %}
+                            </dd>
+                            <dt>Claim line item container service url</dt>
+                            <dd>
+                                {% if token.payload.ags.lineItemsContainerUrl  %}
+                                    <a href="{{ token.payload.ags.lineItemsContainerUrl }}" target="_blank">{{ token.payload.ags.lineItemsContainerUrl }}</a>
+                                {% else %}
+                                    n/a
+                                {% endif %}
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="list-unstyled">
+                            <dt>Claim scopes</dt>
+                            {% for scope in token.payload.ags.scopes %}
+                                <dd><code>{{ scope }}</code></dd>
+                            {% else %}
+                                <dd>n/a</dd>
+                            {% endfor %}
+
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="card bg-light">
+        <div class="card-header">
+            <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-ags-line-item-tab" data-toggle="pill" href="#pills-ags-line-item" role="tab" aria-controls="pills-ags-line-items" aria-selected="false">
+                        <i class="fas fa-square"></i>&nbsp;AGS line item service
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-ags-container-tab" data-toggle="pill" href="#pills-ags-container" role="tab" aria-controls="pills-ags-container" aria-selected="true">
+                        <i class="fas fa-th"></i>&nbsp;AGS line items container service
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-ags-line-item" role="tabpanel" aria-labelledby="pills-ags-line-item-tab">
+                <div class="card-body">
+                    {% if token.payload.ags.lineItemUrl  %}
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <i class="fas fa-sign-in-alt"></i>&nbsp;AGS line items service request
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="col col-md-12">
+                                        <input type="text" id="agsLineItemUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.ags.lineItemUrl }}" aria-describedby="agsLineItemUrlHelp" readonly>
+                                        <small id="agsLineItemUrlHelp" class="form-text text-muted">Service url</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                                    <button id="agsLineItemLoad" class="btn-primary btn">
+                                        <i id="agsLineItemCall" class="fas fa-sign-in-alt"></i>&nbsp;Call AGS line item service
+                                    </button>
+                                    <button id="agsLineItemReset" class="btn-secondary btn">
+                                        <i class="fas fa-undo"></i>&nbsp;Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div id="agsLineItemZone" class="card bg-light d-none">
+                            <div class="card-header">
+                                <i id="agsLineItemLogo" class="fas fa-square"></i>&nbsp;<span id="agsLineItemTitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <div id="agsLineItemFlashes"></div>
+                                <div id="agsLineItemBody"></div>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <div id="agsLineItemActions" class="float-right"></div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-dark alert-no-margin-bottom" role="alert">
+                            <i class="fas fa-ban"></i>&nbsp;No line item service url provided in AGS claim
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-ags-container" role="tabpanel" aria-labelledby="pills-ags-container-tab">
+                <div class="card-body">
+                    {% if token.payload.ags.lineItemsContainerUrl  %}
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <i class="fas fa-sign-in-alt"></i>&nbsp;AGS line items container service request
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="col col-md-12">
+                                        <input type="text" id="agsUrl" class="form-control" placeholder="Service Url" value="{{ token.payload.ags.lineItemsContainerUrl }}" aria-describedby="agsUrlHelp" readonly>
+                                        <small id="agsUrlHelp" class="form-text text-muted">Service url</small>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="form-row">
+                                    <div class="col col-md-3">
+                                        <input type="text" min="0" max="1" id="agsResourceId" class="form-control" placeholder="Resource" aria-describedby="agsResourceIdHelp">
+                                        <small id="agsResourceIdHelp" class="form-text text-muted">Resource identifier</small>
+                                    </div>
+                                    <div class="col col-md-3">
+                                        <input type="text" min="0" max="1" id="agsResourceLinkId" class="form-control" placeholder="Resource link" aria-describedby="agsResourceLinkIdHelp">
+                                        <small id="agsResourceLinkIdHelp" class="form-text text-muted">Resource link identifier</small>
+                                    </div>
+                                    <div class="col col-md-3">
+                                        <input type="text" min="0" max="1" id="agsTag" class="form-control" placeholder="Tag" aria-describedby="agsTagHelp">
+                                        <small id="agsTagHelp" class="form-text text-muted">Tag</small>
+                                    </div>
+                                    <div class="col col-md-3">
+                                        <input type="number" min="0" max="1" id="agsLimit" class="form-control" placeholder="Limit" aria-describedby="agsLimitHelp">
+                                        <small id="agsLimitHelp" class="form-text text-muted">Limit</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                                    <button id="agsLoad" class="btn-primary btn">
+                                        <i id="agsCall" class="fas fa-sign-in-alt"></i>&nbsp;Call AGS line items container service
+                                    </button>
+                                    <button id="agsReset" class="btn-secondary btn">
+                                        <i class="fas fa-undo"></i>&nbsp;Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="agsZone"></div>
+                        <div class="modal fade" id="agsModal" tabindex="-1" role="dialog" aria-labelledby="agsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-light">
+                                        <h5 class="modal-title">
+                                            <i id="agsModalLogo" class="fas fa-square"></i>&nbsp;<span id="agsModalTitle"></span>
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div  class="modal-body bg-light">
+                                        <div id="agsModalFlashes"></div>
+                                        <div id="agsModalBody"></div>
+                                    </div>
+                                    <div class="modal-footer bg-light">
+                                        <div id="agsModalActions"></div>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-dark alert-no-margin-bottom" role="alert">
+                            <i class="fas fa-ban"></i>&nbsp;No line item container service url provided in AGS claim
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    {% if token.payload.ags.lineItemsContainerUrl %}
+        $("#agsLoad").click(function(){
+            $.ajax({
+                url: "{{ path('tool_ajax_service_ags_list_lineitems') }}",
+                method: "GET",
+                data: {
+                    registration: "{{ token.registration.identifier }}",
+                    url: $("#agsUrl").val(),
+                    scope: $("#agsScope").val(),
+                    resourceId: $("#agsResourceId").val(),
+                    resourceLinkId: $("#agsResourceLinkId").val(),
+                    tag: $("#agsTag").val(),
+                    limit: $("#agsLimit").val(),
+                    scopes: "{{ token.payload.ags.scopes|join(',') }}"
+                },
+                beforeSend: function(result){
+                    $("#agsCall").removeClass("fa-sign-in-alt");
+                    $("#agsCall").addClass("fa-spinner fa-spin");
+                },
+                success: function(result){
+                    $("#agsCall").removeClass("fa-spinner fa-spin");
+                    $("#agsCall").addClass("fa-sign-in-alt");
+                    $("#agsZone").html(result);
+                },
+                error: function(result){
+                    $("#agsCall").removeClass("fa-spinner fa-spin");
+                    $("#agsCall").addClass("fa-sign-in-alt");
+                    $("#agsZone").html(
+                        '<br/><div class="card bg-light">' +
+                            '<div class="card-header"><i class="fas fa-graduation-cap"></i>&nbsp;AGS line item container service response</div>' +
+                            '<div class="card-body">' +
+                                '<h5 class="card-title"></h5>' +
+                                '<div class="alert alert-danger" role="alert">'+
+                                '<i class="fas fa-exclamation-circle"></i>&nbsp;Error ' +
+                                result.responseJSON.code +
+                                ': ' +
+                                result.responseJSON.message +
+                                '</div>' +
+                            '</div>' +
+                        '</div>'
+                    );
+                }
+            });
+        });
+        $("#agsReset").click(function(){
+            $("#agsUrl").val("{{ token.payload.ags.lineItemsContainerUrl }}");
+            $("#agsZone").html("");
+            $('#agsScope :nth-child(1)').prop('selected', true);
+            $("#agsResourceId").val("");
+            $("#agsResourceLinkId").val("");
+            $("#agsTag").val("");
+            $("#agsLimit").val("");
+        });
+    {% endif %}
+
+    {% if token.payload.ags.lineItemUrl %}
+        $("#agsLineItemLoad").click(function(){
+            $.ajax({
+                url: "{{ path('tool_ajax_service_ags_view_lineitem', {'lineItemIdentifier': token.payload.ags.lineItemUrl|base64_url_encode}) }}",
+                method: "GET",
+                data: {
+                    registration: "{{ token.registration.identifier }}",
+                    mode: "line-item",
+                    scopes: "{{ token.payload.ags.scopes|join(',') }}"
+                },
+                dataType: "json",
+                beforeSend: function(result){
+                    $("#agsLineItemZone").removeClass("d-none");
+                    $("#agsLineItemCall").removeClass("fa-sign-in-alt");
+                    $("#agsLineItemCall").addClass("fa-spinner fa-spin");
+                    $("#agsLineItemTitle").html("Processing");
+                    $("#agsLineItemFlashes").html("");
+                    $("#agsLineItemBody").html("processing ...");
+                    $("#agsLineItemActions").html("");
+                },
+                success: function(result){
+                    $("#agsLineItemCall").removeClass("fa-spinner fa-spin");
+                    $("#agsLineItemCall").addClass("fa-sign-in-alt");
+                    $("#agsLineItemTitle").html(result.title);
+                    $("#agsLineItemFlashes").html(result.flashes);
+                    $("#agsLineItemBody").html(result.body);
+                    $("#agsLineItemActions").html(result.actions);
+                }
+            });
+        });
+
+        $("#agsLineItemReset").click(function(){
+            $("#agsLineItemZone").addClass("d-none");
+        });
+    {% endif %}
+    </script>
+{% else %}
+    <div class="alert alert-dark alert-no-margin-bottom" role="alert">
+        <i class="fas fa-ban"></i>&nbsp;No AGS claim provided in message
+    </div>
+{% endif %}

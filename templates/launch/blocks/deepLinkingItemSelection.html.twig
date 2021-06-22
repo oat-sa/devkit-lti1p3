@@ -1,65 +1,63 @@
-<h6 class="card-title">
-    <i class="fas fa-link"></i>&nbsp;Deep Linking available content items
-</h6>
-<hr/>
-<small>
-    <ul>
-        <li>
-            Selection:
-            <span class="badge badge-pill badge-{{ token.payload.deepLinkingSettings.shouldAcceptMultiple ? 'primary' : 'secondary' }}">
-                {{ token.payload.deepLinkingSettings.shouldAcceptMultiple ? 'multiple' : 'single' }}
-            </span>
-        </li>
-        <li>
-            Allowed types:
-            <code>[{{ token.payload.deepLinkingSettings.acceptedTypes|join(', ') }}]</code>
-        </li>
-    </ul>
-</small>
+<div class="alert alert-info" role="alert">
+    <i class="fas fa-hand-point-down"></i>&nbsp;Content item(s) selection mode:&nbsp;
+    <span class="badge badge-pill badge-{{ token.payload.deepLinkingSettings.shouldAcceptMultiple ? 'primary' : 'secondary' }}">
+        {{ token.payload.deepLinkingSettings.shouldAcceptMultiple ? 'multiple' : 'single' }}
+    </span>
+</div>
 <form action="{{ path('tool_message_deep_linking_response') }}" method="post">
-    <div class="card-columns">
-        {% for resourceIdentifier, resource in resources %}
-            {% if resource.type in token.payload.deepLinkingSettings.acceptedTypes %}
-            <div class="card clickable content-item">
-                <div class="card-header">
-                    <input type="checkbox" name="selected-resources[]" value="{{ resourceIdentifier }}"/>
-                    &nbsp;{{ resource.title }}
-                </div>
-                <div class="card-body">
-                    <small>
-                        <dl class="list-unstyled">
-                            {% if resource.url is defined %}
-                                <dt>Url</dt>
-                                <dd><a href="{{ resource.url }}" target="_blank">{{ resource.url }}</a></dd>
-                            {% endif %}
-                            {% if resource.html is defined %}
-                                <dt>HTML</dt>
-                                <dd><kbd>{{ resource.html }}</kbd></dd>
-                            {% endif %}
-                            <dt>Description</dt>
-                            <dd>{{ resource.text }}</dd>
-                            {% if resource.icon is defined %}
-                                <dt>Icon</dt>
-                                <dd><img height="20px" width="20px" src="{{ resource.icon.url }}"/></dd>
-                            {% endif %}
-                        </dl>
-                    </small>
-                </div>
+    <div class="card bg-light">
+        <div class="card-header">
+            <i class="fas fa-link"></i>&nbsp;Available content item(s)
+        </div>
+        <div class="card-body">
+            <div class="card-deck">
+                {% for resourceIdentifier, resource in resources %}
+                    {% if resource.type in token.payload.deepLinkingSettings.acceptedTypes %}
+                        <div class="card clickable content-item">
+                            <div class="card-header">
+                                <input type="checkbox" name="selected-resources[]" value="{{ resourceIdentifier }}"/>
+                                &nbsp;{{ resource.title }}
+                            </div>
+                            <div class="card-body">
+                                <small>
+                                    <dl class="list-unstyled">
+                                        {% if resource.url is defined %}
+                                            <dt>Url</dt>
+                                            <dd><a href="{{ resource.url }}" target="_blank">{{ resource.url }}</a></dd>
+                                        {% endif %}
+                                        {% if resource.html is defined %}
+                                            <dt>HTML</dt>
+                                            <dd><kbd>{{ resource.html }}</kbd></dd>
+                                        {% endif %}
+                                        <dt>Description</dt>
+                                        <dd>{{ resource.text }}</dd>
+                                        {% if resource.icon is defined %}
+                                            <dt>Icon</dt>
+                                            <dd><img height="20px" width="20px" src="{{ resource.icon.url }}"/></dd>
+                                        {% endif %}
+                                    </dl>
+                                </small>
+                            </div>
 
-                <div class="card-footer">
-                    <small class="text-muted">Type: <code>{{ resource.type }}</code></small>
-                </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Type: <code>{{ resource.type }}</code></small>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             </div>
-            {% endif %}
-        {% endfor %}
+            <input type="hidden" name="registration" value="{{ token.registration.identifier }}"/>
+            <input type="hidden" name="deep-linking-return-url" value="{{ token.payload.deepLinkingSettings.deepLinkingReturnUrl }}"/>
+            <input type="hidden" name="deep-linking-data" value="{{ token.payload.deepLinkingSettings.data }}"/>
+        </div>
+        <div class="card-footer text-muted">
+            <div class="btn-group float-right" role="group" aria-label="Basic example">
+                <button type="submit" id="deepLinkingSend" class="btn-primary btn">
+                    <i class="fas fa-sign-in-alt"></i>&nbsp;Return selected content item(s) to platform
+                </button>
+            </div>
+        </div>
     </div>
-    <hr/>
-    <input type="hidden" name="registration" value="{{ token.registration.identifier }}"/>
-    <input type="hidden" name="deep-linking-return-url" value="{{ token.payload.deepLinkingSettings.deepLinkingReturnUrl }}"/>
-    <input type="hidden" name="deep-linking-data" value="{{ token.payload.deepLinkingSettings.data }}"/>
-    <button type="submit" id="deepLinkingSend" class="btn-primary btn btn-block">
-        <i class="fas fa-sign-in-alt"></i>&nbsp;Return selected items to platform
-    </button>
 </form>
 
 <script>

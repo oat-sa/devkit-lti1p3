@@ -4,5 +4,4 @@ twig:
         - '%kernel.project_dir%/vendor/oat-sa/lib-lti1p3-basic-outcome/templates'
     form_themes: ['bootstrap_4_layout.html.twig']
     globals:
-        redis_commander_url: '%env(REDIS_COMMANDER_URL)%'
         application_version: '%application_version%'
