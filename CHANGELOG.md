@@ -4,7 +4,7 @@ CHANGELOG
 2.0.0
 -----
 
-* Renamed into TAO LTI DevKit
+* Renamed into TAO LTI 1.3 DevKit
 * Renamed create:message:launch command into devkit:create:message:launch
 * Added incident time datepicker field for ACS tab
 * Added platform CRUD for AGS line items, result and scores
