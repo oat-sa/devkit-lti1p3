@@ -8,7 +8,7 @@ parameters:
                         'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly',
                         'https://purl.imsglobal.org/spec/lti-ags/scope/score'
                 ]
-                lineitems: 'http://devkit-lti1p3.localhost/platform/service/ags/default/lineitems'
+                lineitems: '%application_host%/platform/service/ags/default/lineitems'
         ACS:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_ACS
             value:
@@ -24,7 +24,7 @@ parameters:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_BASIC_OUTCOME
             value:
                 lis_result_sourcedid: 'default'
-                lis_outcome_service_url: 'http://devkit-lti1p3.localhost/platform/service/basic-outcome'
+                lis_outcome_service_url: '%application_host%/platform/service/basic-outcome'
         Context:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_CONTEXT
             value:
@@ -51,7 +51,7 @@ parameters:
         NRPS:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_NRPS
             value:
-                context_memberships_url: 'http://devkit-lti1p3.localhost/platform/service/nrps/default/memberships/default'
+                context_memberships_url: '%application_host%/platform/service/nrps/default/memberships/default'
                 service_versions: ['2.0']
         Platform instance:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_TOOL_PLATFORM

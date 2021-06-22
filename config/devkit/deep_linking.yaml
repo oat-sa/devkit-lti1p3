@@ -2,7 +2,7 @@ parameters:
     deeplinking_resources:
         ltiResourceLinkExample:
             type: ltiResourceLink
-            url: http://devkit-lti1p3.localhost/tool/launch
+            url: "%application_host%/tool/launch"
             title: Launch LTI 1.3 DevKit
             text: LTI resource link to launch LTI 1.3 DevKit
             icon:
