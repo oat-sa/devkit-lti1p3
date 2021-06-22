@@ -57,7 +57,7 @@
                         {{ form_label(form.start_assessment_url) }}<br/>
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <a id="startAssessmentUrlLoad" class="btn btn-secondary text-white" role="button" title="Use and edit selected demo app default start assessment url">
+                                <a id="startAssessmentUrlLoad" class="btn btn-secondary text-white" role="button" title="Use and edit selected devkit default start assessment url">
                                     <i class="fas fa-edit"></i>
                                 </a>
                             </div>
@@ -280,7 +280,7 @@
 
         $("#startAssessmentUrlLoad").click(function(event){
             $("#proctoring_launch_start_assessment_url").val(
-                $("#proctoring_launch_start_assessment_url").data('demo-start-assessment-url')
+                $("#proctoring_launch_start_assessment_url").data('devkit-start-assessment-url')
             );
         });
 

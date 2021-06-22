@@ -60,7 +60,7 @@ class ProctoringLaunchType extends AbstractType
     {
         $userChoices = array_keys($this->parameterBag->get('users'));
 
-        $demoStartAssessmentUrl = $this->generator->generate('platform_message_proctoring_return');
+        $devkitStartAssessmentUrl = $this->generator->generate('platform_message_proctoring_return');
 
         $builder
             ->add(
@@ -154,10 +154,10 @@ class ProctoringLaunchType extends AbstractType
                 [
                     'required' => true,
                     'help_html' => true,
-                    'help' => 'Url where to receive back the <code>LtistartAssessment</code> message (for demo app, use: <code>/platform/message/return/proctoring</code>)',
+                    'help' => 'Url where to receive back the <code>LtistartAssessment</code> message (for devkit, use: <code>/platform/message/return/proctoring</code>)',
 
                     'attr' => [
-                        'data-demo-start-assessment-url' => $demoStartAssessmentUrl
+                        'data-devkit-start-assessment-url' => $devkitStartAssessmentUrl
                     ]
                 ]
             )
