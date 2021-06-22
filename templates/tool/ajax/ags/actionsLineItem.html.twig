@@ -135,11 +135,11 @@
         }
 
         if ($(this).data("action") === "create" || $(this).data("action") === "update") {
-            form = $('#lineItemEditForm').serialize();
+            form = $('#lineItemEditForm-{{ mode|default('line-item-container') }}').serialize();
         }
 
         if ($(this).data("action") === "publish-score") {
-            form = $('#scoreSendForm').serialize();
+            form = $('#scoreSendForm-{{ mode|default('line-item-container') }}').serialize();
         }
 
         if (run) {

@@ -58,6 +58,8 @@ class PrepareResultsServiceClientAction
 
             $lineItem = $this->lineItemClient->getLineItem($registration, $lineItemIdentifier);
 
+            $mode = $request->get('mode');
+
             return new JsonResponse(
                 [
                     'title' => 'Line item results',
@@ -66,7 +68,7 @@ class PrepareResultsServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
-                            'mode' => $request->get('mode'),
+                            'mode' => $mode,
                             'scopes' => $request->get('scopes')
                         ]
                     ),
@@ -75,7 +77,7 @@ class PrepareResultsServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
-                            'mode' => $request->get('mode'),
+                            'mode' => $mode,
                             'actions' => [
                                 'go-back'
                             ],

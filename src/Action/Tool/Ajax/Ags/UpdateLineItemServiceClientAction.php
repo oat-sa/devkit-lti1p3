@@ -83,6 +83,8 @@ class UpdateLineItemServiceClientAction
 
             $permissions = ScopePermissionVoter::getPermissions(explode(',', $request->get('scopes')));
 
+            $mode = $request->get('mode');
+
             $actions = [];
 
             if ($permissions['canWriteScore'] ?? false) {
@@ -116,6 +118,7 @@ class UpdateLineItemServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
+                            'mode' => $mode
                         ]
                     ),
                     'actions' => $this->twig->render(
@@ -123,7 +126,7 @@ class UpdateLineItemServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
-                            'mode' => $request->get('mode'),
+                            'mode' => $mode,
                             'actions' => $actions,
                             'scopes' => $request->get('scopes')
                         ]

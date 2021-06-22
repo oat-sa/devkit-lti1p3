@@ -90,9 +90,11 @@ class PublishScoreServiceClientAction
                 $additionalProperties ?? []
             );
 
-            $this->scoreServiceClient->publish($registration, $score, $lineItemIdentifier);
+            $this->scoreServiceClient->publishScore($registration, $score, $lineItemIdentifier);
 
             $permissions = ScopePermissionVoter::getPermissions(explode(',', $request->get('scopes')));
+
+            $mode = $request->get('mode');
 
             $actions = [];
 
@@ -127,6 +129,7 @@ class PublishScoreServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
+                            'mode' => $mode
                         ]
                     ),
                     'actions' => $this->twig->render(
@@ -134,7 +137,7 @@ class PublishScoreServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
-                            'mode' => $request->get('mode'),
+                            'mode' => $mode,
                             'actions' => $actions,
                             'scopes' => $request->get('scopes')
                         ]

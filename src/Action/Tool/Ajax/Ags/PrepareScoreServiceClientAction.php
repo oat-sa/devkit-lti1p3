@@ -58,6 +58,8 @@ class PrepareScoreServiceClientAction
 
             $lineItem = $this->client->getLineItem($registration, $lineItemIdentifier);
 
+            $mode = $request->get('mode');
+
             return new JsonResponse(
                 [
                     'title' => 'Line item score publication',
@@ -65,7 +67,8 @@ class PrepareScoreServiceClientAction
                         'tool/ajax/ags/prepareScore.html.twig',
                         [
                             'registration' => $registration,
-                            'lineItem' => $lineItem
+                            'lineItem' => $lineItem,
+                            'mode' => $mode
                         ]
                     ),
                     'actions' => $this->twig->render(
@@ -73,7 +76,7 @@ class PrepareScoreServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
-                            'mode' => $request->get('mode'),
+                            'mode' => $mode,
                             'actions' => [
                                 'publish-score',
                                 'cancel'

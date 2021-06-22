@@ -53,6 +53,8 @@ class PrepareCreateLineItemServiceClientAction
 
             $permissions = ScopePermissionVoter::getPermissions(explode(',', $request->get('scopes')));
 
+            $mode = $request->get('mode');
+
             $actions = [];
 
             if ($permissions['canWriteLineItem'] ?? false) {
@@ -66,14 +68,15 @@ class PrepareCreateLineItemServiceClientAction
                         'tool/ajax/ags/createLineItem.html.twig',
                         [
                             'registration' => $registration,
-                            'containerUrl' => $request->get('containerUrl')
+                            'containerUrl' => $request->get('containerUrl'),
+                            'mode' => $mode
                         ]
                     ),
                     'actions' => $this->twig->render(
                         'tool/ajax/ags/actionsLineItem.html.twig',
                         [
                             'registration' => $registration,
-                            'mode' => $request->get('mode'),
+                            'mode' => $mode,
                             'actions' => $actions,
                             'scopes' => $request->get('scopes')
                         ]

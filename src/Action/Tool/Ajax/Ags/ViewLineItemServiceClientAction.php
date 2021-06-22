@@ -62,6 +62,8 @@ class ViewLineItemServiceClientAction
 
             $permissions = ScopePermissionVoter::getPermissions(explode(',', $request->get('scopes')));
 
+            $mode = $request->get('mode');
+
             $actions = [];
 
             if ($permissions['canWriteScore'] ?? false) {
@@ -85,6 +87,8 @@ class ViewLineItemServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
+                            'mode' => $mode
+
                         ]
                     ),
                     'actions' => $this->twig->render(

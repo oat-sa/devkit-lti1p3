@@ -58,6 +58,8 @@ class PrepareUpdateLineItemServiceClientAction
 
             $lineItem = $this->client->getLineItem($registration, $lineItemIdentifier);
 
+            $mode = $request->get('mode');
+
             return new JsonResponse(
                 [
                     'title' => 'Line item edition',
@@ -66,6 +68,7 @@ class PrepareUpdateLineItemServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
+                            'mode' => $mode
                         ]
                     ),
                     'actions' => $this->twig->render(
@@ -73,7 +76,7 @@ class PrepareUpdateLineItemServiceClientAction
                         [
                             'registration' => $registration,
                             'lineItem' => $lineItem,
-                            'mode' => $request->get('mode'),
+                            'mode' => $mode,
                             'actions' => [
                                 'update',
                                 'cancel'
