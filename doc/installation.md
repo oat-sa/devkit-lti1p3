@@ -62,7 +62,7 @@ Since this development kit application relies on [LTI 1.3 symfony bundle](https:
 
 ### Customization
 
-You can find in the [config/demo](../config/demo) folder configuration files to customize the development kit application:
-- [claims.yaml](../config/demo/claims.yaml): configurable editor claims list
-- [deep_linking.yaml](../config/demo/deep_linking.yaml): configurable deep linking resources list
-- [users.yaml](../config/demo/users.yaml): configurable users list
+You can find in the [config/devkit](../config/devkit) folder configuration files to customize the development kit:
+- [claims.yaml](../config/devkit/claims.yaml): configurable editor claims list
+- [deep_linking.yaml](../config/devkit/deep_linking.yaml): configurable deep linking resources list
+- [users.yaml](../config/devkit/users.yaml): configurable users list

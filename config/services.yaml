@@ -1,7 +1,7 @@
 imports:
-    - { resource: 'demo/claims.yaml' }
-    - { resource: 'demo/deep_linking.yaml' }
-    - { resource: 'demo/users.yaml' }
+    - { resource: 'devkit/claims.yaml' }
+    - { resource: 'devkit/deep_linking.yaml' }
+    - { resource: 'devkit/users.yaml' }
 
 parameters:
     application_host: '%env(resolve:APP_HOST)%'

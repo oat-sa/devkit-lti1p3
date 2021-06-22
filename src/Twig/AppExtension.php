@@ -154,7 +154,7 @@ class AppExtension extends AbstractExtension
     {
         $crawler = new Crawler($dom);
 
-        $filter = $crawler->filter('body.lti1p3-demo-app div.lti1p3-demo-app-content');
+        $filter = $crawler->filter('body.lti1p3-devkit-app div.lti1p3-devkit-app-content');
 
         if ($filter->count() !== 0) {
             return $filter->first()->html();
