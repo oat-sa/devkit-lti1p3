@@ -69,10 +69,7 @@
             "branch": "master",
             "version": "1.0",
             "ref": "943305d896cdfaca7a59a6721fc609b95905fedc"
-        },
-        "files": [
-            "config/routes/health_check.yaml"
-        ]
+        }
     },
     "oat-sa/bundle-lti1p3": {
         "version": "3.0",
