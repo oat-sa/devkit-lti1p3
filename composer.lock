@@ -1340,12 +1340,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-core.git",
-                "reference": "4a8e5ce03f28fc0cc0efd4515b3f765bec708174"
+                "reference": "c1af13658b0c3590a5dcfa9a4820db4699810d58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-core/zipball/4a8e5ce03f28fc0cc0efd4515b3f765bec708174",
-                "reference": "4a8e5ce03f28fc0cc0efd4515b3f765bec708174",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-core/zipball/c1af13658b0c3590a5dcfa9a4820db4699810d58",
+                "reference": "c1af13658b0c3590a5dcfa9a4820db4699810d58",
                 "shasum": ""
             },
             "require": {
@@ -1387,7 +1387,7 @@
                 "issues": "https://github.com/oat-sa/lib-lti1p3-core/issues",
                 "source": "https://github.com/oat-sa/lib-lti1p3-core/tree/6.0.0"
             },
-            "time": "2021-06-24T09:23:46+00:00"
+            "time": "2021-06-25T17:30:09+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-deep-linking",

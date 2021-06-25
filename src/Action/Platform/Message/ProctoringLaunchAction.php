@@ -78,7 +78,6 @@ class ProctoringLaunchAction
 
         $form->handleRequest($request);
 
-        $user = null;
         $claims = [];
         $startProctoringLaunchRequest = null;
 
