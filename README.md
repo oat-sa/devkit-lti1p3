@@ -1,13 +1,16 @@
-# TAO LTI 1.3 DevKit
+# <img src="doc/images/logo/logo.png" width="40" height="40"> [TAO](https://www.taotesting.com/) - LTI 1.3 DevKit
 
 [![Latest Version](https://img.shields.io/github/tag/oat-sa/demo-lti1p3.svg?style=flat&label=release)](https://github.com/oat-sa/demo-lti1p3/tags)
 [![License GPL2](http://img.shields.io/badge/licence-GPL%202.0-blue.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
+[![IMS Certified](https://img.shields.io/badge/IMS-certified-brightgreen)](https://site.imsglobal.org/certifications/open-assessment-technologies-sa/tao-lti-13-devkit)
 
-> [Symfony](https://symfony.com/) based development kit for LTI 1.3, to act as a [LTI platform and / or tool](http://www.imsglobal.org/spec/lti/v1p3/#platforms-and-tools-0).
+> [IMS certified](https://site.imsglobal.org/certifications/open-assessment-technologies-sa/tao-lti-13-devkit) [Symfony](https://symfony.com/) based development kit for LTI 1.3, to act as [LTI platform and / or tool](http://www.imsglobal.org/spec/lti/v1p3/#platforms-and-tools-0).
 
 ## Table of Contents
 
 - [Try it live](#try-it-live)
+- [TAO LTI 1.3 PHP framework](#tao-lti-13-php-framework)
+- [IMS](#ims)
 - [Documentation](#documentation)
     - [Installation and configuration](#installation-and-configuration)
     - [Available APIs](#available-apis)
@@ -16,9 +19,34 @@
 
 ## Try it live
  
-To try it live: [https://lti-public-devkit.dev.gcp.taocloud.org/](https://lti-public-devkit.dev.gcp.taocloud.org/)
+To try it live, visit [https://lti-public-devkit.dev.gcp.taocloud.org/](https://lti-public-devkit.dev.gcp.taocloud.org/).
+
+## TAO LTI 1.3 PHP framework
+
+This library is part of the [TAO LTI 1.3 PHP framework](https://oat-sa.github.io/doc-lti1p3/).
+
+## IMS
+
+You can find below [IMS](https://www.imsglobal.org/) related information.
+
+### Related certifications
+
+- [LTI 1.3 advantage complete](https://site.imsglobal.org/certifications/open-assessment-technologies-sa/tao-lti-13-devkit)
+- [LTI 1.3 proctoring services](https://site.imsglobal.org/certifications/open-assessment-technologies-sa/tao-lti-13-devkit)
+
+### Related specifications
+
+- [IMS Security](https://www.imsglobal.org/spec/security/v1p0)
+- [IMS LTI 1.3 Core](http://www.imsglobal.org/spec/lti/v1p3)
+- [IMS LTI 1.3 AGS](https://www.imsglobal.org/spec/lti-ags/v2p0)
+- [IMS LTI 1.3 Basic Outcome](https://www.imsglobal.org/spec/lti-bo/v1p1)
+- [IMS LTI 1.3 Deep Linking](https://www.imsglobal.org/spec/lti-dl/v2p0)
+- [IMS LTI 1.3 NRPS](https://www.imsglobal.org/spec/lti-nrps/v2p0)
+- [IMS LTI 1.3 Proctoring](https://www.imsglobal.org/spec/proctoring/v1p0)
 
 ## Documentation
+
+You can find below the development kit documentation, presented by topics.
 
 ### Installation and configuration
 
@@ -28,25 +56,3 @@ To try it live: [https://lti-public-devkit.dev.gcp.taocloud.org/](https://lti-pu
 
 - how to [use the HTTP API](doc/api.md) of the development kit
 - how to [use the CLI](doc/cli.md) of the development kit
-
-### IMS Specifications
-
-This development kit implements the following LTI 1.3 [IMS](http://www.imsglobal.org) specifications:
-- [IMS Security](https://www.imsglobal.org/spec/security/v1p0)
-- [IMS LTI 1.3 Core](http://www.imsglobal.org/spec/lti/v1p3)
-- [IMS LTI 1.3 AGS](https://www.imsglobal.org/spec/lti-ags/v2p0)
-- [IMS LTI 1.3 Basic Outcome](https://www.imsglobal.org/spec/lti-bo/v1p1)
-- [IMS LTI 1.3 Deep Linking](https://www.imsglobal.org/spec/lti-dl/v2p0)
-- [IMS LTI 1.3 NRPS](https://www.imsglobal.org/spec/lti-nrps/v2p0)
-- [IMS LTI 1.3 Proctoring](https://www.imsglobal.org/spec/proctoring/v1p0)
-
-### LTI libraries
-
-This development kit is using the following open sourced libraries:
-- [LTI 1.3 symfony bundle](https://github.com/oat-sa/bundle-lti1p3)
-- [LTI 1.3 core library](https://github.com/oat-sa/lib-lti1p3-core)
-- [LTI 1.3 basic outcome library](https://github.com/oat-sa/lib-lti1p3-basic-outcome)
-- [LTI 1.3 AGS library](https://github.com/oat-sa/lib-lti1p3-ags)
-- [LTI 1.3 deep linking library](https://github.com/oat-sa/lib-lti1p3-deep-linking)
-- [LTI 1.3 NRPS library](https://github.com/oat-sa/lib-lti1p3-nrps)
-- [LTI 1.3 proctoring library](https://github.com/oat-sa/lib-lti1p3-proctoring)
