@@ -23,7 +23,7 @@ To try it live, visit [https://lti-public-devkit.dev.gcp.taocloud.org/](https://
 
 ## TAO LTI 1.3 PHP framework
 
-This library is part of the [TAO LTI 1.3 PHP framework](https://oat-sa.github.io/doc-lti1p3/).
+This development kit is based on the [TAO LTI 1.3 PHP framework](https://oat-sa.github.io/doc-lti1p3/).
 
 ## IMS
 
