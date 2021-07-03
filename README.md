@@ -14,8 +14,6 @@
 - [Documentation](#documentation)
     - [Installation and configuration](#installation-and-configuration)
     - [Available APIs](#available-apis)
-    - [IMS specifications](#ims-specifications)
-    - [LTI libraries](#lti-libraries)
 
 ## Try it live
  
