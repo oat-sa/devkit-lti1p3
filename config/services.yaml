@@ -8,6 +8,7 @@ parameters:
     application_api_key: '%env(resolve:APP_API_KEY)%'
     application_vendors: '%kernel.project_dir%/vendor/composer/installed.php'
     application_version: '2.0.0'
+    container.dumper.inline_factories: true
 
 services:
     _defaults:
