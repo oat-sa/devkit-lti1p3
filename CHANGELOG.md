@@ -11,6 +11,7 @@ CHANGELOG
 * Added AGS services handling
 * Added optional uri parameter for proctoring start assessment endpoint
 * Added traefik as container proxy (docker)
+* Fixed logging strategy  
 * Updated LTI service client
 * Updated PHP version to 8.x (docker)
 * Updated documentation
