@@ -3,6 +3,10 @@ dashboard:
     path: /
     controller: App\Action\DashboardAction
 
+php_info:
+    path: /php-info
+    controller: App\Action\Util\PhpInfoAction
+
 platform_basic_outcome_list:
     methods: [GET]
     path: /platform/basic-outcomes
