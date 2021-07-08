@@ -5,3 +5,4 @@ twig:
     form_themes: ['bootstrap_4_layout.html.twig']
     globals:
         application_version: '%application_version%'
+        application_env: '%application_env%'

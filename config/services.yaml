@@ -5,6 +5,7 @@ imports:
 
 parameters:
     application_host: '%env(resolve:APP_HOST)%'
+    application_env: '%env(resolve:APP_ENV)%'
     application_api_key: '%env(resolve:APP_API_KEY)%'
     application_vendors: '%kernel.project_dir%/vendor/composer/installed.php'
     application_version: '2.0.0'
