@@ -17,7 +17,7 @@
 
 ## Try it live
  
-To try it live, visit [https://lti-public-devkit.dev.gcp-eu.taocloud.org/](https://lti-public-devkit.dev.gcp-eu.taocloud.org/).
+To try it live, visit [https://lti-public-devkit.dev.gcp-eu.taocloud.org](https://lti-public-devkit.dev.gcp-eu.taocloud.org).
 
 ## TAO LTI 1.3 PHP framework
 
