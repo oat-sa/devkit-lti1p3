@@ -26,7 +26,7 @@
                 {% for lineItem in lineItems %}
                     <tr>
                         <td>
-                            <code>{{ lineItem.identifier }}</code>
+                            <code>{{ lineItem.identifier|truncate }}</code>
                         </td>
                         <td>
                             {{ lineItem.label }}
@@ -36,6 +36,7 @@
                                 <a
                                         class="btn btn-info text-white"
                                         data-toggle="modal"
+                                        data-dismiss="modal"
                                         data-target="#agsServiceUrlModal"
                                         data-ags-service-url="{{ lineItem.identifier }}"
                                         data-ags-container-service-url="{{ lineItem.identifier|split('/')|slice(0, -1)|join('/') }}"
@@ -183,7 +184,7 @@
                             display: $.fn.dataTable.Responsive.display.modal( {
                                 header: function ( row ) {
                                     var data = row.data();
-                                    return 'Details for ' + data[0];
+                                    return 'Line item details';
                                 }
                             } ),
                             renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

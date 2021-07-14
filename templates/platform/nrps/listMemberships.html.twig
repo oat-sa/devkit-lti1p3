@@ -53,17 +53,23 @@
                 {% for membership in memberships %}
                     <tr>
                         <td>
-                            <code>{{ membership.identifier }}</code>
+                            <code>{{ membership.identifier|truncate }}</code>
                         </td>
                         <td>
-                            <code>{{ membership.context.identifier }}</code>
+                            <code>{{ membership.context.identifier|truncate }}</code>
                         </td>
                         <td>
                             {{ membership.members.count }}
                         </td>
                         <td style="width:1px;white-space:nowrap;">
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <a class="btn btn-info text-white" data-toggle="modal" data-target="#membershipServiceUrlModal" data-nrps-service-url="{{ absolute_app_url('platform_service_nrps', {'contextIdentifier': membership.context.identifier, 'membershipIdentifier': membership.identifier}) }}">
+                                <a
+                                    class="btn btn-info text-white"
+                                    data-dismiss="modal"
+                                    data-toggle="modal"
+                                    data-target="#membershipServiceUrlModal"
+                                    data-nrps-service-url="{{ absolute_app_url('platform_service_nrps', {'contextIdentifier': membership.context.identifier, 'membershipIdentifier': membership.identifier}) }}"
+                                >
                                     <i class="fas fa-link"></i>&nbsp;NRPS
                                 </a>
                                 <a class="btn btn-primary" href="{{ path('platform_nrps_view_membership', {'membershipIdentifier': membership.identifier}) }}">
@@ -160,7 +166,7 @@
                             display: $.fn.dataTable.Responsive.display.modal( {
                                 header: function ( row ) {
                                     var data = row.data();
-                                    return 'Details for ' + data[0];
+                                    return 'Membership details';
                                 }
                             } ),
                             renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
