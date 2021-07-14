@@ -24,7 +24,7 @@
                 {% for basicOutcomeIdentifier, basicOutcome in basicOutcomes %}
                     <tr>
                         <td>
-                            <code>{{ basicOutcomeIdentifier }}</code>
+                            <code>{{ basicOutcomeIdentifier|truncate }}</code>
                         </td>
                         <td>
                             <span class="badge badge-pill badge-info">
@@ -72,7 +72,7 @@
                             display: $.fn.dataTable.Responsive.display.modal( {
                                 header: function ( row ) {
                                     var data = row.data();
-                                    return 'Details for ' + data[0];
+                                    return 'Basic outcome details';
                                 }
                             } ),
                             renderer: $.fn.dataTable.Responsive.renderer.tableAll( {

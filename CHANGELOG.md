@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+2.0.1
+-----
+
+* Fixed modals and tables long content by adding auto truncate
+* Fixed modals overlap
+
 2.0.0
 -----
 
