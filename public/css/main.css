@@ -131,6 +131,9 @@ div.dropdown-row>a.dropdown-item {
     margin-bottom: 0px !important;
 }
 
+.modal-body table tr td:nth-child(2) {
+    word-break: break-word !important;
+}
 
 /* ---------------------------------------------------
     DATATABLES

@@ -66,6 +66,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFilter('scrap_app_dom', [$this, 'scrapAppDom']),
             new TwigFilter('base64_url_encode', [$this, 'base64UrlEncode']),
+            new TwigFilter('truncate', [$this, 'truncate']),
         ];
     }
 
@@ -166,5 +167,19 @@ class AppExtension extends AbstractExtension
     public function base64UrlEncode(string $value): string
     {
         return Base64UrlEncoder::encode($value);
+    }
+
+    
+    public function truncate(string $value): string
+    {
+        if (strlen($value) <= 130) {
+            return $value;
+        }
+
+        return sprintf(
+            '%s...%s',
+            substr($value, 0, 100),
+            substr($value, -20),
+        );
     }
 }

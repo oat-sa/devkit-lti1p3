@@ -27,7 +27,7 @@
                 {% for assessment in assessments %}
                     <tr>
                         <td>
-                            <code>{{ assessment.identifier }}</code>
+                            <code>{{ assessment.identifier|truncate }}</code>
                         </td>
                         <td>
                              <span class="badge badge-pill badge-info">
@@ -39,7 +39,13 @@
                         </td>
                         <td style="width:1px;white-space:nowrap;">
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <a class="btn btn-info text-white" data-toggle="modal" data-target="#acsServiceUrlModal" data-acs-service-url="{{ absolute_app_url('platform_service_acs', {'assessmentIdentifier': assessment.identifier}) }}">
+                                <a
+                                    class="btn btn-info text-white"
+                                    data-dismiss="modal"
+                                    data-toggle="modal"
+                                    data-target="#acsServiceUrlModal"
+                                    data-acs-service-url="{{ absolute_app_url('platform_service_acs', {'assessmentIdentifier': assessment.identifier}) }}"
+                                >
                                     <i class="fas fa-link"></i>&nbsp;ACS
                                 </a>
                                 <a class="btn btn-primary" href="{{ path('platform_proctoring_view_assessment', {'assessmentIdentifier': assessment.identifier}) }}">
@@ -136,7 +142,7 @@
                             display: $.fn.dataTable.Responsive.display.modal( {
                                 header: function ( row ) {
                                     var data = row.data();
-                                    return 'Details for ' + data[0];
+                                    return 'Assessment details';
                                 }
                             } ),
                             renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
