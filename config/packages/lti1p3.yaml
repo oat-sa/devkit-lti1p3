@@ -43,3 +43,4 @@ lti1p3:
             tool_key_chain: "toolKey"
             platform_jwks_url: "%application_host%/lti1p3/.well-known/jwks/platformSet.json"
             tool_jwks_url: "%application_host%/lti1p3/.well-known/jwks/toolSet.json"
+            order: 1
