@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+2.1.0
+-----
+
+* Updated LTI 1.3 bundle and libraries dependencies
+* Updated Symfony packages to version 5.3.x  
+* Updated devkit registration to be the default one
+
 2.0.1
 -----
 
