@@ -31,7 +31,7 @@ use Psr\Cache\CacheItemPoolInterface;
 
 class ScoreRepository implements ScoreRepositoryInterface
 {
-    private const CACHE_KEY = 'lti1p3-ags-scores';
+    public const CACHE_KEY = 'lti1p3-ags-scores';
 
     /** @var CacheItemPoolInterface */
     private $cache;

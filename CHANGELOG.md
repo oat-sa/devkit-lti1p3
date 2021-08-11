@@ -1,6 +1,16 @@
 CHANGELOG
 =========
 
+2.2.0
+-----
+
+* Added user information and platform resource statistics chart to dashboard
+* Added NRPS memberships API CRUD
+* Added ACS assessments API CRUD
+* Added openapi documentation
+* Updated dashboard presentation
+* Updated documentation
+
 2.1.0
 -----
 

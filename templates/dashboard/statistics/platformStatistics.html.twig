@@ -1,0 +1,110 @@
+<div class="card bg-light">
+    <div class="card-header">
+        <i class="fas fa-chart-pie"></i>&nbsp;Platform resources
+    </div>
+    <div class="card-body">
+        <div id="platformStatistics"></div>
+    </div>
+    <div class="card-footer text-muted">
+        <small><code><i class="fas fa-exclamation-triangle"></i>&nbsp;Non persistent cache storage</code></small>
+    </div>
+</div>
+
+<script>
+    var platformStatisticsOptions = {
+        labels: [
+            "AGS line items",
+            "AGS scores",
+            "AGS results",
+            "ACS assessments",
+            "ACS controls",
+            "Basic outcomes",
+            "NRPS memberships"
+        ],
+        fill: {
+            opacity: 0.7
+        },
+        yaxis: {
+            tickAmount: 1,
+            labels: {
+                formatter: function(val) {
+                    return val.toFixed(0)
+                }
+            },
+        },
+        series: [
+                {{ statistics.agsLineItems|default(0) }},
+                {{ statistics.agsScores|default(0) }},
+                {{ statistics.agsResults|default(0) }},
+                {{ statistics.acsAssessments|default(0) }},
+                {{ statistics.acsControls|default(0) }},
+                {{ statistics.basicOutcomes|default(0) }},
+                {{ statistics.nrpsMemberships|default(0) }},
+        ],
+        chart: {
+            type: 'polarArea',
+            toolbar: {
+                show: false,
+            },
+            events: {
+                dataPointSelection(event, chartContext, config) {
+                    let redirectUrl = false;
+
+                    switch(config.w.config.labels[config.dataPointIndex]) {
+                        case "AGS line items":
+                        case "AGS scores":
+                        case "AGS results":
+                            redirectUrl = "{{ path('platform_ags_list_line_items') }}";
+                            break;
+                        case "ACS assessments":
+                        case "ACS controls":
+                            redirectUrl = "{{ path('platform_proctoring_list_assessments') }}";
+                            break;
+                        case "Basic outcomes":
+                            redirectUrl = "{{ path('platform_basic_outcome_list') }}";
+                            break;
+                        case "NRPS memberships":
+                            redirectUrl = "{{ path('platform_nrps_list_memberships') }}";
+                            break;
+                    }
+
+                    if (redirectUrl !== false) {
+                        window.location.href = redirectUrl;
+                    }
+                }
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                horizontal: true,
+                distributed: true,
+                barHeight: '70%'
+            }
+        },
+        legend: {
+            show: true,
+            formatter: function(val, opts) {
+                return val + ' (' + opts.w.globals.series[opts.seriesIndex] + ')'
+            }
+        },
+        responsive: [{
+            breakpoint: 1000,
+            options: {
+                legend: {
+                    position: 'right'
+                }
+            }
+        }]
+    };
+
+    var platformStatisticsChart = new ApexCharts(
+        document.querySelector('#platformStatistics'),
+        platformStatisticsOptions
+    );
+
+    platformStatisticsChart.render();
+</script>
