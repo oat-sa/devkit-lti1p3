@@ -9,6 +9,41 @@ servers:
       description: Local TAO LTI 1.3 DevKit (docker)
 
 paths:
+    /api/platform/messages/ltiResourceLinkRequest/launch:
+        post:
+            summary: Generate ltiResourceLinkRequest launch
+            tags:
+                - LTI messages
+            security:
+                -   apiKey: [ ]
+            parameters:
+                -   in: query
+                    name: verbose
+                    schema:
+                        type: string
+                    description: If true, will provide launch details
+                    example: true
+            requestBody:
+                description: ltiResourceLinkRequest launch data
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LtiResourceLinkRequestInput'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LtiResourceLinkRequestOutput'
+                400:
+                    $ref: '#/components/responses/BadRequestResponse'
+                401:
+                    $ref: '#/components/responses/UnauthorizedResponse'
+                500:
+                    $ref: '#/components/responses/InternalServerErrorResponse'
+
     /api/platform/proctoring/assessments:
         get:
             summary: List ACS assessments
@@ -317,6 +352,90 @@ components:
             scheme: bearer
             bearerFormat: TAO LTI 1.3 DevKit API key
     schemas:
+        LtiResourceLinkRequestInput:
+            type: object
+            properties:
+                registration:
+                    description: Registration identifier to use for the launch
+                    example: 'devkit'
+                    type: string
+                user:
+                    description: User details to use for the launch
+                    type: object
+                    properties:
+                        id:
+                            description: User id, will generate uuidv4 if not provided
+                            example: 'user-id'
+                            type: string
+                        name:
+                            description: User name
+                            example: 'John Alex Doe'
+                            type: string
+                        email:
+                            description: User email
+                            example: 'john-doe@platform.example.edu'
+                            type: string
+                        locale:
+                            description: User locale
+                            example: 'en'
+                            type: string
+                target_link_uri:
+                    description: The target_link_uri to use for the launch, if not provided, will use default tool launch url
+                    example: 'http://devkit-lti1p3.localhost/tool/launch'
+                    type: string
+                deployment_id:
+                    description: The deployment_id to use for the launch, if not provided, will use default registration deployment id
+                    example: 'deploymentId1'
+                    type: string
+                claims:
+                    description: The claims to use for the launch
+                    type: object
+                    additionalProperties:
+                        type: string
+                    example:
+                        a: b
+                        'https://purl.imsglobal.org/spec/lti/claim/roles':
+                            - 'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner'
+            required:
+                - registration
+        LtiResourceLinkRequestOutput:
+            type: object
+            properties:
+                link:
+                    description: Generated ltiResourceLinkRequest launch complete url
+                    example: 'http://devkit-lti1p3.localhost/lti1p3/oidc/initiation?iss=http%3A%2F%2Fdevkit-lti1p3.localhost%2Fplatform&login_hint=%7B%22type%22%3A%22custom%22%2C%22user_id%22%3A%22userIdentifier%22%2C%22user_name%22%3Anull%2C%22user_email%22%3Anull%2C%22user_locale%22%3Anull%7D&target_link_uri=http%3A%2F%2Fdevkit-lti1p3.localhost%2Ftool%2Flaunch&lti_message_hint=eyJ0e...&lti_deployment_id=deploymentId1&client_id=client_id'
+                    type: string
+                details:
+                    description: User details to use for the launch
+                    type: object
+                    properties:
+                        url:
+                            description: Generated ltiResourceLinkRequest launch base url
+                            example: 'http://devkit-lti1p3.localhost/lti1p3/oidc/initiation'
+                            type: string
+                        parameters:
+                            type: object
+                            properties:
+                                iss:
+                                    example: 'http://devkit-lti1p3.localhost/platform'
+                                    type: string
+                                login_hint:
+                                    example: '"{\"type\":\"custom\",\"user_id\":\"userIdentifier\",\"user_name\":null,\"user_email\":null,\"user_locale\":null}"'
+                                    type: string
+                                target_link_uri:
+                                    example: 'http://devkit-lti1p3.localhost/tool/launch'
+                                    type: string
+                                lti_message_hint:
+                                    example: 'eyJ0e...'
+                                    type: string
+                                lti_deployment_id:
+                                    example: 'deploymentId1'
+                                    type: string
+                                client_id:
+                                    example: 'client_id'
+                                    type: string
+            required:
+                - link
         AssessmentCollection:
             type: object
             properties:
