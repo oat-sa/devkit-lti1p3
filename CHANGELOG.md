@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+2.2.0
+-----
+
+* Added user information to the dashboard
+* Added platform resource statistics chart to the dashboard
+* Updated dashboard presentation
+
 2.1.0
 -----
 

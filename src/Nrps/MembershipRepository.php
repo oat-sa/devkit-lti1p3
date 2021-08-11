@@ -27,7 +27,7 @@ use Psr\Cache\CacheItemPoolInterface;
 
 class MembershipRepository
 {
-    private const CACHE_KEY = 'lti1p3-nrps-memberships';
+    public const CACHE_KEY = 'lti1p3-nrps-memberships';
 
     /** @var CacheItemPoolInterface */
     private $cache;

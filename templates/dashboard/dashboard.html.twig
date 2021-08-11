@@ -12,7 +12,7 @@
                         <a href="https://www.taotesting.com/" target="_blank" class="text-danger">TAO</a> / LTI 1.3 <code class="text-danger">DevKit</code>
                     </div>
                     <div class="d-block d-sm-none">
-                        LTI 1.3 <code class="text-danger">DevKit</code>
+                        LTI 1.3 <code class="text-danger">DevKi</code>
                     </div>
                 </h2>
             </div>
@@ -62,6 +62,11 @@
                 <li class="nav-item">
                     <a class="nav-link" id="pills-scopes-tab" data-toggle="pill" href="#pills-scopes" role="tab" aria-controls="pills-home" aria-selected="false">
                         <i class="fas fa-key"></i>&nbsp;Scopes&nbsp;&nbsp;<span class="badge badge-pill badge-secondary">{{ configuration.scopes|length }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-users-tab" data-toggle="pill" href="#pills-users" role="tab" aria-controls="pills-home" aria-selected="false">
+                        <i class="fas fa-users"></i>&nbsp;Users&nbsp;&nbsp;<span class="badge badge-pill badge-secondary">{{ users|length }}</span>
                     </a>
                 </li>
             </ul>
@@ -119,9 +124,23 @@
                     {% endfor %}
                 </div>
             </div>
+            <div class="tab-pane fade" id="pills-users" role="tabpanel" aria-labelledby="pills-tools-tab">
+                <div class="list-group list-group-flush">
+                    {% for user in users %}
+                        <li class="list-group-item list-group-item-action clickable" data-toggle="modal" data-target="#configModal" data-type="User" data-title="{{ user.name }}" data-config="{{ user|json_encode(constant('JSON_PRETTY_PRINT') + constant('JSON_UNESCAPED_SLASHES')) }}">
+                            <i class="fas fa-user"></i>&nbsp;<code>{{ user.name }}</code> - <small class="text-muted">{{ user.roles|join(", ") }}</small>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item list-group-item-dark">
+                            <i class="fas fa-ban"></i>&nbsp;No users found
+                        </li>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
         <div class="card-footer text-muted">
-            <small>From <code>config/packages/lti1p3.yaml</code></small>
+            <small id="config-bottom-text">From <code>config/packages/lti1p3.yaml</code></small>
+            <small id="users-bottom-text" class="d-none">From <code>config/devkit/users.yaml</code></small>
         </div>
     </div>
     <div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel" aria-hidden="true">
@@ -150,113 +169,116 @@
     </div>
     <br/>
     <div class="row">
-        <div class="col col-md-4">
-            <div class="accordion md-accordion" id="accordionSpecs" role="tablist" aria-multiselectable="true">
-                <div class="card bg-light">
-                    <div class="card-header dropdown-toggle clickable collapsed" role="tab" id="accordionSpecsHeading" data-toggle="collapse" data-parent="#accordionSpecs" href="#accordionSpecsBody"
-                         aria-expanded="false" aria-controls="accordionSpecsBody">
-                        <i class="fas fa-book"></i>&nbsp;IMS specifications
-                    </div>
-                    <div id="accordionSpecsBody" class="collapse list-group list-group-flush" role="tabpanel" aria-labelledby="accordionSpecsHeading" data-parent="#accordionSpecs">
-                        <a href="http://www.imsglobal.org/spec/lti/v1p3" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 core
+        <div class="col-lg-4">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <i class="fas fa-cog"></i>&nbsp;System information
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{{ path('php_info') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" target="_blank">
+                        <div><i class="fab fa-php"></i>&nbsp;PHP</div>
+                        <span class="badge badge-pill badge-dark"><i class="fas fa-tag"></i>&nbsp;{{ get_php_version() }}</span>
+                    </a>
+                    <a href="https://www.symfony.com" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" target="_blank">
+                        <div><i class="fab fa-symfony"></i>&nbsp;Symfony</div>
+                        <span class="badge badge-pill badge-dark"><i class="fas fa-tag"></i>&nbsp;{{ get_symfony_version() }}</span>
+                    </a>
+                    {% for vendor, version in get_vendor_versions() %}
+                        <a href="https://github.com/{{ vendor }}/releases/tag/{{ version }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" target="_blank">
+                            <div><i class="fab fa-github"></i>&nbsp;{{ vendor }}</div>
+                            <span class="badge badge-pill badge-dark"><i class="fas fa-tag"></i>&nbsp;{{ version }}</span>
                         </a>
-                        <a href="https://www.imsglobal.org/spec/security/v1p0" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 security
-                        </a>
-                        <a href="https://www.imsglobal.org/spec/lti-ags/v2p0" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 AGS
-                        </a>
-                        <a href="http://www.imsglobal.org/spec/lti-bo/v1p1" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 basic outcome
-                        </a>
-                        <a href="http://www.imsglobal.org/spec/lti-dl/v2p0" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 deep linking
-                        </a>
-                        <a href="http://www.imsglobal.org/spec/lti-nrps/v2p0" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 NRPS
-                        </a>
-                        <a href="https://www.imsglobal.org/spec/proctoring/v1p0" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 proctoring
-                        </a>
-                    </div>
+                    {% endfor %}
+                </div>
+                <div class="card-footer text-muted">
+                    <small><i class="fas fa-cog"></i>&nbsp;Running in <code>{{ application_env|upper }}</code> mode</small>
                 </div>
             </div>
         </div>
-        <div class="col col-md-4">
-            <div class="accordion md-accordion" id="accordionDoc" role="tablist" aria-multiselectable="true">
-                <div class="card bg-light">
-                    <div class="card-header dropdown-toggle clickable collapsed" role="tab" id="accordionDocHeading" data-toggle="collapse" data-parent="#accordionDoc" href="#accordionDocBody"
-                         aria-expanded="false" aria-controls="accordionDocBody">
-                        <i class="fas fa-book-reader"></i>&nbsp;Documentation
-                    </div>
-                    <div id="accordionDocBody" class="collapse list-group list-group-flush" role="tabpanel" aria-labelledby="accordionDocHeading" data-parent="#accordionDoc">
-                        <a href="https://oat-sa.github.io/doc-lti1p3/" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fas fa-book-reader"></i>&nbsp;TAO LTI 1.3 PHP framework
-                        </a>
-                        <a href="https://github.com/oat-sa/devkit-lti1p3#readme" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fab fa-github"></i>&nbsp;TAO LTI 1.3 DevKit
-                        </a>
-                        <a href="https://github.com/oat-sa/bundle-lti1p3#readme" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fab fa-github"></i>&nbsp;LTI 1.3 symfony bundle
-                        </a>
-                        <a href="https://github.com/oat-sa/lib-lti1p3-core#readme" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fab fa-github"></i>&nbsp;LTI 1.3 core library
-                        </a>
-                        <a href="https://github.com/oat-sa/lib-lti1p3-ags#readme" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fab fa-github"></i>&nbsp;LTI 1.3 AGS library
-                        </a>
-                        <a href="https://github.com/oat-sa/lib-lti1p3-basic-outcome#readme" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fab fa-github"></i>&nbsp;LTI 1.3 basic outcome library
-                        </a>
-                        <a href="https://github.com/oat-sa/lib-lti1p3-deep-linking#readme" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fab fa-github"></i>&nbsp;LTI 1.3 deep linking library
-                        </a>
-                        <a href="https://github.com/oat-sa/lib-lti1p3-nrps#readme" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fab fa-github"></i>&nbsp;LTI 1.3 NRPS library
-                        </a>
-                        <a href="https://github.com/oat-sa/lib-lti1p3-proctoring#readme" class="list-group-item list-group-item-action" target="_blank">
-                            <i class="fab fa-github"></i>&nbsp;LTI 1.3 proctoring library
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <div class="col-lg-4">
+            {% include 'dashboard/statistics/platformStatistics.html.twig' with {'statistics': statistics} %}
         </div>
-        <div class="col col-md-4">
-            <div class="accordion md-accordion" id="accordionDevkit" role="tablist" aria-multiselectable="true">
-                <div class="card bg-light">
-                    <div class="card-header dropdown-toggle clickable collapsed" role="tab" id="accordionDevkitHeading" data-toggle="collapse" data-parent="#accordionDevkit" href="#accordionDevkitBody"
-                         aria-expanded="false" aria-controls="accordionDevkitBody">
-                        <i class="fas fa-cog"></i>&nbsp;System configuration
-                    </div>
-                    <div id="accordionDevkitBody" class="collapse list-group list-group-flush" role="tabpanel" aria-labelledby="accordionSpecsHeading" data-parent="#accordionSpecs">
-                        <a href="https://github.com/oat-sa/devkit-lti1p3" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" target="_blank">
-                            <div><i class="fas fa-cog"></i>&nbsp;TAO LTI 1.3 DevKit</div>
-                            <div>
-                                <span class="badge badge-pill badge-danger"><i class="fas fa-cog"></i>&nbsp;{{ application_env }}</span>
-                                <span class="badge badge-pill badge-dark"><i class="fas fa-tag"></i>&nbsp;{{ application_version }}</span>
-                            </div>
-
-                        </a>
-                        <a href="{{ path('php_info') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" target="_blank">
-                            <div><i class="fab fa-php"></i>&nbsp;PHP</div>
-                            <span class="badge badge-pill badge-dark"><i class="fas fa-tag"></i>&nbsp;{{ get_php_version() }}</span>
-                        </a>
-                        <a href="https://www.symfony.com" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" target="_blank">
-                            <div><i class="fab fa-symfony"></i>&nbsp;Symfony</div>
-                            <span class="badge badge-pill badge-dark"><i class="fas fa-tag"></i>&nbsp;{{ get_symfony_version() }}</span>
-                        </a>
-                        {% for vendor, version in get_vendor_versions() %}
-                            <a href="https://github.com/{{ vendor }}/releases/tag/{{ version }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" target="_blank">
-                                <div><i class="fab fa-github"></i>&nbsp;{{ vendor }}</div>
-                                <span class="badge badge-pill badge-dark"><i class="fas fa-tag"></i>&nbsp;{{ version }}</span>
+        <div class="col-lg-4">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab-doc" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="pills-doc-tab" data-toggle="pill" href="#pills-doc" role="tab" aria-controls="pills-home" aria-selected="true">
+                                <i class="fas fa-book-reader"></i>&nbsp;Documentation
                             </a>
-                        {% endfor %}
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-ims-tab" data-toggle="pill" href="#pills-ims" role="tab" aria-controls="pills-home" aria-selected="false">
+                                <i class="fas fa-book"></i>&nbsp;IMS specifications
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-doc" role="tabpanel" aria-labelledby="pills-doc-tab">
+                        <div class="list-group list-group-flush">
+                            <a href="https://oat-sa.github.io/doc-lti1p3/" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-book-reader"></i>&nbsp;TAO LTI 1.3 PHP framework
+                            </a>
+                            <a href="https://github.com/oat-sa/devkit-lti1p3#readme" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-book-reader"></i>&nbsp;TAO LTI 1.3 DevKit
+                            </a>
+                            <a href="https://github.com/oat-sa/bundle-lti1p3#readme" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-book-reader"></i>&nbsp;LTI 1.3 symfony bundle
+                            </a>
+                            <a href="https://github.com/oat-sa/lib-lti1p3-core#readme" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-book-reader"></i>&nbsp;LTI 1.3 core library
+                            </a>
+                            <a href="https://github.com/oat-sa/lib-lti1p3-ags#readme" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-book-reader"></i>&nbsp;LTI 1.3 AGS library
+                            </a>
+                            <a href="https://github.com/oat-sa/lib-lti1p3-basic-outcome#readme" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-book-reader"></i>&nbsp;LTI 1.3 basic outcome library
+                            </a>
+                            <a href="https://github.com/oat-sa/lib-lti1p3-deep-linking#readme" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-book-reader"></i>&nbsp;LTI 1.3 deep linking library
+                            </a>
+                            <a href="https://github.com/oat-sa/lib-lti1p3-nrps#readme" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-book-reader"></i>&nbsp;LTI 1.3 NRPS library
+                            </a>
+                            <a href="https://github.com/oat-sa/lib-lti1p3-proctoring#readme" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-book-reader"></i>&nbsp;LTI 1.3 proctoring library
+                            </a>
+                        </div>
                     </div>
+                    <div class="tab-pane fade" id="pills-ims" role="tabpanel" aria-labelledby="pills-ims-tab">
+                        <div class="list-group list-group-flush">
+                            <a href="http://www.imsglobal.org/spec/lti/v1p3" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 core
+                            </a>
+                            <a href="https://www.imsglobal.org/spec/security/v1p0" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 security
+                            </a>
+                            <a href="https://www.imsglobal.org/spec/lti-ags/v2p0" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 AGS
+                            </a>
+                            <a href="http://www.imsglobal.org/spec/lti-bo/v1p1" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 basic outcome
+                            </a>
+                            <a href="http://www.imsglobal.org/spec/lti-dl/v2p0" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 deep linking
+                            </a>
+                            <a href="http://www.imsglobal.org/spec/lti-nrps/v2p0" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 NRPS
+                            </a>
+                            <a href="https://www.imsglobal.org/spec/proctoring/v1p0" class="list-group-item list-group-item-action" target="_blank">
+                                <i class="fas fa-file-alt"></i>&nbsp;LTI 1.3 proctoring
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <small>Made by <a class="text-code" href="https://www.taotesting.com/" target="_blank"> <code>Open Assessment Technologies</code></a></small>
                 </div>
             </div>
         </div>
     </div>
+    <br/>
 {% endblock body %}
 
 {% block scripts %}
@@ -266,6 +288,15 @@
             $("#configModalTitle").html($(event.relatedTarget).attr("data-title"));
             $("#configDetailsZone").html($(event.relatedTarget).attr("data-config"));
             hljs.highlightBlock(document.getElementById("configDetailsZone"));
+        });
+        $('#pills-tab li.nav-item').on('shown.bs.tab', function (e) {
+            if ($(e.target).attr("id") === "pills-users-tab") {
+                $("#config-bottom-text").addClass("d-none");
+                $("#users-bottom-text").removeClass("d-none");
+            } else {
+                $("#users-bottom-text").addClass("d-none");
+                $("#config-bottom-text").removeClass("d-none");
+            }
         });
     </script>
 {% endblock %}

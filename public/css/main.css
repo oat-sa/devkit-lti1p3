@@ -135,6 +135,10 @@ div.dropdown-row>a.dropdown-item {
     word-break: break-word !important;
 }
 
+.text-code{
+    color: #e83e8c !important;
+}
+
 /* ---------------------------------------------------
     DATATABLES
 ----------------------------------------------------- */
