@@ -24,13 +24,10 @@ namespace App\Action\Api\Platform\Message;
 
 use App\Action\Api\ApiActionInterface;
 use App\Service\Platform\Message\LtiMessageBuilder;
-use InvalidArgumentException;
 use OAT\Library\Lti1p3Core\Message\LtiMessageInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Throwable;
 
 class CreateMessageLaunchAction implements ApiActionInterface
 {

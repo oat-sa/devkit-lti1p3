@@ -25,7 +25,6 @@ namespace App\Action\Api\Platform\Nrps;
 use App\Action\Api\ApiActionInterface;
 use App\Generator\UrlGenerator;
 use App\Nrps\MembershipRepository;
-use OAT\Library\Lti1p3Core\Exception\LtiException;
 use OAT\Library\Lti1p3Nrps\Factory\Member\MemberFactoryInterface;
 use OAT\Library\Lti1p3Nrps\Model\Member\MemberCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -79,7 +78,7 @@ class UpdateMembershipAction implements ApiActionInterface
 
         if (JSON_ERROR_NONE !== json_last_error()) {
             throw new BadRequestHttpException(
-                sprintf('error during membership deserialization: %s', json_last_error_msg())
+                sprintf('invalid request: %s', json_last_error_msg())
             );
         }
 

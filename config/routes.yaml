@@ -203,6 +203,31 @@ api_platform_nrps_delete_membership:
     path: /api/platform/nrps/memberships/{membershipIdentifier}
     controller: App\Action\Api\Platform\Nrps\DeleteMembershipAction
 
+api_platform_proctoring_list_assessments:
+    methods: [GET]
+    path: /api/platform/proctoring/assessments
+    controller: App\Action\Api\Platform\Proctoring\ListAssessmentsAction
+
+api_platform_proctoring_get_assessment:
+    methods: [GET]
+    path: /api/platform/proctoring/assessments/{assessmentIdentifier}
+    controller: App\Action\Api\Platform\Proctoring\GetAssessmentAction
+
+api_platform_proctoring_create_assessment:
+    methods: [POST]
+    path: /api/platform/proctoring/assessments
+    controller: App\Action\Api\Platform\Proctoring\CreateAssessmentAction
+
+api_platform_proctoring_update_assessment:
+    methods: [PATCH]
+    path: /api/platform/proctoring/assessments/{assessmentIdentifier}
+    controller: App\Action\Api\Platform\Proctoring\UpdateAssessmentAction
+
+api_platform_proctoring_delete_assessment:
+    methods: [DELETE]
+    path: /api/platform/proctoring/assessments/{assessmentIdentifier}
+    controller: App\Action\Api\Platform\Proctoring\DeleteAssessmentAction
+
 # LTI messages
 platform_message_launch_lti_resource_link:
     path: /platform/message/launch/lti-resource-link

@@ -1,0 +1,62 @@
+openapi: 3.0.1
+
+info:
+    version: v2.2.0
+    title: TAO LTI 1.3 DevKit - HTTP API
+
+paths:
+    /api/platform/nrps/memberships:
+        get:
+            summary: NRPS memberships list
+            description: NRPS memberships list endpoint
+            responses:
+                200:
+                    description: Success
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                                example: pong
+                500:
+                    $ref: '#/components/responses/InternalServerErrorResponse'
+
+components:
+    schemas:
+        Error:
+            type: object
+            properties:
+                message:
+                    description: Error message
+                    example: Error message
+                    type: string
+    responses:
+        BadRequestResponse:
+            description: Bad request
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Error'
+        UnauthorizedResponse:
+            description: Unauthorized
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Error'
+        NotFoundResponse:
+            description: Not found
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Error'
+        ConflictResponse:
+            description: Conflict
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Error'
+        InternalServerErrorResponse:
+            description: Internal server error
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Error'
