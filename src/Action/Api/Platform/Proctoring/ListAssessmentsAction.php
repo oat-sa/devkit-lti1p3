@@ -62,7 +62,7 @@ class ListAssessmentsAction implements ApiActionInterface
         $membershipsList = [];
 
         foreach ($assessments as $assessment) {
-            $membershipsList[$assessment->getIdentifier()] = [
+            $membershipsList[] = [
                 'assessment' => $assessment,
                 'acs_url' => $this->generator->generate(
                     'platform_service_acs',

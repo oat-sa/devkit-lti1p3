@@ -70,7 +70,7 @@ class ListMembershipsAction implements ApiActionInterface
         $membershipsList = [];
 
         foreach ($memberships as $membership) {
-            $membershipsList[$membership->getIdentifier()] = [
+            $membershipsList[] = [
                 'membership' => $membership,
                 'nrps_url' => $this->generator->generate(
                     'platform_service_nrps',
