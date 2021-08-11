@@ -178,6 +178,11 @@ api_platform_create_message:
     path: /api/platform/messages/{messageType}/launch
     controller: App\Action\Api\Platform\Message\CreateMessageLaunchAction
 
+api_platform_nrps_list_memberships:
+    methods: [GET]
+    path: /api/platform/nrps/memberships
+    controller: App\Action\Api\Platform\Nrps\ListMembershipsAction
+
 api_platform_nrps_get_membership:
     methods: [GET]
     path: /api/platform/nrps/memberships/{membershipIdentifier}

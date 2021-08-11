@@ -29,9 +29,8 @@ use App\Nrps\MembershipRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class GetMembershipAction implements ApiActionInterface
+class ListMembershipsAction implements ApiActionInterface
 {
     /** @var MembershipRepository */
     private $repository;
@@ -54,25 +53,24 @@ class GetMembershipAction implements ApiActionInterface
 
     public static function getName(): string
     {
-        return 'NRPS membership view';
+        return 'NRPS memberships list';
     }
 
-    public function __invoke(Request $request, string $membershipIdentifier): Response
+    public function __invoke(Request $request): Response
     {
-        if ('default' === $membershipIdentifier) {
-            $membership = $this->factory->create();
-        } else {
-            $membership = $this->repository->find($membershipIdentifier);
+        $limit = $request->query->has('limit') ? intval($request->query->get('limit')) : null;
+        $offset = $request->query->has('offset') ? intval($request->query->get('offset')) : null;
 
-            if (null === $membership) {
-                throw new NotFoundHttpException(
-                    sprintf('cannot find membership with identifier %s', $membershipIdentifier)
-                );
-            }
-        }
+        $memberships = $this->repository->findAll();
 
-        return new JsonResponse(
-            [
+        array_unshift($memberships, $this->factory->create());
+
+        $memberships = array_slice($memberships, $offset ?: 0, $limit);
+
+        $membershipsList = [];
+
+        foreach ($memberships as $membership) {
+            $membershipsList[$membership->getIdentifier()] = [
                 'membership' => $membership,
                 'nrps_url' => $this->generator->generate(
                     'platform_service_nrps',
@@ -81,6 +79,12 @@ class GetMembershipAction implements ApiActionInterface
                         'membershipIdentifier' => $membership->getIdentifier(),
                     ]
                 )
+            ];
+        }
+
+        return new JsonResponse(
+            [
+                'memberships' => $membershipsList
             ]
         );
     }
