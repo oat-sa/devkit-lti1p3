@@ -22,9 +22,12 @@ declare(strict_types=1);
 
 namespace App\Proctoring;
 
+use InvalidArgumentException;
+use JsonSerializable;
 use OAT\Library\Lti1p3Proctoring\Model\AcsControlInterface;
+use OAT\Library\Lti1p3Proctoring\Model\AcsControlResultInterface;
 
-class Assessment
+class Assessment implements JsonSerializable
 {
     /** @var string */
     private $identifier;
@@ -38,7 +41,7 @@ class Assessment
     public function __construct(string $identifier, string $status, array $controls = [])
     {
         $this->identifier = $identifier;
-        $this->status = $status;
+        $this->setStatus($status);
         $this->controls = $controls;
     }
 
@@ -59,8 +62,21 @@ class Assessment
         return $this->status;
     }
 
+    /**
+     * @throw InvalidArgumentException
+     */
     public function setStatus(string $status): Assessment
     {
+        if (!in_array($status, AcsControlResultInterface::SUPPORTED_STATUSES)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Assessment status %s is not supported. Supported statuses: %s',
+                    $status,
+                    implode(', ', AcsControlResultInterface::SUPPORTED_STATUSES)
+                )
+            );
+        }
+
         $this->status = $status;
 
         return $this;
@@ -76,5 +92,13 @@ class Assessment
         $this->controls[] = $control;
 
         return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->identifier,
+            'status' => $this->status
+        ];
     }
 }

@@ -34,7 +34,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class LineItemRepository implements LineItemRepositoryInterface
 {
-    private const CACHE_KEY = 'lti1p3-ags-line-items';
+    public const CACHE_KEY = 'lti1p3-ags-line-items';
 
     /** @var CacheItemPoolInterface */
     private $cache;

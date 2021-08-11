@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
+use App\Action\Api\ApiActionInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -54,6 +55,7 @@ class ErrorHandlerSubscriber implements EventSubscriberInterface
 
     public function onKernelException(ExceptionEvent $event): void
     {
+        $request = $event->getRequest();
         $exception = $event->getThrowable();
 
         $this->logger->error($exception->getMessage());
@@ -62,20 +64,45 @@ class ErrorHandlerSubscriber implements EventSubscriberInterface
             ? $exception->getStatusCode()
             : Response::HTTP_INTERNAL_SERVER_ERROR;
 
-        if ($event->getRequest()->isXmlHttpRequest()) {
+        $controller = $request->attributes->get('_controller');
+
+        if (is_a($controller, ApiActionInterface::class, true) || 0 === strpos($request->getPathInfo(), '/api/')) {
+
+            $errorMessage = null === $controller
+                ? sprintf('Api error: %s', $exception->getMessage())
+                : sprintf('%s api error: %s', $controller::getName(), $exception->getMessage());
+
             $event->setResponse(
-                new JsonResponse([
-                    'code' => $code,
-                    'message' => $exception->getMessage(),
-                ])
+                new JsonResponse(
+                    [
+                        'error' => $errorMessage,
+                    ],
+                    $code
+                )
             );
         } else {
-            $event->setResponse(
-                new Response($this->twig->render('error/error.html.twig', [
-                    'code' => $code,
-                    'message' => $exception->getMessage(),
-                ]))
-            );
+            if ($request->isXmlHttpRequest()) {
+                $event->setResponse(
+                    new JsonResponse(
+                        [
+                            'code' => $code,
+                            'message' => $exception->getMessage(),
+                        ]
+                    )
+                );
+            } else {
+                $event->setResponse(
+                    new Response(
+                        $this->twig->render(
+                            'error/error.html.twig',
+                            [
+                                'code' => $code,
+                                'message' => $exception->getMessage(),
+                            ]
+                        )
+                    )
+                );
+            }
         }
     }
 }

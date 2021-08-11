@@ -8,7 +8,7 @@ parameters:
     application_env: '%env(resolve:APP_ENV)%'
     application_api_key: '%env(resolve:APP_API_KEY)%'
     application_vendors: '%kernel.project_dir%/vendor/composer/installed.php'
-    application_version: '2.1.0'
+    application_version: '2.2.0'
     container.dumper.inline_factories: true
 
 services:
@@ -171,6 +171,9 @@ services:
 
     OAT\Library\Lti1p3Nrps\Factory\Member\MemberFactoryInterface:
         class: OAT\Library\Lti1p3Nrps\Factory\Member\MemberFactory
+
+    OAT\Library\Lti1p3Nrps\Serializer\MembershipSerializerInterface:
+        class: OAT\Library\Lti1p3Nrps\Serializer\MembershipSerializer
 
     OAT\Library\Lti1p3Nrps\Service\Server\Handler\MembershipServiceServerRequestHandler:
         arguments:

@@ -32,7 +32,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class ResultRepository implements ResultRepositoryInterface
 {
-    private const CACHE_KEY = 'lti1p3-ags-results';
+    public const CACHE_KEY = 'lti1p3-ags-results';
 
     /** @var CacheItemPoolInterface */
     private $cache;

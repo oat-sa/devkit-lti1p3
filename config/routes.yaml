@@ -178,6 +178,56 @@ api_platform_create_message:
     path: /api/platform/messages/{messageType}/launch
     controller: App\Action\Api\Platform\Message\CreateMessageLaunchAction
 
+api_platform_nrps_list_memberships:
+    methods: [GET]
+    path: /api/platform/nrps/memberships
+    controller: App\Action\Api\Platform\Nrps\ListMembershipsAction
+
+api_platform_nrps_get_membership:
+    methods: [GET]
+    path: /api/platform/nrps/memberships/{membershipIdentifier}
+    controller: App\Action\Api\Platform\Nrps\GetMembershipAction
+
+api_platform_nrps_create_membership:
+    methods: [POST]
+    path: /api/platform/nrps/memberships
+    controller: App\Action\Api\Platform\Nrps\CreateMembershipAction
+
+api_platform_nrps_update_membership:
+    methods: [PATCH]
+    path: /api/platform/nrps/memberships/{membershipIdentifier}
+    controller: App\Action\Api\Platform\Nrps\UpdateMembershipAction
+
+api_platform_nrps_delete_membership:
+    methods: [DELETE]
+    path: /api/platform/nrps/memberships/{membershipIdentifier}
+    controller: App\Action\Api\Platform\Nrps\DeleteMembershipAction
+
+api_platform_proctoring_list_assessments:
+    methods: [GET]
+    path: /api/platform/proctoring/assessments
+    controller: App\Action\Api\Platform\Proctoring\ListAssessmentsAction
+
+api_platform_proctoring_get_assessment:
+    methods: [GET]
+    path: /api/platform/proctoring/assessments/{assessmentIdentifier}
+    controller: App\Action\Api\Platform\Proctoring\GetAssessmentAction
+
+api_platform_proctoring_create_assessment:
+    methods: [POST]
+    path: /api/platform/proctoring/assessments
+    controller: App\Action\Api\Platform\Proctoring\CreateAssessmentAction
+
+api_platform_proctoring_update_assessment:
+    methods: [PATCH]
+    path: /api/platform/proctoring/assessments/{assessmentIdentifier}
+    controller: App\Action\Api\Platform\Proctoring\UpdateAssessmentAction
+
+api_platform_proctoring_delete_assessment:
+    methods: [DELETE]
+    path: /api/platform/proctoring/assessments/{assessmentIdentifier}
+    controller: App\Action\Api\Platform\Proctoring\DeleteAssessmentAction
+
 # LTI messages
 platform_message_launch_lti_resource_link:
     path: /platform/message/launch/lti-resource-link
