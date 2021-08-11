@@ -172,6 +172,9 @@ services:
     OAT\Library\Lti1p3Nrps\Factory\Member\MemberFactoryInterface:
         class: OAT\Library\Lti1p3Nrps\Factory\Member\MemberFactory
 
+    OAT\Library\Lti1p3Nrps\Serializer\MembershipSerializerInterface:
+        class: OAT\Library\Lti1p3Nrps\Serializer\MembershipSerializer
+
     OAT\Library\Lti1p3Nrps\Service\Server\Handler\MembershipServiceServerRequestHandler:
         arguments:
             - '@App\Nrps\MembershipServiceServerBuilder'
