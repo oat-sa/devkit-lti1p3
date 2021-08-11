@@ -41,7 +41,7 @@ class DeleteMembershipAction implements ApiActionInterface
 
     public static function getName(): string
     {
-        return 'NRPS membership deletion';
+        return 'Delete NRPS membership';
     }
 
     public function __invoke(Request $request, string $membershipIdentifier): Response

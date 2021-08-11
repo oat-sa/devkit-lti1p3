@@ -55,7 +55,7 @@ class CreateMembershipAction implements ApiActionInterface
 
     public static function getName(): string
     {
-        return 'NRPS membership creation';
+        return 'Create NRPS membership';
     }
 
     public function __invoke(Request $request): JsonResponse

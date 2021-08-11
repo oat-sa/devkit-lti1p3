@@ -193,6 +193,11 @@ api_platform_nrps_create_membership:
     path: /api/platform/nrps/memberships
     controller: App\Action\Api\Platform\Nrps\CreateMembershipAction
 
+api_platform_nrps_update_membership:
+    methods: [PATCH]
+    path: /api/platform/nrps/memberships/{membershipIdentifier}
+    controller: App\Action\Api\Platform\Nrps\UpdateMembershipAction
+
 api_platform_nrps_delete_membership:
     methods: [DELETE]
     path: /api/platform/nrps/memberships/{membershipIdentifier}

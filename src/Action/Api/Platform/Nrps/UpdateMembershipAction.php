@@ -24,52 +24,84 @@ namespace App\Action\Api\Platform\Nrps;
 
 use App\Action\Api\ApiActionInterface;
 use App\Generator\UrlGenerator;
-use App\Nrps\DefaultMembershipFactory;
 use App\Nrps\MembershipRepository;
+use OAT\Library\Lti1p3Core\Exception\LtiException;
+use OAT\Library\Lti1p3Nrps\Factory\Member\MemberFactoryInterface;
+use OAT\Library\Lti1p3Nrps\Model\Member\MemberCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class GetMembershipAction implements ApiActionInterface
+class UpdateMembershipAction implements ApiActionInterface
 {
+    /** @var MemberFactoryInterface */
+    private $factory;
+
     /** @var MembershipRepository */
     private $repository;
-
-    /** @var DefaultMembershipFactory */
-    private $factory;
 
     /** @var UrlGenerator */
     private $generator;
 
     public function __construct(
+        MemberFactoryInterface $factory,
         MembershipRepository $repository,
-        DefaultMembershipFactory $factory,
         UrlGenerator $generator
     ) {
-        $this->repository = $repository;
         $this->factory = $factory;
+        $this->repository = $repository;
         $this->generator = $generator;
     }
 
     public static function getName(): string
     {
-        return 'Get NRPS membership';
+        return 'Update NRPS membership';
     }
 
     public function __invoke(Request $request, string $membershipIdentifier): Response
     {
         if ('default' === $membershipIdentifier) {
-            $membership = $this->factory->create();
-        } else {
-            $membership = $this->repository->find($membershipIdentifier);
-
-            if (null === $membership) {
-                throw new NotFoundHttpException(
-                    sprintf('cannot find membership with identifier %s', $membershipIdentifier)
-                );
-            }
+            throw new AccessDeniedHttpException('the membership with identifier default cannot be updated');
         }
+
+        $membership = $this->repository->find($membershipIdentifier);
+
+        if (null === $membership) {
+            throw new NotFoundHttpException(
+                sprintf('cannot find membership with identifier %s', $membershipIdentifier)
+            );
+        }
+
+        $data = json_decode($request->getContent(), true);
+
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new BadRequestHttpException(
+                sprintf('error during membership deserialization: %s', json_last_error_msg())
+            );
+        }
+
+        $context = $membership->getContext();
+        $context
+            ->setIdentifier($data['context']['id'] ?? $context->getIdentifier())
+            ->setLabel($data['context']['label'] ?? $context->getLabel())
+            ->setTitle($data['context']['title'] ?? $context->getTitle());
+
+        $membership->setContext($context);
+
+        if(array_key_exists('members', $data)) {
+            $memberCollection = new MemberCollection();
+
+            foreach ($data['members'] as $member) {
+                $memberCollection->add($this->factory->create($member));
+            }
+
+            $membership->setMembers($memberCollection);
+        }
+
+        $this->repository->save($membership);
 
         return new JsonResponse(
             [

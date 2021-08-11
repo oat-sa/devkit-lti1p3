@@ -53,7 +53,7 @@ class ListMembershipsAction implements ApiActionInterface
 
     public static function getName(): string
     {
-        return 'NRPS memberships list';
+        return 'List NRPS memberships';
     }
 
     public function __invoke(Request $request): Response
