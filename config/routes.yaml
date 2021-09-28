@@ -250,6 +250,10 @@ platform_message_proctoring_return:
     controller: App\Action\Platform\Message\ProctoringReturnAction
     defaults: { identifier: '' }
 
+platform_message_launch_submission_review:
+    path: /platform/message/launch/submission-review
+    controller: App\Action\Platform\Message\SubmissionReviewLaunchAction
+
 tool_message_launch:
     path: /tool/launch
     controller: App\Action\Tool\Message\MessageLaunchAction

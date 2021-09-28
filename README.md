@@ -41,6 +41,7 @@ You can find below [IMS](https://www.imsglobal.org/) related information.
 - [IMS LTI 1.3 Deep Linking](https://www.imsglobal.org/spec/lti-dl/v2p0)
 - [IMS LTI 1.3 NRPS](https://www.imsglobal.org/spec/lti-nrps/v2p0)
 - [IMS LTI 1.3 Proctoring](https://www.imsglobal.org/spec/proctoring/v1p0)
+- [IMS LTI 1.3 Submission Review](https://www.imsglobal.org/spec/lti-sr/v1p0)
 
 ## Documentation
 

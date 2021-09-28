@@ -199,3 +199,6 @@ services:
         arguments:
             - '@OAT\Library\Lti1p3BasicOutcome\Service\Server\Handler\BasicOutcomeServiceServerRequestHandler'
         tags: [ 'controller.service_arguments' ]
+
+    # LTI submission review dependencies
+    OAT\Library\Lti1p3SubmissionReview\Message\Launch\Builder\SubmissionReviewLaunchRequestBuilder: ~

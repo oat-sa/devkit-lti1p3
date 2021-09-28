@@ -105,7 +105,6 @@ class LtiResourceLinkLaunchType extends AbstractType
                 [
                     'required' => false,
                     'help' => 'Custom user name (name claim)'
-
                 ]
             )
             ->add(
@@ -114,7 +113,6 @@ class LtiResourceLinkLaunchType extends AbstractType
                 [
                     'required' => false,
                     'help' => 'Custom user email (email claim)'
-
                 ]
             )
             ->add(
@@ -123,7 +121,6 @@ class LtiResourceLinkLaunchType extends AbstractType
                 [
                     'required' => false,
                     'help' => 'Custom user locale (locale claim)'
-
                 ]
             )
             ->add(
@@ -133,7 +130,6 @@ class LtiResourceLinkLaunchType extends AbstractType
                     'required' => false,
                     'help_html' => true,
                     'help' => "If provided, will be the url where to send the <code>LtiResourceLinkRequest</code> message. If not, will use the selected registration tool default launch url"
-
                 ]
             )
             ->add(
@@ -143,7 +139,8 @@ class LtiResourceLinkLaunchType extends AbstractType
                     'required' => false,
                     'attr' => ['rows' => 15],
                     'help' => 'JSON formatted claims to add to the launch'
-            ])
+                ]
+            )
             ->add(
                 'submit',
                 SubmitType::class, [

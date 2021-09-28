@@ -116,7 +116,6 @@ class ProctoringLaunchType extends AbstractType
                 [
                     'required' => false,
                     'help' => 'Custom user name (name claim)'
-
                 ]
             )
             ->add(
@@ -125,7 +124,6 @@ class ProctoringLaunchType extends AbstractType
                 [
                     'required' => false,
                     'help' => 'Custom user email (email claim)'
-
                 ]
             )
             ->add(
@@ -134,7 +132,6 @@ class ProctoringLaunchType extends AbstractType
                 [
                     'required' => false,
                     'help' => 'Custom user locale (locale claim)'
-
                 ]
             )
             ->add(
@@ -145,7 +142,6 @@ class ProctoringLaunchType extends AbstractType
                     'required' => false,
                     'help_html' => true,
                     'help' => 'If provided, will be the url where to send the <code>LtiStartProctoring</code> message. If not, will use the selected registration tool default launch url'
-
                 ]
             )
             ->add(
@@ -155,7 +151,6 @@ class ProctoringLaunchType extends AbstractType
                     'required' => true,
                     'help_html' => true,
                     'help' => 'Url where to receive back the <code>LtistartAssessment</code> message (for devkit, use: <code>/platform/message/return/proctoring</code>)',
-
                     'attr' => [
                         'data-devkit-start-assessment-url' => $devkitStartAssessmentUrl
                     ]
@@ -167,7 +162,6 @@ class ProctoringLaunchType extends AbstractType
                 [
                     'required' => true,
                     'help' => 'Attempt number'
-
                 ]
             )
             ->add(
