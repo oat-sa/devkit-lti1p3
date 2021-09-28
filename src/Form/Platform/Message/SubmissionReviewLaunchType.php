@@ -164,14 +164,47 @@ class SubmissionReviewLaunchType extends AbstractType
                         'class' => 'radio-inline'
                     ],
                     'choices' => [
-                        'other' => 'other'
+                        'other user' => 'other'
                     ],
                     'expanded' => true,
                     'multiple' => false,
                     'required' => false,
-                    'placeholder' => 'same as launcher',
-                    'empty_data' => 'same as launcher',
-                    'help' => 'User who made the submission'
+                    'placeholder' => 'same as launch user',
+                    'empty_data' => 'same as launch user',
+                    'help' => 'Identifies the user who made the submission that is to be reviewed'
+                ]
+            )
+            ->add(
+                'for_user_id',
+                TextType::class,
+                [
+                    'label' => 'Submission owner identifier',
+                    'required' => false,
+                    'help' => 'Submission owner identifier'
+                ]
+            )
+            ->add(
+                'for_user_name',
+                TextType::class,
+                [
+                    'required' => false,
+                    'help' => 'Custom user name (name claim)'
+                ]
+            )
+            ->add(
+                'for_user_email',
+                TextType::class,
+                [
+                    'required' => false,
+                    'help' => 'Custom user email (email claim)'
+                ]
+            )
+            ->add(
+                'for_user_role',
+                TextType::class,
+                [
+                    'required' => false,
+                    'help' => 'Custom user locale (locale claim)'
                 ]
             )
             ->add(
