@@ -171,7 +171,7 @@ class SubmissionReviewLaunchType extends AbstractType
                     'required' => false,
                     'placeholder' => 'same as launch user',
                     'empty_data' => 'same as launch user',
-                    'help' => 'Identifies the user who made the submission that is to be reviewed'
+                    'help' => 'User who made the submission that is to be reviewed'
                 ]
             )
             ->add(
@@ -187,24 +187,27 @@ class SubmissionReviewLaunchType extends AbstractType
                 'for_user_name',
                 TextType::class,
                 [
+                    'label' => 'Submission owner name',
                     'required' => false,
-                    'help' => 'Custom user name (name claim)'
+                    'help' => 'Submission owner name'
                 ]
             )
             ->add(
                 'for_user_email',
                 TextType::class,
                 [
+                    'label' => 'Submission owner email',
                     'required' => false,
-                    'help' => 'Custom user email (email claim)'
+                    'help' => 'Submission owner email'
                 ]
             )
             ->add(
                 'for_user_role',
                 TextType::class,
                 [
+                    'label' => 'Submission owner role',
                     'required' => false,
-                    'help' => 'Custom user locale (locale claim)'
+                    'help' => 'Submission owner role'
                 ]
             )
             ->add(

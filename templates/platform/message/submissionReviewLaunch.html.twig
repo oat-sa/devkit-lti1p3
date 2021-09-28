@@ -52,6 +52,20 @@
                         {{ form_row(form.for_user_type) }}
                     </div>
                 </div>
+                <div id="forUserCustom" class="form-row {{ form.for_user_type.vars.value != 'other' ? 'd-none' : '' }}">
+                    <div class="col-md-3">
+                        {{ form_row(form.for_user_id) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.for_user_name) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.for_user_email) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.for_user_role) }}
+                    </div>
+                </div>
                 <div class="form-group">
                     {{ form_label(form.submission_review_url) }}<br/>
                     <div class="input-group">
@@ -219,7 +233,7 @@
                 success: function(result){
                     $("#launchUrlLoadLogo").removeClass("fa-spinner fa-spin");
                     $("#launchUrlLoadLogo").addClass("fa-edit");
-                    $("#submission_review_launch_start_submission_review_url").val(result.url);
+                    $("#submission_review_launch_submission_review_url").val(result.url);
                 },
                 error: function(result){
                     $("#launchUrlLoadLogo").removeClass("fa-spinner fa-spin");
@@ -273,10 +287,14 @@
             }
         });
 
-        $("#startAssessmentUrlLoad").click(function(event){
-            $("#submission_review_launch_start_assessment_url").val(
-                $("#submission_review_launch_start_assessment_url").data('devkit-start-assessment-url')
-            );
+        $('input[name="submission_review_launch[for_user_type]"]').change(function (evt) {
+            switch($(this).val()) {
+                case 'other':
+                    $('#forUserCustom').removeClass('d-none');
+                    break;
+                default:
+                    $('#forUserCustom').addClass('d-none');
+            }
         });
 
         $( document ).ready(function() {
