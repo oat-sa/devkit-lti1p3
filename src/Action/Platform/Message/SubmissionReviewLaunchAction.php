@@ -24,6 +24,8 @@ namespace App\Action\Platform\Message;
 
 use App\Form\Generator\FormShareUrlGenerator;
 use App\Form\Platform\Message\SubmissionReviewLaunchType;
+use OAT\Library\Lti1p3Core\Message\Payload\Claim\AgsClaim;
+use OAT\Library\Lti1p3Core\Message\Payload\Claim\ForUserClaim;
 use OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface;
 use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLink;
 use OAT\Library\Lti1p3SubmissionReview\Message\Launch\Builder\SubmissionReviewLaunchRequestBuilder;
@@ -134,12 +136,28 @@ class SubmissionReviewLaunchAction
                     ];
             }
 
-            $submissionReviewLaunchRequest = $this->builder->buildLtiResourceLinkSubmissionReviewLaunchRequest(
-                $resourceLink,
+            $agsClaim = new AgsClaim(
+                $formData['ags_scopes'],
+                null,
+                $formData['ags_line_item_url']
+            );
+
+            $forUserClaim = new ForUserClaim(
+                $formData['for_user_id'],
+                $formData['for_user_name'],
+                null,
+                null,
+                $formData['for_user_email'],
+                null,
+                [$formData['for_user_role']]
+            );
+
+            $submissionReviewLaunchRequest = $this->builder->buildSubmissionReviewLaunchRequest(
+                $agsClaim,
+                $forUserClaim,
                 $formData['registration'],
                 json_encode($loginHint),
-                $formData['start_assessment_url'],
-                $formData['attempt_number'],
+                null,
                 null,
                 [],
                 $claims

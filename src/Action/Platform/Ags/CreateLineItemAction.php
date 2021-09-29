@@ -101,6 +101,7 @@ class CreateLineItemAction
                 !empty($formData['line_item_end_date'])
                     ? Carbon::createFromFormat('Y-m-d H:i', $formData['line_item_end_date'])
                     : null,
+                null,
                 $additionalProperties
             );
 

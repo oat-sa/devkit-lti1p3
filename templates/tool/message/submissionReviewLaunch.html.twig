@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_title %}<i class="fas fa-file-contract"></i>&nbsp;&nbsp;<span class="text-danger">Tool</span> - LtiSubmissionReviewRequest result{% endblock %}
+
+{% block body %}
+    <div class="card bg-light">
+        <div class="card-header">
+            <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-submission-review-tab" data-toggle="pill" href="#pills-submission-review" role="tab" aria-controls="pills-proctor" aria-selected="true">
+                        <i class="fas fa-file-contract"></i>&nbsp;Submission review
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-message-tab" data-toggle="pill" href="#pills-message" role="tab" aria-controls="pills-message" aria-selected="false">
+                        <i class="fas fa-envelope-open"></i>&nbsp;Message
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a a class="nav-link" id="pills-security-tab" data-toggle="pill" href="#pills-security" role="tab" aria-controls="pills-security" aria-selected="false">
+                        <i class="fas fa-shield-alt"></i>&nbsp;Security
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-registration-tab" data-toggle="pill" href="#pills-registration" role="tab" aria-controls="pills-registration" aria-selected="false">
+                        <i class="fas fa-share-alt"></i>&nbsp;Registration
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-user-tab" data-toggle="pill" href="#pills-user" role="tab" aria-controls="pills-user" aria-selected="false">
+                        <i class="fas fa-id-card"></i>&nbsp;Identity
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-ags-tab" data-toggle="pill" href="#pills-ags" role="tab" aria-controls="pills-ags" aria-selected="false">
+                        <i class="fas fa-graduation-cap"></i>&nbsp;AGS
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-claims-tab" data-toggle="pill" href="#pills-claims" role="tab" aria-controls="pills-claims" aria-selected="false">
+                        <i class="fas fa-code"></i>&nbsp;Claims
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-submission-review" role="tabpanel" aria-labelledby="pills-submission-review-tab">
+                    {% include 'launch/blocks/message.html.twig' with {'token': token} %}
+                </div>
+                <div class="tab-pane fade" id="pills-message" role="tabpanel" aria-labelledby="pills-message-tab">
+                    {% include 'launch/blocks/message.html.twig' with {'token': token} %}
+                </div>
+                <div class="tab-pane fade" id="pills-security" role="tabpanel" aria-labelledby="pills-security-tab">
+                    {% include 'launch/blocks/toolSecurity.html.twig' with {'token': token} %}
+                </div>
+                <div class="tab-pane fade" id="pills-registration" role="tabpanel" aria-labelledby="pills-registration-tab">
+                    {% include 'launch/blocks/registration.html.twig' with {'token': token} %}
+                </div>
+                <div class="tab-pane fade" id="pills-user" role="tabpanel" aria-labelledby="pills-user-tab">
+                    {% include 'launch/blocks/identity.html.twig' with {'token': token} %}
+                </div>
+                <div class="tab-pane fade" id="pills-ags" role="tabpanel" aria-labelledby="pills-ags-tab">
+                    {% include 'launch/blocks/ags.html.twig' with {'token': token} %}
+                </div>
+                <div class="tab-pane fade" id="pills-claims" role="tabpanel" aria-labelledby="pills-claims-tab">
+                    {% include 'launch/blocks/claims.html.twig' with {'token': token} %}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <small><code>LtiSubmissionReviewRequest</code> launch result</small>
+        </div>
+    </div>
+{% endblock body %}

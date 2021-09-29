@@ -70,6 +70,8 @@ class MessageLaunchAction
                 return $this->handleLtiDeepLinkingRequest($token);
             case LtiMessageInterface::LTI_MESSAGE_TYPE_START_PROCTORING:
                 return $this->handleLtiStartProctoring($token);
+            case LtiMessageInterface::LTI_MESSAGE_TYPE_SUBMISSION_REVIEW_REQUEST:
+                return $this->handleLtiSubmissionReviewRequest($token);
             default:
                 throw new RuntimeException(
                     sprintf('Unhandled LTI message-type %s', $token->getPayload()->getMessageType())
@@ -116,6 +118,20 @@ class MessageLaunchAction
         return new Response(
             $this->twig->render(
                 'tool/message/proctoringLaunch.html.twig',
+                [
+                    'token' => $token,
+                ]
+            )
+        );
+    }
+
+    private function handleLtiSubmissionReviewRequest(LtiToolMessageSecurityToken $token): Response
+    {
+        $this->flashBag->add('success', 'Tool LtiSubmissionReviewRequest launch success');
+
+        return new Response(
+            $this->twig->render(
+                'tool/message/submissionReviewLaunch.html.twig',
                 [
                     'token' => $token,
                 ]
