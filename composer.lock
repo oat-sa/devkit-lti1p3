@@ -1535,12 +1535,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-submission-review.git",
-                "reference": "6b70f8645c81bf7deb1b79d371d5bd020909b7f2"
+                "reference": "2f18ceaa4d22b03c697235d24ea7e6e78cadbf05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-submission-review/zipball/6b70f8645c81bf7deb1b79d371d5bd020909b7f2",
-                "reference": "6b70f8645c81bf7deb1b79d371d5bd020909b7f2",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-submission-review/zipball/2f18ceaa4d22b03c697235d24ea7e6e78cadbf05",
+                "reference": "2f18ceaa4d22b03c697235d24ea7e6e78cadbf05",
                 "shasum": ""
             },
             "require": {
@@ -1569,7 +1569,7 @@
                 "issues": "https://github.com/oat-sa/lib-lti1p3-submission-review/issues",
                 "source": "https://github.com/oat-sa/lib-lti1p3-submission-review/tree/0.1.0"
             },
-            "time": "2021-09-27T14:23:36+00:00"
+            "time": "2021-10-01T09:07:10+00:00"
         },
         {
             "name": "php-http/message-factory",
