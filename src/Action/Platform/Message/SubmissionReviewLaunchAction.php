@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -81,6 +81,8 @@ class SubmissionReviewLaunchAction
         $form->handleRequest($request);
 
         $claims = [];
+        $resourceLink = null;
+        $forUserClaim = null;
         $submissionReviewLaunchRequest = null;
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -99,17 +101,10 @@ class SubmissionReviewLaunchAction
                 $resourceLink = new LtiResourceLink(
                     $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['id'],
                     [
-                        'url' => $formData['start_proctoring_url'] ?? null,
+                        'url' => $formData['submission_review_url'] ?? null,
                         'title' => $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['title'] ?? null,
                         'text' => $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['description'] ?? null,
 
-                    ]
-                );
-            } else {
-                $resourceLink = new LtiResourceLink(
-                    Uuid::uuid4()->toString(),
-                    [
-                        'url' => $formData['start_proctoring_url'] ?? null
                     ]
                 );
             }
@@ -136,32 +131,74 @@ class SubmissionReviewLaunchAction
                     ];
             }
 
+            if ($formData['for_user_type'] == 'other') {
+                $forUserClaim = new ForUserClaim(
+                    $formData['for_user_id'] ?? Uuid::uuid4()->toString(),
+                    $formData['for_user_name'] ?? null,
+                    null,
+                    null,
+                    $formData['for_user_email'] ?? null,
+                    null,
+                    [
+                        $formData['for_user_role'] ?? null
+                    ]
+                );
+            } else {
+                switch ($formData['user_type']) {
+                    case 'list':
+                        $selectedUser = $this->parameterBag->get('users')[$formData['user_list']];
+                        $forUserClaim = new ForUserClaim(
+                            $formData['user_list'],
+                            $selectedUser['name'] ?? null,
+                            $selectedUser['givenName'] ?? null,
+                            $selectedUser['familyName'] ?? null,
+                            $selectedUser['email'] ?? null
+                        );
+                        break;
+                    case 'custom':
+                        $forUserClaim = new ForUserClaim(
+                            $loginHint['user_id'],
+                            $loginHint['user_name'] ?? null,
+                            null,
+                            null,
+                            $loginHint['user_email'] ?? null
+                        );
+                        break;
+                    default:
+                        $forUserClaim = new ForUserClaim(Uuid::uuid4()->toString());
+                }
+            }
+
             $agsClaim = new AgsClaim(
                 $formData['ags_scopes'],
                 null,
                 $formData['ags_line_item_url']
             );
 
-            $forUserClaim = new ForUserClaim(
-                $formData['for_user_id'],
-                $formData['for_user_name'],
-                null,
-                null,
-                $formData['for_user_email'],
-                null,
-                [$formData['for_user_role']]
-            );
-
-            $submissionReviewLaunchRequest = $this->builder->buildSubmissionReviewLaunchRequest(
-                $agsClaim,
-                $forUserClaim,
-                $formData['registration'],
-                json_encode($loginHint),
-                null,
-                null,
-                [],
-                $claims
-            );
+            if (null !== $resourceLink) {
+                $submissionReviewLaunchRequest = $this->builder->buildLtiResourceLinkSubmissionReviewLaunchRequest(
+                    $resourceLink,
+                    $agsClaim,
+                    $forUserClaim,
+                    $formData['registration'],
+                    json_encode($loginHint),
+                    $formData['submission_review_url'] ?? null,
+                    null,
+                    [],
+                    $claims
+                );
+            } else {
+                $submissionReviewLaunchRequest = $this->builder->buildSubmissionReviewLaunchRequest(
+                    $agsClaim,
+                    $forUserClaim,
+                    $formData['registration'],
+                    json_encode($loginHint),
+                    $formData['submission_review_url'] ?? null,
+                    null,
+                    [],
+                    $claims
+                );
+            }
 
             $this->flashBag->add('success', 'LtiSubmissionReviewRequest generation success');
         } else {

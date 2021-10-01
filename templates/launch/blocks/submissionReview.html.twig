@@ -16,6 +16,8 @@
                         <dd>{{ token.payload.forUser.email|default('n/a') }}</dd>
                         <dt>Roles</dt>
                         <dd>{{ token.payload.forUser.roles|join(', ')|default('n/a') }}</dd>
+                        <dt>Person sourced id</dt>
+                        <dd>{{ token.payload.forUser.personSourcedId|default('n/a') }}</dd>
                     </dl>
                 </div>
                 <div class="col-md-6">
@@ -26,8 +28,6 @@
                         <dd>{{ token.payload.forUser.givenName|default('n/a') }}</dd>
                         <dt>Family name</dt>
                         <dd>{{ token.payload.forUser.familyName|default('n/a') }}</dd>
-                        <dt>Person sourced id</dt>
-                        <dd>{{ token.payload.forUser.personSourcedId|default('n/a') }}</dd>
                     </dl>
                 </div>
             </div>
