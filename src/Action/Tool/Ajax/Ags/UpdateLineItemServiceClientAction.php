@@ -76,6 +76,7 @@ class UpdateLineItemServiceClientAction
                 !empty($formParameters['lineItemEndDateTime'])
                     ? Carbon::createFromFormat('Y-m-d H:i', $formParameters['lineItemEndDateTime'])
                     : null,
+                null,
                 $additionalProperties ?? []
             );
 

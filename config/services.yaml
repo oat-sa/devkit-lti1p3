@@ -8,7 +8,7 @@ parameters:
     application_env: '%env(resolve:APP_ENV)%'
     application_api_key: '%env(resolve:APP_API_KEY)%'
     application_vendors: '%kernel.project_dir%/vendor/composer/installed.php'
-    application_version: '2.2.0'
+    application_version: '2.3.0'
     container.dumper.inline_factories: true
 
 services:
@@ -155,6 +155,8 @@ services:
 
     OAT\Library\Lti1p3Proctoring\Message\Launch\Builder\StartAssessmentLaunchRequestBuilder: ~
 
+    OAT\Library\Lti1p3Proctoring\Message\Launch\Builder\EndAssessmentLaunchRequestBuilder: ~
+
     OAT\Library\Lti1p3Proctoring\Service\Server\Handler\AcsServiceServerRequestHandler:
         arguments:
             - '@App\Proctoring\AcsServiceServerControlProcessor'
@@ -199,3 +201,6 @@ services:
         arguments:
             - '@OAT\Library\Lti1p3BasicOutcome\Service\Server\Handler\BasicOutcomeServiceServerRequestHandler'
         tags: [ 'controller.service_arguments' ]
+
+    # LTI submission review dependencies
+    OAT\Library\Lti1p3SubmissionReview\Message\Launch\Builder\SubmissionReviewLaunchRequestBuilder: ~

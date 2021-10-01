@@ -102,6 +102,7 @@ class AppExtension extends AbstractExtension
             'oat-sa/lib-lti1p3-deep-linking',
             'oat-sa/lib-lti1p3-nrps',
             'oat-sa/lib-lti1p3-proctoring',
+            'oat-sa/lib-lti1p3-submission-review',
         ];
 
         $vendorVersions = [];
@@ -125,6 +126,7 @@ class AppExtension extends AbstractExtension
             case 'platform_message_launch_proctoring':
             case 'tool_message_launch_proctoring':
             case 'platform_message_proctoring_return':
+            case 'platform_message_launch_submission_review':
                 return 'message';
             case 'tool_service_client':
                 return 'service';
