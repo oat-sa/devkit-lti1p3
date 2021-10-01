@@ -1,0 +1,81 @@
+<div class="alert alert-warning" role="alert">
+    <i class="fas fa-exclamation-triangle"></i>&nbsp;This step is normally used in a real tool to offer submission review. Since this is a devkit, <strong>no actual submission review</strong> will be done here, but you can use AGS of the launching platform.<br/>
+</div>
+<div class="card-deck">
+    <div class="card bg-light">
+        <div class="card-header">
+            <i class="fas fa-user"></i>&nbsp;Submission owner
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="list-unstyled">
+                        <dt>Identifier</dt>
+                        <dd><code>{{ token.payload.forUser.identifier }}</code></dd>
+                        <dt>Email</dt>
+                        <dd>{{ token.payload.forUser.email|default('n/a') }}</dd>
+                        <dt>Roles</dt>
+                        <dd>{{ token.payload.forUser.roles|join(', ')|default('n/a') }}</dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="list-unstyled">
+                        <dt>Name</dt>
+                        <dd>{{ token.payload.forUser.name|default('n/a') }}</dd>
+                        <dt>Given name</dt>
+                        <dd>{{ token.payload.forUser.givenName|default('n/a') }}</dd>
+                        <dt>Family name</dt>
+                        <dd>{{ token.payload.forUser.familyName|default('n/a') }}</dd>
+                        <dt>Person sourced id</dt>
+                        <dd>{{ token.payload.forUser.personSourcedId|default('n/a') }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card bg-light">
+        <div class="card-header">
+            <i class="fas fa-graduation-cap"></i>&nbsp;Submission AGS details
+        </div>
+        <div class="card-body">
+            <dl class="list-unstyled">
+                <dt>Line item url</dt>
+                <dd>
+                    {% if token.payload.ags.lineItemUrl  %}
+                        <a href="{{ token.payload.ags.lineItemUrl }}" target="_blank">{{ token.payload.ags.lineItemUrl }}</a>
+                    {% else %}
+                        n/a
+                    {% endif %}
+                </dd>
+                <dt>Scopes</dt>
+                {% for scope in token.payload.ags.scopes %}
+                    <dd><code>{{ scope }}</code></dd>
+                {% else %}
+                    <dd>n/a</dd>
+                {% endfor %}
+                <dt>Coupled resource link</dt>
+                <dd>
+                    {% if token.payload.resourceLink  %}
+                        <code>{{ token.payload.resourceLink.identifier }}</code>
+                    {% else %}
+                        n/a
+                    {% endif %}
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer text-muted">
+            <div class="btn-group float-right" role="group">
+                <button id="agsInteraction" type="submit" class="btn-primary btn">
+                    <i class="fas fa-sign-in-alt"></i>&nbsp;Use platform AGS
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#agsInteraction').on('click', function (e) {
+        e.preventDefault()
+        $('#pills-ags-tab').tab('show')
+    })
+</script>
