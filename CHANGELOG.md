@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+2.3.0
+-----
+
+* Added LtiSubmissionReviewRequest launch flow (platform and tool sides)
+* Added visual indicator for required form fields
+* Updated documentation
+
 2.2.0
 -----
 
