@@ -1,0 +1,56 @@
+<div class="alert alert-warning" role="alert">
+    <i class="fas fa-exclamation-triangle"></i>&nbsp;This step is normally used in a real assessment platform to allow the candidate to take an assessment. Since this is a devkit, <strong>no actual candidate assessment</strong> will be done here.<br/>
+</div>
+{% if token.payload.proctoringEndAssessmentReturn %}
+<form action="{{ path('platform_message_proctoring_end') }}" method="post">
+    <div class="card bg-light">
+        <div class="card-header">
+            <i class="fas fa-sign-in-alt"></i>&nbsp;Continue to tool
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info" role="alert">
+                <i class="fas fa-info-circle"></i>&nbsp;To <strong>finish</strong> the proctoring launch flow, click on the button below to <strong>return to the tool</strong> with a <strong><code>LtiEndAssessment</code></strong> message.
+            </div>
+            <div class="form-check">
+                <input type="checkbox" name="with-error" class="form-check-input" id="withError">
+                <label class="form-check-label" for="withError">Simulate platform error</label>
+            </div>
+            <div id="endAssessmentError" class="form-row d-none">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" name="error-message" class="form-control" id="errorMessage" value="error message" placeholder="error message">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" name="error-log" class="form-control" id="errorLog" value="error log" placeholder="error log">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+                <input type="hidden" name="registration" value="{{ token.registration.identifier }}"/>
+                <input type="hidden" name="attempt-number" value="{{ token.payload.proctoringAttemptNumber }}"/>
+                <input type="hidden" name="verified-user-name" value="{{ token.payload.proctoringVerifiedUser.userData.name|default('anonymous') }}"/>
+                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                    <button type="submit" class="btn-primary btn">
+                        <i class="fas fa-sign-in-alt"></i>&nbsp;Launch LtiEndAssessment
+                    </button>
+                </div>
+        </div>
+    </div>
+</form>
+{% else %}
+    <div class="alert alert-dark alert-no-margin-bottom" role="alert">
+        <i class="fas fa-ban"></i>&nbsp;The proctoring tool did not require the assessment platform to send a <code>LtiEndAssessment</code> message to finish the proctoring message flow.
+    </div>
+{% endif %}
+<script>
+    $('#withError').change(function (evt) {
+        if ($(this).is(":checked")) {
+            $('#endAssessmentError').removeClass('d-none');
+        } else {
+            $('#endAssessmentError').addClass('d-none');
+        }
+    });
+</script>

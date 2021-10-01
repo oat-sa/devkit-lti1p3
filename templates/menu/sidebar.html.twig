@@ -42,13 +42,16 @@
             <div id="collapseMessage" class="collapse{{ activeMenu == 'message' ? ' show' : '' }}" role="tabpanel" aria-labelledby="headingMessage" data-parent="#accordionEx">
                 <div class="list-group list-group-flush">
                     <a href="{{ path('platform_message_launch_lti_resource_link') }}" class="list-group-item list-group-item-action">
-                        <i class="fas fa-sign-out-alt"></i>&nbsp;LtiResourceLinkRequest
+                        <i class="fas fa-sign-out-alt"></i>&nbsp;Resource link
                     </a>
                     <a href="{{ path('platform_message_launch_deep_linking') }}" class="list-group-item list-group-item-action">
-                        <i class="fas fa-link"></i>&nbsp;LtiDeepLinkingRequest
+                        <i class="fas fa-link"></i>&nbsp;Deep linking
                     </a>
                     <a href="{{ path('platform_message_launch_proctoring') }}" class="list-group-item list-group-item-action">
-                        <i class="fas fa-file-signature"></i>&nbsp;LtiStartProctoring
+                        <i class="fas fa-file-signature"></i>&nbsp;Proctoring
+                    </a>
+                    <a href="{{ path('platform_message_launch_submission_review') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-file-contract"></i>&nbsp;Submission review
                     </a>
                 </div>
             </div>

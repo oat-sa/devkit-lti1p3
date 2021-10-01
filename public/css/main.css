@@ -139,6 +139,11 @@ div.dropdown-row>a.dropdown-item {
     color: #e83e8c !important;
 }
 
+label.required:after {
+    content: " *";
+    color: #dc3545 !important;
+}
+
 /* ---------------------------------------------------
     DATATABLES
 ----------------------------------------------------- */

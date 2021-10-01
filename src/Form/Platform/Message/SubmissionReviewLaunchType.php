@@ -22,13 +22,11 @@ declare(strict_types=1);
 
 namespace App\Form\Platform\Message;
 
+use OAT\Library\Lti1p3Ags\Service\LineItem\LineItemServiceInterface;
+use OAT\Library\Lti1p3Ags\Service\Result\ResultServiceInterface;
+use OAT\Library\Lti1p3Ags\Service\Score\ScoreServiceInterface;
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
-use OAT\Library\Lti1p3Core\Resource\File\FileInterface;
-use OAT\Library\Lti1p3Core\Resource\HtmlFragment\HtmlFragmentInterface;
-use OAT\Library\Lti1p3Core\Resource\Image\ImageInterface;
-use OAT\Library\Lti1p3Core\Resource\Link\LinkInterface;
-use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLinkInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
@@ -38,7 +36,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class DeepLinkingLaunchType extends AbstractType
+class SubmissionReviewLaunchType extends AbstractType
 {
     /** @var RegistrationRepositoryInterface */
     private $repository;
@@ -55,19 +53,12 @@ class DeepLinkingLaunchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $userChoices = array_keys($this->parameterBag->get('users'));
-        
-        $acceptTypesChoices = [
-            LinkInterface::TYPE,
-            LtiResourceLinkInterface::TYPE,
-            FileInterface::TYPE,
-            ImageInterface::TYPE,
-            HtmlFragmentInterface::TYPE,
-        ];
-        
-        $acceptPresentationChoices = [
-            'iframe',
-            'window',
-            'embed',
+
+        $agsScopesChoices = [
+            LineItemServiceInterface::AUTHORIZATION_SCOPE_LINE_ITEM,
+            LineItemServiceInterface::AUTHORIZATION_SCOPE_LINE_ITEM_READ_ONLY,
+            ScoreServiceInterface::AUTHORIZATION_SCOPE_SCORE,
+            ResultServiceInterface::AUTHORIZATION_SCOPE_RESULT_READ_ONLY,
         ];
 
         $builder
@@ -143,72 +134,90 @@ class DeepLinkingLaunchType extends AbstractType
                 ]
             )
             ->add(
-                'accept_types',
+                'ags_scopes',
                 ChoiceType::class,
                 [
-                    'label' => 'Accepted types',
-                    'choices' => array_combine($acceptTypesChoices, $acceptTypesChoices),
+                    'label' => 'AGS scopes',
+                    'choices' => array_combine($agsScopesChoices, $agsScopesChoices),
                     'required' => true,
                     'multiple' => true,
-                    'help' => 'Accepted content item types'
+                    'help' => 'AGS scopes'
                 ]
             )
             ->add(
-                'accept_presentation_document_targets',
-                ChoiceType::class,
+                'ags_line_item_url',
+                TextType::class,
                 [
-                    'label' => 'Accepted targets',
-                    'choices' => array_combine($acceptPresentationChoices, $acceptPresentationChoices),
+                    'label' => 'AGS line item url',
                     'required' => true,
-                    'multiple' => true,
-                    'help' => 'Accepted document targets'
+                    'help_html' => true,
+                    'help' => 'AGS line item url'
                 ]
             )
             ->add(
-                'deep_linking_url',
+                'for_user_type',
+                ChoiceType::class,
+                [
+                    'label' => '<label>Submission owner</label>',
+                    'label_html' => true,
+                    'label_attr' => [
+                        'class' => 'radio-inline'
+                    ],
+                    'choices' => [
+                        'other user' => 'other'
+                    ],
+                    'expanded' => true,
+                    'multiple' => false,
+                    'required' => false,
+                    'placeholder' => 'same as launch user',
+                    'empty_data' => 'same as launch user',
+                    'help' => 'User who made the submission that is to be reviewed'
+                ]
+            )
+            ->add(
+                'for_user_id',
+                TextType::class,
+                [
+                    'label' => 'Submission owner identifier',
+                    'required' => false,
+                    'help' => 'Submission owner identifier'
+                ]
+            )
+            ->add(
+                'for_user_name',
+                TextType::class,
+                [
+                    'label' => 'Submission owner name',
+                    'required' => false,
+                    'help' => 'Submission owner name'
+                ]
+            )
+            ->add(
+                'for_user_email',
+                TextType::class,
+                [
+                    'label' => 'Submission owner email',
+                    'required' => false,
+                    'help' => 'Submission owner email'
+                ]
+            )
+            ->add(
+                'for_user_role',
+                TextType::class,
+                [
+                    'label' => 'Submission owner role',
+                    'required' => false,
+                    'help' => 'Submission owner role'
+                ]
+            )
+            ->add(
+                'submission_review_url',
                 TextType::class,
                 [
                     'label' => 'Launch url',
                     'required' => false,
                     'help_html' => true,
-                    'help' => 'If provided, will be the url where to send the <code>LtiDeepLinkingRequest</code> message. If not, will use the selected registration tool default deep linking url'
-                ]
-            )
-            ->add(
-                'accept_media_types',
-                TextType::class,
-                [
-                    'label' => 'Accepted media types',
-                    'required' => false,
-                    'help' => 'Accepted media types, comma separated'
-                ]
-            )
-            ->add(
-                'accept_multiple',
-                ChoiceType::class,
-                [
-                    'label' => 'Accept multiple',
-                    'choices' => [
-                        'yes' => true,
-                        'no' => false,
-                    ],
-                    'empty_data' => true,
-                    'required' => true,
-                    'help' => 'If should accept multiple content items'
-                ]
-            )
-            ->add(
-                'auto_create',
-                ChoiceType::class,
-                [
-                    'label' => 'Auto create',
-                    'choices' => [
-                        'no' => false,
-                        'yes' => true,
-                    ],
-                    'empty_data' => false,
-                    'required' => true,
-                    'help' => 'If should auto create the content item on tool side'
+                    'help' => 'If provided, will be the url where to send the <code>LtiSubmissionReviewRequest</code> message. If not, will use the selected registration tool default launch url'
                 ]
             )
             ->add(
