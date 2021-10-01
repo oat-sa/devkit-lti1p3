@@ -4,7 +4,8 @@ CHANGELOG
 2.3.0
 -----
 
-* Added LtiSubmissionReviewRequest launch flow (platform and tool sides)
+* Added LtiSubmissionReviewRequest message launch flow (platform and tool sides)
+* Added LtiEndAssessment message launch flow (platform and tool sides)
 * Added visual indicator for required form fields
 * Updated documentation
 

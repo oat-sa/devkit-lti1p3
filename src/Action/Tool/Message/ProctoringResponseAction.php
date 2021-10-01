@@ -25,20 +25,12 @@ namespace App\Action\Tool\Message;
 use OAT\Library\Lti1p3Core\Message\Payload\Claim\ProctoringVerifiedUserClaim;
 use OAT\Library\Lti1p3Core\Message\Payload\Claim\ResourceLinkClaim;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
-use OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactoryInterface;
 use OAT\Library\Lti1p3Proctoring\Message\Launch\Builder\StartAssessmentLaunchRequestBuilder;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProctoringResponseAction
 {
-    /** @var ResourceCollectionFactoryInterface */
-    private $factory;
-
-    /** @var ParameterBagInterface */
-    private $parameterBag;
-
     /** @var RegistrationRepositoryInterface */
     private $repository;
 
@@ -46,13 +38,9 @@ class ProctoringResponseAction
     private $builder;
 
     public function __construct(
-        ResourceCollectionFactoryInterface $factory,
-        ParameterBagInterface $parameterBag,
         RegistrationRepositoryInterface $repository,
         StartAssessmentLaunchRequestBuilder $builder
     ) {
-        $this->factory = $factory;
-        $this->parameterBag = $parameterBag;
         $this->repository = $repository;
         $this->builder = $builder;
     }
@@ -74,7 +62,8 @@ class ProctoringResponseAction
                         'name' => $request->get('verified-user-name')
                     ]
                 )
-            ]
+            ],
+            $request->get('end-assessment-return') === 'on'
         );
 
         return new Response($startAssessmentMessage->toHtmlRedirectForm());

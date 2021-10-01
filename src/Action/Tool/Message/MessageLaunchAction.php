@@ -70,6 +70,8 @@ class MessageLaunchAction
                 return $this->handleLtiDeepLinkingRequest($token);
             case LtiMessageInterface::LTI_MESSAGE_TYPE_START_PROCTORING:
                 return $this->handleLtiStartProctoring($token);
+            case LtiMessageInterface::LTI_MESSAGE_TYPE_END_ASSESSMENT:
+                return $this->handleLtiEndAssessment($token);
             case LtiMessageInterface::LTI_MESSAGE_TYPE_SUBMISSION_REVIEW_REQUEST:
                 return $this->handleLtiSubmissionReviewRequest($token);
             default:
@@ -118,6 +120,20 @@ class MessageLaunchAction
         return new Response(
             $this->twig->render(
                 'tool/message/proctoringLaunch.html.twig',
+                [
+                    'token' => $token,
+                ]
+            )
+        );
+    }
+
+    private function handleLtiEndAssessment(LtiToolMessageSecurityToken $token): Response
+    {
+        $this->flashBag->add('success', 'Tool LtiEndAssessment launch success');
+
+        return new Response(
+            $this->twig->render(
+                'tool/message/proctoringEnd.html.twig',
                 [
                     'token' => $token,
                 ]

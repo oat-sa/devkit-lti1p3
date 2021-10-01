@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9717f43ec904dca782aac9ec1661d53",
+    "content-hash": "d0b51816bde6048003d8b2dcec14b83a",
     "packages": [
         {
             "name": "brick/math",
@@ -1488,21 +1488,21 @@
         },
         {
             "name": "oat-sa/lib-lti1p3-proctoring",
-            "version": "0.3.0",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-proctoring.git",
-                "reference": "37ad4236ad5e4f54d63d44f6c7a3d65b353be92a"
+                "reference": "7b09e4793fe4c176e64d2f8dcf29f172908e195b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-proctoring/zipball/37ad4236ad5e4f54d63d44f6c7a3d65b353be92a",
-                "reference": "37ad4236ad5e4f54d63d44f6c7a3d65b353be92a",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-proctoring/zipball/7b09e4793fe4c176e64d2f8dcf29f172908e195b",
+                "reference": "7b09e4793fe4c176e64d2f8dcf29f172908e195b",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "oat-sa/lib-lti1p3-core": "^6.0",
+                "oat-sa/lib-lti1p3-core": "^6.2",
                 "php": ">=7.2.0"
             },
             "require-dev": {
@@ -1525,9 +1525,9 @@
             "description": "OAT LTI 1.3 Proctoring Library",
             "support": {
                 "issues": "https://github.com/oat-sa/lib-lti1p3-proctoring/issues",
-                "source": "https://github.com/oat-sa/lib-lti1p3-proctoring/tree/0.3.0"
+                "source": "https://github.com/oat-sa/lib-lti1p3-proctoring/tree/0.4.0"
             },
-            "time": "2021-07-28T10:41:38+00:00"
+            "time": "2021-09-27T13:11:47+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-submission-review",

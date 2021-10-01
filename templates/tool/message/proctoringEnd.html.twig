@@ -1,18 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block nav_title %}<i class="fas fa-file-signature"></i>&nbsp;&nbsp;<span class="text-danger">Platform</span> - LtiStartAssessment result{% endblock %}
+{% block nav_title %}<i class="fas fa-file-signature"></i>&nbsp;&nbsp;<span class="text-danger">Tool</span> - LtiEndAssessment result{% endblock %}
 
 {% block body %}
     <div class="card bg-light">
         <div class="card-header">
             <ul class="nav nav-tabs nav-fill card-header-tabs" id="pills-tab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="pills-proctor-tab" data-toggle="pill" href="#pills-proctor" role="tab" aria-controls="pills-proctor" aria-selected="true">
-                        <i class="fas fa-file-signature"></i>&nbsp;LtiEndAssessment
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-message-tab" data-toggle="pill" href="#pills-message" role="tab" aria-controls="pills-message" aria-selected="false">
+                    <a class="nav-link active" id="pills-message-tab" data-toggle="pill" href="#pills-message" role="tab" aria-controls="pills-message" aria-selected="true">
                         <i class="fas fa-envelope-open"></i>&nbsp;Message
                     </a>
                 </li>
@@ -35,14 +30,11 @@
         </div>
         <div class="card-body">
             <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-proctor" role="tabpanel" aria-labelledby="pills-proctor-tab">
-                    {% include 'launch/blocks/proctoringEndAssessment.html.twig' with {'token': token} %}
-                </div>
-                <div class="tab-pane fade" id="pills-message" role="tabpanel" aria-labelledby="pills-message-tab">
+                <div class="tab-pane fade show active" id="pills-message" role="tabpanel" aria-labelledby="pills-message-tab">
                     {% include 'launch/blocks/message.html.twig' with {'token': token} %}
                 </div>
                 <div class="tab-pane fade" id="pills-security" role="tabpanel" aria-labelledby="pills-security-tab">
-                    {% include 'launch/blocks/platformSecurity.html.twig' with {'token': token} %}
+                    {% include 'launch/blocks/toolSecurity.html.twig' with {'token': token} %}
                 </div>
                 <div class="tab-pane fade" id="pills-registration" role="tabpanel" aria-labelledby="pills-registration-tab">
                     {% include 'launch/blocks/registration.html.twig' with {'token': token} %}
@@ -53,7 +45,7 @@
             </div>
         </div>
         <div class="card-footer text-muted">
-            <small><code>LtiStartAssessment</code> launch result</small>
+            <small><code>LtiEndAssessment</code> launch result</small>
         </div>
     </div>
 {% endblock body %}
