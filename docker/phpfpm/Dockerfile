@@ -4,6 +4,8 @@ RUN apt-get update && \
     apt-get install -y libpng-dev libjpeg-dev libpq-dev libzip-dev zip unzip sudo wget zlib1g-dev libicu-dev libzstd-dev g++ && \
     rm -rf /var/lib/apt/lists/*
 
+RUN yes | pecl update-channels
+
 RUN yes | pecl install igbinary redis
 
 RUN docker-php-ext-install intl && \
