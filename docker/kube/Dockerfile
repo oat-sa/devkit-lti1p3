@@ -21,6 +21,8 @@ RUN set -eux; \
         zlib-dev \
         zstd-dev \
         ; \
+        yes "" | pecl update-channels \
+        ; \
         yes "" | pecl install redis igbinary \
         ;\
         docker-php-ext-install intl; \
