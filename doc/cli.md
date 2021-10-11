@@ -3,13 +3,14 @@
 ## Table of Contents
 
 - [Commands](#commands)
-    - [Message launch generation command](#message-launch-generation-command)
+    - [LTI 1.3 messages launch generation command](#lti-13-messages-launch-generation-command)
+      - [LtiResourceLinkRequest message](#ltiresourcelinkrequest-message)
   
 ## Commands
 
 You can find below the available commands offered by the development kit.
 
-### Message launch generation command
+### LTI 1.3 messages launch generation command
 
 Can be used if you need to programmatically generate a `ltiResourceLinkRequest` message launch via a command line (only message type supported for now).
 
@@ -24,38 +25,7 @@ Command details:
 | --parameters   | -p          | yes      | parameters (JSON encoded) for the message launch generation  |
 | --verbose      | -v          | no       | to output message launch details (default = no)              |
 
-
-Launch parameters (`--parameters`, JSON encoded) details:
-
-| Name                                 | Required |Description                                                                                          |
-|--------------------------------------|----------|-----------------------------------------------------------------------------------------------------|
-| registration                         | yes      | registration identifier to use for the launch                                                       |
-| user                                 | no       | user details to use for the launch                                                                  |
-| target_link_uri                      | no       | target_link_uri to use for the launch, if not provided, will use default tool launch url            |
-| deployment_id                        | no       | deployment_id to use for the launch, if not provided, will use default registration deployment id   |
-| claims                               | no       | claims to use for the launch                                                                        |
-
-**Note**:
-- for the `user` parameter, you can provide this structure:
-```json
-"user": {
-  "id": "userIdentifier",     [optional, will generate uuidv4 if not provided]
-  "name": "user name",        [optional]
-  "email": "user@mail.com",   [optional]
-  "locale": "en"              [optional]
-}
-```
-- for the `claims` parameter, you can provide any claim form the [IMS specifications](http://www.imsglobal.org/spec/lti/v1p3/#required-message-claims), for example:
-```json
-"claims": {
-  "a": "b",
-  "https://purl.imsglobal.org/spec/lti/claim/roles": [
-    "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
-  ]
-}
-```
-
-Command execution example:
+Command execution example (with type `LtiResourceLinkRequest`):
 ```shell
 php bin/console devkit:create:message:launch -v -t LtiResourceLinkRequest -p '{
   "registration": "devkit",
@@ -107,3 +77,74 @@ client_id
 **Notes**:
 - `LTI message launch link`: message launch link to use to perform later on the launch
 - `LTI message launch details`: message launch details, returned if `-v` is provided
+
+#### LtiResourceLinkRequest message
+
+Launch parameters (`--parameters`, JSON encoded) details:
+
+| Name                                 | Required |Description                                                                                          |
+|--------------------------------------|----------|-----------------------------------------------------------------------------------------------------|
+| registration                         | yes      | registration identifier to use for the launch                                                       |
+| user                                 | no       | user details to use for the launch                                                                  |
+| target_link_uri                      | no       | target_link_uri to use for the launch, if not provided, will use default tool launch url            |
+| deployment_id                        | no       | deployment_id to use for the launch, if not provided, will use default registration deployment id   |
+| claims                               | no       | claims to use for the launch                                                                        |
+
+**Note**:
+
+- for the `user` parameter, you can provide this structure:
+```json
+"user": {
+  "id": "userIdentifier",     [optional, will generate uuidv4 if not provided]
+  "name": "user name",        [optional]
+  "email": "user@mail.com",   [optional]
+  "locale": "en"              [optional]
+}
+```
+
+- for the `claims` parameter, you can provide any claim form the [IMS specifications](http://www.imsglobal.org/spec/lti/v1p3/#required-message-claims), for example:
+```json
+"claims": {
+  "a": "b",
+  "https://purl.imsglobal.org/spec/lti/claim/roles": [
+    "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
+  ]
+}
+```
+
+#### LtiDeepLinkingRequest message
+
+Launch parameters (`--parameters`, JSON encoded) details:
+
+| Name                                 | Required |Description                                                                                                          |
+|--------------------------------------|----------|---------------------------------------------------------------------------------------------------------------------|
+| registration                         | yes      | registration identifier to use for the launch                                                                       |
+| user                                 | no       | user details to use for the launch                                                                                  |
+| deep_linking_settings                | no       | deep linking settings to use for the launch                                                                         |
+| deep_linking_launch_url              | no       | deep linking url (target_link_uri) to use for the launch, if not provided, will use default deep linking launch url |
+| deployment_id                        | no       | deployment_id to use for the launch, if not provided, will use default registration deployment id                   |
+| claims                               | no       | claims to use for the launch                                                                                        |
+
+**Note**:
+
+- for the `user` parameter, you can provide this structure:
+```json
+"user": {
+  "id": "userIdentifier",     [optional, will generate uuidv4 if not provided]
+  "name": "user name",        [optional]
+  "email": "user@mail.com",   [optional]
+  "locale": "en"              [optional]
+}
+```
+
+- for the `claims` parameter, you can provide any claim form the [IMS specifications](http://www.imsglobal.org/spec/lti/v1p3/#required-message-claims), for example:
+```json
+"claims": {
+  "a": "b",
+  "https://purl.imsglobal.org/spec/lti/claim/roles": [
+    "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
+  ]
+}
+```
+
+- for the `deep_linking_settings`, you can refer to the [deep linking IMS specification](https://www.imsglobal.org/node/162911#deep-linking-settings)

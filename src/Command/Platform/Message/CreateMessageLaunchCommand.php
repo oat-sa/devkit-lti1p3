@@ -50,7 +50,7 @@ class CreateMessageLaunchCommand extends Command
     {
         $this
             ->setDescription('Creates a new LTI message launch')
-            ->setHelp('This command allows you to create a user...')
+            ->setHelp('This command allows you to generate a typed LTI message launch')
             ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'LTI message type')
             ->addOption('parameters', 'p', InputOption::VALUE_REQUIRED, 'LTI message launch parameters (JSON encoded)');
     }
@@ -71,6 +71,9 @@ class CreateMessageLaunchCommand extends Command
             switch (ucfirst($messageType)) {
                 case LtiMessageInterface::LTI_MESSAGE_TYPE_RESOURCE_LINK_REQUEST:
                     $message = $this->builder->buildLtiResourceLinkRequest($parameters);
+                    break;
+                case LtiMessageInterface::LTI_MESSAGE_TYPE_DEEP_LINKING_REQUEST:
+                    $message = $this->builder->buildLtiDeepLinkingRequest($parameters);
                     break;
                 default:
                     throw new InvalidArgumentException(sprintf('Invalid message type %s', $messageType));

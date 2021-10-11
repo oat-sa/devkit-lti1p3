@@ -59,6 +59,9 @@ class CreateMessageLaunchAction implements ApiActionInterface
             case LtiMessageInterface::LTI_MESSAGE_TYPE_RESOURCE_LINK_REQUEST:
                 $message = $this->builder->buildLtiResourceLinkRequest($parameters);
                 break;
+            case LtiMessageInterface::LTI_MESSAGE_TYPE_DEEP_LINKING_REQUEST:
+                $message = $this->builder->buildLtiDeepLinkingRequest($parameters);
+                break;
             default:
                 throw new BadRequestHttpException(
                     sprintf('Invalid message type %s', $messageType)
