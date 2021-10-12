@@ -11,7 +11,7 @@ servers:
 paths:
     /api/platform/messages/ltiResourceLinkRequest/launch:
         post:
-            summary: Generate ltiResourceLinkRequest launch
+            summary: Generate LtiResourceLinkRequest message launch
             tags:
                 - LTI messages
             security:
@@ -21,10 +21,10 @@ paths:
                     name: verbose
                     schema:
                         type: string
-                    description: If true, will provide launch details
+                    description: If true, will provide message launch details
                     example: true
             requestBody:
-                description: ltiResourceLinkRequest launch data
+                description: LtiResourceLinkRequest message launch data
                 required: true
                 content:
                     application/json:
@@ -36,7 +36,112 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/LtiResourceLinkRequestOutput'
+                                $ref: '#/components/schemas/LtiMessageOutput'
+                400:
+                    $ref: '#/components/responses/BadRequestResponse'
+                401:
+                    $ref: '#/components/responses/UnauthorizedResponse'
+                500:
+                    $ref: '#/components/responses/InternalServerErrorResponse'
+
+    /api/platform/messages/ltiDeepLinkingRequest/launch:
+        post:
+            summary: Generate LtiDeepLinkingRequest message launch
+            tags:
+                - LTI messages
+            security:
+                - apiKey: [ ]
+            parameters:
+                - in: query
+                  name: verbose
+                  schema:
+                      type: string
+                  description: If true, will provide message launch details
+                  example: true
+            requestBody:
+                description: LtiDeepLinkingRequest message launch data
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LtiDeepLinkingRequestInput'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LtiMessageOutput'
+                400:
+                    $ref: '#/components/responses/BadRequestResponse'
+                401:
+                    $ref: '#/components/responses/UnauthorizedResponse'
+                500:
+                    $ref: '#/components/responses/InternalServerErrorResponse'
+
+    /api/platform/messages/ltiStartProctoring/launch:
+        post:
+            summary: Generate LtiStartProctoring message launch
+            tags:
+                - LTI messages
+            security:
+                - apiKey: [ ]
+            parameters:
+                - in: query
+                  name: verbose
+                  schema:
+                      type: string
+                  description: If true, will provide message launch details
+                  example: true
+            requestBody:
+                description: LtiStartProctoring message launch data
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LtiStartProctoringInput'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LtiMessageOutput'
+                400:
+                    $ref: '#/components/responses/BadRequestResponse'
+                401:
+                    $ref: '#/components/responses/UnauthorizedResponse'
+                500:
+                    $ref: '#/components/responses/InternalServerErrorResponse'
+
+    /api/platform/messages/ltiSubmissionReviewRequest/launch:
+        post:
+            summary: Generate LtiSubmissionReviewRequest message launch
+            tags:
+                - LTI messages
+            security:
+                - apiKey: [ ]
+            parameters:
+                - in: query
+                  name: verbose
+                  schema:
+                      type: string
+                  description: If true, will provide message launch details
+                  example: true
+            requestBody:
+                description: LtiSubmissionReviewRequest message launch data
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LtiSubmissionReviewRequestInput'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LtiMessageOutput'
                 400:
                     $ref: '#/components/responses/BadRequestResponse'
                 401:
@@ -398,7 +503,234 @@ components:
                             - 'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner'
             required:
                 - registration
-        LtiResourceLinkRequestOutput:
+        LtiDeepLinkingRequestInput:
+            type: object
+            properties:
+                registration:
+                    description: Registration identifier to use for the launch
+                    example: 'devkit'
+                    type: string
+                deep_linking_settings:
+                    description: Deep linking launch settings
+                    type: object
+                    properties:
+                        accept_types:
+                            description: Deep linking accepted types (default ['ltiResourceLink'])
+                            type: object
+                            additionalProperties:
+                                type: string
+                            example:
+                                - 'link'
+                                - 'file'
+                                - 'html'
+                                - 'ltiResourceLink'
+                                - 'image'
+                        accept_presentation_document_targets:
+                            description: Deep linking accepted presentation document targets (default ['window'])
+                            type: object
+                            additionalProperties:
+                                type: string
+                            example:
+                                - 'iframe'
+                                - 'window'
+                                - 'embed'
+                        accept_media_types:
+                            description: Deep linking accepted media types (default empty)
+                            example: 'image/*,text/html'
+                            type: string
+                        accept_multiple:
+                            description: If accept multiple (default true)
+                            type: boolean
+                        auto_create:
+                            description: If should auto create (default false)
+                            type: boolean
+                            example: false
+                        title:
+                            description: Title
+                            type: string
+                        text:
+                            description: Text
+                            type: string
+                user:
+                    description: User details to use for the launch
+                    type: object
+                    properties:
+                        id:
+                            description: User id, will generate uuidv4 if not provided
+                            example: 'user-id'
+                            type: string
+                        name:
+                            description: User name
+                            example: 'John Alex Doe'
+                            type: string
+                        email:
+                            description: User email
+                            example: 'john-doe@platform.example.edu'
+                            type: string
+                        locale:
+                            description: User locale
+                            example: 'en'
+                            type: string
+                target_link_uri:
+                    description: The target_link_uri to use for the deep linking launch, if not provided, will use default tool deep linking launch url
+                    example: 'http://devkit-lti1p3.localhost/tool/launch'
+                    type: string
+                deployment_id:
+                    description: The deployment_id to use for the launch, if not provided, will use default registration deployment id
+                    example: 'deploymentId1'
+                    type: string
+                claims:
+                    description: The claims to use for the launch
+                    type: object
+                    additionalProperties:
+                        type: string
+                    example:
+                        a: b
+                        'https://purl.imsglobal.org/spec/lti/claim/roles':
+                            - 'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner'
+            required:
+                - registration
+        LtiStartProctoringInput:
+            type: object
+            properties:
+                registration:
+                    description: Registration identifier to use for the launch
+                    example: 'devkit'
+                    type: string
+                proctoring_start_assessment_url:
+                    description: Proctroring start assessment url
+                    example: 'http://devkit-lti1p3.localhost/platform/message/return/proctoring'
+                    type: string
+                proctoring_attempt_number:
+                    description: Proctroring attempt number (default 1)
+                    example: 1
+                    type: integer
+                user:
+                    description: User details to use for the launch
+                    type: object
+                    properties:
+                        id:
+                            description: User id, will generate uuidv4 if not provided
+                            example: 'user-id'
+                            type: string
+                        name:
+                            description: User name
+                            example: 'John Alex Doe'
+                            type: string
+                        email:
+                            description: User email
+                            example: 'john-doe@platform.example.edu'
+                            type: string
+                        locale:
+                            description: User locale
+                            example: 'en'
+                            type: string
+                target_link_uri:
+                    description: The target_link_uri to use for the launch, if not provided, will use default tool launch url
+                    example: 'http://devkit-lti1p3.localhost/tool/launch'
+                    type: string
+                deployment_id:
+                    description: The deployment_id to use for the launch, if not provided, will use default registration deployment id
+                    example: 'deploymentId1'
+                    type: string
+                claims:
+                    description: The claims to use for the launch
+                    type: object
+                    additionalProperties:
+                        type: string
+                    example:
+                        a: b
+                        'https://purl.imsglobal.org/spec/lti/claim/roles':
+                            - 'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner'
+            required:
+                - registration
+                - proctoring_start_assessment_url
+        LtiSubmissionReviewRequestInput:
+            type: object
+            properties:
+                registration:
+                    description: Registration identifier to use for the launch
+                    example: 'devkit'
+                    type: string
+                ags_line_item_url:
+                    description: AGS line item url
+                    example: 'http://devkit-lti1p3.localhost/platform/service/ags/default/lineitems/default'
+                    type: string
+                ags_scopes:
+                    description: AGS scopes
+                    type: object
+                    additionalProperties:
+                        type: string
+                    example:
+                        - 'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem'
+                        - 'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly'
+                        - 'https://purl.imsglobal.org/spec/lti-ags/scope/score'
+                        - 'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly'
+                submission_owner:
+                    description: User who made the submission that is to be reviewed (if not provided, will use launch user information)
+                    type: object
+                    properties:
+                        id:
+                            description: Submission owner id, will generate uuidv4 if not provided
+                            example: 'submission-owner-id'
+                            type: string
+                        name:
+                            description: Submission owner name
+                            example: 'Jane Polly Doe'
+                            type: string
+                        email:
+                            description: Submission owner email
+                            example: 'jane-doe@platform.example.edu'
+                            type: string
+                        roles:
+                            description: Submission owner roles
+                            type: object
+                            additionalProperties:
+                                type: string
+                            example:
+                                - 'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner'
+                user:
+                    description: User details to use for the launch
+                    type: object
+                    properties:
+                        id:
+                            description: User id, will generate uuidv4 if not provided
+                            example: 'user-id'
+                            type: string
+                        name:
+                            description: User name
+                            example: 'John Alex Doe'
+                            type: string
+                        email:
+                            description: User email
+                            example: 'john-doe@platform.example.edu'
+                            type: string
+                        locale:
+                            description: User locale
+                            example: 'en'
+                            type: string
+                target_link_uri:
+                    description: The target_link_uri to use for the launch, if not provided, will use default tool launch url
+                    example: 'http://devkit-lti1p3.localhost/tool/launch'
+                    type: string
+                deployment_id:
+                    description: The deployment_id to use for the launch, if not provided, will use default registration deployment id
+                    example: 'deploymentId1'
+                    type: string
+                claims:
+                    description: The claims to use for the launch
+                    type: object
+                    additionalProperties:
+                        type: string
+                    example:
+                        a: b
+                        'https://purl.imsglobal.org/spec/lti/claim/roles':
+                            - 'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner'
+            required:
+                - registration
+                - ags_line_item_url
+                - ags_scopes
+        LtiMessageOutput:
             type: object
             properties:
                 link:
