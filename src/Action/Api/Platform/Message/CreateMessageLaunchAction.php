@@ -41,7 +41,7 @@ class CreateMessageLaunchAction implements ApiActionInterface
 
     public static function getName(): string
     {
-        return 'Platform LTI message creation';
+        return 'Platform LTI 1.3 message launch creation';
     }
 
     public function __invoke(Request $request, string $messageType): JsonResponse
@@ -57,7 +57,16 @@ class CreateMessageLaunchAction implements ApiActionInterface
 
         switch (ucfirst($messageType)) {
             case LtiMessageInterface::LTI_MESSAGE_TYPE_RESOURCE_LINK_REQUEST:
-                $message = $this->builder->buildLtiResourceLinkRequest($parameters);
+                $message = $this->builder->buildLtiResourceLinkRequestMessage($parameters);
+                break;
+            case LtiMessageInterface::LTI_MESSAGE_TYPE_DEEP_LINKING_REQUEST:
+                $message = $this->builder->buildLtiDeepLinkingRequestMessage($parameters);
+                break;
+            case LtiMessageInterface::LTI_MESSAGE_TYPE_START_PROCTORING:
+                $message = $this->builder->buildLtiStartProctoringMessage($parameters);
+                break;
+            case LtiMessageInterface::LTI_MESSAGE_TYPE_SUBMISSION_REVIEW_REQUEST:
+                $message = $this->builder->buildLtiSubmissionReviewRequestMessage($parameters);
                 break;
             default:
                 throw new BadRequestHttpException(

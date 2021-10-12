@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+2.4.0
+-----
+
+* Added API and CLI to generate deep linking, start proctoring and submission review messages to launch
+* Updated documentation
+
 2.3.0
 -----
 

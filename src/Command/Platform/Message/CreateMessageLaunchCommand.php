@@ -49,10 +49,10 @@ class CreateMessageLaunchCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Creates a new LTI message launch')
-            ->setHelp('This command allows you to create a user...')
-            ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'LTI message type')
-            ->addOption('parameters', 'p', InputOption::VALUE_REQUIRED, 'LTI message launch parameters (JSON encoded)');
+            ->setDescription('Creates a new LTI 1.3 message launch')
+            ->setHelp('This command allows you to generate a typed LTI 1.3 message launch')
+            ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'LTI 1.3 message type')
+            ->addOption('parameters', 'p', InputOption::VALUE_REQUIRED, 'LTI 1.3 message launch parameters (JSON encoded)');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -70,17 +70,26 @@ class CreateMessageLaunchCommand extends Command
 
             switch (ucfirst($messageType)) {
                 case LtiMessageInterface::LTI_MESSAGE_TYPE_RESOURCE_LINK_REQUEST:
-                    $message = $this->builder->buildLtiResourceLinkRequest($parameters);
+                    $message = $this->builder->buildLtiResourceLinkRequestMessage($parameters);
+                    break;
+                case LtiMessageInterface::LTI_MESSAGE_TYPE_DEEP_LINKING_REQUEST:
+                    $message = $this->builder->buildLtiDeepLinkingRequestMessage($parameters);
+                    break;
+                case LtiMessageInterface::LTI_MESSAGE_TYPE_START_PROCTORING:
+                    $message = $this->builder->buildLtiStartProctoringMessage($parameters);
+                    break;
+                case LtiMessageInterface::LTI_MESSAGE_TYPE_SUBMISSION_REVIEW_REQUEST:
+                    $message = $this->builder->buildLtiSubmissionReviewRequestMessage($parameters);
                     break;
                 default:
                     throw new InvalidArgumentException(sprintf('Invalid message type %s', $messageType));
             }
 
-            $io->section('LTI message launch link');
+            $io->section('LTI 1.3 message launch link');
             $io->text($message->toUrl());
 
             if ($output->isVerbose()) {
-                $io->section('LTI message launch details');
+                $io->section('LTI 1.3 message launch details');
 
                 $output->writeln([
                     '<info>Url</info>',

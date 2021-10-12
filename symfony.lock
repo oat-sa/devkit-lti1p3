@@ -27,10 +27,10 @@
         "version": "7.3.0"
     },
     "guzzlehttp/promises": {
-        "version": "1.4.1"
+        "version": "1.5.0"
     },
     "guzzlehttp/psr7": {
-        "version": "2.0.0"
+        "version": "2.1.0"
     },
     "lcobucci/clock": {
         "version": "2.0.0"
@@ -45,7 +45,7 @@
         "version": "8.3.2"
     },
     "monolog/monolog": {
-        "version": "2.3.4"
+        "version": "2.3.5"
     },
     "nesbot/carbon": {
         "version": "2.53.1"
@@ -97,7 +97,7 @@
         "version": "4.1.1"
     },
     "oat-sa/lib-lti1p3-core": {
-        "version": "6.3.1"
+        "version": "6.5.0"
     },
     "oat-sa/lib-lti1p3-deep-linking": {
         "version": "4.0.0"
@@ -106,7 +106,7 @@
         "version": "7.0.0"
     },
     "oat-sa/lib-lti1p3-proctoring": {
-        "version": "0.3.0"
+        "version": "0.4.0"
     },
     "oat-sa/lib-lti1p3-submission-review": {
         "version": "0.1.0"
@@ -118,7 +118,7 @@
         "version": "2.0.33"
     },
     "psr/cache": {
-        "version": "1.0.1"
+        "version": "2.0.0"
     },
     "psr/container": {
         "version": "1.1.1"
@@ -145,7 +145,7 @@
         "version": "3.0.3"
     },
     "ramsey/collection": {
-        "version": "1.2.1"
+        "version": "1.2.2"
     },
     "ramsey/uuid": {
         "version": "4.2.3"
