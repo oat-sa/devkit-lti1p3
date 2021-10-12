@@ -26,13 +26,19 @@ use App\Generator\UrlGenerator;
 use InvalidArgumentException;
 use OAT\Library\Lti1p3Core\Message\Launch\Builder\LtiResourceLinkLaunchRequestBuilder;
 use OAT\Library\Lti1p3Core\Message\LtiMessageInterface;
+use OAT\Library\Lti1p3Core\Message\Payload\Claim\AgsClaim;
+use OAT\Library\Lti1p3Core\Message\Payload\Claim\ForUserClaim;
 use OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface;
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLink;
+use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLinkInterface;
 use OAT\Library\Lti1p3DeepLinking\Message\Launch\Builder\DeepLinkingLaunchRequestBuilder;
 use OAT\Library\Lti1p3DeepLinking\Settings\DeepLinkingSettings;
+use OAT\Library\Lti1p3Proctoring\Message\Launch\Builder\StartProctoringLaunchRequestBuilder;
+use OAT\Library\Lti1p3SubmissionReview\Message\Launch\Builder\SubmissionReviewLaunchRequestBuilder;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class LtiMessageBuilder
 {
@@ -42,63 +48,58 @@ class LtiMessageBuilder
     /** @var UrlGenerator */
     private $urlGenerator;
 
+    /** @var ParameterBagInterface */
+    private $parameterBag;
+
     /** @var LtiResourceLinkLaunchRequestBuilder */
     private $ltiResourceLinkLaunchRequestBuilder;
 
     /** @var DeepLinkingLaunchRequestBuilder */
     private $deepLinkingLaunchRequestBuilder;
 
+    /** @var StartProctoringLaunchRequestBuilder */
+    private $startProctoringLaunchRequestBuilder;
+
+    /** @var SubmissionReviewLaunchRequestBuilder */
+    private $submissionReviewLaunchRequestBuilder;
+
     public function __construct(
         RegistrationRepositoryInterface $repository,
         UrlGenerator $urlGenerator,
+        ParameterBagInterface $parameterBag,
         LtiResourceLinkLaunchRequestBuilder $ltiResourceLinkLaunchRequestBuilder,
-        DeepLinkingLaunchRequestBuilder $deepLinkingLaunchRequestBuilder
+        DeepLinkingLaunchRequestBuilder $deepLinkingLaunchRequestBuilder,
+        StartProctoringLaunchRequestBuilder $startProctoringLaunchRequestBuilder,
+        SubmissionReviewLaunchRequestBuilder $submissionReviewLaunchRequestBuilder,
     ) {
         $this->repository = $repository;
         $this->urlGenerator = $urlGenerator;
+        $this->parameterBag = $parameterBag;
         $this->ltiResourceLinkLaunchRequestBuilder = $ltiResourceLinkLaunchRequestBuilder;
         $this->deepLinkingLaunchRequestBuilder = $deepLinkingLaunchRequestBuilder;
+        $this->startProctoringLaunchRequestBuilder = $startProctoringLaunchRequestBuilder;
+        $this->submissionReviewLaunchRequestBuilder = $submissionReviewLaunchRequestBuilder;
     }
 
     /**
      * @throw  InvalidArgumentException
      */
-    public function buildLtiResourceLinkRequest(array $parameters): LtiMessageInterface
+    public function buildLtiResourceLinkRequestMessage(array $parameters): LtiMessageInterface
     {
-        $claims = $parameters['claims'] ?? [];
-
-        if (isset($claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK])) {
-            $resourceLink = new LtiResourceLink(
-                $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['id'],
-                [
-                    'url' => $parameters['target_link_uri'] ?? null,
-                    'title' => $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['title'] ?? null,
-                    'text' => $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['description'] ?? null,
-                ]
-            );
-        } else {
-            $resourceLink = new LtiResourceLink(
-                Uuid::uuid4()->toString(),
-                [
-                    'url' => $parameters['target_link_uri'] ?? null
-                ]
-            );
-        }
-
         return $this->ltiResourceLinkLaunchRequestBuilder->buildLtiResourceLinkLaunchRequest(
-            $resourceLink,
+            $this->getResourceLink($parameters),
             $this->getRegistration($parameters),
             $this->getLoginHint($parameters),
             $parameters['deployment_id'] ?? null,
             [],
-            $claims
+            $parameters['claims'] ?? []
         );
     }
 
     /**
      * @throw  InvalidArgumentException
      */
-    public function buildLtiDeepLinkingRequest(array $parameters): LtiMessageInterface
+    public function buildLtiDeepLinkingRequestMessage(array $parameters): LtiMessageInterface
     {
         $settings = $parameters['deep_linking_settings'] ?? [];
 
@@ -117,7 +118,80 @@ class LtiMessageBuilder
             $deepLinkSettings,
             $this->getRegistration($parameters),
             $this->getLoginHint($parameters),
-            $parameters['deep_linking_launch_url'] ?? null,
+            $parameters['target_link_uri'] ?? null,
+            $parameters['deployment_id'] ?? null,
+            [],
+            $parameters['claims'] ?? []
+        );
+    }
+
+    /**
+     * @throw  InvalidArgumentException
+     */
+    public function buildLtiStartProctoringMessage(array $parameters): LtiMessageInterface
+    {
+        return $this->startProctoringLaunchRequestBuilder->buildStartProctoringLaunchRequest(
+            $this->getResourceLink($parameters),
+            $this->getRegistration($parameters),
+            $parameters['proctoring_start_assessment_url'],
+            $this->getLoginHint($parameters),
+            (int) ($parameters['proctoring_attempt_number'] ?? 1),
+            $parameters['deployment_id'] ?? null,
+            [],
+            $parameters['claims'] ?? []
+        );
+    }
+
+    /**
+     * @throw  InvalidArgumentException
+     */
+    public function buildLtiSubmissionReviewRequestMessage(array $parameters): LtiMessageInterface
+    {
+        $agsClaim = new AgsClaim(
+            $parameters['ags_scopes'],
+            null,
+            $parameters['ags_line_item_url']
+        );
+
+        $user = $parameters['user'] ?? null;
+        $submissionOwner = $parameters['submission_owner'] ?? null;
+
+        if (empty($submissionOwner)) {
+            if (empty($user)) {
+                $forUserClaim = new ForUserClaim(Uuid::uuid4()->toString());
+            } else {
+                $forUserClaim = new ForUserClaim(
+                    $user['id'] ?? Uuid::uuid4()->toString(),
+                    $user['name'] ?? null,
+                    null,
+                    null,
+                    $user['email'] ?? null,
+                    null,
+                    [
+                        'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner'
+                    ]
+                );
+            }
+        } else {
+            $forUserClaim = new ForUserClaim(
+                $submissionOwner['id'] ?? Uuid::uuid4()->toString(),
+                $submissionOwner['name'] ?? null,
+                null,
+                null,
+                $submissionOwner['email'] ?? null,
+                null,
+                $submissionOwner['roles'] ?? [
+                    'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner'
+                ]
+            );
+        }
+
+        return $this->submissionReviewLaunchRequestBuilder->buildSubmissionReviewLaunchRequest(
+            $agsClaim,
+            $forUserClaim,
+            $this->getRegistration($parameters),
+            $this->getLoginHint($parameters),
+            $parameters['target_link_uri'] ?? null,
             $parameters['deployment_id'] ?? null,
             [],
             $parameters['claims'] ?? []
@@ -163,5 +237,28 @@ class LtiMessageBuilder
         }
 
         return json_encode($loginHint);
+    }
+
+    private function getResourceLink(array $parameters): LtiResourceLinkInterface
+    {
+        $claims = $parameters['claims'] ?? [];
+
+        if (isset($claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK])) {
+            return new LtiResourceLink(
+                $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['id'],
+                [
+                    'url' => $parameters['target_link_uri'] ?? null,
+                    'title' => $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['title'] ?? null,
+                    'text' => $claims[LtiMessagePayloadInterface::CLAIM_LTI_RESOURCE_LINK]['description'] ?? null,
+                ]
+            );
+        } else {
+            return new LtiResourceLink(
+                Uuid::uuid4()->toString(),
+                [
+                    'url' => $parameters['target_link_uri'] ?? null
+                ]
+            );
+        }
     }
 }
