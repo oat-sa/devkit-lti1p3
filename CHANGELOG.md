@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.4.1
+-----
+
+* Fixed LtiMessageBuilder to allow PHP 7.x compatibility
+
 2.4.0
 -----
 

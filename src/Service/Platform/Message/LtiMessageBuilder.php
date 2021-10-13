@@ -70,7 +70,7 @@ class LtiMessageBuilder
         LtiResourceLinkLaunchRequestBuilder $ltiResourceLinkLaunchRequestBuilder,
         DeepLinkingLaunchRequestBuilder $deepLinkingLaunchRequestBuilder,
         StartProctoringLaunchRequestBuilder $startProctoringLaunchRequestBuilder,
-        SubmissionReviewLaunchRequestBuilder $submissionReviewLaunchRequestBuilder,
+        SubmissionReviewLaunchRequestBuilder $submissionReviewLaunchRequestBuilder
     ) {
         $this->repository = $repository;
         $this->urlGenerator = $urlGenerator;
