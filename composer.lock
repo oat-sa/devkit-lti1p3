@@ -1326,16 +1326,16 @@
         },
         {
             "name": "oat-sa/lib-lti1p3-ags",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-ags.git",
-                "reference": "1e26b5de9239dad00d9993b0e03bd74206e96da2"
+                "reference": "0a4b426030815a7a020a85c100516f0232fbf4d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-ags/zipball/1e26b5de9239dad00d9993b0e03bd74206e96da2",
-                "reference": "1e26b5de9239dad00d9993b0e03bd74206e96da2",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-ags/zipball/0a4b426030815a7a020a85c100516f0232fbf4d8",
+                "reference": "0a4b426030815a7a020a85c100516f0232fbf4d8",
                 "shasum": ""
             },
             "require": {
@@ -1362,9 +1362,9 @@
             "description": "OAT LTI 1.3 Advantage AGS Library",
             "support": {
                 "issues": "https://github.com/oat-sa/lib-lti1p3-ags/issues",
-                "source": "https://github.com/oat-sa/lib-lti1p3-ags/tree/1.2.0"
+                "source": "https://github.com/oat-sa/lib-lti1p3-ags/tree/1.3.0"
             },
-            "time": "2021-09-23T12:21:08+00:00"
+            "time": "2021-10-28T08:19:16+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-basic-outcome",
