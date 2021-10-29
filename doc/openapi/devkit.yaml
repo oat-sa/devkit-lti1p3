@@ -1,7 +1,7 @@
 openapi: 3.0.1
 
 info:
-    version: v2.4.1
+    version: v2.4.2
     title: TAO LTI 1.3 DevKit - HTTP API
 
 servers:

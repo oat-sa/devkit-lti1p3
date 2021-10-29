@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.4.2
+-----
+
+* Updated AGS library up to 1.3.0 in composer.lock
+
 2.4.1
 -----
 
