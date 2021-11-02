@@ -6,7 +6,7 @@ RUN apt-get update && \
 
 RUN yes | pecl update-channels
 
-RUN yes | pecl install igbinary redis
+RUN yes | pecl install igbinary redis xdebug
 
 RUN docker-php-ext-install intl && \
     docker-php-ext-install gd && \
@@ -15,7 +15,8 @@ RUN docker-php-ext-install intl && \
     docker-php-ext-install calendar && \
     docker-php-ext-install sockets && \
     docker-php-ext-enable igbinary && \
-    docker-php-ext-enable redis
+    docker-php-ext-enable redis && \
+    docker-php-ext-enable xdebug
 
 RUN rm -rf /var/www/html \
     && chmod 0777 /tmp/

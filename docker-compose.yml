@@ -45,6 +45,8 @@ services:
             - devkit_lti1p3_network
         volumes:
             - .:/var/www/html:cached
+            - ./docker/phpfpm/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+            - ./docker/phpfpm/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
         working_dir: /var/www/html
 
     devkit_lti1p3_redis:
