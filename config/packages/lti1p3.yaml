@@ -31,6 +31,7 @@ lti1p3:
             name: "Schoolbox"
             audience: "%env(resolve:SCHOOLBOX_PLATFORM_HOST)%"
             oidc_authentication_url: "%env(resolve:SCHOOLBOX_PLATFORM_HOST)%/lti-platform/oidc/authentication"
+            oauth2_access_token_url: "%env(resolve:SCHOOLBOX_PLATFORM_HOST)%/lti-platform/auth/token"
         schoolboxPrototypePlatform:
             name: "Schoolbox LTI Prototype"
             audience: "%env(resolve:SCHOOLBOX_PLATFORM_HOST)%"
