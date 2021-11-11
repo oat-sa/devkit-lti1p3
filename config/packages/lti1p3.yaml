@@ -62,8 +62,10 @@ lti1p3:
             tool: "devkitTool"
             deployment_ids:
                 - '%env(resolve:SCHOOLBOX_REGISTRATION_DEPLOYMENT_ID)%'
-            platform_key_chain: "schoolboxPlatformKey"
+            # Uncomment the below line to use the keychain's public key directly
+            #platform_key_chain: "schoolboxPlatformKey"
             tool_key_chain: "toolKey"
+            platform_jwks_url: "%env(resolve:SCHOOLBOX_PLATFORM_HOST)%/lti-platform/.well-known/jwks.json"
             tool_jwks_url: "%application_host%/lti1p3/.well-known/jwks/toolSet.json"
             order: 2
         schoolboxPrototype:
@@ -72,7 +74,9 @@ lti1p3:
             tool: "devkitTool"
             deployment_ids:
                 - '%env(resolve:SCHOOLBOX_REGISTRATION_PROTOTYPE_DEPLOYMENT_ID)%'
-            platform_key_chain: "schoolboxPlatformKey"
+            # Uncomment the below line to use the keychain's public key directly
+            #platform_key_chain: "schoolboxPlatformKey"
             tool_key_chain: "toolKey"
+            platform_jwks_url: "%env(resolve:SCHOOLBOX_PLATFORM_HOST)%/lti-platform/.well-known/jwks.json"
             tool_jwks_url: "%application_host%/lti1p3/.well-known/jwks/toolSet.json"
             order: 3
