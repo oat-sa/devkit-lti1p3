@@ -57,7 +57,7 @@ lti1p3:
             tool_jwks_url: "%application_host%/lti1p3/.well-known/jwks/toolSet.json"
             order: 1
         schoolbox:
-            client_id: "devkit"
+            client_id: "%env(resolve:SCHOOLBOX_REGISTRATION_DEPLOYMENT_ID)%"
             platform: "schoolboxPlatform"
             tool: "devkitTool"
             deployment_ids:
@@ -69,7 +69,7 @@ lti1p3:
             tool_jwks_url: "%application_host%/lti1p3/.well-known/jwks/toolSet.json"
             order: 2
         schoolboxPrototype:
-            client_id: "devkitPrototype"
+            client_id: "%env(resolve:SCHOOLBOX_REGISTRATION_PROTOTYPE_DEPLOYMENT_ID)%"
             platform: "schoolboxPrototypePlatform"
             tool: "devkitTool"
             deployment_ids:
