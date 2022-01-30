@@ -181,7 +181,7 @@ class AppExtension extends AbstractExtension
         return sprintf(
             '%s...%s',
             substr($value, 0, 100),
-            substr($value, -20),
+            substr($value, -20)
         );
     }
 }

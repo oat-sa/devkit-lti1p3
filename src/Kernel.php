@@ -21,7 +21,6 @@
 namespace App;
 
 use App\DependencyInjection\Compiler\ConfigurationPass;
-use App\DependencyInjection\Security\Factory\ApiKeyFactory;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -48,12 +47,6 @@ class Kernel extends BaseKernel
     public function getProjectDir(): string
     {
         return \dirname(__DIR__);
-    }
-
-    public function build(ContainerBuilder $container): void
-    {
-        $extension = $container->getExtension('security');
-        $extension->addSecurityListenerFactory(new ApiKeyFactory());
     }
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
