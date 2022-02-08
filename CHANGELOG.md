@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+UNRELEASED
+----
+* Added support for the new authenticator-based SF Security
+
 2.4.2
 -----
 

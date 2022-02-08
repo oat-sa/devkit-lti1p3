@@ -1,11 +1,13 @@
 security:
+    enable_authenticator_manager: true
     providers:
         users_in_memory: { memory: null }
     firewalls:
         api_area:
             pattern: ^/api/
             stateless: true
-            api_key: true
+            custom_authenticators:
+                - App\Security\Api\ApiKeyAuthenticator
         tool_message_area:
             pattern: ^/tool/launch
             stateless: true
@@ -53,7 +55,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: lazy
+            lazy: true
             provider: users_in_memory
 
     access_control:

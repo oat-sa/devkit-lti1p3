@@ -31,6 +31,12 @@ lti1p3:
             oidc_initiation_url: "%application_host%/lti1p3/oidc/initiation"
             launch_url: "%application_host%/tool/launch"
             deep_linking_url: "%application_host%/tool/launch"
+        authServerTool:
+            name: "Auth Server as LTI Tool"
+            audience: "http://localhost:8005/tool"
+            oidc_initiation_url: "http://localhost:8005/lti1p3/oidc/initiation"
+            launch_url: "%application_host%/tool/launch"
+            deep_linking_url: "%application_host%/tool/launch"
     registrations:
         devkit:
             client_id: "client_id"
@@ -44,3 +50,15 @@ lti1p3:
             platform_jwks_url: "%application_host%/lti1p3/.well-known/jwks/platformSet.json"
             tool_jwks_url: "%application_host%/lti1p3/.well-known/jwks/toolSet.json"
             order: 1
+        authServer:
+            client_id: "client-auth"
+            platform: "devkitPlatform"
+            tool: "authServerTool"
+            deployment_ids:
+                - "deploymentId1"
+                - "deploymentId2"
+            platform_key_chain: "platformKey"
+            tool_key_chain: ~
+            platform_jwks_url: "%application_host%/lti1p3/.well-known/jwks/platformSet.json"
+            tool_jwks_url: "http://localhost:8005/.well-known/jwks.json"
+            order: 2

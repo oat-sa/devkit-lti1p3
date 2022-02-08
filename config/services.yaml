@@ -24,17 +24,6 @@ services:
         resource: '../src/Action'
         tags: ['controller.service_arguments']
 
-    # API
-    App\Security\Api\Provider\ApiKeyProvider:
-        arguments:
-            - '@parameter_bag'
-
-    App\Security\Api\Firewall\ApiKeyListener:
-        arguments:
-            - '@security.token_storage'
-            - '@security.authentication.manager'
-            - '@Psr\Log\LoggerInterface'
-
     # LTI core dependencies
     OAT\Library\Lti1p3Core\Util\Generator\IdGeneratorInterface:
         class: OAT\Library\Lti1p3Core\Util\Generator\IdGenerator
