@@ -46,9 +46,6 @@ class DeepLinkingLaunchAction
     /** @var ParameterBagInterface */
     private $parameterBag;
 
-    /** @var RouterInterface */
-    private $router;
-
     /** @var Environment */
     private $twig;
 
@@ -67,7 +64,6 @@ class DeepLinkingLaunchAction
     public function __construct(
         FlashBagInterface $flashBag,
         ParameterBagInterface $parameterBag,
-        RouterInterface $router,
         Environment $twig,
         FormFactoryInterface $factory,
         FormShareUrlGenerator $formShareUrlGenerator,
@@ -76,7 +72,6 @@ class DeepLinkingLaunchAction
     ) {
         $this->flashBag = $flashBag;
         $this->parameterBag = $parameterBag;
-        $this->router = $router;
         $this->twig = $twig;
         $this->factory = $factory;
         $this->formShareUrlGenerator = $formShareUrlGenerator;
