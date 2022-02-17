@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.4.3
+-----
+
+* Fix already-submitted forms data assignment
+
 2.4.2
 -----
 

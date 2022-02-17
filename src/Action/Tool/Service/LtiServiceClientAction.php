@@ -74,7 +74,9 @@ class LtiServiceClientAction
 
         $serviceData = null;
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (!$form->isSubmitted()) {
+            $form->setData($request->query->all());
+        } elseif ($form->isValid()) {
 
             $formData = $form->getData();
 
@@ -156,8 +158,6 @@ class LtiServiceClientAction
             }
 
             $this->flashBag->add($flashType, $flashMessage);
-        } else {
-            $form->setData($request->query->all());
         }
 
         return new Response(

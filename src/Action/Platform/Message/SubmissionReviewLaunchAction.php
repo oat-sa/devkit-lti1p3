@@ -82,10 +82,11 @@ class SubmissionReviewLaunchAction
 
         $claims = [];
         $resourceLink = null;
-        $forUserClaim = null;
         $submissionReviewLaunchRequest = null;
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (!$form->isSubmitted()) {
+            $form->setData($request->query->all());
+        } elseif ($form->isValid()) {
 
             $formData = $form->getData();
 
@@ -131,7 +132,7 @@ class SubmissionReviewLaunchAction
                     ];
             }
 
-            if ($formData['for_user_type'] == 'other') {
+            if ($formData['for_user_type'] === 'other') {
                 $forUserClaim = new ForUserClaim(
                     $formData['for_user_id'] ?? Uuid::uuid4()->toString(),
                     $formData['for_user_name'] ?? null,
@@ -201,8 +202,6 @@ class SubmissionReviewLaunchAction
             }
 
             $this->flashBag->add('success', 'LtiSubmissionReviewRequest generation success');
-        } else {
-            $form->setData($request->query->all());
         }
 
         return new Response(
