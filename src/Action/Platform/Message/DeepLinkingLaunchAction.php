@@ -89,8 +89,7 @@ class DeepLinkingLaunchAction
 
         if (!$form->isSubmitted()) {
             $form->setData($request->query->all());
-        }
-        elseif ($form->isValid()) {
+        } elseif ($form->isValid()) {
 
             $formData = $form->getData();
 
