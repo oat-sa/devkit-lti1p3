@@ -9,6 +9,7 @@
         "ext-json": "*",
         "oat-sa/bundle-health-check": "^2.1",
         "oat-sa/bundle-lti1p3": "^6.1",
+        "oat-sa/lib-lti1p3-core": "dev-fix/tr-2490/browser-navigation-button as 6.7.0",
         "oat-sa/lib-lti1p3-ags": "^1.1",
         "oat-sa/lib-lti1p3-basic-outcome": "^4.1",
         "oat-sa/lib-lti1p3-deep-linking": "^4.0",

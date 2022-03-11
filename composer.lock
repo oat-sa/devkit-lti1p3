@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d0b51816bde6048003d8b2dcec14b83a",
+    "content-hash": "edfab4041d841b462ea196bdbd192e15",
     "packages": [
         {
             "name": "brick/math",
@@ -1231,22 +1231,23 @@
         },
         {
             "name": "oat-sa/bundle-lti1p3",
-            "version": "6.1.0",
+            "version": "6.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/bundle-lti1p3.git",
-                "reference": "4ad373f681924e5ddadc760eab7ee40645ce29c2"
+                "reference": "ad5d37fa5297ad44d7969e260dfbd9d010bdffcd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/bundle-lti1p3/zipball/4ad373f681924e5ddadc760eab7ee40645ce29c2",
-                "reference": "4ad373f681924e5ddadc760eab7ee40645ce29c2",
+                "url": "https://api.github.com/repos/oat-sa/bundle-lti1p3/zipball/ad5d37fa5297ad44d7969e260dfbd9d010bdffcd",
+                "reference": "ad5d37fa5297ad44d7969e260dfbd9d010bdffcd",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "oat-sa/lib-lti1p3-core": "^6.0",
                 "php": ">=7.2.0",
+                "psr/log": "^1 || ^2 || ^3",
                 "symfony/framework-bundle": "^4.4 || ^5.1",
                 "symfony/psr-http-message-bridge": "^2.0",
                 "symfony/security-bundle": "^4.4 || ^5.1",
@@ -1257,6 +1258,7 @@
                 "php-coveralls/php-coveralls": "^2.4",
                 "phpunit/phpunit": "8.5.14",
                 "psalm/plugin-phpunit": "^0.15.1",
+                "psr/log": "^1.1.0",
                 "symfony/browser-kit": "^4.4 || ^5.1",
                 "vimeo/psalm": "^4.6"
             },
@@ -1281,9 +1283,9 @@
             ],
             "support": {
                 "issues": "https://github.com/oat-sa/bundle-lti1p3/issues",
-                "source": "https://github.com/oat-sa/bundle-lti1p3/tree/6.1.0"
+                "source": "https://github.com/oat-sa/bundle-lti1p3/tree/6.1.1"
             },
-            "time": "2021-08-03T12:02:16+00:00"
+            "time": "2021-12-16T15:18:02+00:00"
         },
         {
             "name": "oat-sa/lib-health-check",
@@ -1413,16 +1415,16 @@
         },
         {
             "name": "oat-sa/lib-lti1p3-core",
-            "version": "6.5.0",
+            "version": "dev-fix/tr-2490/browser-navigation-button",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-core.git",
-                "reference": "0c96de27b76c8cf7c36038d37c6b0596bb463d74"
+                "reference": "fa17550b9725756e36d3941973f006e46dba628c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-core/zipball/0c96de27b76c8cf7c36038d37c6b0596bb463d74",
-                "reference": "0c96de27b76c8cf7c36038d37c6b0596bb463d74",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-core/zipball/fa17550b9725756e36d3941973f006e46dba628c",
+                "reference": "fa17550b9725756e36d3941973f006e46dba628c",
                 "shasum": ""
             },
             "require": {
@@ -1462,9 +1464,9 @@
             "description": "OAT LTI 1.3 Core Library",
             "support": {
                 "issues": "https://github.com/oat-sa/lib-lti1p3-core/issues",
-                "source": "https://github.com/oat-sa/lib-lti1p3-core/tree/6.5.0"
+                "source": "https://github.com/oat-sa/lib-lti1p3-core/tree/fix/tr-2490/browser-navigation-button"
             },
-            "time": "2021-10-11T07:51:50+00:00"
+            "time": "2022-03-12T15:30:42+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-deep-linking",
@@ -7075,9 +7077,18 @@
             "time": "2021-09-14T13:57:08+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "oat-sa/lib-lti1p3-core",
+            "version": "dev-fix/tr-2490/browser-navigation-button",
+            "alias": "6.7.0",
+            "alias_normalized": "6.7.0.0"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "oat-sa/lib-lti1p3-core": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
