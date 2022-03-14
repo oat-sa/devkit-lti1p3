@@ -1413,16 +1413,16 @@
         },
         {
             "name": "oat-sa/lib-lti1p3-core",
-            "version": "6.5.0",
+            "version": "6.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-core.git",
-                "reference": "0c96de27b76c8cf7c36038d37c6b0596bb463d74"
+                "reference": "42b06bd522faeeb9a9c3ca6882cdf797be1d94c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-core/zipball/0c96de27b76c8cf7c36038d37c6b0596bb463d74",
-                "reference": "0c96de27b76c8cf7c36038d37c6b0596bb463d74",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-core/zipball/42b06bd522faeeb9a9c3ca6882cdf797be1d94c0",
+                "reference": "42b06bd522faeeb9a9c3ca6882cdf797be1d94c0",
                 "shasum": ""
             },
             "require": {
@@ -1462,9 +1462,9 @@
             "description": "OAT LTI 1.3 Core Library",
             "support": {
                 "issues": "https://github.com/oat-sa/lib-lti1p3-core/issues",
-                "source": "https://github.com/oat-sa/lib-lti1p3-core/tree/6.5.0"
+                "source": "https://github.com/oat-sa/lib-lti1p3-core/tree/6.7.1"
             },
-            "time": "2021-10-11T07:51:50+00:00"
+            "time": "2022-03-12T15:55:31+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-deep-linking",
