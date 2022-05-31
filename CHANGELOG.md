@@ -1,10 +1,20 @@
 CHANGELOG
 =========
 
-2.4.3
+2.4.5
 -----
 
 * Fix already-submitted forms data assignment
+
+2.4.4
+-----
+
+* Updated `symfony/flex` in order to migrate from the outdated flex infrastructure
+
+2.4.3
+-----
+
+* Updated `lti1p3-core` library up to 6.7.1 in composer.lock
 
 2.4.2
 -----
