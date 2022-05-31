@@ -9,6 +9,7 @@ parameters:
                         'https://purl.imsglobal.org/spec/lti-ags/scope/score'
                 ]
                 lineitems: '%application_host%/platform/service/ags/default/lineitems'
+                lineitem: '%application_host%/platform/service/ags/default/lineitems/label'
         ACS:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_ACS
             value:
