@@ -10,6 +10,8 @@ parameters:
     application_vendors: '%kernel.project_dir%/vendor/composer/installed.php'
     application_version: '2.4.2'
     container.dumper.inline_factories: true
+    cache.redis.namespace: '%env(default:cache.redis.namespace.default:REDIS_CACHE_NAMESPACE)%'
+    cache.redis.namespace.default: 'devkit'
 
 services:
     _defaults:
