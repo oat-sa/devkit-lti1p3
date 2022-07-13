@@ -21,6 +21,7 @@
 namespace App;
 
 use App\DependencyInjection\Compiler\ConfigurationPass;
+use App\DependencyInjection\Compiler\RedisPass;
 use App\DependencyInjection\Security\Factory\ApiKeyFactory;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -64,6 +65,7 @@ class Kernel extends BaseKernel
         $confDir = $this->getProjectDir().'/config';
 
         $container->addCompilerPass(new ConfigurationPass());
+        $container->addCompilerPass(new RedisPass());
 
         $loader->load($confDir.'/{packages}/*'.self::CONFIG_EXTS, 'glob');
         $loader->load($confDir.'/{packages}/'.$this->environment.'/*'.self::CONFIG_EXTS, 'glob');

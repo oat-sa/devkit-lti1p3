@@ -1,9 +1,10 @@
 CHANGELOG
 =========
 
-Unreleased
+2.4.5
 -----
 * Added `lineitem` to AGS claim
+* Added Redis namespace support
 
 2.4.4
 -----
