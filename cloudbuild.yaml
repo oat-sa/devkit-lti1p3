@@ -1,0 +1,21 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        '--cache-from',
+        'europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:latest',
+        "-t",
+        "europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:$COMMIT_SHA",
+        "-t",
+        "europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:latest",
+        -f,
+        "./docker/kube/Dockerfile",
+        ".",
+      ]
+images:
+  - "europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:$COMMIT_SHA"
+  - 'europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:latest'
+
+options:
+  machineType: E2_HIGHCPU_32

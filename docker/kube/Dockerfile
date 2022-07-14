@@ -1,5 +1,5 @@
 #{{{ fpm
-FROM php:8-fpm-alpine as fpm
+FROM php:8.1.8-fpm-alpine3.16 as fpm
 
 RUN set -eux; \
         apk add --no-cache --virtual .build-deps \
@@ -25,14 +25,9 @@ RUN set -eux; \
         ; \
         yes "" | pecl install redis igbinary \
         ;\
-        docker-php-ext-install intl; \
-        docker-php-ext-install gd; \
-        docker-php-ext-install opcache; \
-        docker-php-ext-install zip; \
-        docker-php-ext-install calendar; \
+        docker-php-ext-install intl gd opcache zip calendar; \
         \
-        docker-php-ext-enable redis; \
-        docker-php-ext-enable igbinary; \
+        docker-php-ext-enable redis igbinary; \
         runDeps="$( \
         scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
         | tr ',' '\n' \
@@ -41,7 +36,7 @@ RUN set -eux; \
         )"; \
         apk add --no-cache $runDeps; \
         apk del --no-network .build-deps; \
-        rm -rf /var/www/html; \
+        apk upgrade; \
         chmod 0777 /tmp/;
 
 RUN set -eux; \
