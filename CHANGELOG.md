@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.4.5
+-----
+* Added `lineitem` to AGS claim
+* Added Redis namespace support
+
 2.4.4
 -----
 * Updated `symfony/flex` in order to migrate from the outdated flex infrastructure
