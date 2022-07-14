@@ -8,14 +8,14 @@ steps:
         "-t",
         "europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:$COMMIT_SHA",
         "-t",
-        "europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:$BRANCH_NAME",
+        "europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:${_BRANCH_NAME}",
         -f,
         "./docker/kube/Dockerfile",
         ".",
       ]
 images:
   - "europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:$COMMIT_SHA"
-  - 'europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:$BRANCH_NAME'
+  - 'europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:${_BRANCH_NAME}'
 
 substitutions:
   _BRANCH_NAME: ${BRANCH_NAME//\//-}
