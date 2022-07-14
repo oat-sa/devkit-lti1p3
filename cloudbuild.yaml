@@ -17,5 +17,8 @@ images:
   - "europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:$COMMIT_SHA"
   - 'europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:$BRANCH_NAME'
 
+substitutions:
+  _BRANCH_NAME: ${BRANCH_NAME//\//-}
 options:
   machineType: E2_HIGHCPU_32
+  dynamic_substitutions: true
