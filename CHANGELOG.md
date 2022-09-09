@@ -1,10 +1,15 @@
 CHANGELOG
 =========
 
-2.4.5
+2.4.6
 -----
 
 * Fix already-submitted forms data assignment
+
+2.4.5
+-----
+* Added `lineitem` to AGS claim
+* Added Redis namespace support
 
 2.4.4
 -----
