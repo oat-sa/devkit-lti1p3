@@ -81,7 +81,9 @@ class ProctoringLaunchAction
         $claims = [];
         $startProctoringLaunchRequest = null;
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (!$form->isSubmitted()) {
+            $form->setData($request->query->all());
+        } elseif ($form->isValid()) {
 
             $formData = $form->getData();
 
@@ -146,8 +148,6 @@ class ProctoringLaunchAction
             );
 
             $this->flashBag->add('success', 'LtiStartProctoring generation success');
-        } else {
-            $form->setData($request->query->all());
         }
 
         return new Response(

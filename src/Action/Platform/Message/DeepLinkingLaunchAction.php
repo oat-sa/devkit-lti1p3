@@ -35,7 +35,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
 class DeepLinkingLaunchAction
@@ -45,9 +44,6 @@ class DeepLinkingLaunchAction
 
     /** @var ParameterBagInterface */
     private $parameterBag;
-
-    /** @var RouterInterface */
-    private $router;
 
     /** @var Environment */
     private $twig;
@@ -67,7 +63,6 @@ class DeepLinkingLaunchAction
     public function __construct(
         FlashBagInterface $flashBag,
         ParameterBagInterface $parameterBag,
-        RouterInterface $router,
         Environment $twig,
         FormFactoryInterface $factory,
         FormShareUrlGenerator $formShareUrlGenerator,
@@ -76,7 +71,6 @@ class DeepLinkingLaunchAction
     ) {
         $this->flashBag = $flashBag;
         $this->parameterBag = $parameterBag;
-        $this->router = $router;
         $this->twig = $twig;
         $this->factory = $factory;
         $this->formShareUrlGenerator = $formShareUrlGenerator;
@@ -93,7 +87,9 @@ class DeepLinkingLaunchAction
         $claims = [];
         $deepLinkingLaunchRequest = null;
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (!$form->isSubmitted()) {
+            $form->setData($request->query->all());
+        } elseif ($form->isValid()) {
 
             $formData = $form->getData();
 
@@ -150,8 +146,6 @@ class DeepLinkingLaunchAction
             );
 
             $this->flashBag->add('success', 'LtiDeepLinkingRequest generation success');
-        } else {
-            $form->setData($request->query->all());
         }
 
         return new Response(

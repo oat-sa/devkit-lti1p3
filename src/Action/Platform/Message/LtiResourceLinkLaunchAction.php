@@ -81,7 +81,9 @@ class LtiResourceLinkLaunchAction
         $claims = [];
         $ltiResourceLinkLaunchRequest = null;
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (!$form->isSubmitted()) {
+            $form->setData($request->query->all());
+        } elseif ($form->isValid()) {
 
             $formData = $form->getData();
 
@@ -144,8 +146,6 @@ class LtiResourceLinkLaunchAction
             );
 
             $this->flashBag->add('success', 'LtiResourceLinkRequest generation success');
-        } else {
-            $form->setData($request->query->all());
         }
 
         return new Response(
