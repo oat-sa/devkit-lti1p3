@@ -113,8 +113,9 @@ class LtiServiceClientAction
             try {
                 $response = $this->client->request($registration, $method, $serviceUrl, $options, $scopes);
             } catch (LtiExceptionInterface $exception) {
-                if ($exception->getPrevious() instanceof RequestException){
-                    $response = $exception->getPrevious()->getResponse();
+                $previous = $exception->getPrevious();
+                if ($previous instanceof RequestException && $previous->getResponse() !== null) {
+                    $response = $previous->getResponse();
                 } else {
                     throw $exception;
                 }
