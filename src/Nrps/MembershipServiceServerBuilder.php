@@ -35,19 +35,19 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
     /** @var RequestStack */
     private $requestStack;
 
-    /** @var MembershipRepository */
-    private $repository;
+    /** @var MembershipService */
+    private $service;
 
     /** @var DefaultMembershipFactory */
     private $factory;
 
     public function __construct(
         RequestStack $requestStack,
-        MembershipRepository $repository,
+        MembershipService $service,
         DefaultMembershipFactory $factory
     ) {
         $this->requestStack = $requestStack;
-        $this->repository = $repository;
+        $this->service = $service;
         $this->factory = $factory;
     }
 
@@ -86,7 +86,7 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
         if ($membershipIdentifier === 'default') {
             $membership = $this->factory->create();
         } else {
-            $membership = $this->repository->find($membershipIdentifier);
+            $membership = $this->service->findMembership($membershipIdentifier);
         }
 
         if (null === $membership || $membership->getContext()->getIdentifier() !== $contextIdentifier) {
@@ -102,7 +102,8 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
                        && (
                            $since === null
                            || $member->getProperties()->get(MembershipService::UPDATED_AT_FIELD, 0) > $since
-                       );
+                       )
+                       && ($since !== null || $member->getStatus() !== MemberInterface::STATUS_DELETED);
             }
         );
 

@@ -74,7 +74,8 @@ class MembershipService
 
             if (!$memberCollection->has($memberId)) {
                 $this->setUpdatedAtToMember($existingMember, $now);
-                $existingMember->setStatus(MemberInterface::STATUS_DELETED);
+                $existingMember->setStatus(MemberInterface::STATUS_DELETED)
+                    ->getProperties()->add(['status' => MemberInterface::STATUS_DELETED]);
 
                 $memberCollection->add($existingMember);
             } else {
