@@ -114,34 +114,43 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
         int $limit = null,
         int $offset = null
     ): ?string {
-        if ($limit && (($limit ?? 0) + ($offset ?? 0)) < $totalCount) {
-            $parsedUrl = parse_url(urldecode($request->getUri()));
-            parse_str($parsedUrl['query'] ?? '', $parsedQuery);
+        $parsedUrl = parse_url(urldecode($request->getUri()));
+        parse_str($parsedUrl['query'] ?? '', $parsedQuery);
 
-            $nextOffset = $limit ?? 0;
+        $linkUrl = sprintf(
+            '%s://%s%s%s',
+            $parsedUrl['scheme'],
+            $parsedUrl['host'],
+            $parsedUrl['port'] ?? false ? ':' . $parsedUrl['port'] : '',
+            $parsedUrl['path']
+        );
 
-            if ($parsedQuery['offset'] ?? false) {
-                $nextOffset += $parsedQuery['offset'];
-            }
-
-            $relUrl = sprintf(
-                '%s://%s%s%s',
-                $parsedUrl['scheme'],
-                $parsedUrl['host'],
-                $parsedUrl['port'] ?? false ? ':' . $parsedUrl['port'] : '',
-                $parsedUrl['path']
-            );
-
-            $relUrlQuery = array_filter(
+        $linkQueryParameters = [
+            'differences' => array_filter(
                 [
                     'role' => $role,
-                    'offset' => $nextOffset
+                    'limit' => $limit,
+                    'since' => time()
+                ]
+            ),
+        ];
+
+        if ($limit && ($nextOffset = $limit + ($offset ?? 0)) < $totalCount) {
+            $linkQueryParameters['next'] = array_filter(
+                [
+                    'role' => $role,
+                    'limit' => $limit,
+                    'offset' => $nextOffset,
+                    'since' => $parsedQuery['since'] ?? null,
                 ]
             );
-
-            return '<' . $relUrl . '?' . http_build_query($relUrlQuery) . '>; rel="next"';
         }
 
-        return null;
+        $links = [];
+        foreach ($linkQueryParameters as $link => $queryParameters) {
+            $links[] = sprintf('<%s?%s>; rel="%s"', $linkUrl, http_build_query($queryParameters), $link);
+        }
+
+        return implode(', ', $links);
     }
 }
