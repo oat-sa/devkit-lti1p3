@@ -76,6 +76,11 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
         $request = $this->requestStack->getCurrentRequest();
         $routeParameters = $request->attributes->get('_route_params');
 
+        $parsedUrl = parse_url(urldecode($request->getUri()));
+        parse_str($parsedUrl['query'] ?? '', $parsedQuery);
+
+        $since = isset($parsedQuery['since']) ? (int)$parsedQuery['since'] : null;
+
         $membershipIdentifier = $routeParameters['membershipIdentifier'] ?? null;
         $contextIdentifier = $routeParameters['contextIdentifier'] ?? null;
 
@@ -93,30 +98,28 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
 
         $filteredMembers = array_filter(
             $membership->getMembers()->all(),
-            static function (MemberInterface $member) use ($role) {
-                if (null === $role) {
-                    return true;
-                }
-
-                return in_array($role, $member->getRoles());
+            static function (MemberInterface $member) use ($role, $since) {
+                return $member->getStatus() !== MemberInterface::STATUS_DELETED
+                       && ($role === null || in_array($role, $member->getRoles(), true))
+                       && ($since === null || $member->getProperties()->get('updated_at', 0) > $since);
             }
         );
 
         return $membership
             ->setMembers(new MemberCollection(array_slice($filteredMembers, $offset ?? 0, $limit ?? null)))
-            ->setRelationLink($this->buildRelationLink($request, sizeof($filteredMembers), $role, $limit, $offset));
+            ->setRelationLink(
+                $this->buildRelationLink($parsedUrl, sizeof($filteredMembers), $role, $limit, $offset, $since)
+            );
     }
 
     private function buildRelationLink(
-        Request $request,
+        array $parsedUrl,
         int $totalCount,
         string $role = null,
         int $limit = null,
-        int $offset = null
+        int $offset = null,
+        int $since = null
     ): ?string {
-        $parsedUrl = parse_url(urldecode($request->getUri()));
-        parse_str($parsedUrl['query'] ?? '', $parsedQuery);
-
         $linkUrl = sprintf(
             '%s://%s%s%s',
             $parsedUrl['scheme'],
@@ -141,7 +144,7 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
                     'role' => $role,
                     'limit' => $limit,
                     'offset' => $nextOffset,
-                    'since' => $parsedQuery['since'] ?? null,
+                    'since' => $since
                 ]
             );
         }
