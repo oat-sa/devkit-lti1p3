@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+2.5.0
+-----
+
+* Added rel="differences" link to the NRPS membership service
+* Added time-based membership differences exposure to the NRPS membership service
+* Added members' soft delete
+
 2.4.7
 -----
 
