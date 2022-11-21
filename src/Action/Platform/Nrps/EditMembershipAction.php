@@ -23,10 +23,10 @@ declare(strict_types=1);
 namespace App\Action\Platform\Nrps;
 
 use App\Form\Platform\Nrps\MembershipType;
-use App\Nrps\MembershipRepository;
+use App\Nrps\MembershipService;
 use OAT\Library\Lti1p3Nrps\Factory\Member\MemberFactoryInterface;
 use OAT\Library\Lti1p3Nrps\Model\Context\Context;
-use OAT\Library\Lti1p3Nrps\Model\Member\MemberCollection;
+use OAT\Library\Lti1p3Nrps\Model\Member\MemberInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,8 +42,8 @@ class EditMembershipAction
     /** @var FlashBagInterface */
     private $flashBag;
 
-    /** @var MembershipRepository */
-    private $repository;
+    /** @var MembershipService */
+    private $service;
 
     /** @var Environment */
     private $twig;
@@ -54,28 +54,24 @@ class EditMembershipAction
     /** @var RouterInterface */
     private $router;
 
-    /** @var MemberFactoryInterface */
-    private $memberFactory;
-
     public function __construct(
         FlashBagInterface $flashBag,
-        MembershipRepository $repository,
+        MembershipService $service,
         Environment $twig,
         FormFactoryInterface $factory,
         RouterInterface $router,
         MemberFactoryInterface $memberFactory
     ) {
         $this->flashBag = $flashBag;
-        $this->repository = $repository;
+        $this->service = $service;
         $this->twig = $twig;
         $this->factory = $factory;
         $this->router = $router;
-        $this->memberFactory = $memberFactory;
     }
 
     public function __invoke(Request $request, string $membershipIdentifier): Response
     {
-        $membership = $this->repository->find($membershipIdentifier);
+        $membership = $this->service->findMembership($membershipIdentifier);
 
         if (null === $membership) {
             throw new NotFoundHttpException(
@@ -84,7 +80,16 @@ class EditMembershipAction
         }
 
         if ($membership->getMembers()->count() !== 0) {
-            $members = json_encode($membership->getMembers());
+            $members = json_encode(
+                array_values(
+                    array_filter(
+                        $membership->getMembers()->all(),
+                        static function (MemberInterface $member) {
+                            return $member->getStatus() !== MemberInterface::STATUS_DELETED;
+                        }
+                    )
+                )
+            );
         } else {
             $members = '';
         }
@@ -106,7 +111,6 @@ class EditMembershipAction
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $formData = $form->getData();
 
             $membership->setContext(
@@ -117,23 +121,16 @@ class EditMembershipAction
                 )
             );
 
-            $memberCollection = new MemberCollection();
-
+            $members = [];
             if ($formData['members']) {
                 $members = json_decode($formData['members'], true);
 
                 if (JSON_ERROR_NONE !== json_last_error()) {
                     throw new BadRequestHttpException(sprintf('json_decode error: %s', json_last_error_msg()));
                 }
-
-                foreach ($members as $member) {
-                    $memberCollection->add($this->memberFactory->create($member));
-                }
             }
 
-            $membership->setMembers($memberCollection);
-
-            $this->repository->save($membership);
+            $this->service->updateMembership($membership, $members);
 
             $this->flashBag->add('success', sprintf('Membership %s edition success', $formData['membership_id']));
 

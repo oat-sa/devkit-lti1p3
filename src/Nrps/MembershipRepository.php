@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace App\Nrps;
 
+use OAT\Library\Lti1p3Nrps\Model\Member\MemberCollection;
+use OAT\Library\Lti1p3Nrps\Model\Member\MemberInterface;
 use OAT\Library\Lti1p3Nrps\Model\Membership\MembershipInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
@@ -37,19 +39,36 @@ class MembershipRepository
         $this->cache = $cache;
     }
 
-    public function find(string $identifier): ?MembershipInterface
-    {
+    public function find(
+        string $identifier,
+        ?array $statuses = [MemberInterface::STATUS_ACTIVE, MemberInterface::STATUS_INACTIVE]
+    ): ?MembershipInterface {
+        $membership = null;
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
         if ($cache->isHit()) {
             $memberships = $cache->get();
 
             if (array_key_exists($identifier, $memberships)) {
-                return $memberships[$identifier];
+                /** @var MembershipInterface $membership */
+                $membership = $memberships[$identifier];
+
+                if (null !== $statuses) {
+                    $membership->setMembers(
+                        new MemberCollection(
+                            array_filter(
+                                $membership->getMembers()->all(),
+                                static function (MemberInterface $member) use ($statuses) {
+                                    return in_array($member->getStatus(), $statuses, true);
+                                }
+                            )
+                        )
+                    );
+                }
             }
         }
 
-        return null;
+        return $membership;
     }
 
     public function findAll(): array

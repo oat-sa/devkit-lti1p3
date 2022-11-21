@@ -24,9 +24,7 @@ namespace App\Action\Api\Platform\Nrps;
 
 use App\Action\Api\ApiActionInterface;
 use App\Generator\UrlGenerator;
-use App\Nrps\MembershipRepository;
-use OAT\Library\Lti1p3Nrps\Factory\Member\MemberFactoryInterface;
-use OAT\Library\Lti1p3Nrps\Model\Member\MemberCollection;
+use App\Nrps\MembershipService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,22 +34,17 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UpdateMembershipAction implements ApiActionInterface
 {
-    /** @var MemberFactoryInterface */
-    private $factory;
-
-    /** @var MembershipRepository */
-    private $repository;
+    /** @var MembershipService */
+    private $service;
 
     /** @var UrlGenerator */
     private $generator;
 
     public function __construct(
-        MemberFactoryInterface $factory,
-        MembershipRepository $repository,
+        MembershipService $service,
         UrlGenerator $generator
     ) {
-        $this->factory = $factory;
-        $this->repository = $repository;
+        $this->service = $service;
         $this->generator = $generator;
     }
 
@@ -66,7 +59,7 @@ class UpdateMembershipAction implements ApiActionInterface
             throw new AccessDeniedHttpException('the membership with identifier default cannot be updated');
         }
 
-        $membership = $this->repository->find($membershipIdentifier);
+        $membership = $this->service->findMembership($membershipIdentifier);
 
         if (null === $membership) {
             throw new NotFoundHttpException(
@@ -90,17 +83,9 @@ class UpdateMembershipAction implements ApiActionInterface
 
         $membership->setContext($context);
 
-        if(array_key_exists('members', $data)) {
-            $memberCollection = new MemberCollection();
-
-            foreach ($data['members'] as $member) {
-                $memberCollection->add($this->factory->create($member));
-            }
-
-            $membership->setMembers($memberCollection);
+        if (array_key_exists('members', $data)) {
+            $this->service->updateMembership($membership, $data['members']);
         }
-
-        $this->repository->save($membership);
 
         return new JsonResponse(
             [

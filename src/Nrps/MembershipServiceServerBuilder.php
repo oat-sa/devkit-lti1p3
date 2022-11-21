@@ -27,7 +27,6 @@ use OAT\Library\Lti1p3Nrps\Model\Member\MemberCollection;
 use OAT\Library\Lti1p3Nrps\Model\Member\MemberInterface;
 use OAT\Library\Lti1p3Nrps\Model\Membership\MembershipInterface;
 use OAT\Library\Lti1p3Nrps\Service\Server\Builder\MembershipServiceServerBuilderInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -99,9 +98,11 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
         $filteredMembers = array_filter(
             $membership->getMembers()->all(),
             static function (MemberInterface $member) use ($role, $since) {
-                return $member->getStatus() !== MemberInterface::STATUS_DELETED
-                       && ($role === null || in_array($role, $member->getRoles(), true))
-                       && ($since === null || $member->getProperties()->get('updated_at', 0) > $since);
+                return ($role === null || in_array($role, $member->getRoles(), true))
+                       && (
+                           $since === null
+                           || $member->getProperties()->get(MembershipService::UPDATED_AT_FIELD, 0) > $since
+                       );
             }
         );
 
