@@ -27,7 +27,6 @@ use OAT\Library\Lti1p3Nrps\Model\Member\MemberCollection;
 use OAT\Library\Lti1p3Nrps\Model\Member\MemberInterface;
 use OAT\Library\Lti1p3Nrps\Model\Membership\MembershipInterface;
 use OAT\Library\Lti1p3Nrps\Service\Server\Builder\MembershipServiceServerBuilderInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -36,19 +35,19 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
     /** @var RequestStack */
     private $requestStack;
 
-    /** @var MembershipRepository */
-    private $repository;
+    /** @var MembershipService */
+    private $service;
 
     /** @var DefaultMembershipFactory */
     private $factory;
 
     public function __construct(
         RequestStack $requestStack,
-        MembershipRepository $repository,
+        MembershipService $service,
         DefaultMembershipFactory $factory
     ) {
         $this->requestStack = $requestStack;
-        $this->repository = $repository;
+        $this->service = $service;
         $this->factory = $factory;
     }
 
@@ -76,13 +75,18 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
         $request = $this->requestStack->getCurrentRequest();
         $routeParameters = $request->attributes->get('_route_params');
 
+        $parsedUrl = parse_url(urldecode($request->getUri()));
+        parse_str($parsedUrl['query'] ?? '', $parsedQuery);
+
+        $since = isset($parsedQuery['since']) ? (int)$parsedQuery['since'] : null;
+
         $membershipIdentifier = $routeParameters['membershipIdentifier'] ?? null;
         $contextIdentifier = $routeParameters['contextIdentifier'] ?? null;
 
         if ($membershipIdentifier === 'default') {
             $membership = $this->factory->create();
         } else {
-            $membership = $this->repository->find($membershipIdentifier);
+            $membership = $this->service->findMembership($membershipIdentifier);
         }
 
         if (null === $membership || $membership->getContext()->getIdentifier() !== $contextIdentifier) {
@@ -93,55 +97,65 @@ class MembershipServiceServerBuilder implements MembershipServiceServerBuilderIn
 
         $filteredMembers = array_filter(
             $membership->getMembers()->all(),
-            static function (MemberInterface $member) use ($role) {
-                if (null === $role) {
-                    return true;
-                }
-
-                return in_array($role, $member->getRoles());
+            static function (MemberInterface $member) use ($role, $since) {
+                return ($role === null || in_array($role, $member->getRoles(), true))
+                       && (
+                           $since === null
+                           || $member->getProperties()->get(MembershipService::UPDATED_AT_FIELD, 0) > $since
+                       )
+                       && ($since !== null || $member->getStatus() !== MemberInterface::STATUS_DELETED);
             }
         );
 
         return $membership
             ->setMembers(new MemberCollection(array_slice($filteredMembers, $offset ?? 0, $limit ?? null)))
-            ->setRelationLink($this->buildRelationLink($request, sizeof($filteredMembers), $role, $limit, $offset));
+            ->setRelationLink(
+                $this->buildRelationLink($parsedUrl, sizeof($filteredMembers), $role, $limit, $offset, $since)
+            );
     }
 
     private function buildRelationLink(
-        Request $request,
+        array $parsedUrl,
         int $totalCount,
         string $role = null,
         int $limit = null,
-        int $offset = null
+        int $offset = null,
+        int $since = null
     ): ?string {
-        if ($limit && (($limit ?? 0) + ($offset ?? 0)) < $totalCount) {
-            $parsedUrl = parse_url(urldecode($request->getUri()));
-            parse_str($parsedUrl['query'] ?? '', $parsedQuery);
+        $linkUrl = sprintf(
+            '%s://%s%s%s',
+            $parsedUrl['scheme'],
+            $parsedUrl['host'],
+            $parsedUrl['port'] ?? false ? ':' . $parsedUrl['port'] : '',
+            $parsedUrl['path']
+        );
 
-            $nextOffset = $limit ?? 0;
-
-            if ($parsedQuery['offset'] ?? false) {
-                $nextOffset += $parsedQuery['offset'];
-            }
-
-            $relUrl = sprintf(
-                '%s://%s%s%s',
-                $parsedUrl['scheme'],
-                $parsedUrl['host'],
-                $parsedUrl['port'] ?? false ? ':' . $parsedUrl['port'] : '',
-                $parsedUrl['path']
-            );
-
-            $relUrlQuery = array_filter(
+        $linkQueryParameters = [
+            'differences' => array_filter(
                 [
                     'role' => $role,
-                    'offset' => $nextOffset
+                    'limit' => $limit,
+                    'since' => time()
+                ]
+            ),
+        ];
+
+        if ($limit && ($nextOffset = $limit + ($offset ?? 0)) < $totalCount) {
+            $linkQueryParameters['next'] = array_filter(
+                [
+                    'role' => $role,
+                    'limit' => $limit,
+                    'offset' => $nextOffset,
+                    'since' => $since
                 ]
             );
-
-            return '<' . $relUrl . '?' . http_build_query($relUrlQuery) . '>; rel="next"';
         }
 
-        return null;
+        $links = [];
+        foreach ($linkQueryParameters as $link => $queryParameters) {
+            $links[] = sprintf('<%s?%s>; rel="%s"', $linkUrl, http_build_query($queryParameters), $link);
+        }
+
+        return implode(', ', $links);
     }
 }
