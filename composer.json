@@ -13,7 +13,7 @@
         "oat-sa/lib-lti1p3-basic-outcome": "^4.1",
         "oat-sa/lib-lti1p3-deep-linking": "^4.0",
         "oat-sa/lib-lti1p3-nrps": "^7.0",
-        "oat-sa/lib-lti1p3-proctoring": "^0.4.0",
+        "oat-sa/lib-lti1p3-proctoring": "^0.5.0",
         "oat-sa/lib-lti1p3-submission-review": "^0.1.0",
         "ramsey/uuid": "^3.9 || ^4",
         "sensio/framework-extra-bundle": "^6.1",
