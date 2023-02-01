@@ -63,10 +63,10 @@ class AcsServiceClientAction
             $request->get('acsSub'),
             $request->get('acsAction'),
             $date,
-            (int)$request->get('acsAttemptNumber'),
+            (int)$request->get('acsAttemptNumber') ?: 1,
             $request->get('acsIss'),
-            (int)$request->get('acsExtraTime'),
-            (float)$request->get('acsSeverity'),
+            $request->get('acsExtraTime') === '' ? null : (int)$request->get('acsExtraTime'),
+            $request->get('acsSeverity') === '' ? null : (float)$request->get('acsSeverity'),
             $request->get('acsReasonCode'),
             $request->get('acsReasonMessage')
         );
