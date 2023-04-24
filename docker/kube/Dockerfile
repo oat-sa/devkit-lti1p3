@@ -1,7 +1,6 @@
 #{{{ fpm
 FROM europe-docker.pkg.dev/tao-artefacts/base-images/8.2.5-fpm-alpine3.17:v5 as fpm
 
-
 RUN set -eux; \
         { \
             echo 'opcache.preload=/var/www/html/config/preload.php'; \
