@@ -1,43 +1,6 @@
 #{{{ fpm
-FROM php:8.1.8-fpm-alpine3.16 as fpm
+FROM europe-docker.pkg.dev/tao-artefacts/base-images/8.2.5-fpm-alpine3.17:v5 as fpm
 
-RUN set -eux; \
-        apk add --no-cache --virtual .build-deps \
-        autoconf \
-        g++ \
-        jpeg-dev \
-        icu-dev \
-        libmcrypt-dev \
-        libpng-dev \
-        libxml2-dev \
-        linux-headers \
-        make \
-        oniguruma-dev \
-        procps \
-        unzip \
-        wget \
-        zip \
-        libzip-dev \
-        zlib-dev \
-        zstd-dev \
-        ; \
-        yes "" | pecl update-channels \
-        ; \
-        yes "" | pecl install redis igbinary \
-        ;\
-        docker-php-ext-install intl gd opcache zip calendar; \
-        \
-        docker-php-ext-enable redis igbinary; \
-        runDeps="$( \
-        scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
-        | tr ',' '\n' \
-        | sort -u \
-        | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
-        )"; \
-        apk add --no-cache $runDeps; \
-        apk del --no-network .build-deps; \
-        apk upgrade; \
-        chmod 0777 /tmp/;
 
 RUN set -eux; \
         { \
