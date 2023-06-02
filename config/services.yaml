@@ -9,6 +9,8 @@ parameters:
     application_api_key: '%env(resolve:APP_API_KEY)%'
     application_vendors: '%kernel.project_dir%/vendor/composer/installed.php'
     application_version: '2.5.2'
+    path_prefix.default: '/'
+    path_prefix: '%env(default:path_prefix.default:resolve:PATH_PREFIX)%'
     container.dumper.inline_factories: true
     cache.redis.namespace: '%env(default:cache.redis.namespace.default:REDIS_CACHE_NAMESPACE)%'
     cache.redis.namespace.default: 'devkit'
@@ -17,6 +19,8 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
+        bind:
+            string $pathPrefix: '%path_prefix%'
 
     App\:
         resource: '../src/*'

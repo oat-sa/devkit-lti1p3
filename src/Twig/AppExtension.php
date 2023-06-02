@@ -28,12 +28,16 @@ use App\Request\Encoder\Base64UrlEncoder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
+    /** @var RouterInterface */
+    private $router;
+
     /** @var RequestStack */
     private $requestStack;
 
@@ -43,11 +47,21 @@ class AppExtension extends AbstractExtension
     /** @var ParameterBagInterface */
     private $parameterBag;
 
-    public function __construct(RequestStack $requestStack, UrlGenerator $generator, ParameterBagInterface $parameterBag)
-    {
+    /** @var string */
+    private $pathPrefix;
+
+    public function __construct(
+        RouterInterface $router,
+        RequestStack $requestStack,
+        UrlGenerator $generator,
+        ParameterBagInterface $parameterBag,
+        string $pathPrefix,
+    ) {
+        $this->router = $router;
         $this->requestStack = $requestStack;
         $this->generator = $generator;
         $this->parameterBag = $parameterBag;
+        $this->pathPrefix = $pathPrefix;
     }
 
     public function getFunctions(): array
@@ -58,6 +72,8 @@ class AppExtension extends AbstractExtension
             new TwigFunction('get_php_version', [$this, 'getPhpVersion']),
             new TwigFunction('get_symfony_version', [$this, 'getSymfonyVersion']),
             new TwigFunction('get_vendor_versions', [$this, 'getVendorVersions']),
+            new TwigFunction('path', [$this, 'getAppPath']),
+            new TwigFunction('get_base_href', [$this, 'getBaseHref']),
         ];
     }
 
@@ -112,6 +128,31 @@ class AppExtension extends AbstractExtension
         }
 
         return $vendorVersions;
+    }
+
+    public function getAppPath(string $name, array $parameters = []): string
+    {
+        $path = ltrim(
+            $this->router->generate($name, $parameters),
+            '/'
+        );
+
+        if ($path === '') {
+            return '.';
+        }
+
+        return $path;
+    }
+
+    public function getBaseHref(): string
+    {
+        $baseHref = $this->pathPrefix;
+
+        if ($baseHref === '/') {
+            return $baseHref;
+        }
+
+        return $baseHref . '/';
     }
 
     public function getActiveMenu(): ?string
