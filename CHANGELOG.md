@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.6.0
+-----
+
+* Added in-iframe ResourceLink launch option
+
 2.5.0
 -----
 

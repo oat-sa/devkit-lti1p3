@@ -160,9 +160,13 @@
                         </div>
                     </div>
                 </div>
-            <div class="card-footer">
-                <div class="btn-group float-right" role="group" aria-label="Basic example">
-                    {{ ltiResourceLinkLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch LtiResourceLinkRequest',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+                <div class="card-footer">
+                    <div class="btn-group float-right" role="group" aria-label="Basic example">
+                        {{ ltiResourceLinkLaunchRequest.toHtmlLink('<i class="fas fa-sign-out-alt"></i>&nbsp;Launch',{'class': 'btn btn-primary', 'target': '_blank'})|raw }}
+                        <button id="launch-in-iframe" class="btn btn-secondary" data-url="{{ ltiResourceLinkLaunchRequest.toUrl() }}">
+                            <i class="fas fa-hashtag"></i>&nbsp;Launch in iframe
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -257,6 +261,14 @@
                     $('#userList').addClass('d-none');
                     $('#userCustom').addClass('d-none');
             }
+        });
+
+        $('#launch-in-iframe').click(function () {
+            $(this).closest('.card').find('.card-body').replaceWith(
+                $('<div>').addClass('card-body embed-responsive embed-responsive-16by9').append(
+                    $('<iframe>').addClass('embed-responsive-item').attr('src', $(this).data('url'))
+                )
+            );
         });
 
         $( document ).ready(function() {
