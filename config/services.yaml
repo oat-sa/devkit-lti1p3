@@ -12,6 +12,8 @@ parameters:
     container.dumper.inline_factories: true
     cache.redis.namespace: '%env(default:cache.redis.namespace.default:REDIS_CACHE_NAMESPACE)%'
     cache.redis.namespace.default: 'devkit'
+    jwt.ttl: '%env(default:jwt.ttl.default:int:JWT_TTL)%'
+    jwt.ttl.default: !php/const OAT\Library\Lti1p3Core\Message\Payload\MessagePayloadInterface::TTL
 
 services:
     _defaults:
@@ -38,6 +40,16 @@ services:
             - '@Psr\Log\LoggerInterface'
 
     # LTI core dependencies
+    OAT\Library\Lti1p3Core\Message\Payload\Builder\MessagePayloadBuilderInterface:
+        class: OAT\Library\Lti1p3Core\Message\Payload\Builder\MessagePayloadBuilder
+        arguments:
+            $builder: '@OAT\Library\Lti1p3Core\Security\Jwt\Builder\BuilderInterface'
+
+    OAT\Library\Lti1p3Core\Security\Jwt\Builder\BuilderInterface:
+        class: OAT\Library\Lti1p3Core\Security\Jwt\Builder\Builder
+        arguments:
+            $messageTtl: '%jwt.ttl%'
+
     OAT\Library\Lti1p3Core\Util\Generator\IdGeneratorInterface:
         class: OAT\Library\Lti1p3Core\Util\Generator\IdGenerator
 
