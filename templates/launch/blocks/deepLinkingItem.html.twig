@@ -22,7 +22,7 @@
                                     {% endif %}
                                     <dt>Description</dt>
                                     <dd>{{ resource.text }}</dd>
-                                    {% if resource.icon is defined %}
+                                    {% if resource.icon is defined and resource.icon.url is defined %}
                                         <dt>Icon</dt>
                                         <dd><img height="20px" width="20px" src="{{ resource.icon.url }}"/></dd>
                                     {% endif %}
