@@ -1,6 +1,17 @@
 CHANGELOG
 =========
 
+2.8.0
+-----
+
+* Added support for `autoplay`, `camera`, `display-capture`, `fullscreen`, `microphone` in iframe ResourceLink
+* Fixed Deep Linking URL validation
+
+2.7.0
+-----
+
+* Added support for configurable LTI message TTL via `JWT_TTL` environment variable
+
 2.6.0
 -----
 
