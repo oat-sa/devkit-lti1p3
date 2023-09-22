@@ -6,7 +6,7 @@ RUN apt-get update && \
 
 RUN yes | pecl update-channels
 
-RUN yes | pecl install igbinary redis xdebug
+RUN pecl install igbinary redis xdebug
 
 RUN docker-php-ext-install intl && \
     docker-php-ext-install gd && \
