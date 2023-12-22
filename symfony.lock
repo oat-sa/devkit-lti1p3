@@ -2,6 +2,9 @@
     "brick/math": {
         "version": "0.9.3"
     },
+    "carbonphp/carbon-doctrine-types": {
+        "version": "3.1.0"
+    },
     "codercat/jwk-to-pem": {
         "version": "1.0"
     },
@@ -43,6 +46,12 @@
     },
     "league/oauth2-server": {
         "version": "8.3.2"
+    },
+    "league/uri": {
+        "version": "7.4.0"
+    },
+    "league/uri-interfaces": {
+        "version": "7.4.0"
     },
     "monolog/monolog": {
         "version": "2.3.5"
@@ -111,14 +120,17 @@
     "oat-sa/lib-lti1p3-submission-review": {
         "version": "0.1.0"
     },
-    "php-http/message-factory": {
-        "version": "v1.0.2"
+    "paragonie/constant_time_encoding": {
+        "version": "v2.6.3"
     },
     "phpseclib/phpseclib": {
         "version": "2.0.33"
     },
     "psr/cache": {
         "version": "2.0.0"
+    },
+    "psr/clock": {
+        "version": "1.0.0"
     },
     "psr/container": {
         "version": "1.1.1"
@@ -249,9 +261,6 @@
             "src/Controller/.gitignore",
             "src/Kernel.php"
         ]
-    },
-    "symfony/http-client-contracts": {
-        "version": "v2.4.0"
     },
     "symfony/http-foundation": {
         "version": "v5.3.7"
