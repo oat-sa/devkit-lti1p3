@@ -73,3 +73,7 @@ parameters:
         Roles:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_ROLES
             value: ['http://purl.imsglobal.org/vocab/lis/v2/membership#Learner']
+        Custom:
+            name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_CUSTOM
+            value:
+                claim: '{string|optional}'
