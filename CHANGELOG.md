@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+2.9.0
+-----
+
+* Added various custom-claim presets
+* Upgraded to PHP 8.3
+
 2.8.0
 -----
 
