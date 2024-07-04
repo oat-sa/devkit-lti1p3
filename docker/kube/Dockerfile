@@ -22,7 +22,7 @@ COPY . .
 
 # Install required packages
 RUN set -eux; \
-        composer self-update --2; \
+        composer self-update 2.6.6; # TODO update symfony/flex to the latest version instead \
         composer install -n --optimize-autoloader --no-dev --prefer-dist; \
         composer dump-autoload -n --optimize --no-dev --classmap-authoritative; \
         rm -rf .build/;
