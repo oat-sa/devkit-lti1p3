@@ -73,7 +73,22 @@ parameters:
         Roles:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_ROLES
             value: ['http://purl.imsglobal.org/vocab/lis/v2/membership#Learner']
-        Custom:
+        Custom – Review:
             name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_CUSTOM
             value:
-                claim: '{string|optional}'
+                deliverySettings.review.enabled: 'true'
+                deliverySettings.review.showCorrect: 'true'
+                deliverySettings.review.showScore: 'true'
+                deliverySettings.review.showQuestion: 'false'
+                deliverySettings.review.showUnShuffled: 'true'
+        Custom – Proctored:
+            name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_CUSTOM
+            value:
+                proctoringSettings.enableMonitoring: 'true'
+                proctoringSettings.requireProctorAuthorization: 'true'
+        Custom – Plugins:
+            name: !php/const \OAT\Library\Lti1p3Core\Message\Payload\LtiMessagePayloadInterface::CLAIM_LTI_CUSTOM
+            value:
+                deliverySettings.plugins.add: 'taoQtiNuiTest/runner/plugins/panel/a11y/plugin'
+                deliverySettings.plugins.remove: 'taoQtiNuiTest/runner/plugins/tools/highlighter/plugin,taoQtiNuiTest/runner/plugins/tools/scratchpad/plugin'
+                deliverySettings.plugins: "{\"readAloud\":{\"readAloudOption\":\"always-enabled\"},\"a11yMenuPanel\":{\"openOnStart\":true,\"contrastTheme\": {\"enabled\": true,\"themes\": [\"default\",\"whiteOnBlue\",\"yellowOnBlack\",\"blueOnYellow\",\"greyOnGreen\"]},\"groups\": [\"group-contrast\", \"group-pointer\", \"group-text\", \"group-zoom\"]}}"
