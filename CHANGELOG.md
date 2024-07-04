@@ -1,11 +1,21 @@
 CHANGELOG
 =========
 
-2.9.0
------
+2.10.1
+------
+
+* Fixed dependencies installation in build time
+
+2.10.0
+------
 
 * Added various custom-claim presets
 * Upgraded to PHP 8.3
+
+2.9.0
+-----
+
+* Upgraded LTI 1.3 library dependencies
 
 2.8.0
 -----
