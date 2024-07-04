@@ -266,7 +266,10 @@
         $('#launch-in-iframe').click(function () {
             $(this).closest('.card').find('.card-body').replaceWith(
                 $('<div>').addClass('card-body embed-responsive embed-responsive-16by9').append(
-                    $('<iframe>').addClass('embed-responsive-item').attr('src', $(this).data('url'))
+                    $('<iframe>').addClass('embed-responsive-item').attr({
+                        src: $(this).data('url'),
+                        allow: 'autoplay *;camera *;display-capture *;fullscreen* ;microphone *'
+                    })
                 )
             );
         });

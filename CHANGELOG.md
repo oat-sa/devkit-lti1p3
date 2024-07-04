@@ -1,6 +1,38 @@
 CHANGELOG
 =========
 
+2.10.2
+------
+
+* Fixed "Custom – Plugins" preset value
+
+2.10.1
+------
+
+* Fixed dependencies installation in build time
+
+2.10.0
+------
+
+* Added various custom-claim presets
+* Upgraded to PHP 8.3
+
+2.9.0
+-----
+
+* Upgraded LTI 1.3 library dependencies
+
+2.8.0
+-----
+
+* Added support for `autoplay`, `camera`, `display-capture`, `fullscreen`, `microphone` in iframe ResourceLink
+* Fixed Deep Linking URL validation
+
+2.7.0
+-----
+
+* Added support for configurable LTI message TTL via `JWT_TTL` environment variable
+
 2.6.0
 -----
 
