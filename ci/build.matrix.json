@@ -1,0 +1,8 @@
+{
+ "include": [
+   {
+     "app": "devkit/lti-devkit",
+     "dockerfile-path": "./docker/kube/Dockerfile"
+   }
+ ]
+}

@@ -1,0 +1,17 @@
+name: Build image
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - feature/**
+      - feat/**
+      - fix/**
+      - release-*
+    tags: ["*"]
+
+jobs:
+  call-ng-build-image:
+    uses: oat-sa/ci-pipelines/.github/workflows/reuse-ng-image-build.yaml@master
+    secrets: inherit

@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.10.2
+------
+
+* Build images via GitHub workflows
+
 2.10.1
 ------
 
