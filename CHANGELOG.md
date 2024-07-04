@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.10.2
+------
+
+* Fixed "Custom – Plugins" preset value
+
 2.10.1
 ------
 
