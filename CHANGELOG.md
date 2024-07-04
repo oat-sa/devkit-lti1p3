@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.10.2
+------
+
+* Fixed custom claims configuration
+
 2.10.1
 ------
 
