@@ -18,7 +18,8 @@ parameters:
                     'resume',
                     'terminate',
                     'update',
-                    'flag'
+                    'flag',
+                    'test'
                 ]
                 assessment_control_url: '{url|required}'
         Basic Outcome:

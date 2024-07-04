@@ -2,7 +2,7 @@ parameters:
     users:
         c3po:
             name: C3PO
-            email: c3po@rebels.com
+            email: c.3po@rebels.com
             givenName: C3PO
             familyName: ~
             middleName: ~
