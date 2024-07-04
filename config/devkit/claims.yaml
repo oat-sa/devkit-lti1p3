@@ -91,4 +91,4 @@ parameters:
             value:
                 deliverySettings.plugins.add: 'taoQtiNuiTest/runner/plugins/panel/a11y/plugin'
                 deliverySettings.plugins.remove: 'taoQtiNuiTest/runner/plugins/tools/highlighter/plugin,taoQtiNuiTest/runner/plugins/tools/scratchpad/plugin'
-                deliverySettings.plugins: "{\"readAloud\":{\"readAloudOption\":\"always-enabled\"},\"a11yMenuPanel\":{\"openOnStart\":true,\"contrastTheme\": {\"enabled\": true,\"themes\": [\"default\",\"whiteOnBlue\",\"yellowOnBlack\",\"blueOnYellow\",\"greyOnGreen\"]},\"groups\": [\"group-contrast\", \"group-pointer\", \"group-text\", \"group-zoom\"]}}"
+                deliverySettings.plugins: '{"readAloud": {"readAloudOption": "always-enabled"}, "a11yMenuPanel": {"openOnStart": true, "contrastTheme": {"enabled": true, "themes": ["default", "whiteOnBlue", "yellowOnBlack", "blueOnYellow", "greyOnGreen"]}, "groups": ["group-contrast", "group-pointer", "group-text", "group-zoom"]}}'
