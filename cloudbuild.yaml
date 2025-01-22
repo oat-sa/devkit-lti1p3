@@ -4,7 +4,7 @@ steps:
       [
         "build",
         '--cache-from',
-        'europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:develop',
+        'europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:master',
         "-t",
         "europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:$COMMIT_SHA",
         "-t",

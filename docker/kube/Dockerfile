@@ -1,5 +1,5 @@
 #{{{ fpm
-FROM europe-west1-docker.pkg.dev/tao-artefacts/base-images/php-v8.3:v1.0.7 as fpm
+FROM europe-west1-docker.pkg.dev/tao-artefacts/base-images/php-v8.3:v1.0.9 as fpm
 
 RUN set -eux; \
         { \
@@ -15,14 +15,14 @@ RUN set -eux; \
 #}}} fpm
 
 #{{{ composer
-FROM composer:2 AS composer
+FROM fpm as composer
+COPY --from=composer:2.6.6 /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www/html
 COPY . .
 
 # Install required packages
 RUN set -eux; \
-        composer self-update 2.6.6; \
         composer install -n --optimize-autoloader --no-dev --prefer-dist; \
         composer dump-autoload -n --optimize --no-dev --classmap-authoritative; \
         rm -rf .build/;
