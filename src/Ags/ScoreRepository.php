@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2019-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -27,27 +27,26 @@ use OAT\Library\Lti1p3Ags\Model\Score\ScoreInterface;
 use OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface;
 use OAT\Library\Lti1p3Ags\Repository\ScoreRepositoryInterface;
 use OAT\Library\Lti1p3Core\Util\Collection\Collection;
+use OAT\Library\Lti1p3Core\Util\Collection\CollectionInterface;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Lock\LockFactory;
 
-class ScoreRepository implements ScoreRepositoryInterface
+readonly class ScoreRepository implements ScoreRepositoryInterface
 {
     public const CACHE_KEY = 'lti1p3-ags-scores';
 
-    /** @var CacheItemPoolInterface */
-    private $cache;
-
-    /** @var ResultRepositoryInterface|ResultRepository */
-    private $resultRepository;
-
-    public function __construct(CacheItemPoolInterface $cache, ResultRepositoryInterface $resultRepository)
-    {
-        $this->cache = $cache;
-        $this->resultRepository = $resultRepository;
+    public function __construct(
+        private CacheItemPoolInterface $cache,
+        private ResultRepositoryInterface $resultRepository,
+        private LockFactory $lockFactory,
+    ) {
     }
 
     public function save(ScoreInterface $score): ScoreInterface
     {
+        $lock = $this->lockFactory->createLock(self::CACHE_KEY);
         $cache = $this->cache->getItem(self::CACHE_KEY);
+        $lock->acquire(true);
 
         $scores = $cache->get();
 
@@ -68,11 +67,12 @@ class ScoreRepository implements ScoreRepositoryInterface
         );
 
         $this->resultRepository->save($result);
+        $lock->release();
 
         return $score;
     }
 
-    public function findCollectionByLineItemIdentifier(string $lineItemIdentifier): Collection
+    public function findCollectionByLineItemIdentifier(string $lineItemIdentifier): CollectionInterface
     {
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
@@ -83,7 +83,9 @@ class ScoreRepository implements ScoreRepositoryInterface
 
     public function deleteCollectionByLineItemIdentifier(string $lineItemIdentifier): void
     {
+        $lock = $this->lockFactory->createLock(self::CACHE_KEY);
         $cache = $this->cache->getItem(self::CACHE_KEY);
+        $lock->acquire(true);
 
         $scores = $cache->get();
 
@@ -92,5 +94,6 @@ class ScoreRepository implements ScoreRepositoryInterface
         $cache->set($scores);
 
         $this->cache->save($cache);
+        $lock->release();
     }
 }

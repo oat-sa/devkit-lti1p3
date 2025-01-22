@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2019-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -29,33 +29,25 @@ use OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface;
 use OAT\Library\Lti1p3Core\Util\Generator\IdGeneratorInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Lock\LockFactory;
 
-class ResultRepository implements ResultRepositoryInterface
+readonly class ResultRepository implements ResultRepositoryInterface
 {
     public const CACHE_KEY = 'lti1p3-ags-results';
 
-    /** @var CacheItemPoolInterface */
-    private $cache;
-
-    /** @var RequestStack */
-    private $requestStack;
-
-    /** @var IdGeneratorInterface */
-    private $generator;
-
     public function __construct(
-        CacheItemPoolInterface $cache,
-        RequestStack $requestStack,
-        IdGeneratorInterface $generator
+        private CacheItemPoolInterface $cache,
+        private RequestStack $requestStack,
+        private IdGeneratorInterface $generator,
+        private LockFactory $lockFactory,
     ) {
-        $this->cache = $cache;
-        $this->requestStack = $requestStack;
-        $this->generator = $generator;
     }
 
     public function save(ResultInterface $result): ResultInterface
     {
+        $lock = $this->lockFactory->createLock(self::CACHE_KEY);
         $cache = $this->cache->getItem(self::CACHE_KEY);
+        $lock->acquire(true);
 
         $results = $cache->get();
 
@@ -74,6 +66,7 @@ class ResultRepository implements ResultRepositoryInterface
         $cache->set($results);
 
         $this->cache->save($cache);
+        $lock->release();
 
         return $result;
     }
@@ -125,6 +118,8 @@ class ResultRepository implements ResultRepositoryInterface
 
     public function deleteCollectionByLineItemIdentifier(string $lineItemIdentifier): void
     {
+        $lock = $this->lockFactory->createLock(self::CACHE_KEY);
+        $lock->acquire(true);
         $cache = $this->cache->getItem(self::CACHE_KEY);
 
         $results = $cache->get();
@@ -134,5 +129,6 @@ class ResultRepository implements ResultRepositoryInterface
         $cache->set($results);
 
         $this->cache->save($cache);
+        $lock->release();
     }
 }
