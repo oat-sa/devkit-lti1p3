@@ -16,7 +16,7 @@ RUN set -eux; \
 
 #{{{ composer
 FROM fpm as composer
-COPY --from=composer:2.6.6 /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:2.8.5 /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www/html
 COPY . .
