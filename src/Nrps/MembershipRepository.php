@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2019-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -26,17 +26,15 @@ use OAT\Library\Lti1p3Nrps\Model\Member\MemberCollection;
 use OAT\Library\Lti1p3Nrps\Model\Member\MemberInterface;
 use OAT\Library\Lti1p3Nrps\Model\Membership\MembershipInterface;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Lock\LockFactory;
 
-class MembershipRepository
+readonly class MembershipRepository
 {
     public const CACHE_KEY = 'lti1p3-nrps-memberships';
 
     /** @var CacheItemPoolInterface */
-    private $cache;
-
-    public function __construct(CacheItemPoolInterface $cache)
+    public function __construct(private CacheItemPoolInterface $cache, private LockFactory $lockFactory)
     {
-        $this->cache = $cache;
     }
 
     public function find(
@@ -84,7 +82,9 @@ class MembershipRepository
 
     public function save(MembershipInterface $membership): void
     {
+        $lock = $this->lockFactory->createLock(self::CACHE_KEY);
         $cache = $this->cache->getItem(self::CACHE_KEY);
+        $lock->acquire(true);
 
         $memberships = $cache->get();
 
@@ -93,11 +93,14 @@ class MembershipRepository
         $cache->set($memberships);
 
         $this->cache->save($cache);
+        $lock->release();
     }
 
     public function delete(MembershipInterface $membership): void
     {
+        $lock = $this->lockFactory->createLock(self::CACHE_KEY);
         $cache = $this->cache->getItem(self::CACHE_KEY);
+        $lock->acquire(true);
 
         $memberships = $cache->get();
 
@@ -106,5 +109,6 @@ class MembershipRepository
         $cache->set($memberships);
 
         $this->cache->save($cache);
+        $lock->release();
     }
 }

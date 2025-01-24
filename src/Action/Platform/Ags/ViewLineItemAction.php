@@ -15,45 +15,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace App\Action\Platform\Ags;
 
+use App\Ags\ScoreRepository;
 use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
 use OAT\Library\Lti1p3Ags\Repository\ResultRepositoryInterface;
-use OAT\Library\Lti1p3Ags\Repository\ScoreRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 
-class ViewLineItemAction
+readonly class ViewLineItemAction
 {
     /** @var LineItemRepositoryInterface */
-    private $lineItemRepository;
-
-    /** @var ScoreRepositoryInterface */
-    private $scoreRepository;
-
-    /** @var ResultRepositoryInterface */
-    private $resultRepository;
-
-    /** @var Environment */
-    private $twig;
-
     public function __construct(
-        LineItemRepositoryInterface $lineItemRepository,
-        ScoreRepositoryInterface $scoreRepository,
-        ResultRepositoryInterface $resultRepository,
-        Environment $twig
+        private LineItemRepositoryInterface $lineItemRepository,
+        private ScoreRepository $scoreRepository,
+        private ResultRepositoryInterface $resultRepository,
+        private Environment $twig,
     ) {
-        $this->lineItemRepository = $lineItemRepository;
-        $this->scoreRepository = $scoreRepository;
-        $this->resultRepository = $resultRepository;
-        $this->twig = $twig;
     }
 
     public function __invoke(Request $request, string $lineItemIdentifier): Response
