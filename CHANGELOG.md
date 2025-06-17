@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.11.0
+------
+
+* Made claim selection non-destructive
+
 2.10.2
 ------
 
