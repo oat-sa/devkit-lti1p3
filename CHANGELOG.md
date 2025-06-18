@@ -1,6 +1,16 @@
 CHANGELOG
 =========
 
+2.11.0
+------
+
+* Made claim selection non-destructive
+
+2.10.3
+------
+
+Fixed handling of concurrent AGS requests
+
 2.10.2
 ------
 

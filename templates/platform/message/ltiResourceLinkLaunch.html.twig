@@ -225,7 +225,10 @@
         $(".editorClaim").click(function(event){
             try {
                 var claims = JSON.parse($("#lti_resource_link_launch_claims").val() || "{}");
-                claims[$(this).data('name')] = $(this).data('value');
+                claims[$(this).data('name')] = {
+                    ...$(this).data('value'),
+                    ...claims[$(this).data('name')]
+                };
                 $("#lti_resource_link_launch_claims").val(JSON.stringify(claims, undefined, 4));
                 $("#lti_resource_link_launch_claims").removeClass('is-invalid');
                 $("#lti_resource_link_launch_claims").addClass('is-valid');
