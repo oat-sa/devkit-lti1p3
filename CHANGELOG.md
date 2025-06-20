@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.11.1
+------
+
+* Fixed claim selection for simple arrays
+
 2.11.0
 ------
 
@@ -118,7 +123,7 @@ Fixed handling of concurrent AGS requests
 -----
 
 * Updated LTI 1.3 bundle and libraries dependencies
-* Updated Symfony packages to version 5.3.x  
+* Updated Symfony packages to version 5.3.x
 * Updated devkit registration to be the default one
 
 2.0.1
