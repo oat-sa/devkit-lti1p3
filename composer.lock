@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6cb078d426e7ab5d37980a3a9a729537",
+    "content-hash": "2e8840f5fd649f71d7f725ac8db8a977",
     "packages": [
         {
             "name": "brick/math",
@@ -1617,16 +1617,16 @@
         },
         {
             "name": "oat-sa/lib-lti1p3-ags",
-            "version": "2.0.2",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-ags.git",
-                "reference": "3967915ab99e1a01b8445aef94bae6e79ff3dac0"
+                "reference": "25a0973cdb3fa6073a7a5366471bdca93a00d35c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-ags/zipball/3967915ab99e1a01b8445aef94bae6e79ff3dac0",
-                "reference": "3967915ab99e1a01b8445aef94bae6e79ff3dac0",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-ags/zipball/25a0973cdb3fa6073a7a5366471bdca93a00d35c",
+                "reference": "25a0973cdb3fa6073a7a5366471bdca93a00d35c",
                 "shasum": ""
             },
             "require": {
@@ -1638,10 +1638,9 @@
                 "psr/http-message": "^1.1 || ^2.0"
             },
             "require-dev": {
-                "php-coveralls/php-coveralls": "^2.4",
-                "phpunit/phpunit": "^9.6",
-                "psalm/plugin-phpunit": "^0.15.1",
-                "vimeo/psalm": "^4.6"
+                "phpunit/phpunit": "^9.6 || ^12",
+                "psalm/plugin-phpunit": "^0.19",
+                "vimeo/psalm": "^4.6 || ^5.25 || ^6.8"
             },
             "type": "library",
             "autoload": {
@@ -1656,22 +1655,22 @@
             "description": "OAT LTI 1.3 Advantage AGS Library",
             "support": {
                 "issues": "https://github.com/oat-sa/lib-lti1p3-ags/issues",
-                "source": "https://github.com/oat-sa/lib-lti1p3-ags/tree/2.0.2"
+                "source": "https://github.com/oat-sa/lib-lti1p3-ags/tree/2.0.4"
             },
-            "time": "2024-03-09T20:25:26+00:00"
+            "time": "2025-07-17T14:24:27+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-basic-outcome",
-            "version": "5.0.3",
+            "version": "5.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-basic-outcome.git",
-                "reference": "f653ed8eba2cf969be17db999850b96bf0eb2887"
+                "reference": "443fa33001882e58e61e3e8214ace0cc48170f77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-basic-outcome/zipball/f653ed8eba2cf969be17db999850b96bf0eb2887",
-                "reference": "f653ed8eba2cf969be17db999850b96bf0eb2887",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-basic-outcome/zipball/443fa33001882e58e61e3e8214ace0cc48170f77",
+                "reference": "443fa33001882e58e61e3e8214ace0cc48170f77",
                 "shasum": ""
             },
             "require": {
@@ -1689,8 +1688,8 @@
                 "nesbot/carbon": "^2.72 || ^3.0",
                 "php-coveralls/php-coveralls": "^2.4",
                 "phpunit/phpunit": "^9.6",
-                "psalm/plugin-phpunit": "^0.15",
-                "vimeo/psalm": "^4.6"
+                "psalm/plugin-phpunit": "^0.19",
+                "vimeo/psalm": "^4.6 || ^5.25 || ^6.8"
             },
             "type": "library",
             "autoload": {
@@ -1705,22 +1704,22 @@
             "description": "OAT LTI 1.3 Basic Outcome Library",
             "support": {
                 "issues": "https://github.com/oat-sa/lib-lti1p3-basic-outcome/issues",
-                "source": "https://github.com/oat-sa/lib-lti1p3-basic-outcome/tree/5.0.3"
+                "source": "https://github.com/oat-sa/lib-lti1p3-basic-outcome/tree/5.0.5"
             },
-            "time": "2024-03-09T20:24:36+00:00"
+            "time": "2025-07-17T14:24:32+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-core",
-            "version": "7.2.0",
+            "version": "dev-lcobucci-jwt-5.0-support",
             "source": {
                 "type": "git",
-                "url": "https://github.com/oat-sa/lib-lti1p3-core.git",
-                "reference": "db40dac4bb30d738bfcead6586743b8d734e9801"
+                "url": "https://github.com/armatronic/lib-lti1p3-core.git",
+                "reference": "db349a62e55dc1865cbf0bb147bb01f61f70599e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-core/zipball/db40dac4bb30d738bfcead6586743b8d734e9801",
-                "reference": "db40dac4bb30d738bfcead6586743b8d734e9801",
+                "url": "https://api.github.com/repos/armatronic/lib-lti1p3-core/zipball/db349a62e55dc1865cbf0bb147bb01f61f70599e",
+                "reference": "db349a62e55dc1865cbf0bb147bb01f61f70599e",
                 "shasum": ""
             },
             "require": {
@@ -1728,8 +1727,8 @@
                 "ext-json": "*",
                 "ext-openssl": "*",
                 "guzzlehttp/guzzle": "^7.8",
-                "lcobucci/jwt": "^4.3",
-                "league/oauth2-server": "^8.5",
+                "lcobucci/jwt": "^4.3 || ^5.0",
+                "league/oauth2-server": "^8.5 || ^9.2",
                 "nesbot/carbon": "^2.72 || ^3.0",
                 "nyholm/psr7": "^1.8",
                 "php": ">=8.0.0",
@@ -1744,8 +1743,8 @@
                 "cache/array-adapter": "^1.2",
                 "php-coveralls/php-coveralls": "^2.7",
                 "phpunit/phpunit": "^9.6",
-                "psalm/plugin-phpunit": "^0.15",
-                "vimeo/psalm": "^4.30"
+                "psalm/plugin-phpunit": "^0.19",
+                "vimeo/psalm": "^5.25 || ^6.8"
             },
             "type": "library",
             "autoload": {
@@ -1753,29 +1752,32 @@
                     "OAT\\Library\\Lti1p3Core\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "OAT\\Library\\Lti1p3Core\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "GPL-2.0-only"
             ],
             "description": "OAT LTI 1.3 Core Library",
             "support": {
-                "issues": "https://github.com/oat-sa/lib-lti1p3-core/issues",
-                "source": "https://github.com/oat-sa/lib-lti1p3-core/tree/7.2.0"
+                "source": "https://github.com/armatronic/lib-lti1p3-core/tree/lcobucci-jwt-5.0-support"
             },
-            "time": "2025-01-20T20:44:42+00:00"
+            "time": "2025-07-03T04:00:27+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-deep-linking",
-            "version": "4.1.0",
+            "version": "4.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-deep-linking.git",
-                "reference": "7e11d03b690fd2a726edd29d3002ee0777985bc1"
+                "reference": "71df6274c20868341517327d5fdfcf08f68aea22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-deep-linking/zipball/7e11d03b690fd2a726edd29d3002ee0777985bc1",
-                "reference": "7e11d03b690fd2a726edd29d3002ee0777985bc1",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-deep-linking/zipball/71df6274c20868341517327d5fdfcf08f68aea22",
+                "reference": "71df6274c20868341517327d5fdfcf08f68aea22",
                 "shasum": ""
             },
             "require": {
@@ -1784,10 +1786,9 @@
                 "php": ">=8.0.0"
             },
             "require-dev": {
-                "php-coveralls/php-coveralls": "^2.4",
-                "phpunit/phpunit": "^9.6",
-                "psalm/plugin-phpunit": "^0.15",
-                "vimeo/psalm": "^4.6"
+                "phpunit/phpunit": "^9.6 || ^12",
+                "psalm/plugin-phpunit": "^0.19",
+                "vimeo/psalm": "^4.6 || ^5.25 || ^6.8"
             },
             "type": "library",
             "autoload": {
@@ -1802,22 +1803,22 @@
             "description": "OAT LTI 1.3 Deep Linking Library",
             "support": {
                 "issues": "https://github.com/oat-sa/lib-lti1p3-deep-linking/issues",
-                "source": "https://github.com/oat-sa/lib-lti1p3-deep-linking/tree/4.1.0"
+                "source": "https://github.com/oat-sa/lib-lti1p3-deep-linking/tree/4.1.2"
             },
-            "time": "2023-12-22T08:22:05+00:00"
+            "time": "2025-07-17T14:24:21+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-nrps",
-            "version": "8.0.2",
+            "version": "8.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/lib-lti1p3-nrps.git",
-                "reference": "620b26f96b18bf7b86749d54835b07a652a57188"
+                "reference": "65a0527c88da0e1244377d2e812f76153668dbaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-nrps/zipball/620b26f96b18bf7b86749d54835b07a652a57188",
-                "reference": "620b26f96b18bf7b86749d54835b07a652a57188",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-nrps/zipball/65a0527c88da0e1244377d2e812f76153668dbaa",
+                "reference": "65a0527c88da0e1244377d2e812f76153668dbaa",
                 "shasum": ""
             },
             "require": {
@@ -1832,8 +1833,8 @@
                 "nesbot/carbon": "^2.72 || ^3.0",
                 "php-coveralls/php-coveralls": "^2.4",
                 "phpunit/phpunit": "^9.6",
-                "psalm/plugin-phpunit": "^0.15",
-                "vimeo/psalm": "^4.6"
+                "psalm/plugin-phpunit": "^0.19",
+                "vimeo/psalm": "^4.6 || ^5.25 || ^6.8"
             },
             "type": "library",
             "autoload": {
@@ -1848,9 +1849,9 @@
             "description": "OAT LTI 1.3 Advantage NRPS Library",
             "support": {
                 "issues": "https://github.com/oat-sa/lib-lti1p3-nrps/issues",
-                "source": "https://github.com/oat-sa/lib-lti1p3-nrps/tree/8.0.2"
+                "source": "https://github.com/oat-sa/lib-lti1p3-nrps/tree/8.0.4"
             },
-            "time": "2024-03-09T20:23:39+00:00"
+            "time": "2025-07-17T14:24:35+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-proctoring",
@@ -7620,9 +7621,18 @@
             "time": "2021-09-14T13:57:08+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "oat-sa/lib-lti1p3-core",
+            "version": "dev-lcobucci-jwt-5.0-support",
+            "alias": "7.2.3",
+            "alias_normalized": "7.2.3.0"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "oat-sa/lib-lti1p3-core": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
