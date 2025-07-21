@@ -1,6 +1,16 @@
 CHANGELOG
 =========
 
+2.11.3
+------
+
+* Upgrade LTI 1.3 to fix compatibility issues
+
+2.11.2
+------
+
+* Upgrade LTI 1.3 libraries to versions that support PHP 8.4
+
 2.11.1
 ------
 
