@@ -5,6 +5,8 @@ CHANGELOG
 ------
 
 * Upgrade LTI 1.3 core library to fix compatibility issues
+* Upgraded PHP-FPM to version **8.4** in Docker image
+
 
 2.11.2
 ------
