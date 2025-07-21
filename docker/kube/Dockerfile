@@ -1,5 +1,5 @@
 #{{{ fpm
-FROM europe-west1-docker.pkg.dev/tao-artefacts/base-images/php-v8.3:v1.0.9 as fpm
+FROM europe-west1-docker.pkg.dev/tao-artefacts/base-images/php-v8.4:v1.0.20 as fpm
 
 RUN set -eux; \
         { \
