@@ -4,7 +4,7 @@ CHANGELOG
 2.11.3
 ------
 
-* Upgrade LTI 1.3 to fix compatibility issues
+* Upgrade LTI 1.3 core library to fix compatibility issues
 
 2.11.2
 ------
