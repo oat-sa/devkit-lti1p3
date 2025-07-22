@@ -11,7 +11,8 @@ RUN set -eux; \
             echo 'realpath_cache_size=4096K'; \
             echo 'realpath_cache_ttl=600'; \
         } >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-        ;
+        ; \
+        mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini;
 #}}} fpm
 
 #{{{ composer
