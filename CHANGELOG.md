@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.11.5
+------
+
+* Apply support lcobucci/jwt ^5
+
 2.11.4
 ------
 
