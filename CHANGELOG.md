@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.11.6
+------
+
+* Integrate CodeRabbitAI with custom config
+
 2.11.5
 ------
 
