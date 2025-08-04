@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1d4dddf24f567ae4a1075dd3e29e204",
+    "content-hash": "6cb078d426e7ab5d37980a3a9a729537",
     "packages": [
         {
             "name": "brick/math",
@@ -1709,16 +1709,16 @@
         },
         {
             "name": "oat-sa/lib-lti1p3-core",
-            "version": "dev-use_unencryptedtoken_instead_of_plain_token",
+            "version": "7.2.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kochen/lib-lti1p3-core.git",
-                "reference": "3cbb736d8083c12014b7311f8342ab94a87ca0b1"
+                "url": "https://github.com/oat-sa/lib-lti1p3-core.git",
+                "reference": "386de555b5eabb4f9b71d31ec57c3991a8a73c08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kochen/lib-lti1p3-core/zipball/3cbb736d8083c12014b7311f8342ab94a87ca0b1",
-                "reference": "3cbb736d8083c12014b7311f8342ab94a87ca0b1",
+                "url": "https://api.github.com/repos/oat-sa/lib-lti1p3-core/zipball/386de555b5eabb4f9b71d31ec57c3991a8a73c08",
+                "reference": "386de555b5eabb4f9b71d31ec57c3991a8a73c08",
                 "shasum": ""
             },
             "require": {
@@ -1751,19 +1751,16 @@
                     "OAT\\Library\\Lti1p3Core\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "OAT\\Library\\Lti1p3Core\\Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-only"
             ],
             "description": "OAT LTI 1.3 Core Library",
             "support": {
-                "source": "https://github.com/kochen/lib-lti1p3-core/tree/use_unencryptedtoken_instead_of_plain_token"
+                "issues": "https://github.com/oat-sa/lib-lti1p3-core/issues",
+                "source": "https://github.com/oat-sa/lib-lti1p3-core/tree/7.2.5"
             },
-            "time": "2025-07-27T13:16:43+00:00"
+            "time": "2025-08-04T10:34:07+00:00"
         },
         {
             "name": "oat-sa/lib-lti1p3-deep-linking",
@@ -7620,18 +7617,9 @@
             "time": "2021-09-14T13:57:08+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "oat-sa/lib-lti1p3-core",
-            "version": "dev-use_unencryptedtoken_instead_of_plain_token",
-            "alias": "7.2.4",
-            "alias_normalized": "7.2.4.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "oat-sa/lib-lti1p3-core": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

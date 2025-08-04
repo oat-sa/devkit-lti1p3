@@ -2,12 +2,6 @@
     "description": "OAT LTI 1.3 DevKit",
     "type": "project",
     "license": "GPL-2.0-only",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:kochen/lib-lti1p3-core.git"
-        }
-    ],
     "require": {
         "php": ">=8.2.0",
         "ext-ctype": "*",
@@ -16,7 +10,6 @@
         "oat-sa/bundle-health-check": "^2.1",
         "oat-sa/bundle-lti1p3": "^7.1",
         "oat-sa/lib-lti1p3-ags": "^2.0",
-        "oat-sa/lib-lti1p3-core": "dev-use_unencryptedtoken_instead_of_plain_token as 7.2.4",
         "oat-sa/lib-lti1p3-basic-outcome": "^5.0",
         "oat-sa/lib-lti1p3-deep-linking": "^4.1",
         "oat-sa/lib-lti1p3-nrps": "^8.0",
