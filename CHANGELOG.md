@@ -1,15 +1,11 @@
 CHANGELOG
 =========
 
-2.11.6
-------
-
-* Integrate CodeRabbitAI with custom config
-
 2.11.5
 ------
 
 * Apply support lcobucci/jwt ^5
+* Integrate CodeRabbitAI with custom config
 
 2.11.4
 ------
