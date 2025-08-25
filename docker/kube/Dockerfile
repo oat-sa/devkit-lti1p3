@@ -15,6 +15,7 @@ RUN set -eux; \
         mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini;
 #}}} fpm
 
+
 #{{{ composer
 FROM fpm as composer
 COPY --from=composer:2.8.5 /usr/bin/composer /usr/local/bin/composer
