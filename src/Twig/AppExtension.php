@@ -28,12 +28,16 @@ use App\Request\Encoder\Base64UrlEncoder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
+    /** @var RouterInterface */
+    private $router;
+
     /** @var RequestStack */
     private $requestStack;
 
@@ -43,8 +47,9 @@ class AppExtension extends AbstractExtension
     /** @var ParameterBagInterface */
     private $parameterBag;
 
-    public function __construct(RequestStack $requestStack, UrlGenerator $generator, ParameterBagInterface $parameterBag)
+    public function __construct(RouterInterface $router, RequestStack $requestStack, UrlGenerator $generator, ParameterBagInterface $parameterBag)
     {
+        $this->router = $router;
         $this->requestStack = $requestStack;
         $this->generator = $generator;
         $this->parameterBag = $parameterBag;
@@ -54,11 +59,24 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('absolute_app_url', [$this, 'getAbsoluteAppUrl']),
+            new TwigFunction('path', [$this, 'getAppPath']),
+            new TwigFunction('get_base_href', [$this, 'getBaseHref']),
             new TwigFunction('get_active_menu', [$this, 'getActiveMenu']),
             new TwigFunction('get_php_version', [$this, 'getPhpVersion']),
             new TwigFunction('get_symfony_version', [$this, 'getSymfonyVersion']),
             new TwigFunction('get_vendor_versions', [$this, 'getVendorVersions']),
         ];
+    }
+
+    public function getAppPath(string $name, array $parameters = []): string
+    {
+        return ltrim($this->router->generate($name, $parameters), '/');
+        // return parse_url( $this->parameterBag->get('application_host'),  PHP_URL_PATH);
+    }
+
+    public function getBaseHref(): string
+    {
+        return parse_url( $this->parameterBag->get('application_host'),  PHP_URL_PATH);
     }
 
     public function getFilters()
