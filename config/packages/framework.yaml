@@ -14,5 +14,3 @@ framework:
     #fragments: true
     php_errors:
         log: true
-    router:
-        default_uri: '%env(resolve:APP_HOST)%'

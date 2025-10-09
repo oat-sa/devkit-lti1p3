@@ -6,5 +6,3 @@ twig:
     globals:
         application_version: '%application_version%'
         application_env: '%application_env%'
-        application_host: '%application_host%'
-
