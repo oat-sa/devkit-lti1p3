@@ -2,10 +2,10 @@
 FROM composer:2.8 AS composer
 WORKDIR /app
 COPY . .
-RUN set -eux; \
-        composer install -n --no-dev --prefer-dist --optimize-autoloader; \
-        composer dump-autoload -n --optimize --classmap-authoritative; \
-        rm -rf .build/
+# RUN set -eux; \
+#         composer install -n --no-dev --prefer-dist --optimize-autoloader; \
+#         composer dump-autoload -n --optimize --classmap-authoritative; \
+#         rm -rf .build/
 
 # ---------- Stage 2: Runtime (NGINX Unit + PHP 8.4) ----------
 # Tip: adjust tag to whatever Unit PHP 8.4 tag you use in your registry (e.g. unit:1.34.2-php8.4)
@@ -66,7 +66,7 @@ WORKDIR /var/www/html
 COPY --from=composer /app /var/www/html
 
 # Unit config: drop this file into /docker-entrypoint.d so it’s auto-applied at start
-COPY unit.json /docker-entrypoint.d/config.json
+COPY unit.json /docker-entrypoint.ed/config.json
 COPY php.ini /etc/unit-php/php.ini
 RUN test -s /docker-entrypoint.d/config.json \
         && grep -q '"listeners"' /docker-entrypoint.d/config.json
