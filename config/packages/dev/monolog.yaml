@@ -1,4 +1,5 @@
 monolog:
+    handlers:
         main:
             type: stream
             path:  "php://stdout"
