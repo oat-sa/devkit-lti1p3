@@ -2,7 +2,7 @@
 FROM composer:2.8 AS composer
 WORKDIR /app
 COPY . .
-RUN set -eux;
+RUN set -eux\
         composer install -n --no-dev --prefer-dist --optimize-autoloader;
 #         composer dump-autoload -n --optimize --classmap-authoritative; \
 #         rm -rf .build/
