@@ -68,7 +68,7 @@ COPY --from=composer /app /var/www/html
 # Unit config: drop this file into /docker-entrypoint.d so it’s auto-applied at start
 COPY unit.json /docker-entrypoint.ed/config.json
 COPY php.ini /etc/unit-php/php.ini
-RUN test -s /docker-entrypoint.d/config.json \
-        && grep -q '"listeners"' /docker-entrypoint.d/config.json
+# RUN test -s /docker-entrypoint.d/config.json \
+#         && grep -q '"listeners"' /docker-entrypoint.d/config.json
 EXPOSE 8080
 # Unit’s official entrypoint will start unitd and apply any configs in /docker-entrypoint.d/
