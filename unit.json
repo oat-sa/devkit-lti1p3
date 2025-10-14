@@ -1,0 +1,27 @@
+{
+  "listeners": { "*:8080": { "pass": "routes/app" } },
+
+  "routes": {
+    "app": [
+      { "match": { "uri": "/health-check" }, "action": { "return": 200 } },
+      { "action": { "pass": "applications/php_app" } }
+    ]
+  },
+
+  "applications": {
+    "php_app": {
+      "type": "php",
+      "root": "/var/www/html",
+      "script": "public/index.php",
+      "processes": { "max": 16, "spare": 4 }
+    }
+  },
+
+  "settings": {
+    "http": {
+      "header_read_timeout": 10,
+      "body_read_timeout": 10,
+      "send_timeout": 10
+    }
+  }
+}
