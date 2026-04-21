@@ -34,14 +34,14 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Twig\Environment;
 
 class SubmissionReviewLaunchAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var ParameterBagInterface */
     private $parameterBag;
@@ -59,14 +59,14 @@ class SubmissionReviewLaunchAction
     private $builder;
 
     public function __construct(
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         ParameterBagInterface $parameterBag,
         Environment $twig,
         FormFactoryInterface $factory,
         FormShareUrlGenerator $generator,
         SubmissionReviewLaunchRequestBuilder $builder
     ) {
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->parameterBag = $parameterBag;
         $this->twig = $twig;
         $this->factory = $factory;
@@ -201,7 +201,7 @@ class SubmissionReviewLaunchAction
                 );
             }
 
-            $this->flashBag->add('success', 'LtiSubmissionReviewRequest generation success');
+            $this->requestStack->getSession()->getFlashBag()->add('success', 'LtiSubmissionReviewRequest generation success');
         }
 
         return new Response(

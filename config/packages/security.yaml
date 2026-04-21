@@ -53,7 +53,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: lazy
+            lazy: true
             provider: users_in_memory
 
     access_control:

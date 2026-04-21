@@ -31,14 +31,14 @@ use OAT\Library\Lti1p3Core\Service\Client\LtiServiceClientInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Twig\Environment;
 
 class LtiServiceClientAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var Environment */
     private $twig;
@@ -53,13 +53,13 @@ class LtiServiceClientAction
     private $client;
 
     public function __construct(
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         Environment $twig,
         FormFactoryInterface $factory,
         FormShareUrlGenerator $generator,
         LtiServiceClientInterface $client
     ) {
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->twig = $twig;
         $this->factory = $factory;
         $this->generator = $generator;
@@ -158,7 +158,7 @@ class LtiServiceClientAction
                 $flashMessage = sprintf('LTI service client error (%s)', $serviceStatusCode);
             }
 
-            $this->flashBag->add($flashType, $flashMessage);
+            $this->requestStack->getSession()->getFlashBag()->add($flashType, $flashMessage);
         }
 
         return new Response(

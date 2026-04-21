@@ -28,14 +28,14 @@ use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
 class MessageLaunchAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var ParameterBagInterface */
     private $parameterBag;
@@ -47,12 +47,12 @@ class MessageLaunchAction
     private $security;
 
     public function __construct(
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         ParameterBagInterface $parameterBag,
         Environment $twig,
         Security $security
     ) {
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->parameterBag = $parameterBag;
         $this->twig = $twig;
         $this->security = $security;
@@ -83,7 +83,7 @@ class MessageLaunchAction
 
     private function handleLtiResourceLinkRequest(LtiToolMessageSecurityToken $token): Response
     {
-        $this->flashBag->add('success', 'Tool LtiResourceLinkRequest launch success');
+        $this->requestStack->getSession()->getFlashBag()->add('success', 'Tool LtiResourceLinkRequest launch success');
 
         return new Response(
             $this->twig->render(
@@ -97,7 +97,7 @@ class MessageLaunchAction
 
     private function handleLtiDeepLinkingRequest(LtiToolMessageSecurityToken $token): Response
     {
-        $this->flashBag->add(
+        $this->requestStack->getSession()->getFlashBag()->add(
             'success',
             'Tool LtiDeepLinkingRequest launch success, please select content item(s) to be returned to the platform'
         );
@@ -115,7 +115,7 @@ class MessageLaunchAction
 
     private function handleLtiStartProctoring(LtiToolMessageSecurityToken $token): Response
     {
-        $this->flashBag->add('success', 'Tool LtiStartProctoring launch success');
+        $this->requestStack->getSession()->getFlashBag()->add('success', 'Tool LtiStartProctoring launch success');
 
         return new Response(
             $this->twig->render(
@@ -129,7 +129,7 @@ class MessageLaunchAction
 
     private function handleLtiEndAssessment(LtiToolMessageSecurityToken $token): Response
     {
-        $this->flashBag->add('success', 'Tool LtiEndAssessment launch success');
+        $this->requestStack->getSession()->getFlashBag()->add('success', 'Tool LtiEndAssessment launch success');
 
         return new Response(
             $this->twig->render(
@@ -143,7 +143,7 @@ class MessageLaunchAction
 
     private function handleLtiSubmissionReviewRequest(LtiToolMessageSecurityToken $token): Response
     {
-        $this->flashBag->add('success', 'Tool LtiSubmissionReviewRequest launch success');
+        $this->requestStack->getSession()->getFlashBag()->add('success', 'Tool LtiSubmissionReviewRequest launch success');
 
         return new Response(
             $this->twig->render(
