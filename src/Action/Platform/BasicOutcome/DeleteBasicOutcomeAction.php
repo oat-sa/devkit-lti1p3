@@ -27,14 +27,14 @@ use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Throwable;
 
 class DeleteBasicOutcomeAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var CacheItemPoolInterface */
     private $cache;
@@ -43,11 +43,11 @@ class DeleteBasicOutcomeAction
     private $router;
 
     public function __construct(
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         CacheItemPoolInterface $cache,
         RouterInterface $router
     ) {
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->cache = $cache;
         $this->router = $router;
     }
@@ -69,9 +69,9 @@ class DeleteBasicOutcomeAction
 
             $this->cache->save($basicOutcomeCache);
 
-            $this->flashBag->add('success', sprintf('Basic outcome %s deletion success', $basicOutcomeIdentifier));
+            $this->requestStack->getSession()->getFlashBag()->add('success', sprintf('Basic outcome %s deletion success', $basicOutcomeIdentifier));
         } catch (Throwable $exception) {
-            $this->flashBag->add('error', $exception->getMessage());
+            $this->requestStack->getSession()->getFlashBag()->add('error', $exception->getMessage());
         }
 
         return new RedirectResponse($this->router->generate('platform_basic_outcome_list'));

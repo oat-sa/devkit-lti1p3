@@ -8,7 +8,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "oat-sa/bundle-health-check": "^2.1",
-        "oat-sa/bundle-lti1p3": "^7.1",
+        "oat-sa/bundle-lti1p3": "^8.2",
         "oat-sa/lib-lti1p3-ags": "^2.0",
         "oat-sa/lib-lti1p3-basic-outcome": "^5.0",
         "oat-sa/lib-lti1p3-deep-linking": "^4.1",
@@ -16,22 +16,24 @@
         "oat-sa/lib-lti1p3-proctoring": "^1.0",
         "oat-sa/lib-lti1p3-submission-review": "^1.0",
         "ramsey/uuid": "^3.9 || ^4",
-        "sensio/framework-extra-bundle": "^6.1",
-        "symfony/console": "^5.3",
-        "symfony/css-selector": "^5.3",
-        "symfony/dotenv": "^5.3",
-        "symfony/expression-language": "^5.3",
-        "symfony/flex": "^1.3.1",
-        "symfony/form": "^5.3",
-        "symfony/framework-bundle": "^5.3",
-        "symfony/lock": "^5.3",
-        "symfony/monolog-bundle": "^3.5",
-        "symfony/stopwatch": "^5.3",
-        "symfony/twig-bundle": "^5.3",
-        "symfony/validator": "^5.3",
-        "symfony/yaml": "^5.3",
-        "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "runtime/frankenphp-symfony": "^0.2",
+        "symfony/console": "^6.4",
+        "symfony/css-selector": "^6.4",
+        "symfony/dotenv": "^6.4",
+        "symfony/expression-language": "^6.4",
+        "symfony/flex": "^2.4",
+        "symfony/form": "^6.4",
+        "symfony/framework-bundle": "^6.4",
+        "symfony/lock": "^6.4",
+        "symfony/mercure-bundle": "^0.3",
+        "symfony/monolog-bundle": "^3.10",
+        "symfony/runtime": "^6.4",
+        "symfony/stopwatch": "^6.4",
+        "symfony/twig-bundle": "^6.4",
+        "symfony/validator": "^6.4",
+        "symfony/yaml": "^6.4",
+        "twig/extra-bundle": "^3.0",
+        "twig/twig": "^3.0"
     },
     "config": {
         "preferred-install": {
@@ -39,7 +41,8 @@
         },
         "sort-packages": true,
         "allow-plugins": {
-            "symfony/flex": true
+            "symfony/flex": true,
+            "symfony/runtime": true
         }
     },
     "autoload": {
@@ -54,13 +57,13 @@
         }
     },
     "replace": {
-        "paragonie/random_compat": "2.*",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
         "symfony/polyfill-php72": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php56": "*"
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*"
     },
     "scripts": {
         "auto-scripts": {
@@ -80,10 +83,13 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "^5.3"
+            "require": "^6.4"
+        },
+        "runtime": {
+            "class": "Runtime\\FrankenPhpSymfony\\Runtime"
         }
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^5.3"
+        "symfony/phpunit-bridge": "^7.0"
     }
 }

@@ -1,0 +1,39 @@
+{
+	# FrankenPHP global options
+	frankenphp {
+		# Sprint 2: enable worker mode by uncommenting (and rewriting public/index.php as Runtime closure).
+		# worker {
+		#     file /var/www/html/public/index.php
+		#     num 8
+		# }
+	}
+
+	# HTTP/3 over QUIC requires TLS at the edge — left to Istio/Traefik. Internal stays h1/h2c.
+	servers {
+		protocols h1 h2c
+	}
+
+	# TLS edge is upstream (Istio in k8s, Traefik locally). Caddy serves plain HTTP.
+	auto_https off
+	admin off
+}
+
+:8080 {
+	log
+
+	root * /var/www/html/public
+	encode zstd gzip
+
+	# Cheap health-check that bypasses PHP entirely
+	respond /health-check 200
+
+	# Static asset cache headers (PHP still served by php_server fallthrough)
+	@static {
+		path *.css *.js *.svg *.png *.jpg *.jpeg *.gif *.ico *.woff *.woff2 *.ttf *.map
+	}
+	header @static Cache-Control "public, max-age=2592000, immutable"
+
+	# Classic mode (Sprint 1): one PHP process per request — equivalent to FPM.
+	# Switch to `php_server { worker_file public/index.php }` when promoting to worker mode.
+	php_server
+}

@@ -32,15 +32,15 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
 class CreateMembershipAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var MembershipRepository */
     private $repository;
@@ -58,14 +58,14 @@ class CreateMembershipAction
     private $memberFactory;
 
     public function __construct(
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         MembershipRepository $repository,
         Environment $twig,
         FormFactoryInterface $factory,
         RouterInterface $router,
         MemberFactoryInterface $memberFactory
     ) {
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->repository = $repository;
         $this->twig = $twig;
         $this->factory = $factory;
@@ -110,7 +110,7 @@ class CreateMembershipAction
 
             $this->repository->save($membership);
 
-            $this->flashBag->add('success', sprintf('Membership %s creation success', $formData['membership_id']));
+            $this->requestStack->getSession()->getFlashBag()->add('success', sprintf('Membership %s creation success', $formData['membership_id']));
 
             return new RedirectResponse(
                 $this->router->generate('platform_nrps_view_membership', ['membershipIdentifier' => $formData['membership_id']])
