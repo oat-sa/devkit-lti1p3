@@ -55,3 +55,4 @@ You can find below the development kit documentation, presented by topics.
 
 - how to [use the HTTP API](doc/api.md) of the development kit
 - how to [use the CLI](doc/cli.md) of the development kit
+
