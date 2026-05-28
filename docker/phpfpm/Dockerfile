@@ -6,7 +6,7 @@ RUN apt-get update && \
 
 RUN yes | pecl update-channels
 
-RUN yes | pecl install igbinary redis
+RUN printf "\n" | pecl install igbinary redis
 
 RUN docker-php-ext-install intl && \
     docker-php-ext-install gd && \
