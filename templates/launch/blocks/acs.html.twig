@@ -102,6 +102,13 @@
                     <small id="acsReasonMessageHelp" class="form-text text-muted">Reason message</small>
                 </div>
             </div>
+            <br/>
+            <div class="form-row">
+                <div class="col col-md-12">
+                    <textarea id="acsExtraPayload" class="form-control" rows="4" placeholder="" aria-label="Extra Payload (JSON)" aria-describedby="extraPayloadHelp"></textarea>
+                    <small id="extraPayloadHelp" class="form-text text-muted">Extra Payload</small>
+                </div>
+            </div>
         </div>
         <div class="card-footer text-muted">
             <div class="btn-group float-right" role="group" aria-label="Basic example">
@@ -142,7 +149,8 @@
                     acsDate: $("#acsDate").val(),
                     acsSeverity: $("#acsSeverity").val(),
                     acsReasonCode: $("#acsReasonCode").val(),
-                    acsReasonMessage: $("#acsReasonMessage").val()
+                    acsReasonMessage: $("#acsReasonMessage").val(),
+                    acsExtraPayload: $("#acsExtraPayload").val()
                 },
                 beforeSend: function(result){
                     $("#acsCall").removeClass("fa-sign-in-alt");
@@ -186,6 +194,7 @@
             $("#acsSeverity").val("");
             $("#acsReasonCode").val("");
             $("#acsReasonMessage").val("");
+            $("#acsExtraPayload").val("");
         });
     </script>
 {% else %}

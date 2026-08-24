@@ -163,8 +163,6 @@ services:
         class: OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactory
 
     # LTI proctoring dependencies
-    OAT\Library\Lti1p3Proctoring\Service\Client\AcsServiceClient: ~
-
     OAT\Library\Lti1p3Proctoring\Message\Launch\Builder\StartProctoringLaunchRequestBuilder: ~
 
     OAT\Library\Lti1p3Proctoring\Message\Launch\Builder\StartAssessmentLaunchRequestBuilder: ~
