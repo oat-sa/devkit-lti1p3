@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace App\Action\Tool\Ajax;
 
 use Carbon\Carbon;
+use OAT\Library\Lti1p3Core\Exception\LtiException;
+use OAT\Library\Lti1p3Core\Exception\LtiExceptionInterface;
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
 use OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface;
 use OAT\Library\Lti1p3Core\Resource\LtiResourceLink\LtiResourceLink;
@@ -21,6 +23,7 @@ use OAT\Library\Lti1p3Proctoring\Serializer\AcsControlResultSerializer;
 use OAT\Library\Lti1p3Proctoring\Service\AcsServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 use Twig\Environment;
 
 class AcsServiceClientAction
@@ -80,34 +83,45 @@ class AcsServiceClientAction
         );
     }
 
+    /**
+     * @throws LtiExceptionInterface
+     */
     private function sendControl(
         RegistrationInterface $registration,
         AcsControlInterface $control,
         string $acsUrl,
         Request $request
     ): AcsControlResultInterface {
-        if (null === $control->getIssuerIdentifier()) {
-            $control->setIssuerIdentifier($registration->getPlatform()->getAudience());
-        }
+        try {
+            if (null === $control->getIssuerIdentifier()) {
+                $control->setIssuerIdentifier($registration->getPlatform()->getAudience());
+            }
 
-        $payload = $control->jsonSerialize();
-        $payload = [...json_decode($request->request->get('acsExtraPayload') ?? '{}', true) ?: [], ...$payload];
+            $payload = $control->jsonSerialize();
+            $payload = [...json_decode($request->request->get('acsExtraPayload') ?? '{}', true) ?: [], ...$payload];
 
-        $response = $this->client->request(
-            $registration,
-            'POST',
-            $acsUrl,
-            [
-                'headers' => [
-                    'Content-Type' => AcsServiceInterface::CONTENT_TYPE_CONTROL,
+            $response = $this->client->request(
+                $registration,
+                'POST',
+                $acsUrl,
+                [
+                    'headers' => [
+                        'Content-Type' => AcsServiceInterface::CONTENT_TYPE_CONTROL,
+                    ],
+                    'body' => json_encode($payload),
                 ],
-                'body' => json_encode($payload),
-            ],
-            [
-                AcsServiceInterface::AUTHORIZATION_SCOPE_CONTROL,
-            ]
-        );
+                [
+                    AcsServiceInterface::AUTHORIZATION_SCOPE_CONTROL,
+                ]
+            );
 
-        return (new AcsControlResultSerializer())->deserialize($response->getBody()->__toString());
+            return (new AcsControlResultSerializer())->deserialize($response->getBody()->__toString());
+        } catch (Throwable $exception) {
+            throw new LtiException(
+                sprintf('Cannot send ACS control: %s', $exception->getMessage()),
+                $exception->getCode(),
+                $exception
+            );
+        }
     }
 }
