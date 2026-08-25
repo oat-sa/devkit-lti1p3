@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace App\Action\Tool\Ajax;
 
 use Carbon\Carbon;
+use JsonException;
 use OAT\Library\Lti1p3Core\Exception\LtiException;
 use OAT\Library\Lti1p3Core\Exception\LtiExceptionInterface;
 use OAT\Library\Lti1p3Core\Registration\RegistrationInterface;
@@ -23,7 +24,6 @@ use OAT\Library\Lti1p3Proctoring\Serializer\AcsControlResultSerializer;
 use OAT\Library\Lti1p3Proctoring\Service\AcsServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Throwable;
 use Twig\Environment;
 
 class AcsServiceClientAction
@@ -98,7 +98,13 @@ class AcsServiceClientAction
             }
 
             $payload = $control->jsonSerialize();
-            $payload = [...json_decode($request->request->get('acsExtraPayload') ?? '{}', true) ?: [], ...$payload];
+            $extraPayload = json_decode(
+                $request->request->get('acsExtraPayload') ?: '{}',
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+            $payload = [...($extraPayload ?: []), ...$payload];
 
             $response = $this->client->request(
                 $registration,
@@ -116,7 +122,7 @@ class AcsServiceClientAction
             );
 
             return (new AcsControlResultSerializer())->deserialize($response->getBody()->__toString());
-        } catch (Throwable $exception) {
+        } catch (JsonException | LtiExceptionInterface $exception) {
             throw new LtiException(
                 sprintf('Cannot send ACS control: %s', $exception->getMessage()),
                 $exception->getCode(),
