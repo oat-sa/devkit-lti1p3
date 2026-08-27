@@ -32,14 +32,14 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Twig\Environment;
 
 class LtiResourceLinkLaunchAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var ParameterBagInterface */
     private $parameterBag;
@@ -57,14 +57,14 @@ class LtiResourceLinkLaunchAction
     private $builder;
 
     public function __construct(
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         ParameterBagInterface $parameterBag,
         Environment $twig,
         FormFactoryInterface $factory,
         FormShareUrlGenerator $generator,
         LtiResourceLinkLaunchRequestBuilder $builder
     ) {
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->parameterBag = $parameterBag;
         $this->twig = $twig;
         $this->factory = $factory;
@@ -145,7 +145,7 @@ class LtiResourceLinkLaunchAction
                 $claims
             );
 
-            $this->flashBag->add('success', 'LtiResourceLinkRequest generation success');
+            $this->requestStack->getSession()->getFlashBag()->add('success', 'LtiResourceLinkRequest generation success');
         }
 
         return new Response(

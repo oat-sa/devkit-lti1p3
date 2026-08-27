@@ -28,15 +28,15 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
 class EditAssessmentAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var AssessmentRepository */
     private $repository;
@@ -51,13 +51,13 @@ class EditAssessmentAction
     private $router;
 
     public function __construct(
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         AssessmentRepository $repository,
         Environment $twig,
         FormFactoryInterface $factory,
         RouterInterface $router
     ) {
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->repository = $repository;
         $this->twig = $twig;
         $this->factory = $factory;
@@ -95,7 +95,7 @@ class EditAssessmentAction
 
             $this->repository->save($assessment);
 
-            $this->flashBag->add('success', sprintf('Assessment %s edition success', $formData['assessment_id']));
+            $this->requestStack->getSession()->getFlashBag()->add('success', sprintf('Assessment %s edition success', $formData['assessment_id']));
 
             return new RedirectResponse(
                 $this->router->generate('platform_proctoring_view_assessment', ['assessmentIdentifier' => $formData['assessment_id']])

@@ -15,36 +15,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2026 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace App\Request\ParamConverter;
+namespace App\Request\ValueResolver;
 
 use App\Request\Encoder\Base64UrlEncoder;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
+use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
-class AgsLineItemIdentifierConverter implements ParamConverterInterface
+final class AgsLineItemIdentifierResolver implements ValueResolverInterface
 {
-    public function apply(Request $request, ParamConverter $configuration)
-    {
-        $param = $configuration->getName();
+    private const ARGUMENT_NAME = 'lineItemIdentifier';
 
-        if (!$request->attributes->has($param)) {
-            return false;
+    /**
+     * @return iterable<string>
+     */
+    public function resolve(Request $request, ArgumentMetadata $argument): iterable
+    {
+        if ($argument->getName() !== self::ARGUMENT_NAME) {
+            return [];
         }
 
-        $value = $request->attributes->get($param);
-        $request->attributes->set($param, Base64UrlEncoder::decode($value));
+        if (!$request->attributes->has(self::ARGUMENT_NAME)) {
+            return [];
+        }
 
-        return true;
-    }
+        $raw = (string) $request->attributes->get(self::ARGUMENT_NAME);
 
-    public function supports(ParamConverter $configuration)
-    {
-        return $configuration->getName() === 'lineItemIdentifier';
+        return [Base64UrlEncoder::decode($raw)];
     }
 }

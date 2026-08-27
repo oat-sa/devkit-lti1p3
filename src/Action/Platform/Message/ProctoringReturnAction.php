@@ -24,14 +24,14 @@ namespace App\Action\Platform\Message;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
 class ProctoringReturnAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var Environment */
     private $twig;
@@ -40,19 +40,19 @@ class ProctoringReturnAction
     private $security;
 
     public function __construct(
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         Environment $twig,
         Security $security
     )
     {
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->twig = $twig;
         $this->security = $security;
     }
 
     public function __invoke(Request $request, string $identifier): Response
     {
-        $this->flashBag->add(
+        $this->requestStack->getSession()->getFlashBag()->add(
             'success',
             sprintf(
                 'Platform LtiStartAssessment launch success%s',

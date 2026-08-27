@@ -26,14 +26,14 @@ use OAT\Bundle\Lti1p3Bundle\Security\Authentication\Token\Message\LtiPlatformMes
 use OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
 class DeepLinkingReturnAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var ResourceCollectionFactoryInterface */
     private $factory;
@@ -45,13 +45,13 @@ class DeepLinkingReturnAction
     private $security;
 
     public function __construct(
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         ResourceCollectionFactoryInterface $factory,
         Environment $twig,
         Security $security
     )
     {
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->factory = $factory;
         $this->twig = $twig;
         $this->security = $security;
@@ -62,7 +62,7 @@ class DeepLinkingReturnAction
         /** @var LtiPlatformMessageSecurityToken $token */
         $token = $this->security->getToken();
 
-        $this->flashBag->add('success', $token->getPayload()->getDeepLinkingMessage());
+        $this->requestStack->getSession()->getFlashBag()->add('success', $token->getPayload()->getDeepLinkingMessage());
 
         return new Response(
             $this->twig->render(

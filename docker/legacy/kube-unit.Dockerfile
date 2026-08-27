@@ -7,13 +7,13 @@ RUN set -eux; \
         composer dump-autoload -n --optimize --classmap-authoritative; \
         rm -rf .build/
 
-# ---------- Stage 2: Runtime (FrankenPHP + PHP 8.4) ----------
-# FrankenPHP bundles Caddy + embedded PHP. Worker mode + HTTP/3 supported natively.
-FROM dunglas/frankenphp:php8.4
+# ---------- Stage 2: Runtime (NGINX Unit + PHP 8.4) ----------
+# Tip: adjust tag to whatever Unit PHP 8.4 tag you use in your registry (e.g. unit:1.34.2-php8.4)
+FROM unit:php8.4
 
 ENV MAKEFLAGS="-j8"
 
-# Pin PECL versions (parity with prior Unit image)
+# Pin PECL versions to match your current image
 ARG APCU_VERSION=5.1.24
 ARG GRPC_VERSION=1.73.0
 ARG PROTOBUF_VERSION=4.31.1
@@ -30,7 +30,7 @@ RUN set -eux; \
         libpq-dev libssl-dev; \
         rm -rf /var/lib/apt/lists/*
 
-# Core PHP extensions (docker-php-* helpers ship in FrankenPHP image)
+# Core PHP extensions (docker-php-* helpers are available in Unit’s PHP images)
 RUN set -eux; \
         docker-php-ext-configure intl; \
         docker-php-ext-install -j8 \
@@ -48,7 +48,7 @@ RUN set -eux; \
         apcu-${APCU_VERSION}; \
         docker-php-ext-enable igbinary redis grpc protobuf apcu
 
-# PHP INI tuning (preload + opcache + GRPC stack-size workaround)
+# PHP INI (keeps your current tuning, incl. the GRPC stack-size workaround)
 RUN set -eux; \
         { \
         echo 'opcache.preload=/var/www/html/config/preload.php'; \
@@ -56,8 +56,6 @@ RUN set -eux; \
         echo 'opcache.memory_consumption=256'; \
         echo 'opcache.max_accelerated_files=20000'; \
         echo 'opcache.validate_timestamps=0'; \
-        echo 'opcache.enable=1'; \
-        echo 'opcache.jit=0'; \
         echo 'realpath_cache_size=4096K'; \
         echo 'realpath_cache_ttl=600'; \
         } > /usr/local/etc/php/conf.d/zzz-opcache.ini; \
@@ -66,15 +64,11 @@ RUN set -eux; \
 # App code
 WORKDIR /var/www/html
 COPY --from=composer /app /var/www/html
-COPY php.ini /usr/local/etc/php/conf.d/zzz-app.ini
 
-# Caddy/FrankenPHP config (base image loads /etc/frankenphp/Caddyfile by default)
-COPY docker/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
-
-# Sanity check: Caddyfile must declare a php_server site
-RUN test -s /etc/frankenphp/Caddyfile && grep -q 'php_server' /etc/frankenphp/Caddyfile
-
-# Caddy binds :8080 (matches Caddyfile site address)
+# Unit config: drop this file into /docker-entrypoint.d so it’s auto-applied at start
+COPY unit.json /docker-entrypoint.d/config.json
+COPY php.ini /etc/unit-php/php.ini
+RUN test -s /docker-entrypoint.d/config.json \
+        && grep -q '"listeners"' /docker-entrypoint.d/config.json
 EXPOSE 8080
-
-# FrankenPHP base image's entrypoint runs `frankenphp run --config /etc/frankenphp/Caddyfile`
+# Unit’s official entrypoint will start unitd and apply any configs in /docker-entrypoint.d/

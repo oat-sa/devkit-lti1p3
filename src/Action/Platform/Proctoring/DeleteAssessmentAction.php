@@ -26,15 +26,15 @@ use App\Proctoring\AssessmentRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Throwable;
 
 class DeleteAssessmentAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var AssessmentRepository */
     private $repository;
@@ -43,11 +43,11 @@ class DeleteAssessmentAction
     private $router;
 
     public function __construct(
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         AssessmentRepository $repository,
         RouterInterface $router
     ) {
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->repository = $repository;
         $this->router = $router;
     }
@@ -65,9 +65,9 @@ class DeleteAssessmentAction
         try {
             $this->repository->delete($assessment);
 
-            $this->flashBag->add('success', sprintf('Assessment %s deletion success', $assessmentIdentifier));
+            $this->requestStack->getSession()->getFlashBag()->add('success', sprintf('Assessment %s deletion success', $assessmentIdentifier));
         } catch (Throwable $exception) {
-            $this->flashBag->add('error', $exception->getMessage());
+            $this->requestStack->getSession()->getFlashBag()->add('error', $exception->getMessage());
         }
 
         return new RedirectResponse($this->router->generate('platform_proctoring_list_assessments'));

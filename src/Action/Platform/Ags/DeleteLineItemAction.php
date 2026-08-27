@@ -26,15 +26,15 @@ use OAT\Library\Lti1p3Ags\Repository\LineItemRepositoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Throwable;
 
 class DeleteLineItemAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var LineItemRepositoryInterface */
     private $repository;
@@ -43,11 +43,11 @@ class DeleteLineItemAction
     private $router;
 
     public function __construct(
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         LineItemRepositoryInterface $repository,
         RouterInterface $router
     ) {
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->repository = $repository;
         $this->router = $router;
     }
@@ -65,9 +65,9 @@ class DeleteLineItemAction
         try {
             $this->repository->delete($lineItemIdentifier);
 
-            $this->flashBag->add('success', sprintf('Line item %s deletion success', $lineItemIdentifier));
+            $this->requestStack->getSession()->getFlashBag()->add('success', sprintf('Line item %s deletion success', $lineItemIdentifier));
         } catch (Throwable $exception) {
-            $this->flashBag->add('error', $exception->getMessage());
+            $this->requestStack->getSession()->getFlashBag()->add('error', $exception->getMessage());
         }
 
         return new RedirectResponse($this->router->generate('platform_ags_list_line_items'));

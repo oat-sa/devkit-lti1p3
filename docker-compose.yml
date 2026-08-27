@@ -17,35 +17,35 @@ services:
         volumes:
             - '/var/run/docker.sock:/var/run/docker.sock:ro'
 
-    devkit_lti1p3_nginx:
-        container_name: devkit_lti1p3_nginx
-        image: nginx:stable
+    devkit_lti1p3_app:
+        container_name: devkit_lti1p3_app
+        build:
+            context: .
+            dockerfile: docker/kube/Dockerfile
+        environment:
+            SERVER_NAME: ':80'
+            APP_ENV: dev
+            APP_DEBUG: '1'
+            MERCURE_PUBLISHER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+            MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+            MERCURE_JWT_ALG: 'HS256'
         networks:
             devkit_lti1p3_network:
                 aliases:
                     - devkit-lti1p3.localhost
         labels:
             - 'traefik.enable=true'
-            - 'traefik.http.routers.nginx.rule=Host(`devkit-lti1p3.localhost`)'
-            - 'traefik.http.routers.nginx.entrypoints=web'
+            - 'traefik.http.routers.app.rule=Host(`devkit-lti1p3.localhost`)'
+            - 'traefik.http.routers.app.entrypoints=web'
+            - 'traefik.http.services.app.loadbalancer.server.port=80'
         expose:
-          - 443
-        volumes:
-            - .:/var/www/html:cached
-            - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:cached
-        working_dir: /etc/nginx/conf.d
-
-    devkit_lti1p3_phpfpm:
-        container_name: devkit_lti1p3_phpfpm
-        build:
-            context: ./docker/phpfpm
-        expose:
-            - 9000
-        networks:
-            - devkit_lti1p3_network
+            - 80
+            - 443
         volumes:
             - .:/var/www/html:cached
         working_dir: /var/www/html
+        depends_on:
+            - devkit_lti1p3_redis
 
     devkit_lti1p3_redis:
         container_name: devkit_lti1p3_redis
@@ -72,8 +72,37 @@ services:
         environment:
             - REDIS_HOSTS=local:devkit_lti1p3_redis:6379
 
+###> symfony/mercure-bundle ###
+  mercure:
+    image: dunglas/mercure
+    restart: unless-stopped
+    environment:
+      # Uncomment the following line to disable HTTPS,
+      #SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+      MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+      # Set the URL of your Symfony project (without trailing slash!) as value of the cors_origins directive
+      MERCURE_EXTRA_DIRECTIVES: |
+        cors_origins http://127.0.0.1:8000
+    # Comment the following line to disable the development mode
+    command: /usr/bin/caddy run --config /etc/caddy/dev.Caddyfile
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://localhost/healthz"]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    volumes:
+      - mercure_data:/data
+      - mercure_config:/config
+###< symfony/mercure-bundle ###
+
 volumes:
     devkit_lti1p3_redis_volume:
+
+###> symfony/mercure-bundle ###
+  mercure_data:
+  mercure_config:
+###< symfony/mercure-bundle ###
         driver: local
 
 networks:

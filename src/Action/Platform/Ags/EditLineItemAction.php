@@ -31,15 +31,15 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
 class EditLineItemAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var LineItemRepositoryInterface */
     private $repository;
@@ -54,13 +54,13 @@ class EditLineItemAction
     private $router;
 
     public function __construct(
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         LineItemRepositoryInterface $repository,
         Environment $twig,
         FormFactoryInterface $factory,
         RouterInterface $router
     ) {
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->repository = $repository;
         $this->twig = $twig;
         $this->factory = $factory;
@@ -137,7 +137,7 @@ class EditLineItemAction
 
             $this->repository->save($lineItem);
 
-            $this->flashBag->add('success', sprintf('Line item %s edition success', $formData['line_item_id']));
+            $this->requestStack->getSession()->getFlashBag()->add('success', sprintf('Line item %s edition success', $formData['line_item_id']));
 
             return new RedirectResponse(
                 $this->router->generate('platform_ags_view_line_item', ['lineItemIdentifier' => Base64UrlEncoder::encode($formData['line_item_id'])])

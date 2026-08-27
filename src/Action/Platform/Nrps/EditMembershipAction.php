@@ -31,7 +31,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
@@ -39,8 +39,8 @@ use Twig\Environment;
 
 class EditMembershipAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var MembershipService */
     private $service;
@@ -55,14 +55,14 @@ class EditMembershipAction
     private $router;
 
     public function __construct(
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         MembershipService $service,
         Environment $twig,
         FormFactoryInterface $factory,
         RouterInterface $router,
         MemberFactoryInterface $memberFactory
     ) {
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->service = $service;
         $this->twig = $twig;
         $this->factory = $factory;
@@ -132,7 +132,7 @@ class EditMembershipAction
 
             $this->service->updateMembership($membership, $members);
 
-            $this->flashBag->add('success', sprintf('Membership %s edition success', $formData['membership_id']));
+            $this->requestStack->getSession()->getFlashBag()->add('success', sprintf('Membership %s edition success', $formData['membership_id']));
 
             return new RedirectResponse(
                 $this->router->generate('platform_nrps_view_membership', ['membershipIdentifier' => $formData['membership_id']])

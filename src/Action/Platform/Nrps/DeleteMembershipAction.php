@@ -26,15 +26,15 @@ use App\Nrps\MembershipRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Throwable;
 
 class DeleteMembershipAction
 {
-    /** @var FlashBagInterface */
-    private $flashBag;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var MembershipRepository */
     private $repository;
@@ -43,11 +43,11 @@ class DeleteMembershipAction
     private $router;
 
     public function __construct(
-        FlashBagInterface $flashBag,
+        RequestStack $requestStack,
         MembershipRepository $repository,
         RouterInterface $router
     ) {
-        $this->flashBag = $flashBag;
+        $this->requestStack = $requestStack;
         $this->repository = $repository;
         $this->router = $router;
     }
@@ -65,9 +65,9 @@ class DeleteMembershipAction
         try {
             $this->repository->delete($membership);
 
-            $this->flashBag->add('success', sprintf('Membership %s deletion success', $membershipIdentifier));
+            $this->requestStack->getSession()->getFlashBag()->add('success', sprintf('Membership %s deletion success', $membershipIdentifier));
         } catch (Throwable $exception) {
-            $this->flashBag->add('error', $exception->getMessage());
+            $this->requestStack->getSession()->getFlashBag()->add('error', $exception->getMessage());
         }
 
         return new RedirectResponse($this->router->generate('platform_nrps_list_memberships'));
