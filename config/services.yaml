@@ -8,7 +8,7 @@ parameters:
     application_env: '%env(resolve:APP_ENV)%'
     application_api_key: '%env(resolve:APP_API_KEY)%'
     application_vendors: '%kernel.project_dir%/vendor/composer/installed.php'
-    application_version: '2.11.5'
+    application_version: '2.12.0'
     container.dumper.inline_factories: true
     cache.redis.namespace: '%env(default:cache.redis.namespace.default:REDIS_CACHE_NAMESPACE)%'
     cache.redis.namespace.default: 'devkit'
@@ -163,8 +163,6 @@ services:
         class: OAT\Library\Lti1p3DeepLinking\Factory\ResourceCollectionFactory
 
     # LTI proctoring dependencies
-    OAT\Library\Lti1p3Proctoring\Service\Client\AcsServiceClient: ~
-
     OAT\Library\Lti1p3Proctoring\Message\Launch\Builder\StartProctoringLaunchRequestBuilder: ~
 
     OAT\Library\Lti1p3Proctoring\Message\Launch\Builder\StartAssessmentLaunchRequestBuilder: ~
