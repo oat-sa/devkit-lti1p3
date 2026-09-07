@@ -93,13 +93,19 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="col col-md-3">
+                <div class="form-group col col-md-3">
                     <input type="text" min="0" max="1" id="acsReasonCode" class="form-control" placeholder="Reason code" aria-describedby="acsReasonCodeHelp">
                     <small id="acsReasonCodeHelp" class="form-text text-muted">Reason code</small>
                 </div>
-                <div class="col col-md-9">
+                <div class="form-group col col-md-9">
                     <input type="text" min="0" max="1" id="acsReasonMessage" class="form-control" placeholder="Reason message" aria-describedby="acsReasonMessageHelp">
                     <small id="acsReasonMessageHelp" class="form-text text-muted">Reason message</small>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col col-md-12">
+                    <textarea id="acsExtraPayload" class="form-control" rows="4" placeholder="Extra Payload (JSON)" aria-label="Extra Payload (JSON)" aria-describedby="extraPayloadHelp"></textarea>
+                    <small id="extraPayloadHelp" class="form-text text-muted">Extra Payload</small>
                 </div>
             </div>
         </div>
@@ -142,7 +148,8 @@
                     acsDate: $("#acsDate").val(),
                     acsSeverity: $("#acsSeverity").val(),
                     acsReasonCode: $("#acsReasonCode").val(),
-                    acsReasonMessage: $("#acsReasonMessage").val()
+                    acsReasonMessage: $("#acsReasonMessage").val(),
+                    acsExtraPayload: $("#acsExtraPayload").val()
                 },
                 beforeSend: function(result){
                     $("#acsCall").removeClass("fa-sign-in-alt");
@@ -186,6 +193,7 @@
             $("#acsSeverity").val("");
             $("#acsReasonCode").val("");
             $("#acsReasonMessage").val("");
+            $("#acsExtraPayload").val("");
         });
     </script>
 {% else %}

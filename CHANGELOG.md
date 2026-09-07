@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.12.0
+------
+
+* Allow optional extra JSON payload on ACS control requests from the DevKit UI
+
 2.11.5
 ------
 
