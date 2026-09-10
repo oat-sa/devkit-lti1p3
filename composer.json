@@ -31,7 +31,7 @@
         "symfony/validator": "^5.3",
         "symfony/yaml": "^5.3",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.2"
     },
     "config": {
         "preferred-install": {
