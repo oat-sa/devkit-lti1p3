@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+2.13.0
+------
+
+* Added support for clipboard API in iframe
+* Fixed security vulnerabilities by updating Twig to v3.28
+
 2.12.0
 ------
 
