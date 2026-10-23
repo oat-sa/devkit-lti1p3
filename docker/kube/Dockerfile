@@ -1,5 +1,5 @@
 # ---------- Stage 1: Composer ----------
-FROM europe-west1-docker.pkg.dev/tao-artefacts/base-images/composer-2.8:v1.2.20 AS composer
+FROM europe-west1-docker.pkg.dev/tao-artefacts/base-images/composer-2.8:v1.2.21 AS composer
 WORKDIR /app
 COPY . .
 RUN set -eux; \
@@ -9,7 +9,7 @@ RUN set -eux; \
 
 # ---------- Stage 2: Runtime (NGINX Unit + PHP 8.4) ----------
 # Tip: adjust tag to whatever Unit PHP 8.4 tag you use in your registry (e.g. unit:1.34.2-php8.4)
-FROM europe-west1-docker.pkg.dev/tao-artefacts/base-images/unit-php-v8.4.27:v1.2.20
+FROM europe-west1-docker.pkg.dev/tao-artefacts/base-images/unit-php-v8.4.27:v1.2.21
 
 ENV MAKEFLAGS="-j8"
 
