@@ -1,0 +1,49 @@
+# Isolated validation stack: the REAL production image (no source mounts)
+# plus Redis. Used by bin/validate-frankenphp.sh with a dedicated project name.
+services:
+    app:
+        image: devkit-lti1p3-frankenphp:validate
+        build:
+            context: ../..
+            dockerfile: docker/frankenphp/Dockerfile
+        environment:
+            # PORT is consumed by the Caddyfile ({$PORT:8080}) so the container
+            # listens on the same port the host publishes: URL generation
+            # (APP_HOST) is consistent for both server-side (JWKS fetch etc.)
+            # and host-originated requests.
+            PORT: "8090"
+            APP_HOST: "http://localhost:8090"
+            REDIS_CACHE_DSN: "redis://redis:6379"
+            WORKER_NUM: "${WORKER_NUM:-2}"
+            FRANKENPHP_LOOP_MAX: "${FRANKENPHP_LOOP_MAX:-500}"
+            # trust proxy headers in the validate battery (header assertions)
+            TRUSTED_PROXIES: "127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+        ports:
+            - "8090:8090"
+        depends_on:
+            redis:
+                condition: service_healthy
+        healthcheck:
+            test: ["CMD", "curl", "-fsS", "http://localhost:8090/health-check"]
+            interval: 3s
+            timeout: 2s
+            retries: 40
+        deploy:
+            resources:
+                limits:
+                    cpus: '${APP_CPUS:-1.0}'
+                    memory: ${APP_MEM:-768M}
+
+    redis:
+        image: redis:7-alpine
+        command: ["redis-server", "--appendonly", "no"]
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 3s
+            timeout: 2s
+            retries: 20
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.5'
+                    memory: 128M

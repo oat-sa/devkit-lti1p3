@@ -38,7 +38,7 @@ http://:{$PORT:8080} {
 	}
 
 	php_server {
-			worker {
+		worker {
 			file /app/public/index.php
 			num {$WORKER_NUM:2}
 			env APP_RUNTIME App\Runtime\FrankenPhpRuntime

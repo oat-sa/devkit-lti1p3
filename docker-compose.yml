@@ -39,7 +39,9 @@ services:
 
     devkit_lti1p3_traefik:
         container_name: devkit_lti1p3_traefik
-        image: traefik:v2.4
+        # v2.4 (previously pinned) cannot speak to modern Docker Engine APIs
+        # (client 1.24 < min 1.40) — v2.11 keeps the same label schema
+        image: traefik:v2.11
         command:
             - '--api.insecure=true'
             - '--providers.docker=true'
