@@ -1,74 +1,62 @@
+# Production image for Cloud Build / Kubernetes: FrankenPHP (NGINX Unit replacement).
+# Same content as docker/frankenphp/Dockerfile, duplicated self-contained so that
+# `gcloud builds submit` with the repo-root context stays reproducible on its own.
+# NOTE: the former private registry base images
+# (europe-west1-docker.pkg.dev/tao-artefacts/base-images/*) have been replaced with
+# public, pinned base images so the build no longer depends on registry pulls
+# beyond Docker Hub.
+
+ARG INSTALLER_VERSION=2
+FROM mlocati/php-extension-installer:${INSTALLER_VERSION} AS ext-installer
+
 # ---------- Stage 1: Composer ----------
-FROM europe-west1-docker.pkg.dev/tao-artefacts/base-images/composer-2.8:v1.2.21 AS composer
+FROM php:8.4-cli-bookworm AS build
+
+ARG REDIS_EXT_VERSION=6.2.0
+
+COPY --from=ext-installer /usr/bin/install-php-extensions /usr/local/bin/
+
+RUN install-php-extensions intl zip opcache sockets pcntl redis-${REDIS_EXT_VERSION} \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=composer/composer:2-bin /composer /usr/local/bin/composer
+
 WORKDIR /app
+
+COPY composer.json composer.lock symfony.lock ./
+RUN composer install \
+    --no-dev \
+    --no-scripts \
+    --no-interaction \
+    --no-progress \
+    --prefer-dist \
+    --optimize-autoloader
+
 COPY . .
-RUN set -eux; \
-        composer install -n --no-dev --prefer-dist --optimize-autoloader; \
-        composer dump-autoload -n --optimize --classmap-authoritative; \
-        rm -rf .build/
 
-# ---------- Stage 2: Runtime (NGINX Unit + PHP 8.4) ----------
-# Tip: adjust tag to whatever Unit PHP 8.4 tag you use in your registry (e.g. unit:1.34.2-php8.4)
-FROM europe-west1-docker.pkg.dev/tao-artefacts/base-images/unit-php-v8.4.27:v1.2.21
+RUN composer dump-autoload --no-dev --optimize --classmap-authoritative \
+    && APP_ENV=prod APP_DEBUG=0 php bin/console cache:warmup --no-interaction \
+    && APP_ENV=prod APP_DEBUG=0 php bin/console assets:install public --no-interaction --symlink --relative
 
-ENV MAKEFLAGS="-j8"
+# ---------- Stage 2: Runtime (FrankenPHP, PHP 8.4) ----------
+FROM dunglas/frankenphp:1.13.2-php8.4-bookworm AS runtime
 
-# Pin PECL versions to match your current image
-ARG APCU_VERSION=5.1.24
-ARG GRPC_VERSION=1.73.0
-ARG PROTOBUF_VERSION=4.31.1
-ARG REDIS_VERSION=6.2.0
+ARG REDIS_EXT_VERSION=6.2.0
 
-# System deps for building PHP extensions
-RUN set -eux; \
-        apt-get update; \
-        DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        ca-certificates curl unzip zip git \
-        autoconf build-essential pkg-config re2c \
-        libicu-dev zlib1g-dev libzip-dev \
-        libonig-dev libxml2-dev libpng-dev \
-        libpq-dev libssl-dev; \
-        rm -rf /var/lib/apt/lists/*
+COPY --from=ext-installer /usr/bin/install-php-extensions /usr/local/bin/
 
-# Core PHP extensions (docker-php-* helpers are available in Unit’s PHP images)
-RUN set -eux; \
-        docker-php-ext-configure intl; \
-        docker-php-ext-install -j8 \
-        intl mbstring opcache zip pcntl sockets \
-        sysvmsg sysvsem sysvshm pdo pdo_pgsql calendar
+RUN install-php-extensions intl zip opcache sockets pcntl redis-${REDIS_EXT_VERSION} \
+    && rm -rf /var/lib/apt/lists/*
 
-# PECL extensions (pinned)
-RUN set -eux; \
-        pecl channel-update pecl.php.net; \
-        printf "\n" | pecl install \
-        igbinary \
-        redis-${REDIS_VERSION} \
-        grpc-${GRPC_VERSION} \
-        protobuf-${PROTOBUF_VERSION} \
-        apcu-${APCU_VERSION}; \
-        docker-php-ext-enable igbinary redis grpc protobuf apcu
+WORKDIR /app
 
-# PHP INI (keeps your current tuning, incl. the GRPC stack-size workaround)
-RUN set -eux; \
-        { \
-        echo 'opcache.preload=/var/www/html/config/preload.php'; \
-        echo 'opcache.preload_user=www-data'; \
-        echo 'opcache.memory_consumption=256'; \
-        echo 'opcache.max_accelerated_files=20000'; \
-        echo 'opcache.validate_timestamps=0'; \
-        echo 'realpath_cache_size=4096K'; \
-        echo 'realpath_cache_ttl=600'; \
-        } > /usr/local/etc/php/conf.d/zzz-opcache.ini; \
-        echo 'zend.max_allowed_stack_size=-1' > /usr/local/etc/php/conf.d/zend.ini
+# PHP INI (repo-managed tuning: opcache preload, realpath cache, 9s execution cap)
+COPY php.ini /usr/local/etc/php/conf.d/zz-app.ini
+COPY docker/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
 
-# App code
-WORKDIR /var/www/html
-COPY --from=composer /app /var/www/html
+# App code + vendor + warmed prod cache
+COPY --chown=www-data:www-data --from=build /app /app
 
-# Unit config: drop this file into /docker-entrypoint.d so it’s auto-applied at start
-COPY unit.json /docker-entrypoint.d/config.json
-COPY php.ini /etc/unit-php/php.ini
-RUN test -s /docker-entrypoint.d/config.json \
-        && grep -q '"listeners"' /docker-entrypoint.d/config.json
 EXPOSE 8080
-# Unit’s official entrypoint will start unitd and apply any configs in /docker-entrypoint.d/
+
+USER www-data
