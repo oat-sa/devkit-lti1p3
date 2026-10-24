@@ -62,8 +62,7 @@ phpunit deprecation policy is unchanged.
 
 | Image                         | Purpose                                              |
 |-------------------------------|------------------------------------------------------|
-| `docker/frankenphp/Dockerfile`| local/dev stack (`docker-compose.yml`)               |
-| `docker/kube/Dockerfile`      | production image for Cloud Build / k8s deployments   |
+| `docker/frankenphp/Dockerfile`| the single image: local compose stack AND Cloud Build/k8s production builds (cloudbuild.yaml) |
 
 Both are multi-stage builds on public `dunglas/frankenphp:1.13.2-php8.4-bookworm`
 bases. 1.13.2 is a security release: its Docker images ship PHP builds

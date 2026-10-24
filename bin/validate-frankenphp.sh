@@ -349,11 +349,17 @@ else
     fail "S8 unit tests"; tail -8 "$LOGDIR/phpunit.log" | tee -a "$LOGDIR/run.log"
 fi
 
-log "-- S8: kube/CI image builds on the same repo state"
-if docker build -t devkit-lti1p3-kube:validate -f docker/kube/Dockerfile . >"$LOGDIR/kube-build.log" 2>&1; then
-    ok "S8 docker/kube/Dockerfile builds (Cloud Build path)"
+log "-- S8: Cloud Build config targets the real image definition"
+# There is a single image: docker/frankenphp/Dockerfile (also used by compose
+# and the S0 build). Guard that cloudbuild.yaml keeps pointing at it and that
+# the files the image COPYs (Caddyfile, entrypoint) exist in the repo.
+CB_DOCKERFILE=$(grep -oE "dockerfile: [^ ]+" cloudbuild.yaml | head -1 | awk '{print $2}')
+if [ "$CB_DOCKERFILE" = "docker/frankenphp/Dockerfile" ] \
+   && [ -f docker/frankenphp/Caddyfile ] \
+   && [ -f docker/frankenphp/entrypoint.sh ]; then
+    ok "S8 cloudbuild.yaml -> $CB_DOCKERFILE + Caddyfile/entrypoint present"
 else
-    fail "S8 kube image build"; tail -20 "$LOGDIR/kube-build.log" | tee -a "$LOGDIR/run.log"
+    fail "S8 cloudbuild.yaml points at '$CB_DOCKERFILE' or image assets missing"
 fi
 
 log "-- S8: worker-mode battery (single worker)"
