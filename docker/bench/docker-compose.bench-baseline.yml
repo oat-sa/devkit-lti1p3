@@ -1,0 +1,55 @@
+# Baseline benchmark stack: the git-master Nginx + PHP-FPM topology, with the
+# app in the same prod configuration as the FrankenPHP variants (APP_ENV=prod
+# via container env; .env does not override real env vars). Source lives in a
+# git worktree of master (BASELINE_DIR) with the current composer vendor tree
+# copied in by the harness.
+services:
+    devkit_lti1p3_nginx:
+        image: nginx:stable
+        volumes:
+            - ${BASELINE_DIR}:/var/www/html:cached
+            - ${BASELINE_DIR}/docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+        working_dir: /etc/nginx/conf.d
+        ports:
+            - "8096:80"
+        depends_on:
+            devkit_lti1p3_redis:
+                condition: service_healthy
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.5'
+                    memory: 256M
+
+    devkit_lti1p3_phpfpm:
+        image: devkit-baseline-phpfpm:bench
+        build:
+            context: ${BASELINE_DIR}/docker/phpfpm
+        volumes:
+            - ${BASELINE_DIR}:/var/www/html:cached
+        working_dir: /var/www/html
+        environment:
+            APP_ENV: prod
+            APP_DEBUG: "0"
+        depends_on:
+            devkit_lti1p3_redis:
+                condition: service_healthy
+        deploy:
+            resources:
+                limits:
+                    cpus: '1.0'
+                    memory: 768M
+
+    devkit_lti1p3_redis:
+        image: redis:7-alpine
+        command: ["redis-server", "--appendonly", "no"]
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 3s
+            timeout: 2s
+            retries: 20
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.5'
+                    memory: 128M
