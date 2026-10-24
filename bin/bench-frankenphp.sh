@@ -37,6 +37,12 @@ hey_run() { # hey_run <port> <path> <outfile>
         "http://localhost:$1$2" >"$3" 2>&1
 }
 
+hey_status_ok() { # hey_status_ok <outfile> -> 0 if every response was 2xx
+    # hey reports the status-code distribution; any 4xx/5xx row invalidates
+    # the throughput/latency numbers for that endpoint
+    ! grep -qE '^\s+\[[45][0-9]{2}\]' "$1"
+}
+
 hey_first() { # hey_first <port> <path> -> first successful request total time
     curl -sS -o /dev/null --max-time 30 -w '%{time_total}' "http://localhost:$1$2"
 }
@@ -49,6 +55,8 @@ wait_ready() { # wait_ready <port> -> block until / answers 200 (max 30s)
     done
     return 1
 }
+
+FAILED=0
 
 parse_hey() { # parse_hey <file> -> "rps p50 p95 p99"
     awk '
@@ -77,14 +85,19 @@ phase_worker() {
     BENCH_PORT=$port BENCH_WORKER_NUM="${BENCH_WORKER_NUM:-2}" \
         docker compose -p "$project" -f docker/bench/docker-compose.bench.yml up -d --wait >/dev/null 2>&1 \
         || { log "UP FAIL worker"; teardown "$project"; return 1; }
-    wait_ready "$port" || log "readiness timeout"
+    wait_ready "$port" || { log "readiness timeout"; return 1; }
     COLD=$(hey_first "$port" "/")
     log "cold first request (s): $COLD"
     docker run --rm --network host williamyeh/hey -n 100 -c 4 "http://localhost:$port/" >/dev/null 2>&1
     local i
     for i in "${!URLS[@]}"; do
-        hey_run "$port" "${URLS[$i]}" "$OUT/worker-${URL_TAGS[$i]}.txt" || log "hey failed ${URL_TAGS[$i]}"
-        log "| worker | ${URL_TAGS[$i]} | $(parse_hey "$OUT/worker-${URL_TAGS[$i]}.txt") |"
+        hey_run "$port" "${URLS[$i]}" "$OUT/worker-${URL_TAGS[$i]}.txt" || { log "hey failed ${URL_TAGS[$i]}"; FAILED=$((FAILED+1)); continue; }
+        if hey_status_ok "$OUT/worker-${URL_TAGS[$i]}.txt"; then
+            log "| worker | ${URL_TAGS[$i]} | $(parse_hey "$OUT/worker-${URL_TAGS[$i]}.txt") |"
+        else
+            FAILED=$((FAILED+1))
+            log "| worker | ${URL_TAGS[$i]} | INVALID — non-2xx responses under load (see raw log) |"
+        fi
     done
     mem_record worker
     teardown "$project"
@@ -98,14 +111,19 @@ phase_classic() {
     BENCH_PORT=$port \
         docker compose -p "$project" -f docker/bench/docker-compose.bench.yml -f docker/bench/docker-compose.bench-classic.yml up -d --wait >/dev/null 2>&1 \
         || { log "UP FAIL classic"; teardown "$project"; return 1; }
-    wait_ready "$port" || log "readiness timeout"
+    wait_ready "$port" || { log "readiness timeout"; return 1; }
     COLD=$(hey_first "$port" "/")
     log "cold first request (s): $COLD"
     docker run --rm --network host williamyeh/hey -n 100 -c 4 "http://localhost:$port/" >/dev/null 2>&1
     local i
     for i in "${!URLS[@]}"; do
-        hey_run "$port" "${URLS[$i]}" "$OUT/classic-${URL_TAGS[$i]}.txt" || log "hey failed ${URL_TAGS[$i]}"
-        log "| classic | ${URL_TAGS[$i]} | $(parse_hey "$OUT/classic-${URL_TAGS[$i]}.txt") |"
+        hey_run "$port" "${URLS[$i]}" "$OUT/classic-${URL_TAGS[$i]}.txt" || { log "hey failed ${URL_TAGS[$i]}"; FAILED=$((FAILED+1)); continue; }
+        if hey_status_ok "$OUT/classic-${URL_TAGS[$i]}.txt"; then
+            log "| classic | ${URL_TAGS[$i]} | $(parse_hey "$OUT/classic-${URL_TAGS[$i]}.txt") |"
+        else
+            FAILED=$((FAILED+1))
+            log "| classic | ${URL_TAGS[$i]} | INVALID — non-2xx responses under load (see raw log) |"
+        fi
     done
     mem_record classic
     teardown "$project"
@@ -129,14 +147,19 @@ phase_baseline() {
     docker compose -p "$project" -f docker/bench/docker-compose.bench-baseline.yml \
         exec -T devkit_lti1p3_phpfpm php bin/console cache:warmup --env=prod >/dev/null 2>&1 \
         || log "baseline cache warmup failed (first request will pay it)"
-    wait_ready "$port" || log "readiness timeout"
+    wait_ready "$port" || { log "readiness timeout"; return 1; }
     COLD=$(hey_first "$port" "/")
     log "cold first request (s): $COLD"
     docker run --rm --network host williamyeh/hey -n 100 -c 4 "http://localhost:$port/" >/dev/null 2>&1
     local i
     for i in "${!URLS[@]}"; do
-        hey_run "$port" "${URLS[$i]}" "$OUT/baseline-${URL_TAGS[$i]}.txt" || log "hey failed ${URL_TAGS[$i]}"
-        log "| baseline | ${URL_TAGS[$i]} | $(parse_hey "$OUT/baseline-${URL_TAGS[$i]}.txt") |"
+        hey_run "$port" "${URLS[$i]}" "$OUT/baseline-${URL_TAGS[$i]}.txt" || { log "hey failed ${URL_TAGS[$i]}"; FAILED=$((FAILED+1)); continue; }
+        if hey_status_ok "$OUT/baseline-${URL_TAGS[$i]}.txt"; then
+            log "| baseline | ${URL_TAGS[$i]} | $(parse_hey "$OUT/baseline-${URL_TAGS[$i]}.txt") |"
+        else
+            FAILED=$((FAILED+1))
+            log "| baseline | ${URL_TAGS[$i]} | INVALID — non-2xx responses under load (see raw log) |"
+        fi
     done
     mem_record baseline
     teardown "$project"
@@ -151,8 +174,12 @@ log "|---|---|---|---|---|---|"
 
 P=""
 for P in "${PHASES[@]}"; do
-    "phase_$P"
+    if ! "phase_$P"; then
+        FAILED=$((FAILED+1))
+        log "PHASE FAILED: $P"
+    fi
 done
 
 log ""
 log "raw logs: $OUT"
+exit "$FAILED"

@@ -10,15 +10,16 @@ NGINX Unit anymore — the application server itself terminates HTTP on port 808
 | Aspect            | Choice                                                        |
 |-------------------|---------------------------------------------------------------|
 | Server            | FrankenPHP 1.13 (official `dunglas/frankenphp` images)        |
-| Mode              | worker mode (`frankenphp_worker` Caddy directive)             |
+| Mode              | worker mode (`worker` block inside `php_server`)              |
 | Symfony runtime   | `symfony/runtime` + `runtime/frankenphp-symfony`              |
 | Application entry | `App\Runtime\FrankenPhpRuntime` (set in the worker Caddyfile) |
 | Kernel lifecycle  | reboot + terminate between requests (see below)               |
 
 ### Why a custom worker runner
 
-`App\Runtime\FrankenPhpWorkerRunner` (`src/Runtime/`) wraps the
-`runtime/frankenphp-symfony` runner and additionally **reboots the kernel
+`App\Runtime\FrankenPhpRuntime` extends the `runtime/frankenphp-symfony`
+`Runtime` (reusing its container/options resolution) and swaps its runner for
+`App\Runtime\FrankenPhpWorkerRunner`, which additionally **reboots the kernel
 between requests** (`Kernel::reboot()`), then calls `terminate()` and collects
 cyclic garbage. This is what keeps LTI message state, security tokens and
 sessions from leaking across requests in long-lived workers: Symfony 5.4's

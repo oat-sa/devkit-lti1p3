@@ -54,10 +54,10 @@ You can access:
 | devkit_lti1p3_traefik                  | [http://localhost:8090](http://localhost:8090)                   |
 | devkit_lti1p3_redis_commander          | [http://localhost:8081](http://localhost:8081)                   |
 
-The application server is [FrankenPHP](doc/frankenphp.md) running the Symfony
+The application server is [FrankenPHP](frankenphp.md) running the Symfony
 kernel in worker mode — a single container serves HTTP directly on port 8080,
 there is no separate web server or PHP-FPM process. See
-[FrankenPHP runtime](doc/frankenphp.md) for worker configuration
+[FrankenPHP runtime](frankenphp.md) for worker configuration
 (`WORKER_NUM`, `FRANKENPHP_LOOP_MAX`) and lifecycle notes.
 
 ## Configuration

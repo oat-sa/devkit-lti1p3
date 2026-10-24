@@ -58,14 +58,12 @@ check() {
 
 # assert_status <name> <expected> <actual>
 assert_status() {
-    CHECKS=$((CHECKS+1))
     if [ "$2" = "$3" ]; then ok "$1 (status $3)"
     else fail "$1 (expected $2, got $3)"; log "       body: $(cat "$LOGDIR/body.tmp" 2>/dev/null | head -c 300)"; fi
 }
 
 # assert_body_contains <name> <file> <needle>
 assert_contains() {
-    CHECKS=$((CHECKS+1))
     if grep -qF -- "$3" "$2" 2>/dev/null; then ok "$1"
     else fail "$1 (missing '$3')"; fi
 }
@@ -324,7 +322,6 @@ fi
 log "-- S7: header/proxy ingestion at server layer"
 curl -sS --max-time 10 -o /dev/null -H "X-Forwarded-For: 203.0.113.9" "$BASE/ping"
 sleep 1
-CHECKS=$((CHECKS+1))
 if compose logs --since 10s app 2>/dev/null | grep -o '"client_ip":"203.0.113.9"' | head -1 | grep -q "203.0.113.9"; then
     ok "S7 X-Forwarded-For honored by server (client_ip=203.0.113.9 in access log)"
 else

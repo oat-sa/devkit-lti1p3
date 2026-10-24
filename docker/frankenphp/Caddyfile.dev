@@ -29,6 +29,9 @@ http://:8080 {
 			file /app/public/index.php
 			num {$WORKER_NUM:1}
 			env APP_RUNTIME App\Runtime\FrankenPhpRuntime
+			# the image bakes prod defaults; dev overrides must win here
+			env APP_ENV dev
+			env APP_DEBUG 1
 			env FRANKENPHP_LOOP_MAX {$FRANKENPHP_LOOP_MAX:500}
 			# hot-reload: restart the worker when app code/config changes
 			watch /app/src
