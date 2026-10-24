@@ -92,6 +92,16 @@ else
     fail "S0 image build"; tail -30 "$LOGDIR/image-build.log" | tee -a "$LOGDIR/run.log"; exit 1
 fi
 
+# regression guard: opcache preload must never be active in this image —
+# preload + FrankenPHP ZTS workers corrupt the engine heap (zend_mm_heap
+# corrupted, core functions undefined); see php.ini
+PRELOAD=$(docker run --rm --entrypoint php devkit-lti1p3-frankenphp:validate -i 2>/dev/null | grep -E "^opcache\.preload" | head -1)
+if echo "$PRELOAD" | grep -q "no value"; then
+    ok "S0 opcache preload disabled in image ($PRELOAD)"
+else
+    fail "S0 opcache preload unexpectedly active: '$PRELOAD'"
+fi
+
 log "-- S0: start isolated stack"
 compose down -v --remove-orphans >>"$LOGDIR/run.log" 2>&1 || true
 if compose up -d --wait >>"$LOGDIR/run.log" 2>&1; then
