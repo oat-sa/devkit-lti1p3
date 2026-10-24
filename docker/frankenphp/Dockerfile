@@ -49,6 +49,10 @@ RUN install-php-extensions intl zip opcache sockets pcntl redis-${REDIS_EXT_VERS
 
 WORKDIR /app
 
+# prod defaults for ANY SAPI (workers, CLi) — .env's dev values are fallback only
+ENV APP_ENV=prod \
+    APP_DEBUG=0
+
 COPY php.ini /usr/local/etc/php/conf.d/zz-app.ini
 COPY docker/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
 

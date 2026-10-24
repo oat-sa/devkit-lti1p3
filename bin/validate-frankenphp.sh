@@ -4,7 +4,7 @@
 #
 # What it does:
 #   1. builds the REAL application image (no source mounts at runtime)
-#   2. starts an isolated compose project (app + redis, fixed port 8090)
+#   2. starts an isolated compose project (app + redis, fixed port 8099)
 #   3. waits for app-level readiness (bounded)
 #   4. runs functional assertions (dashboard, assets, health, API auth,
 #      cookies/CSRF, request bodies, URL confinement, LTI OIDC launch,
@@ -27,7 +27,7 @@ set -uo pipefail
 
 PROJECT=${PROJECT:-devkit-validate}
 COMPOSE_FILE=docker/validate/docker-compose.validate.yml
-BASE=http://localhost:8090
+BASE=http://localhost:8099
 TS=$(date +%Y%m%d-%H%M%S)
 LOGDIR=.kimchi/docs/validation-$TS
 QUICK=0
@@ -118,7 +118,6 @@ compose exec -T app php bin/console cache:pool:clear cache.app >>"$LOGDIR/run.lo
     && ok "S1 redis-backed cache.app clearable (ext-redis + DSN work)" || fail "S1 cache:pool:clear cache.app"
 compose exec -T app php bin/console lint:yaml config --parse-tags >>"$LOGDIR/run.log" 2>&1 \
     && ok "S1 yaml config lint" || fail "S1 yaml config lint"
-compose exec -T app php bin/console debug:router lti1p1_ 2>/dev/null >/dev/null; # tolerate absence
 compose exec -T app php bin/console debug:router health_check_check >>"$LOGDIR/run.log" 2>&1 \
     && ok "S1 route registration" || fail "S1 route registration"
 
@@ -144,11 +143,12 @@ curl -sS --max-time 10 "$BASE/ping" 2>/dev/null | grep -q "pong" && ok "S2 /ping
 # ---------------------------------------------------------------- section 3
 log "-- S3: API authentication + request bodies"
 S=$(curl -sS --max-time 10 -o "$LOGDIR/body.tmp" -w '%{http_code}' "$BASE/api/platform/nrps/memberships")
-case "$S" in 401) ;; 4*|5*) fail "S3 API no-key expected 401, got $S";; *) fail "S3 API no-key expected 401, got $S";; esac
-[ "$S" = "401" ] && ok "S3 API without key -> 401" || true
+[ "$S" = "401" ] && ok "S3 API without key -> 401" || fail "S3 API without key (expected 401, got $S)"
 
-APIKEY=$(compose exec -T app php bin/console debug:container application_api_key --parameter 2>/dev/null | tail -1 | tr -d '[:space:]')
-[ -z "$APIKEY" ] && APIKEY=$(php -r 'echo "dcf8cb90ac4db043f33e29d2419d93f0";') # fallback: .env default
+# image bakes .env: APP_API_KEY=dcf8cb90ac4db043f33e29d2419d93f0 (log the
+# in-container parameter to prove it, use the deterministic value)
+APIKEY=dcf8cb90ac4db043f33e29d2419d93f0
+compose exec -T app php bin/console debug:container --parameter application_api_key >>"$LOGDIR/run.log" 2>&1 || true
 
 S=$(curl -sS --max-time 10 -o "$LOGDIR/body.tmp" -w '%{http_code}' -H "Authorization: Bearer wrong-key" "$BASE/api/platform/nrps/memberships")
 assert_status "S3 API wrong key" 401 "$S"
@@ -161,19 +161,17 @@ grep -q "memberships" "$LOGDIR/memberships.json" && ok "S3 memberships payload s
 python3 -c "import json,sys; m=json.load(open('$LOGDIR/memberships.json'))['memberships']; d=m['default'] if isinstance(m,dict) else m[0]; json.dump(d, open('$LOGDIR/membership-post.json','w'))" >/dev/null 2>&1 \
     && ok "S3 canonical membership fixture extracted from GET response" || fail "S3 membership fixture extraction"
 # craft a 5k unicode-heavy body: clones the canonical membership, new identifier
-python3 - "$LOGDIR/membership-post.json" > "$LOGDIR/membership-new.json" <<'PY' 2>>"$LOGDIR/run.log"
+python3 - "$LOGDIR/membership-post.json" "$LOGDIR/membership-new.json" <<'PY' 2>>"$LOGDIR/run.log"
 import json,sys
 d=json.load(open(sys.argv[1]))
 d['membershipId']='ms-validation'
-d['context']={'contextId':'ctx-validation','label':'Validâtion Çontext ünïcode','title':'Ünïcödé'} if 'context' in d else d.get('context')
-if 'context' in d and isinstance(d['context'],dict): d['context']['contextId']='ctx-validation'
+if isinstance(d.get('context'),dict): d['context']['contextId']='ctx-validation'
 for m in d.get('members',[]):
-    m['status']='Active'
     m['name']=m.get('name','') + ' ' + 'ø'*4000
-json.dump(d,open('$LOGDIR/membership-new.json','w'))
+json.dump(d,open(sys.argv[2],'w'))
 PY
 S=$(curl -sS --max-time 10 -o "$LOGDIR/body.tmp" -w '%{http_code}' -H "Authorization: Bearer $APIKEY" -H 'Content-Type: application/json' --data-binary @"$LOGDIR/membership-new.json" "$BASE/api/platform/nrps/memberships")
-assert_status "S3 API create membership (unicode body) -> 200/201" "$( [ "$S" = "200" ] || [ "$S" = "201" ] && echo expected || echo "$S" )" "expected"
+{ [ "$S" = "200" ] || [ "$S" = "201" ]; } && ok "S3 API create membership (unicode body) ($S)" || fail "S3 API create membership (unicode body) -> $S"
 S=$(curl -sS --max-time 10 -o "$LOGDIR/body.tmp" -w '%{http_code}' -H "Authorization: Bearer $APIKEY" "$BASE/api/platform/nrps/memberships/ms-validation")
 assert_status "S3 API read-back new membership" 200 "$S"
 
@@ -190,16 +188,27 @@ S=$(curl -sS -c "$LOGDIR/cookies.txt" -b "$LOGDIR/cookies.txt" --max-time 10 -o 
     --data-urlencode "lti_resource_link_launch[registration]=0" \
     --data-urlencode "lti_resource_link_launch[user_type]=list" \
     --data-urlencode "lti_resource_link_launch[user_list]=luke" \
+    --data-urlencode "lti_resource_link_launch[claims]={}" \
     --data-urlencode "lti_resource_link_launch[_token]=$TOKEN" \
     "$BASE/platform/message/launch/lti-resource-link")
 assert_status "S4 CSRF-protected form POST accepted" 200 "$S"
-assert_contains "S4 launch generation contains id_token" "$LOGDIR/launch-submit.html" "id_token"
+assert_contains "S4 LtiResourceLinkRequest launch generated" "$LOGDIR/launch-submit.html" "LtiResourceLinkRequest"
+# the platform renders the OIDC initiation URL carrying all IMS params
+INITURL=$(grep -oE 'id="launch-in-iframe"[^>]*data-url="[^"]+"' "$LOGDIR/launch-submit.html" | grep -oE 'data-url="[^"]+"' | sed 's/data-url="//;s/"$//')
+[ -z "$INITURL" ] && INITURL=$(grep -oE 'href="[^"]*oidc/initiation[^"]*"' "$LOGDIR/launch-submit.html" | head -1 | sed 's/href="//;s/"$//')
+INITURL=${INITURL//&amp;/\&}
+[ -n "$INITURL" ] && ok "S4 oidc initiation URL extracted from generated launch" || fail "S4 initiation URL extraction"
+grep -q "lti_message_hint" <<<"$INITURL" && ok "S4 lti_message_hint present" || fail "S4 lti_message_hint missing"
 S=$(curl -sS --max-time 10 -o "$LOGDIR/body.tmp" -w '%{http_code}' -X POST \
     --data-urlencode "lti_resource_link_launch[registration]=0" \
+    --data-urlencode "lti_resource_link_launch[claims]={}" \
     --data-urlencode "lti_resource_link_launch[_token]=forged-token-value" \
     "$BASE/platform/message/launch/lti-resource-link")
-{ [ "$S" != "200" ] || ! grep -q "id_token" "$LOGDIR/body.tmp"; } \
-    && ok "S4 forged CSRF token does not produce a launch (got $S)" || fail "S4 forged CSRF token accepted"
+if ! grep -q "LtiResourceLinkRequest" "$LOGDIR/body.tmp"; then
+    ok "S4 forged CSRF token does not produce a launch (got $S)"
+else
+    fail "S4 forged CSRF token accepted"
+fi
 
 # ---------------------------------------------------------------- section 5
 log "-- S5: LTI protocol endpoints"
@@ -207,33 +216,23 @@ S=$(curl -sS --max-time 10 -o "$LOGDIR/jwks.json" -w '%{http_code}' "$BASE/lti1p
 assert_status "S5 platform JWKS" 200 "$S"
 [ "$(jsonget "$LOGDIR/jwks.json" "len(j['keys'])")" -ge 1 ] && ok "S5 JWKS contains keys" || fail "S5 JWKS keys"
 
-log "-- S5: full OIDC login + LTI launch chain (platform stages within this devkit)"
-S=$(curl -sS -c "$LOGDIR/cookies.txt" -b "$LOGDIR/cookies.txt" --max-time 10 -o "$LOGDIR/oidc-initiation.html" -w '%{http_code} %{redirect_url}' \
-    -X POST "$BASE/lti1p3/oidc/initiation" \
-    --data-urlencode "iss=$BASE/platform" \
-    --data-urlencode "login_hint=luke" \
-    --data-urlencode "target_link_uri=$BASE/tool/launch" \
-    --data-urlencode "client_id=client_id" \
-    --data-urlencode "lti_deployment_id=deploymentId1")
-AUTHURL=$(echo "$S" | awk '{print $2}')
-STATUSC=$(echo "$S" | awk '{print $1}')
-{ [ "$STATUSC" = "302" ] || [ "$STATUSC" = "303" ] || [ "$STATUSC" = "200" ]; } || log "  initiation returned $STATUSC"
-if [ "$STATUSC" = "200" ]; then
-    # initiation rendered a form (OAT bundle may answer with auto-submit form)
-    AUTHURL=$(grep -oE '<form[^>]+action="[^"]+"' "$LOGDIR/oidc-initiation.html" | grep -oE 'action="[^"]+"' | head -1 | sed 's/action="//;s/"$//')
-fi
-[ -n "$AUTHURL" ] && ok "S5 oidc initiation -> platform authentication url" || fail "S5 oidc initiation (url empty)"
+log "-- S5: full OIDC login + LTI launch chain (all stages exercised)"
+# stage 1: tool OIDC initiation with the lti_message_hint issued in S4
+S=$(curl -sS -c "$LOGDIR/cookies.txt" -b "$LOGDIR/cookies.txt" --max-time 10 -o "$LOGDIR/oidc-initiation.html" -w '%{http_code} %{redirect_url}' "$INITURL")
+STATUSC=$(echo "$S" | awk '{print $1}'); AUTHURL=$(echo "$S" | awk '{print $2}')
 AUTHURL=${AUTHURL//&amp;/\&}
-S=$(curl -sS -c "$LOGDIR/cookies.txt" -b "$LOGDIR/cookies.txt" --max-time 10 -o "$LOGDIR/oidc-auth.html" -w '%{http_code}' "$AUTHURL")
-assert_status "S5 oidc authentication answers" 200 "$S"
-if grep -q 'name="id_token"' "$LOGDIR/oidc-auth.html"; then
-    IDTOKEN=$(grep -oE 'name="id_token"[^>]*value="[^"]+"' "$LOGDIR/oidc-auth.html" | grep -oE 'value="[^"]+"' | sed 's/value="//;s/"$//')
+assert_status "S5 tool oidc initiation redirects to platform authentication" 302 "$STATUSC"
+[ -n "$AUTHURL" ] && ok "S5 initiation redirect url present" || fail "S5 initiation redirect url empty"
+if [ -n "$AUTHURL" ]; then
+    # stage 2: platform oidc authentication (validates the hint, signs id_token)
+    S=$(curl -sS -c "$LOGDIR/cookies.txt" -b "$LOGDIR/cookies.txt" --max-time 10 -o "$LOGDIR/oidc-auth.html" -w '%{http_code}' "$AUTHURL")
+    assert_status "S5 platform oidc authentication answers" 200 "$S"
+    grep -q 'name="id_token"' "$LOGDIR/oidc-auth.html" && ok "S5 platform issued signed id_token" || fail "S5 platform id_token issuance"
+    IDTOKEN=$(grep -oE 'name="id_token"[^>]*value="[^"]+"' "$LOGDIR/oidc-auth.html" | grep -oE 'value="[^"]+"' | sed 's/value="//;s/"$//' | head -1)
     STATE=$(grep -oE 'name="state"[^>]*value="[^"]+"' "$LOGDIR/oidc-auth.html" | grep -oE 'value="[^"]+"' | sed 's/value="//;s/"$//' | head -1)
     ACTION=$(grep -oE '<form[^>]+action="[^"]+"' "$LOGDIR/oidc-auth.html" | grep -oE 'action="[^"]+"' | head -1 | sed 's/action="//;s/"$//')
-    ACTION=${ACTION:-$BASE/tool/launch}; ACTION=${ACTION//&amp;/\&}
-    ok "S5 platform issued id_token + state (post form)"
-else
-    fail "S5 no id_token form on oidc authentication page"
+    ACTION=${ACTION//&amp;/\&}
+    if [ -z "$ACTION" ]; then ACTION=$BASE/tool/launch; fi
 fi
 if [ -n "${IDTOKEN:-}" ]; then
     S=$(curl -sS -c "$LOGDIR/cookies.txt" -b "$LOGDIR/cookies.txt" --max-time 15 -o "$LOGDIR/tool-launch.html" -w '%{http_code}' \
@@ -248,7 +247,7 @@ fi
 log "-- S5: LTI service JWT auth (client credentials, locally minted)"
 JWKSURL="$BASE/lti1p3/.well-known/jwks/toolSet.json"
 TOKENURL="$BASE/lti1p3/auth/platformKey/token"
-compose cp docker/validate/mint.php "$(compose ps -q app):/tmp/mint.php" >>"$LOGDIR/run.log" 2>&1
+compose cp docker/validate/mint.php app:/tmp/mint.php >>"$LOGDIR/run.log" 2>&1
 ASSERTION=$(compose exec -T app php /tmp/mint.php service-assertion "$JWKSURL" "$TOKENURL" "client_id" 2>/dev/null | tr -d '[:space:]')
 [ -n "$ASSERTION" ] && ok "S5 client assertion minted (tool private key)" || fail "S5 mint assertion"
 S=$(curl -sS --max-time 10 -o "$LOGDIR/token.json" -w '%{http_code}' -X POST "$TOKENURL" \
@@ -373,13 +372,8 @@ PIDS=$(compose exec -T app ps -eo pid,comm 2>/dev/null | grep -ci frankenphp)
 log "S8 frankenphp processes: $PIDS"
 ok "S8 sustained loop completed (memory window logged: $MEM0 -> $MEM1; see run.log)"
 
-S=$(curl -sS --max-time 10 -o /dev/null -w '%{http_code}' -X POST "http://localhost:2019/frankenphp/workers/restart" 2>/dev/null || true)
-if [ "$S" = "200" ] || [ "$S" = "000" ]; then
-    # admin api is loopback-inside-container; use exec below as canonical
-    :
-fi
-S=$(compose exec -T app curl -sS --max-time 10 -o /dev/null -w '%{http_code}' -X POST "http://localhost:2019/frankenphp/workers/restart" 2>/dev/null \
-    || compose exec -T app sh -c "curl -sS -o /dev/null -w '%{http_code}' -X POST http://localhost:2019/frankenphp/workers/restart 2>/dev/null" || echo exec-missing)
+# admin API is loopback-only inside the container; call it via frankenphp php-cli
+S=$(compose exec -T app sh -c 'frankenphp php-cli -r \'\'\'$c=stream_context_create(["http"=>["method"=>"POST","timeout"=>5]]); var_dump(@file_get_contents("http://localhost:2019/frankenphp/workers/restart", false, $c) !== false);\'\'\'' 2>/dev/null || echo "exec-failed")
 log "S8 admin restart call: $S"
 sleep 3
 S=$(curl -sS --max-time 10 -o /dev/null -w '%{http_code}' "$BASE/")

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/main.css?v=2.13.0">
+    <link rel="icon" href="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-150x150.png" sizes="32x32" />
+    <link rel="icon" href="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png" />
+    <title>TAO / LTI 1.3 DevKit</title>
+</head>
+
+<body class="lti1p3-devkit-app">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.13.13/beautify.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.13.13/beautify-html.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/be40e717f7.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar, #content').toggleClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+    <div class="wrapper">
+        <nav id="sidebar">
+    <div class="sidebar-header">
+        <img src="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png" width="55" height=55" class="d-inline-block" alt="">&nbsp;&nbsp;
+        <h4 class="d-inline-block">
+            <strong><a href="/">LTI 1.3 <small><code class="text-danger">DevKit</code></small></a></strong>
+        </h4>
+    </div>
+    <div class="card text-white bg-dark" style="border-bottom: none !important;">
+        <a class="card-header sidebar-menu-header sidebar-menu-header-no-border-bottom" href="/">
+            <h6><i class="fas fa-house-user"></i>&nbsp;&nbsp;Dashboard</h6>
+        </a>
+    </div>
+    <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="false">
+        <div class="card text-white bg-dark">
+            <div class="card-header dropdown-toggle" role="tab" id="headingPlatform" data-toggle="collapse" data-parent="#accordionEx" href="#collapsePlatform"
+                 aria-expanded="false" aria-controls="collapsePlatform">
+                <h6><i class="fas fa-cubes"></i>&nbsp;&nbsp;Platform resources</h6>
+            </div>
+            <div id="collapsePlatform" class="collapse" role="tabpanel" aria-labelledby="headingPlatform" data-parent="#accordionEx">
+                <div class="list-group list-group-flush">
+                    <a href="/platform/proctoring/assessments" class="list-group-item list-group-item-action">
+                        <i class="fas fa-file-signature"></i>&nbsp;ACS assessments
+                    </a>
+                    <a href="/platform/ags/line-items" class="list-group-item list-group-item-action">
+                        <i class="fas fa-graduation-cap"></i>&nbsp;AGS line items
+                    </a>
+                    <a href="/platform/basic-outcomes" class="list-group-item list-group-item-action">
+                        <i class="fas fa-poll"></i>&nbsp;Basic outcomes
+                    </a>
+                    <a href="/platform/nrps/memberships" class="list-group-item list-group-item-action">
+                        <i class="fas fa-users"></i>&nbsp;NRPS memberships
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card text-white bg-dark">
+            <div class="card-header dropdown-toggle" role="tab" id="headingMessage" data-toggle="collapse" data-parent="#accordionEx" href="#collapseMessage"
+                 aria-expanded="true" aria-controls="collapseMessage">
+                <h6><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;LTI messages</h6>
+            </div>
+            <div id="collapseMessage" class="collapse show" role="tabpanel" aria-labelledby="headingMessage" data-parent="#accordionEx">
+                <div class="list-group list-group-flush">
+                    <a href="/platform/message/launch/lti-resource-link" class="list-group-item list-group-item-action">
+                        <i class="fas fa-sign-out-alt"></i>&nbsp;Resource link
+                    </a>
+                    <a href="/platform/message/launch/deep-linking" class="list-group-item list-group-item-action">
+                        <i class="fas fa-link"></i>&nbsp;Deep linking
+                    </a>
+                    <a href="/platform/message/launch/proctoring" class="list-group-item list-group-item-action">
+                        <i class="fas fa-file-signature"></i>&nbsp;Proctoring
+                    </a>
+                    <a href="/platform/message/launch/submission-review" class="list-group-item list-group-item-action">
+                        <i class="fas fa-file-contract"></i>&nbsp;Submission review
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card text-white bg-dark">
+            <div class="card-header dropdown-toggle" role="tab" id="headingService" data-toggle="collapse" data-parent="#accordionEx" href="#collapseService"
+                 aria-expanded="false" aria-controls="collapseService">
+                <h6><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;LTI services</h6>
+            </div>
+            <div id="collapseService" class="collapse" role="tabpanel" aria-labelledby="headingService" data-parent="#accordionEx">
+                <div class="list-group list-group-flush">
+                    <a href="/tool/service/client" class="list-group-item list-group-item-action">
+                        <i class="fas fa-sign-in-alt"></i>&nbsp;LTI service client
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+        <div id="content" class="container-fluid">
+            <nav id="topBar" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+                <button type="button" id="sidebarCollapse" class="btn btn-dark">
+                    <i class="fas fa-bars"></i>
+                </button>
+                &nbsp;<a class="navbar-brand" href="#"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;<span class="text-danger">Platform</span> - LtiResourceLinkRequest launch</a>
+            </nav>
+            <div class="container-fluid lti1p3-devkit-app-content">
+                                                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i>&nbsp;LtiResourceLinkRequest generation success
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    
+                    <div class="accordion md-accordion" id="accordionForm" role="tablist" aria-multiselectable="true">
+        <div class="card bg-light">
+            <div class="card-header dropdown-toggle clickable collapsed" role="tab" id="headingForm" data-toggle="collapse" data-parent="#accordionForm" href="#collapseForm"
+                 aria-expanded="false" aria-controls="collapseForm">
+                <i class="fas fa-cogs"></i>&nbsp;<code>LtiResourceLinkRequest</code> generator
+            </div>
+            <div id="collapseForm" class="collapse card-body  " role="tabpanel" aria-labelledby="headingForm" data-parent="#accordionForm">
+            <form name="lti_resource_link_launch" method="post">
+                
+                <div class="form-row">
+                    <div class="col-md-9">
+                        <div class="form-group"><label class="required" for="lti_resource_link_launch_registration">Registration</label><select id="lti_resource_link_launch_registration" name="lti_resource_link_launch[registration]" aria-describedby="lti_resource_link_launch_registration_help" class="form-control"><option value="0" selected="selected">devkit</option></select><small id="lti_resource_link_launch_registration_help" class="form-text text-muted">Will use the selected registration&#039;s tool as target</small></div>
+                    </div>
+                    <div class="col-md-3">
+                        <fieldset class="form-group"><legend class="col-form-label"><label>User</label></legend><div id="lti_resource_link_launch_user_type" aria-describedby="lti_resource_link_launch_user_type_help"><div class="form-check form-check-inline">        <input type="radio" id="lti_resource_link_launch_user_type_placeholder" name="lti_resource_link_launch[user_type]" class="form-check-input" value="" />
+        <label class="form-check-label" for="lti_resource_link_launch_user_type_placeholder">anonymous</label></div><div class="form-check form-check-inline">        <input type="radio" id="lti_resource_link_launch_user_type_0" name="lti_resource_link_launch[user_type]" class="form-check-input" value="list" checked="checked" />
+        <label class="form-check-label" for="lti_resource_link_launch_user_type_0">from list</label></div><div class="form-check form-check-inline">        <input type="radio" id="lti_resource_link_launch_user_type_1" name="lti_resource_link_launch[user_type]" class="form-check-input" value="custom" />
+        <label class="form-check-label" for="lti_resource_link_launch_user_type_1">custom</label></div></div><small id="lti_resource_link_launch_user_type_help" class="form-text text-muted">User for the launch</small></fieldset>
+                    </div>
+                </div>
+                <div id="userList" class="form-row ">
+                    <div class="col-md-12">
+                        <div class="form-group"><label class="required" for="lti_resource_link_launch_user_list">User list</label><select id="lti_resource_link_launch_user_list" name="lti_resource_link_launch[user_list]" aria-describedby="lti_resource_link_launch_user_list_help" class="form-control"><option value="c3po">c3po</option><option value="chewbacca">chewbacca</option><option value="fett">fett</option><option value="han">han</option><option value="leia">leia</option><option value="luke" selected="selected">luke</option><option value="jabba">jabba</option><option value="maul">maul</option><option value="obiwan">obiwan</option><option value="r2d2">r2d2</option><option value="sidious">sidious</option><option value="vader">vader</option><option value="yoda">yoda</option></select><small id="lti_resource_link_launch_user_list_help" class="form-text text-muted">List of configured users available for launch</small></div>
+                    </div>
+                </div>
+                <div id="userCustom" class="form-row d-none">
+                    <div class="col-md-3">
+                        <div class="form-group"><label for="lti_resource_link_launch_custom_user_id">Custom user identifier</label><input type="text" id="lti_resource_link_launch_custom_user_id" name="lti_resource_link_launch[custom_user_id]" aria-describedby="lti_resource_link_launch_custom_user_id_help" class="form-control" /><small id="lti_resource_link_launch_custom_user_id_help" class="form-text text-muted">Custom user identifier (sub claim)</small></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group"><label for="lti_resource_link_launch_custom_user_name">Custom user name</label><input type="text" id="lti_resource_link_launch_custom_user_name" name="lti_resource_link_launch[custom_user_name]" aria-describedby="lti_resource_link_launch_custom_user_name_help" class="form-control" /><small id="lti_resource_link_launch_custom_user_name_help" class="form-text text-muted">Custom user name (name claim)</small></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group"><label for="lti_resource_link_launch_custom_user_email">Custom user email</label><input type="text" id="lti_resource_link_launch_custom_user_email" name="lti_resource_link_launch[custom_user_email]" aria-describedby="lti_resource_link_launch_custom_user_email_help" class="form-control" /><small id="lti_resource_link_launch_custom_user_email_help" class="form-text text-muted">Custom user email (email claim)</small></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group"><label for="lti_resource_link_launch_custom_user_locale">Custom user locale</label><input type="text" id="lti_resource_link_launch_custom_user_locale" name="lti_resource_link_launch[custom_user_locale]" aria-describedby="lti_resource_link_launch_custom_user_locale_help" class="form-control" /><small id="lti_resource_link_launch_custom_user_locale_help" class="form-text text-muted">Custom user locale (locale claim)</small></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lti_resource_link_launch_launch_url">Launch url</label><br/>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <a id="launchUrlLoad" class="btn btn-secondary text-white" role="button" title="Use and edit selected registration's tool default launch url">
+                                <i id="launchUrlLoadLogo" class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                        <input type="text" id="lti_resource_link_launch_launch_url" name="lti_resource_link_launch[launch_url]" class="form-control" />
+                    </div>
+                    <small id="lti_resource_link_launch_launch_url_help" class="form-text text-muted">If provided, will be the url where to send the <code>LtiResourceLinkRequest</code> message. If not, will use the selected registration tool default launch url</small>
+                    
+                </div>
+                <div class="form-group">
+                    <label for="lti_resource_link_launch_claims">Claims</label><br/>
+                    <div class="input-group">
+                        <div class="input-group-prepend" role="group" aria-label="Manage claims">
+                            <div class="btn-group-vertical dropright" role="group">
+                                <button id="claimsAdd" type="button" class="btn btn-primary btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Add claim">
+                                    <i class="fas fa-plus-circle"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-multicol" aria-labelledby="claimsAdd">
+                                                                                                                        <div class="dropdown-row">
+                                                                                    <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="https://purl.imsglobal.org/spec/lti-ags/claim/endpoint"
+                                                data-value="{&quot;scope&quot;:[&quot;https://purl.imsglobal.org/spec/lti-ags/scope/lineitem&quot;,&quot;https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly&quot;,&quot;https://purl.imsglobal.org/spec/lti-ags/scope/score&quot;],&quot;lineitems&quot;:&quot;http://localhost:8099/platform/service/ags/default/lineitems&quot;,&quot;lineitem&quot;:&quot;http://localhost:8099/platform/service/ags/default/lineitems/label&quot;}"
+                                            >
+                                                AGS
+                                            </a>
+                                                                                                                                                                                                        <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="https://purl.imsglobal.org/spec/lti-ap/claim/acs"
+                                                data-value="{&quot;actions&quot;:[&quot;pause&quot;,&quot;resume&quot;,&quot;terminate&quot;,&quot;update&quot;,&quot;flag&quot;],&quot;assessment_control_url&quot;:&quot;{url|required}&quot;}"
+                                            >
+                                                ACS
+                                            </a>
+                                                                                    </div><div class="dropdown-row">
+                                                                                                                                                                                                        <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="https://purl.imsglobal.org/spec/lti-bo/claim/basicoutcome"
+                                                data-value="{&quot;lis_result_sourcedid&quot;:&quot;default&quot;,&quot;lis_outcome_service_url&quot;:&quot;http://localhost:8099/platform/service/basic-outcome&quot;}"
+                                            >
+                                                Basic Outcome
+                                            </a>
+                                                                                                                                                                                                        <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="https://purl.imsglobal.org/spec/lti/claim/context"
+                                                data-value="{&quot;id&quot;:&quot;default&quot;,&quot;type&quot;:[],&quot;label&quot;:&quot;{string|optional}&quot;,&quot;title&quot;:&quot;{string|optional}&quot;}"
+                                            >
+                                                Context
+                                            </a>
+                                                                                    </div><div class="dropdown-row">
+                                                                                                                                                                                                        <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="https://purl.imsglobal.org/spec/lti/claim/launch_presentation"
+                                                data-value="{&quot;document_target&quot;:&quot;{string|optional}&quot;,&quot;height&quot;:&quot;{int|optional}&quot;,&quot;width&quot;:&quot;{int|optional}&quot;,&quot;return_url&quot;:&quot;{url|optional}&quot;,&quot;locale&quot;:&quot;{string|optional}&quot;}"
+                                            >
+                                                Launch presentation
+                                            </a>
+                                                                                                                                                                                                        <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="https://purl.imsglobal.org/spec/lti/claim/lis"
+                                                data-value="{&quot;course_offering_sourcedid&quot;:&quot;{string|optional}&quot;,&quot;course_section_sourcedid&quot;:&quot;{string|optional}&quot;,&quot;outcome_service_url&quot;:&quot;{url|optional}&quot;,&quot;person_sourcedid&quot;:&quot;{string|optional}&quot;,&quot;result_sourcedid&quot;:&quot;{string|optional}&quot;}"
+                                            >
+                                                LIS
+                                            </a>
+                                                                                    </div><div class="dropdown-row">
+                                                                                                                                                                                                        <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="https://purl.imsglobal.org/spec/lti-nrps/claim/namesroleservice"
+                                                data-value="{&quot;context_memberships_url&quot;:&quot;http://localhost:8099/platform/service/nrps/default/memberships/default&quot;,&quot;service_versions&quot;:[&quot;2.0&quot;]}"
+                                            >
+                                                NRPS
+                                            </a>
+                                                                                                                                                                                                        <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="https://purl.imsglobal.org/spec/lti/claim/tool_platform"
+                                                data-value="{&quot;guid&quot;:&quot;{string|required}&quot;,&quot;contact_email&quot;:&quot;{string|optional}&quot;,&quot;description&quot;:&quot;{string|optional}&quot;,&quot;name&quot;:&quot;{string|optional}&quot;,&quot;url&quot;:&quot;{url|optional}&quot;,&quot;product_family_code&quot;:&quot;{string|optional}&quot;,&quot;version&quot;:&quot;{string|optional}&quot;}"
+                                            >
+                                                Platform instance
+                                            </a>
+                                                                                    </div><div class="dropdown-row">
+                                                                                                                                                                                                        <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="https://purl.imsglobal.org/spec/lti/claim/resource_link"
+                                                data-value="{&quot;id&quot;:&quot;{string|required}&quot;,&quot;title&quot;:&quot;{string|optional}&quot;,&quot;description&quot;:&quot;{string|optional}&quot;}"
+                                            >
+                                                Resource link
+                                            </a>
+                                                                                                                                                                                                        <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="https://purl.imsglobal.org/spec/lti/claim/roles"
+                                                data-value="[&quot;http://purl.imsglobal.org/vocab/lis/v2/membership#Learner&quot;]"
+                                            >
+                                                Roles
+                                            </a>
+                                                                                    </div><div class="dropdown-row">
+                                                                                                                                                                                                        <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="https://purl.imsglobal.org/spec/lti/claim/custom"
+                                                data-value="{&quot;deliverySettings.review.enabled&quot;:&quot;true&quot;,&quot;deliverySettings.review.showCorrect&quot;:&quot;true&quot;,&quot;deliverySettings.review.showScore&quot;:&quot;true&quot;,&quot;deliverySettings.review.showQuestion&quot;:&quot;false&quot;,&quot;deliverySettings.review.showUnShuffled&quot;:&quot;true&quot;,&quot;deliverySettings.review.allInOne&quot;:&quot;false&quot;}"
+                                            >
+                                                Custom – Review
+                                            </a>
+                                                                                                                                                                                                        <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="https://purl.imsglobal.org/spec/lti/claim/custom"
+                                                data-value="{&quot;proctoringSettings.enableMonitoring&quot;:&quot;true&quot;,&quot;proctoringSettings.requireProctorAuthorization&quot;:&quot;true&quot;}"
+                                            >
+                                                Custom – Proctored
+                                            </a>
+                                                                                    </div><div class="dropdown-row">
+                                                                                                                                                                                                        <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="https://purl.imsglobal.org/spec/lti/claim/custom"
+                                                data-value="{&quot;deliverySettings.plugins.add&quot;:&quot;taoQtiNuiTest/runner/plugins/panel/a11y/plugin&quot;,&quot;deliverySettings.plugins.remove&quot;:&quot;taoQtiNuiTest/runner/plugins/tools/highlighter/plugin,taoQtiNuiTest/runner/plugins/tools/scratchpad/plugin&quot;,&quot;deliverySettings.plugins&quot;:&quot;{\&quot;readAloud\&quot;: {\&quot;readAloudOption\&quot;: \&quot;always-enabled\&quot;}, \&quot;a11yMenuPanel\&quot;: {\&quot;openOnStart\&quot;: true, \&quot;contrastTheme\&quot;: {\&quot;enabled\&quot;: true, \&quot;themes\&quot;: [\&quot;default\&quot;, \&quot;whiteOnBlue\&quot;, \&quot;yellowOnBlack\&quot;, \&quot;blueOnYellow\&quot;, \&quot;greyOnGreen\&quot;]}, \&quot;groups\&quot;: [\&quot;group-contrast\&quot;, \&quot;group-pointer\&quot;, \&quot;group-text\&quot;, \&quot;group-zoom\&quot;]}}&quot;}"
+                                            >
+                                                Custom – Plugins
+                                            </a>
+                                                                                                                                                                                                        <a
+                                                class="editorClaim dropdown-item"
+                                                data-name="https://purl.imsglobal.org/spec/lti/claim/custom"
+                                                data-value="{&quot;deliverySettings.itemRunnerConfigElements&quot;:&quot;{\&quot;ExtendedTextInteraction\&quot;: {\&quot;spellCheckConfig\&quot;: {\&quot;enabled\&quot;: true, \&quot;providerId\&quot;: \&quot;wproofreader\&quot;, \&quot;providerConfig\&quot;: {\&quot;lang\&quot;: \&quot;nb_NO\&quot;}}}}&quot;}"
+                                            >
+                                                Custom – Item Runner
+                                            </a>
+                                                                                    </div><div class="dropdown-row">
+                                                                                                                            </div>
+                                                                                                            </div>
+                                <button id="claimsFormat" type="button" class="btn btn-secondary btn-block" title="Format claims (JSON)">
+                                    <i class="fas fa-align-left"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <textarea id="lti_resource_link_launch_claims" name="lti_resource_link_launch[claims]" rows="15" class="form-control"></textarea>
+                    </div>
+                    <div id="claimsError" class="invalid-feedback">
+                        Invalid claims, please provide a valid JSON representation
+                    </div>
+                    <small id="lti_resource_link_launch_claims_help" class="form-text text-muted">JSON formatted claims to add to the launch</small>
+                    
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                    <button type="submit" id="lti_resource_link_launch_submit" name="lti_resource_link_launch[submit]" class="btn-primary btn"><i class="fas fa-cogs"></i>&nbsp;Generate</button>
+                    <a href="/platform/message/launch/lti-resource-link" class="btn btn-secondary"><i class="fas fa-undo-alt"></i>&nbsp;Reset</a>
+                                            <a class="btn btn-info text-white" data-toggle="modal" data-target="#formShareModal"><i class="fas fa-external-link-square-alt"></i>&nbsp;Share</a>
+                                    </div>
+            </div>
+            <input type="hidden" id="lti_resource_link_launch__token" name="lti_resource_link_launch[_token]" value="99d3.YzVodHKAb0W04Fs2SN1jvrvKFMZTwJ5zXUsRCseW3io.NHghLBnLIzb9r29kK54q5IOrZrEyo8w5MA57Sajm7WJUQgMCAto_KdWHAg" /></form>
+        </div>
+    </div>
+    <div class="modal fade" id="formShareModal" tabindex="-1" role="dialog" aria-labelledby="formShareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title" id="nrpsMemberModalLabel"><i class="fas fa-info-circle"></i>&nbsp;Generator share url</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-light">
+                <form>
+                    <div class="form-group">
+                        <textarea class="form-control" id="shareUrlField" rows="15">http://localhost:8099/platform/message/launch/lti-resource-link?registration=devkit&amp;user_type=list&amp;user_list=luke</textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button id="shareCopy" type="button" class="btn btn-info">
+                        <i id="shareCopyLogo" class="fas fa-copy"></i>&nbsp;
+                        <span id="shareCopyText">Copy to clipboard</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function copyUrlToClipboard() {
+
+        $('#shareUrlField').select();
+        document.execCommand("copy");
+
+        $('#shareCopy').removeClass('btn-info');
+        $('#shareCopy').addClass('btn-success');
+        $('#shareCopyLogo').removeClass('fa-copy');
+        $('#shareCopyLogo').addClass('fa-check');
+        $('#shareCopyText').html('Copied !');
+        setTimeout(
+            function() {
+                $('#shareCopy').removeClass('btn-success');
+                $('#shareCopy').addClass('btn-info');
+                $('#shareCopyLogo').removeClass('fa-check');
+                $('#shareCopyLogo').addClass('fa-copy');
+                $('#shareCopyText').html('Copy to clipboard');
+
+            },
+            1500
+        );
+    }
+
+    $("#shareCopy").click(function(event){
+        copyUrlToClipboard();
+    });
+</script>
+        <br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <i class="fas fa-sign-out-alt"></i>&nbsp;<code>LtiResourceLinkRequest</code> launch
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dl class="list-unstyled">
+                                <dt>Issuer</dt>
+                                <dd>http://localhost:8099/platform</dd>
+                                <dt>Login hint</dt>
+                                <dd><input type="text" class="form-control" placeholder="token" value="{&quot;type&quot;:&quot;list&quot;,&quot;user_id&quot;:&quot;luke&quot;}" readonly></dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-4">
+                            <dl class="list-unstyled">
+                                <dt>Url</dt>
+                                <dd>http://localhost:8099/lti1p3/oidc/initiation</dd>
+                                <dt>Target link uri</dt>
+                                <dd>http://localhost:8099/tool/launch</dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-4">
+                            <dl class="list-unstyled">
+                                <dt>Client id</dt>
+                                <dd>client_id</dd>
+                                <dt>Deployment id</dt>
+                                <dd>deploymentId1</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <dl class="list-unstyled">
+                                <dt>LTI message hint</dt>
+                                <dd>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <a target="_blank" class="btn btn-secondary" href="https://jwt.io?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InBsYXRmb3JtS2V5In0.eyJodHRwczovL3B1cmwuaW1zZ2xvYmFsLm9yZy9zcGVjL2x0aS9jbGFpbS9yZXNvdXJjZV9saW5rIjp7ImlkIjoiM2M4MGFjYmQtZDhiNC00NDFhLTgxOWQtODdjNWJlNDViYjA5In0sImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL3ZlcnNpb24iOiIxLjMuMCIsImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL21lc3NhZ2VfdHlwZSI6Ikx0aVJlc291cmNlTGlua1JlcXVlc3QiLCJodHRwczovL3B1cmwuaW1zZ2xvYmFsLm9yZy9zcGVjL2x0aS9jbGFpbS9kZXBsb3ltZW50X2lkIjoiZGVwbG95bWVudElkMSIsImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL3RhcmdldF9saW5rX3VyaSI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA5OS90b29sL2xhdW5jaCIsImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL3JvbGVzIjpbXSwicmVnaXN0cmF0aW9uX2lkIjoiZGV2a2l0Iiwibm9uY2UiOiIyOGQ4YmNiNi1iMmQ5LTQ5OTEtODJjZS1jMmYzOGUyNDNmNWMiLCJqdGkiOiIwMjg5ZTgyNC0yMWRiLTQzYTMtOThkYi01Njk1M2ZjNjUwMWUiLCJpYXQiOjE3OTI3OTQxOTQsIm5iZiI6MTc5Mjc5NDE5NCwiZXhwIjoxNzkyNzk0Nzk0fQ.kwLaed0RIwl5Dy2snQ8cUZUa3QfYpC-pVY6gSb5PjcC3nIEGb_h4AU7-NcFldLCAV_IDmudn8rUJu7hEBDQkkStZ6lKMUrickYviHCIBB8Zo4QEmUgbQwtAmlLxQiQNf1bovSujq8TyF0HAIDx0Ei-coORQPbElvOMD8h9n-sqjx_713g9aF4D137yyaClmoHNcgur8hHJ0wvqehH9uZEJ1N9oZ2COiBzJGBrOcEUkNJQRKbkNNUI8oGx90IEJcBP_lOk4zpOPHhYC-FIrIHtEudRaxsmqloa813N1sRpLfuYuAQVTXr8MgpdcJImNOgwjBUlPjaHoO5JATiA0Zueg" role="button" title="See on jwt.io">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="token" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InBsYXRmb3JtS2V5In0.eyJodHRwczovL3B1cmwuaW1zZ2xvYmFsLm9yZy9zcGVjL2x0aS9jbGFpbS9yZXNvdXJjZV9saW5rIjp7ImlkIjoiM2M4MGFjYmQtZDhiNC00NDFhLTgxOWQtODdjNWJlNDViYjA5In0sImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL3ZlcnNpb24iOiIxLjMuMCIsImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL21lc3NhZ2VfdHlwZSI6Ikx0aVJlc291cmNlTGlua1JlcXVlc3QiLCJodHRwczovL3B1cmwuaW1zZ2xvYmFsLm9yZy9zcGVjL2x0aS9jbGFpbS9kZXBsb3ltZW50X2lkIjoiZGVwbG95bWVudElkMSIsImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL3RhcmdldF9saW5rX3VyaSI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA5OS90b29sL2xhdW5jaCIsImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL3JvbGVzIjpbXSwicmVnaXN0cmF0aW9uX2lkIjoiZGV2a2l0Iiwibm9uY2UiOiIyOGQ4YmNiNi1iMmQ5LTQ5OTEtODJjZS1jMmYzOGUyNDNmNWMiLCJqdGkiOiIwMjg5ZTgyNC0yMWRiLTQzYTMtOThkYi01Njk1M2ZjNjUwMWUiLCJpYXQiOjE3OTI3OTQxOTQsIm5iZiI6MTc5Mjc5NDE5NCwiZXhwIjoxNzkyNzk0Nzk0fQ.kwLaed0RIwl5Dy2snQ8cUZUa3QfYpC-pVY6gSb5PjcC3nIEGb_h4AU7-NcFldLCAV_IDmudn8rUJu7hEBDQkkStZ6lKMUrickYviHCIBB8Zo4QEmUgbQwtAmlLxQiQNf1bovSujq8TyF0HAIDx0Ei-coORQPbElvOMD8h9n-sqjx_713g9aF4D137yyaClmoHNcgur8hHJ0wvqehH9uZEJ1N9oZ2COiBzJGBrOcEUkNJQRKbkNNUI8oGx90IEJcBP_lOk4zpOPHhYC-FIrIHtEudRaxsmqloa813N1sRpLfuYuAQVTXr8MgpdcJImNOgwjBUlPjaHoO5JATiA0Zueg" readonly>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group float-right" role="group" aria-label="Basic example">
+                        <a href="http://localhost:8099/lti1p3/oidc/initiation?iss=http%3A%2F%2Flocalhost%3A8099%2Fplatform&login_hint=%7B%22type%22%3A%22list%22%2C%22user_id%22%3A%22luke%22%7D&target_link_uri=http%3A%2F%2Flocalhost%3A8099%2Ftool%2Flaunch&lti_message_hint=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InBsYXRmb3JtS2V5In0.eyJodHRwczovL3B1cmwuaW1zZ2xvYmFsLm9yZy9zcGVjL2x0aS9jbGFpbS9yZXNvdXJjZV9saW5rIjp7ImlkIjoiM2M4MGFjYmQtZDhiNC00NDFhLTgxOWQtODdjNWJlNDViYjA5In0sImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL3ZlcnNpb24iOiIxLjMuMCIsImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL21lc3NhZ2VfdHlwZSI6Ikx0aVJlc291cmNlTGlua1JlcXVlc3QiLCJodHRwczovL3B1cmwuaW1zZ2xvYmFsLm9yZy9zcGVjL2x0aS9jbGFpbS9kZXBsb3ltZW50X2lkIjoiZGVwbG95bWVudElkMSIsImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL3RhcmdldF9saW5rX3VyaSI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA5OS90b29sL2xhdW5jaCIsImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL3JvbGVzIjpbXSwicmVnaXN0cmF0aW9uX2lkIjoiZGV2a2l0Iiwibm9uY2UiOiIyOGQ4YmNiNi1iMmQ5LTQ5OTEtODJjZS1jMmYzOGUyNDNmNWMiLCJqdGkiOiIwMjg5ZTgyNC0yMWRiLTQzYTMtOThkYi01Njk1M2ZjNjUwMWUiLCJpYXQiOjE3OTI3OTQxOTQsIm5iZiI6MTc5Mjc5NDE5NCwiZXhwIjoxNzkyNzk0Nzk0fQ.kwLaed0RIwl5Dy2snQ8cUZUa3QfYpC-pVY6gSb5PjcC3nIEGb_h4AU7-NcFldLCAV_IDmudn8rUJu7hEBDQkkStZ6lKMUrickYviHCIBB8Zo4QEmUgbQwtAmlLxQiQNf1bovSujq8TyF0HAIDx0Ei-coORQPbElvOMD8h9n-sqjx_713g9aF4D137yyaClmoHNcgur8hHJ0wvqehH9uZEJ1N9oZ2COiBzJGBrOcEUkNJQRKbkNNUI8oGx90IEJcBP_lOk4zpOPHhYC-FIrIHtEudRaxsmqloa813N1sRpLfuYuAQVTXr8MgpdcJImNOgwjBUlPjaHoO5JATiA0Zueg&lti_deployment_id=deploymentId1&client_id=client_id" class="btn btn-primary" target="_blank"><i class="fas fa-sign-out-alt"></i>&nbsp;Launch</a>
+                        <button id="launch-in-iframe" class="btn btn-secondary" data-url="http://localhost:8099/lti1p3/oidc/initiation?iss=http%3A%2F%2Flocalhost%3A8099%2Fplatform&amp;login_hint=%7B%22type%22%3A%22list%22%2C%22user_id%22%3A%22luke%22%7D&amp;target_link_uri=http%3A%2F%2Flocalhost%3A8099%2Ftool%2Flaunch&amp;lti_message_hint=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InBsYXRmb3JtS2V5In0.eyJodHRwczovL3B1cmwuaW1zZ2xvYmFsLm9yZy9zcGVjL2x0aS9jbGFpbS9yZXNvdXJjZV9saW5rIjp7ImlkIjoiM2M4MGFjYmQtZDhiNC00NDFhLTgxOWQtODdjNWJlNDViYjA5In0sImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL3ZlcnNpb24iOiIxLjMuMCIsImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL21lc3NhZ2VfdHlwZSI6Ikx0aVJlc291cmNlTGlua1JlcXVlc3QiLCJodHRwczovL3B1cmwuaW1zZ2xvYmFsLm9yZy9zcGVjL2x0aS9jbGFpbS9kZXBsb3ltZW50X2lkIjoiZGVwbG95bWVudElkMSIsImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL3RhcmdldF9saW5rX3VyaSI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA5OS90b29sL2xhdW5jaCIsImh0dHBzOi8vcHVybC5pbXNnbG9iYWwub3JnL3NwZWMvbHRpL2NsYWltL3JvbGVzIjpbXSwicmVnaXN0cmF0aW9uX2lkIjoiZGV2a2l0Iiwibm9uY2UiOiIyOGQ4YmNiNi1iMmQ5LTQ5OTEtODJjZS1jMmYzOGUyNDNmNWMiLCJqdGkiOiIwMjg5ZTgyNC0yMWRiLTQzYTMtOThkYi01Njk1M2ZjNjUwMWUiLCJpYXQiOjE3OTI3OTQxOTQsIm5iZiI6MTc5Mjc5NDE5NCwiZXhwIjoxNzkyNzk0Nzk0fQ.kwLaed0RIwl5Dy2snQ8cUZUa3QfYpC-pVY6gSb5PjcC3nIEGb_h4AU7-NcFldLCAV_IDmudn8rUJu7hEBDQkkStZ6lKMUrickYviHCIBB8Zo4QEmUgbQwtAmlLxQiQNf1bovSujq8TyF0HAIDx0Ei-coORQPbElvOMD8h9n-sqjx_713g9aF4D137yyaClmoHNcgur8hHJ0wvqehH9uZEJ1N9oZ2COiBzJGBrOcEUkNJQRKbkNNUI8oGx90IEJcBP_lOk4zpOPHhYC-FIrIHtEudRaxsmqloa813N1sRpLfuYuAQVTXr8MgpdcJImNOgwjBUlPjaHoO5JATiA0Zueg&amp;lti_deployment_id=deploymentId1&amp;client_id=client_id">
+                            <i class="fas fa-hashtag"></i>&nbsp;Launch in iframe
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <script>
+        function checkClaims() {
+            try {
+                if ($("#lti_resource_link_launch_claims").val() != '') {
+                    $("#lti_resource_link_launch_claims").val(
+                        JSON.stringify(JSON.parse($("#lti_resource_link_launch_claims").val()), undefined, 4)
+                    );
+                    $("#lti_resource_link_launch_claims").removeClass('is-invalid');
+                    $("#lti_resource_link_launch_claims").addClass('is-valid');
+                } else {
+                    $("#lti_resource_link_launch_claims").removeClass('is-invalid');
+                    $("#lti_resource_link_launch_claims").removeClass('is-valid');
+                }
+                $('#claimsError').hide();
+            } catch(e) {
+                $("#lti_resource_link_launch_claims").removeClass('is-valid');
+                $("#lti_resource_link_launch_claims").addClass('is-invalid');
+                $('#claimsError').show();
+            }
+        }
+
+        $("#launchUrlLoad").click(function(){
+            $.ajax({
+                url: "/platform/ajax/registration-url",
+                method: "POST",
+                data: {
+                    registration: $("#lti_resource_link_launch_registration").find(":selected").text(),
+                    type: "LtiResourceLinkRequest",
+                },
+                dataType: "json",
+                beforeSend: function(result){
+                    $("#launchUrlLoadLogo").removeClass("fa-edit");
+                    $("#launchUrlLoadLogo").addClass("fa-spinner fa-spin");
+                },
+                success: function(result){
+                    $("#launchUrlLoadLogo").removeClass("fa-spinner fa-spin");
+                    $("#launchUrlLoadLogo").addClass("fa-edit");
+                    $("#lti_resource_link_launch_launch_url").val(result.url);
+                },
+                error: function(result){
+                    $("#launchUrlLoadLogo").removeClass("fa-spinner fa-spin");
+                    $("#launchUrlLoadLogo").addClass("fa-edit");
+                }
+            });
+        });
+
+        $("#claimsFormat").click(function(event){
+            checkClaims();
+        });
+
+        $(".editorClaim").click(function(event){
+            try {
+                var claims = JSON.parse($("#lti_resource_link_launch_claims").val() || "{}");
+                var name = $(this).data('name');
+                var value = $(this).data('value');
+
+                if (typeof value === 'object' && !Array.isArray(value)) {
+                    claims[name] = {
+                        ...value,
+                        ...claims[name]
+                    };
+                } else {
+                    claims[name] = value;
+                }
+                $("#lti_resource_link_launch_claims").val(JSON.stringify(claims, undefined, 4));
+                $("#lti_resource_link_launch_claims").removeClass('is-invalid');
+                $("#lti_resource_link_launch_claims").addClass('is-valid');
+                $('#claimsError').hide();
+            } catch(e) {
+                $("#lti_resource_link_launch_claims").removeClass('is-valid');
+                $("#lti_resource_link_launch_claims").addClass('is-invalid');
+                $('#claimsError').show();
+            }
+        });
+
+        $('form[name=lti_resource_link_launch]').submit(function (evt) {
+            checkClaims();
+            try {
+                JSON.parse($("#lti_resource_link_launch_claims").val() || "{}");
+                return;
+            } catch(e) {
+                evt.preventDefault();
+            }
+        });
+
+        $('input[name="lti_resource_link_launch[user_type]"]').change(function (evt) {
+            switch($(this).val()) {
+                case 'list':
+                    $('#userList').removeClass('d-none');
+                    $('#userCustom').addClass('d-none');
+                    break;
+                case 'custom':
+                    $('#userList').addClass('d-none');
+                    $('#userCustom').removeClass('d-none');
+                    break;
+                default:
+                    $('#userList').addClass('d-none');
+                    $('#userCustom').addClass('d-none');
+            }
+        });
+
+        $('#launch-in-iframe').click(function () {
+            $(this).closest('.card').find('.card-body').replaceWith(
+                $('<div>').addClass('card-body embed-responsive embed-responsive-16by9').append(
+                    $('<iframe>').addClass('embed-responsive-item').attr({
+                        src: $(this).data('url'),
+                        allow: 'autoplay *;camera *;display-capture *;fullscreen * ;microphone *;clipboard-read *;clipboard-write *;'
+                    })
+                )
+            );
+        });
+
+        $( document ).ready(function() {
+            checkClaims();
+        });
+    </script>
+            </div>
+        </div>
+    </div>
+    </body>
+
+</html>

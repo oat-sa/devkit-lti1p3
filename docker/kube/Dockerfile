@@ -50,7 +50,10 @@ RUN install-php-extensions intl zip opcache sockets pcntl redis-${REDIS_EXT_VERS
 
 WORKDIR /app
 
-# PHP INI (repo-managed tuning: opcache preload, realpath cache, 9s execution cap)
+ENV APP_ENV=prod \
+    APP_DEBUG=0
+
+# PHP INI (repo-managed tuning: opcache, realpath cache, 9s execution cap)
 COPY php.ini /usr/local/etc/php/conf.d/zz-app.ini
 COPY docker/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
 

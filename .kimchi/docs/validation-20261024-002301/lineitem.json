@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/main.css?v=2.13.0">
+    <link rel="icon" href="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-150x150.png" sizes="32x32" />
+    <link rel="icon" href="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png" />
+    <title>TAO / LTI 1.3 DevKit</title>
+</head>
+
+<body class="lti1p3-devkit-app">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.13.13/beautify.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.13.13/beautify-html.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/be40e717f7.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar, #content').toggleClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+    <div class="wrapper">
+        <nav id="sidebar">
+    <div class="sidebar-header">
+        <img src="https://www.taotesting.com/wp-content/uploads/2019/04/favicon-1-300x300.png" width="55" height=55" class="d-inline-block" alt="">&nbsp;&nbsp;
+        <h4 class="d-inline-block">
+            <strong><a href="/">LTI 1.3 <small><code class="text-danger">DevKit</code></small></a></strong>
+        </h4>
+    </div>
+    <div class="card text-white bg-dark" style="border-bottom: none !important;">
+        <a class="card-header sidebar-menu-header sidebar-menu-header-no-border-bottom" href="/">
+            <h6><i class="fas fa-house-user"></i>&nbsp;&nbsp;Dashboard</h6>
+        </a>
+    </div>
+    <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="false">
+        <div class="card text-white bg-dark">
+            <div class="card-header dropdown-toggle" role="tab" id="headingPlatform" data-toggle="collapse" data-parent="#accordionEx" href="#collapsePlatform"
+                 aria-expanded="false" aria-controls="collapsePlatform">
+                <h6><i class="fas fa-cubes"></i>&nbsp;&nbsp;Platform resources</h6>
+            </div>
+            <div id="collapsePlatform" class="collapse" role="tabpanel" aria-labelledby="headingPlatform" data-parent="#accordionEx">
+                <div class="list-group list-group-flush">
+                    <a href="/platform/proctoring/assessments" class="list-group-item list-group-item-action">
+                        <i class="fas fa-file-signature"></i>&nbsp;ACS assessments
+                    </a>
+                    <a href="/platform/ags/line-items" class="list-group-item list-group-item-action">
+                        <i class="fas fa-graduation-cap"></i>&nbsp;AGS line items
+                    </a>
+                    <a href="/platform/basic-outcomes" class="list-group-item list-group-item-action">
+                        <i class="fas fa-poll"></i>&nbsp;Basic outcomes
+                    </a>
+                    <a href="/platform/nrps/memberships" class="list-group-item list-group-item-action">
+                        <i class="fas fa-users"></i>&nbsp;NRPS memberships
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card text-white bg-dark">
+            <div class="card-header dropdown-toggle" role="tab" id="headingMessage" data-toggle="collapse" data-parent="#accordionEx" href="#collapseMessage"
+                 aria-expanded="false" aria-controls="collapseMessage">
+                <h6><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;LTI messages</h6>
+            </div>
+            <div id="collapseMessage" class="collapse" role="tabpanel" aria-labelledby="headingMessage" data-parent="#accordionEx">
+                <div class="list-group list-group-flush">
+                    <a href="/platform/message/launch/lti-resource-link" class="list-group-item list-group-item-action">
+                        <i class="fas fa-sign-out-alt"></i>&nbsp;Resource link
+                    </a>
+                    <a href="/platform/message/launch/deep-linking" class="list-group-item list-group-item-action">
+                        <i class="fas fa-link"></i>&nbsp;Deep linking
+                    </a>
+                    <a href="/platform/message/launch/proctoring" class="list-group-item list-group-item-action">
+                        <i class="fas fa-file-signature"></i>&nbsp;Proctoring
+                    </a>
+                    <a href="/platform/message/launch/submission-review" class="list-group-item list-group-item-action">
+                        <i class="fas fa-file-contract"></i>&nbsp;Submission review
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card text-white bg-dark">
+            <div class="card-header dropdown-toggle" role="tab" id="headingService" data-toggle="collapse" data-parent="#accordionEx" href="#collapseService"
+                 aria-expanded="false" aria-controls="collapseService">
+                <h6><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;LTI services</h6>
+            </div>
+            <div id="collapseService" class="collapse" role="tabpanel" aria-labelledby="headingService" data-parent="#accordionEx">
+                <div class="list-group list-group-flush">
+                    <a href="/tool/service/client" class="list-group-item list-group-item-action">
+                        <i class="fas fa-sign-in-alt"></i>&nbsp;LTI service client
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+        <div id="content" class="container-fluid">
+            <nav id="topBar" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+                <button type="button" id="sidebarCollapse" class="btn btn-dark">
+                    <i class="fas fa-bars"></i>
+                </button>
+                &nbsp;<a class="navbar-brand" href="#"><i class="fas fa-exclamation-circle"></i>&nbsp;&nbsp;Error</a>
+            </nav>
+            <div class="container-fluid lti1p3-devkit-app-content">
+                
+                    <div class="jumbotron">
+        <div class="alert alert-danger" role="alert">
+            <h3><i class="fas fa-exclamation-circle"></i>&nbsp;Error 401</h3>
+            <hr/>
+            <p>LTI service request authentication failed: Cannot parse token: The JWT string must have two dots</p>
+        </div>
+        <a href="/" class="btn btn-secondary btn-block">
+            <i class="fas fa-undo-alt"></i>&nbsp;Return to dashboard
+        </a>
+    </div>
+            </div>
+        </div>
+    </div>
+    </body>
+
+</html>
