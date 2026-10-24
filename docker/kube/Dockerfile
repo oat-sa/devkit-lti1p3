@@ -56,6 +56,11 @@ ENV APP_ENV=prod \
 # PHP INI (repo-managed tuning: opcache, realpath cache, 9s execution cap)
 COPY php.ini /usr/local/etc/php/conf.d/zz-app.ini
 COPY docker/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
+# Rebuild the compiled container from mounted config at startup (see script)
+COPY docker/frankenphp/entrypoint.sh /usr/local/bin/app-entrypoint.sh
+RUN chmod 0755 /usr/local/bin/app-entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/app-entrypoint.sh"]
+CMD ["--config", "/etc/frankenphp/Caddyfile", "--adapter", "caddyfile"]
 
 # App code + vendor + warmed prod cache
 COPY --chown=www-data:www-data --from=build /app /app
