@@ -372,9 +372,9 @@ PIDS=$(compose exec -T app ps -eo pid,comm 2>/dev/null | grep -ci frankenphp)
 log "S8 frankenphp processes: $PIDS"
 ok "S8 sustained loop completed (memory window logged: $MEM0 -> $MEM1; see run.log)"
 
-# admin API is loopback-only inside the container; call it via frankenphp php-cli
-S=$(compose exec -T app sh -c 'frankenphp php-cli -r \'\'\'$c=stream_context_create(["http"=>["method"=>"POST","timeout"=>5]]); var_dump(@file_get_contents("http://localhost:2019/frankenphp/workers/restart", false, $c) !== false);\'\'\'' 2>/dev/null || echo "exec-failed")
-log "S8 admin restart call: $S"
+# admin API is loopback-only inside the container; call it via php-cli probe
+compose cp docker/validate/restart.php app:/tmp/restart.php >>"$LOGDIR/run.log" 2>&1
+check "S8 worker restart via Caddy admin API" compose exec -T app frankenphp php-cli /tmp/restart.php
 sleep 3
 S=$(curl -sS --max-time 10 -o /dev/null -w '%{http_code}' "$BASE/")
 assert_status "S8 service healthy after worker restart" 200 "$S"
