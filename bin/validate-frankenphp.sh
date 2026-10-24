@@ -329,6 +329,7 @@ log "-- S8: existing unit tests (phpunit 8.5 via symfony bridge, PHP 8.4 tooling
 # phpunit exits 1 under the deprecation-count policy even when tests pass
 # (pre-existing baseline behaviour on PHP 8.4); judge the log content instead:
 # pass requires an OK summary AND no FAILURES/ERRORS header.
+docker build -q -t devkit-php84-tooling -f docker/tooling/Dockerfile.php84-tooling . >/dev/null 2>&1 || true
 docker run --rm -u "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:/app" devkit-php84-tooling \
     php vendor/bin/.phpunit/phpunit-8.5-0/phpunit --colors=never >"$LOGDIR/phpunit.log" 2>&1 || true
 if grep -q "OK (1 test, 2 assertions)" "$LOGDIR/phpunit.log" \

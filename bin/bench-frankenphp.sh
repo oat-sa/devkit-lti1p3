@@ -121,7 +121,7 @@ phase_baseline() {
     git worktree prune
     git worktree add "$WT" master >/dev/null 2>&1 || { log "WORKTREE FAIL"; return 1; }
     cp -a vendor "$WT/vendor"
-    docker build -q -t devkit-baseline-phpfpm:bench -f .kimchi/docs/tooling/Dockerfile.baseline-phpfpm "$WT/docker/phpfpm" >/dev/null || { log "BUILD FAIL baseline image"; return 1; }
+    docker build -q -t devkit-baseline-phpfpm:bench -f docker/tooling/Dockerfile.baseline-phpfpm "$WT/docker/phpfpm" >/dev/null || { log "BUILD FAIL baseline image"; return 1; }
     BASELINE_DIR=$WT \
         docker compose -p "$project" -f docker/bench/docker-compose.bench-baseline.yml up -d --wait >/dev/null 2>&1 \
         || { log "UP FAIL baseline"; teardown "$project"; return 1; }

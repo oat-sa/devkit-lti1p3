@@ -17,3 +17,6 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+# Kimchi working artifacts (plans, reports, validation/bench evidence) stay local
+.kimchi/
