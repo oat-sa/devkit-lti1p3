@@ -353,7 +353,7 @@ log "-- S8: Cloud Build config targets the real image definition"
 # There is a single image: docker/frankenphp/Dockerfile (also used by compose
 # and the S0 build). Guard that cloudbuild.yaml keeps pointing at it and that
 # the files the image COPYs (Caddyfile, entrypoint) exist in the repo.
-CB_DOCKERFILE=$(grep -oE "dockerfile: [^ ]+" cloudbuild.yaml | head -1 | awk '{print $2}')
+CB_DOCKERFILE=$(grep -oE '"\./docker/[a-z]+/Dockerfile"' cloudbuild.yaml | head -1 | tr -d '"' | sed 's|^\./||')
 if [ "$CB_DOCKERFILE" = "docker/frankenphp/Dockerfile" ] \
    && [ -f docker/frankenphp/Caddyfile ] \
    && [ -f docker/frankenphp/entrypoint.sh ]; then
