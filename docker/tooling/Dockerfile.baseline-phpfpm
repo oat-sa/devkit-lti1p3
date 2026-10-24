@@ -1,3 +1,8 @@
+# Baseline (git master) php-fpm image for benchmarks.
+# Replicates docker/phpfpm/Dockerfile @ master, with two drift fixes needed on
+# today's pecl: redis is built with msgpack/lz4 support disabled (missing
+# libmsgpack/liblz4 headers make `pecl install redis` fail), everything else
+# identical.
 FROM php:8.4-fpm
 
 RUN apt-get update && \
@@ -6,7 +11,8 @@ RUN apt-get update && \
 
 RUN yes | pecl update-channels
 
-RUN yes | pecl install igbinary redis
+RUN pecl install igbinary && \
+    pecl install -D 'enable-redis-igbinary="yes" enable-redis-msgpack="no" enable-redis-lzf="yes" enable-redis-zstd="yes" enable-redis-lz4="no"' redis
 
 RUN docker-php-ext-install intl && \
     docker-php-ext-install gd && \

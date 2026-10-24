@@ -1,0 +1,6 @@
+# Classic-mode overlay: same production image, but the non-worker Caddyfile
+# (php_server per-request execution, no worker pool).
+services:
+    app:
+        volumes:
+            - ../frankenphp/Caddyfile.classic:/etc/frankenphp/Caddyfile:ro

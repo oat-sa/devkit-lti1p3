@@ -1,0 +1,9 @@
+# Local CI/dev tooling image (not part of the deployment stack): PHP 8.4 CLI + composer
+# used to run composer and phpunit on this repo, matching the production PHP minor.
+FROM php:8.4-cli-bookworm
+RUN apt-get update -qq && apt-get install -y -qq unzip git libzip-dev libicu-dev libonig-dev libpng-dev >/dev/null 2>&1 \
+ && docker-php-ext-install -j4 zip intl opcache sockets pcntl >/dev/null 2>&1 \
+ && pecl channel-update pecl.php.net && printf "\n" | pecl install redis-6.2.0 >/dev/null 2>&1 && docker-php-ext-enable redis \
+ && rm -rf /var/lib/apt/lists/*
+COPY --from=composer/composer:2-bin /composer /usr/local/bin/composer
+WORKDIR /app

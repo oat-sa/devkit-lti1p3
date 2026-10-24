@@ -1,0 +1,38 @@
+{
+	# Classic (non-worker) variant of the prod Caddyfile: same PHP limits,
+	# same proxy trust, but plain php_server execution — no worker pool.
+	admin 127.0.0.1:2019
+
+	auto_https off
+
+	frankenphp {
+		num_threads {$PHP_NUM_THREADS:2}
+		max_wait_time {$PHP_MAX_WAIT_TIME:10s}
+
+		php_ini memory_limit {$PHP_MEMORY_LIMIT:512M}
+		php_ini max_execution_time {$PHP_MAX_EXECUTION_TIME:9}
+		php_ini opcache.jit 0
+	}
+
+	servers {
+		trusted_proxies static private_ranges
+		timeouts {
+			read_body 10s
+			read_header 10s
+			idle 5m
+		}
+	}
+}
+
+http://:{$PORT:8080} {
+	root * /app/public
+
+	encode zstd gzip
+
+	log {
+		output stdout
+		format json
+	}
+
+	php_server
+}

@@ -1,0 +1,43 @@
+# Benchmark stack: the REAL production image (FrankenPHP worker mode),
+# resource-capped, on a dedicated project/port. Used by bin/bench-frankenphp.sh.
+services:
+    app:
+        image: devkit-lti1p3-frankenphp:bench
+        build:
+            context: ../..
+            dockerfile: docker/frankenphp/Dockerfile
+        environment:
+            PORT: "${BENCH_PORT:-8097}"
+            APP_HOST: "http://localhost:${BENCH_PORT:-8097}"
+            REDIS_CACHE_DSN: "redis://redis:6379"
+            WORKER_NUM: "${BENCH_WORKER_NUM:-2}"
+            FRANKENPHP_LOOP_MAX: "500"
+        ports:
+            - "${BENCH_PORT:-8097}:${BENCH_PORT:-8097}"
+        depends_on:
+            redis:
+                condition: service_healthy
+        healthcheck:
+            test: ["CMD", "curl", "-fsS", "http://localhost:${BENCH_PORT:-8097}/health-check"]
+            interval: 3s
+            timeout: 2s
+            retries: 40
+        deploy:
+            resources:
+                limits:
+                    cpus: '1.0'
+                    memory: 768M
+
+    redis:
+        image: redis:7-alpine
+        command: ["redis-server", "--appendonly", "no"]
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 3s
+            timeout: 2s
+            retries: 20
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.5'
+                    memory: 128M

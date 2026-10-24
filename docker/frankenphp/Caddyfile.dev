@@ -1,0 +1,44 @@
+{
+	admin 127.0.0.1:2019
+	auto_https off
+
+	frankenphp {
+		num_threads 2
+		max_wait_time 10s
+
+		php_ini display_errors 1
+		php_ini opcache.validate_timestamps 1
+	}
+
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
+http://:8080 {
+	root * /app/public
+
+	encode zstd gzip
+
+	log {
+		output stdout
+	}
+
+	php_server {
+		worker {
+			file /app/public/index.php
+			num {$WORKER_NUM:1}
+			env APP_RUNTIME App\Runtime\FrankenPhpRuntime
+			# the image bakes prod defaults; dev overrides must win here
+			env APP_ENV dev
+			env APP_DEBUG 1
+			env FRANKENPHP_LOOP_MAX {$FRANKENPHP_LOOP_MAX:500}
+			# hot-reload: restart the worker when app code/config changes
+			watch /app/src
+			watch /app/config
+			watch /app/templates
+			watch /app/public
+			watch /app/.env
+		}
+	}
+}
