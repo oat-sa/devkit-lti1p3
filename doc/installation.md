@@ -41,8 +41,7 @@ After installation, the following docker services are available:
 | Name                                   | Description                      |
 |----------------------------------------|----------------------------------|
 | devkit_lti1p3_traefik                  | application proxy                |
-| devkit_lti1p3_nginx                    | application nginx web server     |
-| devkit_lti1p3_phpfpm                   | application php-fpm              |
+| devkit_lti1p3_app                      | application server (FrankenPHP)  |
 | devkit_lti1p3_redis                    | application cache                |
 | devkit_lti1p3_redis_commander          | application cache administration |
 
@@ -50,9 +49,16 @@ You can access:
 
 | Name                                   | URL                                                              |
 |----------------------------------------|------------------------------------------------------------------|
-| devkit_lti1p3_nginx                    | [http://devkit-lti1p3.localhost](http://devkit-lti1p3.localhost) |
-| devkit_lti1p3_traefik                  | [http://localhost:8080](http://localhost:8080)                   |
+| devkit_lti1p3_app                      | [http://localhost:8080](http://localhost:8080)                   |
+| devkit_lti1p3_app (via Traefik)        | [http://devkit-lti1p3.localhost](http://devkit-lti1p3.localhost) |
+| devkit_lti1p3_traefik                  | [http://localhost:8090](http://localhost:8090)                   |
 | devkit_lti1p3_redis_commander          | [http://localhost:8081](http://localhost:8081)                   |
+
+The application server is [FrankenPHP](doc/frankenphp.md) running the Symfony
+kernel in worker mode — a single container serves HTTP directly on port 8080,
+there is no separate web server or PHP-FPM process. See
+[FrankenPHP runtime](doc/frankenphp.md) for worker configuration
+(`WORKER_NUM`, `FRANKENPHP_LOOP_MAX`) and lifecycle notes.
 
 ## Configuration
 
