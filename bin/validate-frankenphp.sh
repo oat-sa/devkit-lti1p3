@@ -164,11 +164,12 @@ python3 -c "import json,sys; m=json.load(open('$LOGDIR/memberships.json'))['memb
 python3 - "$LOGDIR/membership-post.json" "$LOGDIR/membership-new.json" <<'PY' 2>>"$LOGDIR/run.log"
 import json,sys
 d=json.load(open(sys.argv[1]))
-d['membershipId']='ms-validation'
-if isinstance(d.get('context'),dict): d['context']['contextId']='ctx-validation'
-for m in d.get('members',[]):
-    m['name']=m.get('name','') + ' ' + 'ø'*4000
-json.dump(d,open(sys.argv[2],'w'))
+m=d['membership'] if isinstance(d,dict) and 'membership' in d else d
+m['id']='ms-validation'
+if isinstance(m.get('context'),dict): m['context']['id']='ctx-validation'
+for mem in m.get('members',[]):
+    mem['name']=(mem.get('name','') + ' ' + 'ø'*4000)
+json.dump(m,open(sys.argv[2],'w'))
 PY
 S=$(curl -sS --max-time 10 -o "$LOGDIR/body.tmp" -w '%{http_code}' -H "Authorization: Bearer $APIKEY" -H 'Content-Type: application/json' --data-binary @"$LOGDIR/membership-new.json" "$BASE/api/platform/nrps/memberships")
 { [ "$S" = "200" ] || [ "$S" = "201" ]; } && ok "S3 API create membership (unicode body) ($S)" || fail "S3 API create membership (unicode body) -> $S"
@@ -204,7 +205,7 @@ S=$(curl -sS --max-time 10 -o "$LOGDIR/body.tmp" -w '%{http_code}' -X POST \
     --data-urlencode "lti_resource_link_launch[claims]={}" \
     --data-urlencode "lti_resource_link_launch[_token]=forged-token-value" \
     "$BASE/platform/message/launch/lti-resource-link")
-if ! grep -q "LtiResourceLinkRequest" "$LOGDIR/body.tmp"; then
+if ! grep -q "oidc/initiation" "$LOGDIR/body.tmp"; then
     ok "S4 forged CSRF token does not produce a launch (got $S)"
 else
     fail "S4 forged CSRF token accepted"
@@ -266,7 +267,8 @@ S=$(curl -sS --max-time 10 -o "$LOGDIR/lineitem.json" -w '%{http_code}' -X POST 
 assert_status "S5 AGS create line item" 201 "$S"
 LINEID=$(jsonget "$LOGDIR/lineitem.json" "j.get('id')")
 [ -n "$LINEID" ] && ok "S5 AGS line item id in response" || fail "S5 AGS line item id"
-S=$(curl -sS --max-time 10 -o "$LOGDIR/body.tmp" -w '%{http_code}' -H "Authorization: Bearer $ACCESS" "$BASE/platform/service/ags/$AGSCTX/lineitems")
+# IMS services negotiate content types: list endpoints need the container media type
+S=$(curl -sS --max-time 10 -o "$LOGDIR/body.tmp" -w '%{http_code}' -H "Authorization: Bearer $ACCESS" -H 'Accept: application/vnd.ims.lis.v2.lineitemcontainer+json' "$BASE/platform/service/ags/$AGSCTX/lineitems")
 assert_status "S5 AGS list line items" 200 "$S"
 grep -q "validation-item" "$LOGDIR/body.tmp" && ok "S5 AGS created item persisted via redis cache" || fail "S5 AGS persistence"
 
@@ -285,9 +287,9 @@ S=$(curl -sS --max-time 10 -o "$LOGDIR/token-nrps.json" -w '%{http_code}' -X POS
     --data-urlencode "scope=https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly")
 NRPSACCESS=$(jsonget "$LOGDIR/token-nrps.json" "j['access_token']")
 [ -n "$NRPSACCESS" ] && ok "S5 second-scoped token (nrps) issued" || fail "S5 nrps token"
-S=$(curl -sS --max-time 10 -o "$LOGDIR/body.tmp" -w '%{http_code}' -H "Authorization: Bearer $NRPSACCESS" "$BASE/platform/service/nrps/default/memberships/default")
+S=$(curl -sS --max-time 10 -o "$LOGDIR/body.tmp" -w '%{http_code}' -H "Authorization: Bearer $NRPSACCESS" -H 'Accept: application/vnd.ims.lti-nrps.v2.membershipcontainer+json' "$BASE/platform/service/nrps/default/memberships/default")
 assert_status "S5 NRPS memberships service" 200 "$S"
-S=$(curl -sS --max-time 10 -o "$LOGDIR/body.tmp" -w '%{http_code}' -H "Authorization: Bearer $NRPSACCESS" "$BASE/platform/service/ags/$AGSCTX/lineitems")
+S=$(curl -sS --max-time 10 -o "$LOGDIR/body.tmp" -w '%{http_code}' -H "Authorization: Bearer $NRPSACCESS" -H 'Accept: application/vnd.ims.lis.v2.lineitemcontainer+json' "$BASE/platform/service/ags/$AGSCTX/lineitems")
 { [ "$S" = "401" ] || [ "$S" = "403" ]; } && ok "S5 wrong-scope token rejected from AGS ($S)" || fail "S5 scope isolation ($S)"
 
 # ---------------------------------------------------------------- section 6
