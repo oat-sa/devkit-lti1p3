@@ -13,7 +13,7 @@ steps:
           docker build \
             -t "europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$COMMIT_SHA" \
             -t "europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$$TAG_NAME" \
-            -f ./Dockerfile \
+            -f "./docker/frankenphp/Dockerfile" \
             .
 images:
     - 'europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$COMMIT_SHA'
