@@ -1,0 +1,25 @@
+steps:
+    # Build Docker image for Agent Studio app
+    - name: 'gcr.io/cloud-builders/docker'
+      id: 'build-devkit-lti1p3-tag'
+      waitFor: [ "-" ]  # Runs immediately (parallel execution)
+      entrypoint: 'sh'
+      env:
+        - 'TAG_NAME=$TAG_NAME'
+      args:
+        - '-ceu'
+        - |
+          : "${TAG_NAME:?TAG_NAME must be set for tag builds}"
+          docker build \
+            -t europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$COMMIT_SHA \
+            -t europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$TAG_NAME \
+            -f ./Dockerfile \
+            .
+images:
+    - 'europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$COMMIT_SHA'
+    - 'europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$TAG_NAME'
+options:
+    machineType: 'E2_HIGHCPU_8'
+    logging: CLOUD_LOGGING_ONLY
+
+timeout: '3600s'
