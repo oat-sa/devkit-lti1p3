@@ -13,7 +13,11 @@ steps:
           docker build \
             -t "europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$COMMIT_SHA" \
             -t "europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$$TAG_NAME" \
+<<<<<<< HEAD
             -f ./Dockerfile \
+=======
+            -f "./docker/frankenphp/Dockerfile" \
+>>>>>>> master
             .
 images:
     - 'europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$COMMIT_SHA'
@@ -22,4 +26,8 @@ options:
     machineType: 'E2_HIGHCPU_8'
     logging: CLOUD_LOGGING_ONLY
 
+<<<<<<< HEAD
 timeout: '3600s'
+=======
+timeout: '3600s'
+>>>>>>> master
