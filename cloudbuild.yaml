@@ -10,7 +10,7 @@ steps:
         "-t",
         "europe-west1-docker.pkg.dev/tao-artefacts/devkit/lti-devkit:${_BRANCH_NAME}",
         -f,
-        "./docker/kube/Dockerfile",
+        "./docker/frankenphp/Dockerfile",
         ".",
       ]
 images:

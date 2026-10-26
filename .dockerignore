@@ -1,2 +1,6 @@
 .git
-vendor/
+/vendor/
+/var/
+/.phpunit
+/public/bundles/
+/.env.local
