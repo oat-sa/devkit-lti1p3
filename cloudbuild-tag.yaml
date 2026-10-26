@@ -4,13 +4,15 @@ steps:
       id: 'build-devkit-lti1p3-tag'
       waitFor: [ "-" ]  # Runs immediately (parallel execution)
       entrypoint: 'sh'
+      env:
+        - 'TAG_NAME=$TAG_NAME'
       args:
         - '-ceu'
         - |
           : "${TAG_NAME:?TAG_NAME must be set for tag builds}"
           docker build \
             -t "europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$COMMIT_SHA" \
-            -t "europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$TAG_NAME" \
+            -t "europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$$TAG_NAME" \
             -f "./docker/frankenphp/Dockerfile" \
             .
 images:
