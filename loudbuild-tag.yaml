@@ -11,7 +11,7 @@ steps:
         - |
           : "${TAG_NAME:?TAG_NAME must be set for tag builds}"
           docker build \
-            -t "europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$$COMMIT_SHA" \
+            -t "europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$COMMIT_SHA" \
             -t "europe-west1-docker.pkg.dev/$PROJECT_ID/devkit/devkit-lti:$$TAG_NAME" \
             -f ./Dockerfile \
             .
