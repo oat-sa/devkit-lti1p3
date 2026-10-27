@@ -19,4 +19,7 @@ if [ "${APP_CACHE_REBUILD_ON_BOOT:-1}" = "1" ] && [ -d /app/var/cache/prod ]; th
         || rm -rf /app/var/cache/prod
 fi
 
+BASIC_AUTH_PASSWORD_HASH=$(frankenphp hash-password --plaintext "$BASIC_AUTH_PASSWORD") || exit 1
+export BASIC_AUTH_PASSWORD_HASH
+
 exec docker-php-entrypoint "$@"
