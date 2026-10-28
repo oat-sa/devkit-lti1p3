@@ -9,7 +9,7 @@ monolog:
         nested:
             type: stream
             path: "php://stdout"
-            formatter: monolog.formatter.json
+            formatter: monolog.formatter.severity_json
         console:
             type: console
             process_psr_3_messages: false
