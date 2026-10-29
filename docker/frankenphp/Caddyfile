@@ -32,14 +32,6 @@ http://:{$PORT:8080} {
 
 	encode zstd gzip
 
-	# OTLP/grpc request spans via env config (OTEL_EXPORTER_OTLP_*); provides
-	# request tracing with a correct per-request lifecycle (opentelemetry-php
-	# auto-instrumentation is disabled under FrankenPHP worker mode — spans
-	# never end per request, see config comment in taocloud-k8s devkit).
-	tracing {
-		span devkit
-	}
-
 	log {
 		output stdout
 		format json
