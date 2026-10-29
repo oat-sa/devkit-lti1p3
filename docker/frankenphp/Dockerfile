@@ -8,11 +8,19 @@ FROM mlocati/php-extension-installer:${INSTALLER_VERSION} AS ext-installer
 # ---------- Stage 1: dependency build (composer + warmup) ----------
 FROM php:8.4-cli-bookworm AS build
 
+# Extension pins mirror oat-sa/base-images (php-v8.4.Dockerfile) for parity with
+# other OTel-instrumented PHP services.
 ARG REDIS_EXT_VERSION=6.2.0
+ARG OPENTELEMETRY_EXT_VERSION=1.2.1
+ARG GRPC_EXT_VERSION=1.83.1
+ARG PROTOBUF_EXT_VERSION=5.36.1
 
 COPY --from=ext-installer /usr/bin/install-php-extensions /usr/local/bin/
 
 RUN install-php-extensions intl zip opcache sockets pcntl redis-${REDIS_EXT_VERSION} \
+    opentelemetry-${OPENTELEMETRY_EXT_VERSION} \
+    grpc-${GRPC_EXT_VERSION} \
+    protobuf-${PROTOBUF_EXT_VERSION} \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer/composer:2-bin /composer /usr/local/bin/composer
@@ -40,11 +48,18 @@ RUN composer dump-autoload --no-dev --optimize --classmap-authoritative \
 # ---------- Stage 2: runtime (FrankenPHP = Caddy + PHP-ZTS, worker mode) ----------
 FROM dunglas/frankenphp:1.13.2-php8.4-bookworm AS runtime
 
+# Keep in sync with the build stage.
 ARG REDIS_EXT_VERSION=6.2.0
+ARG OPENTELEMETRY_EXT_VERSION=1.2.1
+ARG GRPC_EXT_VERSION=1.83.1
+ARG PROTOBUF_EXT_VERSION=5.36.1
 
 COPY --from=ext-installer /usr/bin/install-php-extensions /usr/local/bin/
 
 RUN install-php-extensions intl zip opcache sockets pcntl redis-${REDIS_EXT_VERSION} \
+    opentelemetry-${OPENTELEMETRY_EXT_VERSION} \
+    grpc-${GRPC_EXT_VERSION} \
+    protobuf-${PROTOBUF_EXT_VERSION} \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
