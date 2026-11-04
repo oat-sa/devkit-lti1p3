@@ -1,4 +1,13 @@
 steps:
+  # Step 0: Cancel previous concurrent builds
+  - id: cancel-previous-builds
+    name: europe-west1-docker.pkg.dev/tao-artefacts/cicd-tools/cancel-previous-builds:v1
+    env:
+      - 'PROJECT_ID=$PROJECT_ID'
+      - 'BUILD_ID=$BUILD_ID'
+      - 'BUILD_REGION=$LOCATION'
+      - 'DRY_RUN=false'
+
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
