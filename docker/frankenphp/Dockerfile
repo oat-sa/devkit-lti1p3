@@ -54,7 +54,7 @@ ENV APP_ENV=prod \
     APP_DEBUG=0
 
 COPY php.ini /usr/local/etc/php/conf.d/zz-app.ini
-COPY docker/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
+# COPY docker/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
 # Rebuild the compiled container from mounted config at startup (see script)
 COPY docker/frankenphp/entrypoint.sh /usr/local/bin/app-entrypoint.sh
 RUN chmod 0755 /usr/local/bin/app-entrypoint.sh
