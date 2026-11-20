@@ -6,7 +6,7 @@ ARG INSTALLER_VERSION=2
 FROM mlocati/php-extension-installer:${INSTALLER_VERSION} AS ext-installer
 
 # ---------- Stage 1: dependency build (composer + warmup) ----------
-FROM php:8.4-cli-bookworm AS build
+FROM php:8.4.28-cli-bookworm AS build
 
 ARG REDIS_EXT_VERSION=6.2.0
 
@@ -38,7 +38,7 @@ RUN composer dump-autoload --no-dev --optimize --classmap-authoritative \
     && APP_ENV=prod APP_DEBUG=0 php bin/console assets:install public --no-interaction --symlink --relative
 
 # ---------- Stage 2: runtime (FrankenPHP = Caddy + PHP-ZTS, worker mode) ----------
-FROM dunglas/frankenphp:1.13.2-php8.4-bookworm AS runtime
+FROM dunglas/frankenphp:1.13.6-php8.4-bookworm AS runtime
 
 ARG REDIS_EXT_VERSION=6.2.0
 
